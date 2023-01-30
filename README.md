@@ -18,7 +18,12 @@ TODO: how to deploy the project
 
 ## Authors
 
-TODO: list of authors
+Amanda Sun
+Leah Ryu
+Pierce Wilson
+Rachael Williams
+Tate Toussaint
+Thomas Rogers
 
 ## Acknowledgments
 
