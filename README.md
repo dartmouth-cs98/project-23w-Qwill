@@ -18,12 +18,12 @@ TODO: how to deploy the project
 
 ## Authors
 
-Amanda Sun
-Leah Ryu
-Pierce Wilson
-Rachael Williams
-Tate Toussaint
-Thomas Rogers
+Amanda Sun <br>
+Leah Ryu <br>
+Pierce Wilson <br>
+Rachael Williams <br>
+Tate Toussaint <br>
+Thomas Rogers <br>
 
 ## Acknowledgments
 
