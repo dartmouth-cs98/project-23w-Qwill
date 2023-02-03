@@ -28,3 +28,7 @@ Thomas Rogers <br>
 ## Acknowledgments
 
 Thanks tutorial!!
+
+
+## Required Installations
+npm install @react-navigation/bottom-tabs
