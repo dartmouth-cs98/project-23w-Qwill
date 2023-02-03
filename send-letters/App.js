@@ -22,6 +22,14 @@ function FriendsScreen() {
   );
 }
 
+function LetterScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Make a Letter!</Text>
+    </View>
+  );
+}
+
 function FontsScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -56,6 +64,8 @@ export default function App() {
                   iconName = focused ? 'home': 'home-outline';
                 } else if (route.name === 'Friends') {
                   iconName = focused ? 'people' : 'people-outline';
+                } else if (route.name === 'Letter') {
+                  iconName = focused ? 'create-sharp' : 'create-outline';
                 } else if (route.name === 'Fonts') {
                   iconName = focused ? 'pencil' : 'pencil-outline';
                 } else if (route.name === 'Profile') {
@@ -70,6 +80,7 @@ export default function App() {
           >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Friends" component={FriendsScreen} />
+            <Tab.Screen name="Letter" component={LetterScreen} />
             <Tab.Screen name="Fonts" component={FontsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
           </Tab.Navigator>
