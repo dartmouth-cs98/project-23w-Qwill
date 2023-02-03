@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-// import ProfileButton from './components/ProfileButton';
-// import BottomBar from './components/BottomBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+
+// Citation: https://reactnavigation.org/docs/tab-based-navigation
 
 function HomeScreen() {
   return (
@@ -47,6 +47,8 @@ export default function App() {
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
+              headerShown: false, 
+              tabBarShowLabel: false,
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
 
@@ -62,8 +64,8 @@ export default function App() {
 
                 return <Ionicons name={iconName} size={size} color={color} />;
               },
-              tabBarActiveTintColor: 'blue',
-              tabBarInactiveTintColor: 'gray',
+              tabBarActiveTintColor: 'black',
+              tabBarInactiveTintColor: 'gray',   
             })}
           >
             <Tab.Screen name="Home" component={HomeScreen} />
