@@ -4,47 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import HomeScreen from './screens/HomeScreen';
+import FriendsScreen from './screens/FriendsScreen';
+import ComposeScreen from './screens/ComposeScreen';
+import FontsScreen from './screens/FontsScreen';
+import ProfileScreen from './screens/ProfileScreen';
+
+
 // Citation: https://reactnavigation.org/docs/tab-based-navigation
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function FriendsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Friends</Text>
-    </View>
-  );
-}
-
-function LetterScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Make a Letter!</Text>
-    </View>
-  );
-}
-
-function FontsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Fonts</Text>
-    </View>
-  );
-}
-
-function ProfileScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile</Text>
-    </View>
-  );
-}
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +31,7 @@ export default function App() {
                   iconName = focused ? 'home': 'home-outline';
                 } else if (route.name === 'Friends') {
                   iconName = focused ? 'people' : 'people-outline';
-                } else if (route.name === 'Letter') {
+                } else if (route.name === 'Compose') {
                   iconName = focused ? 'create-sharp' : 'create-outline';
                 } else if (route.name === 'Fonts') {
                   iconName = focused ? 'pencil' : 'pencil-outline';
@@ -80,7 +47,7 @@ export default function App() {
           >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Friends" component={FriendsScreen} />
-            <Tab.Screen name="Letter" component={LetterScreen} />
+            <Tab.Screen name="Compose" component={ComposeScreen} />
             <Tab.Screen name="Fonts" component={FontsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
           </Tab.Navigator>
