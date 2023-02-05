@@ -27,3 +27,7 @@ Thomas Rogers
 
 ## Acknowledgments
 
+
+## Required Installations
+
+npm install -g mongodb-realm-cli
