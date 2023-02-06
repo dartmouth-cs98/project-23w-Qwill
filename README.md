@@ -52,5 +52,5 @@ Thanks tutorial!!
 
 
 ## Required Installations
-npm install @react-navigation/native
+npm install @react-navigation/native <br>
 npm install @react-navigation/bottom-tabs
