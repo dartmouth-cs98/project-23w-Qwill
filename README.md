@@ -1,7 +1,9 @@
 # Qwill
 
 TODO: Make an add an official logo and display it here
-Qwill is a mobile app to customize your handwriting into digital letters.
+
+Qwill is a mobile app to customize your handwriting into digital letters. <br>
+
 ![homepage](https://user-images.githubusercontent.com/67716136/216882499-6d6f2f69-205a-4947-8352-9b44847b9ec0.JPG)
 ![mailbox](https://user-images.githubusercontent.com/67716136/216882575-8a990e8c-294e-4e22-9c29-3ec77b50342c.JPG)
 ![fonts](https://user-images.githubusercontent.com/67716136/216883213-fe6d7e58-74c2-47c2-b76d-021a052eb7fe.JPG)
