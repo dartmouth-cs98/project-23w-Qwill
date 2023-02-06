@@ -40,7 +40,7 @@ const LoginScreen = ({navigation}) => {
       {/* when using native elements, target container style, not style*/}
       {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
       <Button containerStyle={styles.button} onPress={() => navigation.navigate('NavBar')}  title="Log in"/>
-      <Button containerStyle={styles.button} type="outline" title="Sign up"/>
+      <Button containerStyle={styles.button} onPress={() => navigation.navigate('Register')} type="outline" title="Sign up"/>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>
