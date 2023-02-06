@@ -16,7 +16,6 @@ const Tab = createBottomTabNavigator();
 function NavBar() {
     return (
       <View style={styles.container}>
-        <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
               headerShown: false, 
@@ -48,7 +47,6 @@ function NavBar() {
             <Tab.Screen name="Fonts" component={FontsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
           </Tab.Navigator>
-        </NavigationContainer>
       </View>
     );
   }
