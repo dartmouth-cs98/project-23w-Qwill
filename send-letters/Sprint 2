@@ -1,0 +1,44 @@
+* members in attendance:
+	![](https://i.imgur.com/3EIjeeX.jpg)
+
+	* Leah
+	* Amanda
+	* Tate
+	* Tommy
+	* Pierce
+	* Rachael
+* what worked well
+	* We made most of the Figma, just need to figure out a few design details
+	* We made the basic navigation stack and bar 
+	* ![post some progress screenshots]()
+	* etc]
+* what didn't
+    * MongoDB -- connecting the frontend to the backend is difficult (Tate sucks)
+    * Have not decided yet on how to create handwritten font (take picture and compare to database of fonts? UI where the user writes letters on the screen? do some research on existing libraries for this)
+	* we didn't make much progress in the grand scheme of things
+	* etc
+* self assessment on progress
+	* where are you in relation to progress towards product and milestones?
+	* give an estimate of how far towards your goals you are, do you think you're on track?
+* lay out *each* of the following weeks till end of term with brief goals for each
+	* current week: goals
+	    * Get MongoDB connected to the front end and start writing some logic 
+	    * Figure out which screens/features to prioritize since we have lots of screens 
+	        * probably not authentication -- need to get basic database, UI and font functionality up
+	            * Let's just mock up some fake users
+        * Figure out how to even port custom fonts into React -- start with a few default fonts (Pierce and Rachael)
+        * Front end design (Leah, Tommy)
+        * Back end (connecting to Mongo -- Amanda and Tate)
+        * Research on handwritten fonts
+	* week 7: goals
+	    * Have all screens we plan to implement this term built out on a basic level
+	    * Basic fonts in the app
+	* week 8: goals, etc
+	    * Debug 
+	    * Prep for Technigala
+	    * Practice presenting together?
+	* week 9: 
+	    * last fixes and details
+	    * practice presenting
+* briefly summarize any other topics/discussions
+- we split off into groups: font, frontend, backend
