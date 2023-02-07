@@ -22,7 +22,9 @@ Expo is a development tool that allows developers to view the mobile development
 Please see: [https://expo.dev/](https://expo.dev/) for more information.
 
 ### MongoDB
-The backend will use MongoDB for a database to store infromation, such as user profiles and letters sent and received. This is a relational database which will users to be connected to the letters which they have sent and received.
+The backend will use MongoDB for a database to store infromation, such as user profiles and letters sent and received.
+
+Handwritten fonts will be only stored on the sender's database. The receiver will get a letter that just has a photo of their words in their font, that way the database does not need to trasmit a new font. The transmission will also include a plain text version for voice accessibility.
 
 TODO: Flesh out this section about MongoDB once we have tables established, how they relate to each other, etc. Preferably make a graphic.
 
@@ -47,9 +49,7 @@ From left to right: Thomas Rogers, Rachael Williams, Amanda Sun, Tate Toussaint,
 FRONT AND CENTER: Leah Ryu <br>
 
 ## Acknowledgments
-
 Thanks tutorial!!
-
 
 ## Required Installations
 npm install @react-navigation/native <br>
