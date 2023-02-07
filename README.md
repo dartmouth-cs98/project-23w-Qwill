@@ -21,7 +21,7 @@ Expo is a development tool that allows developers to view the mobile development
 
 Please see: [https://expo.dev/](https://expo.dev/) for more information.
 
-Testissueamanda
+Test issue
 
 ### MongoDB
 The backend will use MongoDB for a database to store infromation, such as user profiles and letters sent and received.
