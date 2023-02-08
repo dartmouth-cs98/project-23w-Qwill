@@ -46,11 +46,15 @@ The goal is to make a mobile app which can be placed in the app stores for Apple
 ## Authors
 ![team1](https://user-images.githubusercontent.com/45802767/213886442-e6182d95-9df6-4775-bfa4-18b788df374b.jpg)
 From left to right: Thomas Rogers, Rachael Williams, Amanda Sun, Tate Toussaint, Pierce Wilson <br>
-FRONT AND CENTER: Leah Ryu <br>
+Front and center: Leah Ryu <br>
 
 ## Acknowledgments
 Thanks tutorial!!
 
 ## Required Installations
-npm install @react-navigation/native <br>
+```bash
+npm install @react-navigation/native
 npm install @react-navigation/bottom-tabs
+npm install @react-navigation/native-stack
+expo install react-native-screens react-native-safe-area-context
+```

@@ -5,11 +5,23 @@ import {Button, Input, Image} from 'react-native-elements';
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
-const LoginScreen = ({navigation}) => {
-  
-  // TODO: To be filled in when auth is implemented
-  const signIn = () => {
+const SignInScreen = ({navigation}) => {
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // TODO: To be filled in when auth is implemented
+  const handleSignInPressed = async () => {
+    if (email === "" || password === "") {
+      // alert("all fields are required");
+      // return;
+    }
+    await axis.post("http://localhost:8001/api/signup", { email, password });
+    navigation.navigate('NavBar');
+  }
+
+  const handleSignUpPressed = () => {
+    navigation.navigate('SignUp')
   }
   
   // KeyboardAvoidingView:
@@ -27,20 +39,25 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
         <Input 
-          placeholder='Email' 
-          autofocus 
-          type='email' />
+          placeholder="Email"
+          autofocus
+          type="email"
+          keyboardType="email-address"
+          autoCompleteType="email"
+          onChangeText={text => setEmail(text)} />
         <Input 
-          placeholder='Password' 
-          secureTextEntry 
-          type='password' 
-          onSubmitEditing={signIn}/>
+          placeholder="Password"
+          secureTextEntry={true}
+          type="password"
+          autoCompleteType="password"
+          onChangeText={text => setPassword(text)} />
+          {/* onSubmitEditing={signInPressed}/> */}
       </View>
     
       {/* when using native elements, target container style, not style*/}
       {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
-      <Button containerStyle={styles.button} onPress={() => navigation.navigate('NavBar')}  title="Log in"/>
-      <Button containerStyle={styles.button} onPress={() => navigation.navigate('Register')} type="outline" title="Sign up"/>
+      <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="Log in"/>
+      <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>
@@ -48,7 +65,7 @@ const LoginScreen = ({navigation}) => {
   );
 }
 
-export default LoginScreen
+export default SignInScreen
 
 const styles = StyleSheet.create({
     inputContainer: {
