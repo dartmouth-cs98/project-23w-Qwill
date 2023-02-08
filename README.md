@@ -33,4 +33,3 @@ Thanks tutorial!!
 ## Required Installations
 npm install @react-navigation/native
 npm install @react-navigation/bottom-tabs
-npm install -g mongodb-realm-cli
