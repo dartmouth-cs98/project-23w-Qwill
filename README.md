@@ -32,16 +32,25 @@ Please see: [https://www.mongodb.com/](https://www.mongodb.com/) for more inform
 
 TODO: Add more tools and libraries as we use more in this project.
 
-## Setup
+## Installation
 
 Download Expo, following the official docs: [https://docs.expo.dev/get-started/installation/](https://docs.expo.dev/get-started/installation/)
 
 Also see the React Native Expo Go quickstart guide: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
 
-## Deployment
+## Build
 
-TBD once we have the project ready to deploy.
-The goal is to make a mobile app which can be placed in the app stores for Apple and Android devices.
+To run the backend, use the following commands from the base directory:
+```bash
+cd send-letters/server
+npm start
+```
+
+To run the backend, use the following commands from the base directory:
+```bash
+cd send-letters/client
+npx expo start
+```
 
 ## Authors
 ![team1](https://user-images.githubusercontent.com/45802767/213886442-e6182d95-9df6-4775-bfa4-18b788df374b.jpg)
