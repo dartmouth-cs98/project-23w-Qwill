@@ -20,11 +20,11 @@ const SignInScreen = ({navigation}) => {
     const resp = await axios.post("http://localhost:8000/api/signIn", { email, password });
     console.log(resp.data);
     alert("Sign In Successful");
-    navigation.navigate('NavBar');
+    navigation.replace('NavBar');
   }
 
   const handleSignUpPressed = () => {
-    navigation.navigate('SignUp')
+    navigation.replace('SignUp')
   }
   
   // KeyboardAvoidingView:

@@ -50,6 +50,7 @@ Front and center: Leah Ryu <br>
 
 ## Acknowledgments
 Thanks tutorial!!
+Backend Tutorial to initialize express server and mongodb connection: https://nabendu82.medium.com/react-native-project-with-nodejs-and-mongodb-part-1-443cc5b65b46
 
 ## Required Installations
 ```bash
