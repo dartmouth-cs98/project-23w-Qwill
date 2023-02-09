@@ -32,26 +32,43 @@ Please see: [https://www.mongodb.com/](https://www.mongodb.com/) for more inform
 
 TODO: Add more tools and libraries as we use more in this project.
 
-## Setup
+## Installation
 
 Download Expo, following the official docs: [https://docs.expo.dev/get-started/installation/](https://docs.expo.dev/get-started/installation/)
 
 Also see the React Native Expo Go quickstart guide: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
 
-## Deployment
+## Build
 
-TBD once we have the project ready to deploy.
-The goal is to make a mobile app which can be placed in the app stores for Apple and Android devices.
+To run the backend, use the following commands from the base directory:
+```bash
+cd send-letters/server
+npm start
+```
+
+To run the backend, use the following commands from the base directory:
+```bash
+cd send-letters/client
+npx expo start
+```
 
 ## Authors
 ![team1](https://user-images.githubusercontent.com/45802767/213886442-e6182d95-9df6-4775-bfa4-18b788df374b.jpg)
 From left to right: Thomas Rogers, Rachael Williams, Amanda Sun, Tate Toussaint, Pierce Wilson <br>
-FRONT AND CENTER: Leah Ryu <br>
+Front and center: Leah Ryu <br>
 
 ## Acknowledgments
 Thanks tutorial!!
+Backend Tutorial to initialize express server and mongodb connection: https://nabendu82.medium.com/react-native-project-with-nodejs-and-mongodb-part-1-443cc5b65b46
 
 ## Required Installations
-npm install @react-navigation/native <br>
+```bash
+# clientside
+npm install @react-navigation/native
 npm install @react-navigation/bottom-tabs
-npm install -g mongodb-realm-cli
+npm install @react-navigation/native-stack
+expo install react-native-screens react-native-safe-area-context
+
+# serverside
+npm install dotenv
+```

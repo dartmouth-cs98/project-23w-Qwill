@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import {NavigationContainer,  getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import LoginScreen from './screens/LoginScreen';
+import SignInScreen from './screens/SignInScreen';
 import NavBar from './components/NavBar';
-import RegisterScreen from './screens/RegisterScreen';
+import SignUpScreen from './screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,19 +43,19 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='Login'
+        initialRouteName="SignIn"
         screenOptions={globalScreenOptions}>
         <Stack.Screen 
           options={{
-            title: "Log in",
+            title: "SignIn",
           }}
-          name='Login' 
-          component={LoginScreen}/> 
+          name='SignIn' 
+          component={SignInScreen}/> 
           <Stack.Screen options={{
-            title: "Sign up"
+            title: "SignUp"
           }}
-          name="Register"
-          component={RegisterScreen}/>
+          name="SignUp"
+          component={SignUpScreen}/>
         <Stack.Screen 
           options={({ route }) => ({
             headerTitle: getHeaderTitle(route),
