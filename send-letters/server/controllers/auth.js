@@ -1,8 +1,5 @@
 import User from "../models/user";
-import {
-    hashPassword,
-    comparePassword
-} from "../helpers/auth";
+import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
 
@@ -15,7 +12,13 @@ export const signUp = async (req, res) => {
     console.log("SignUp Hit");
     try {
         // validation
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
+        
+        if (!name) {
+            return res.json({
+                error: "Name is required",
+            });
+        }
 
         if (!email) {
             return res.json({
@@ -39,6 +42,7 @@ export const signUp = async (req, res) => {
         const hashedPassword = await hashPassword(password);
         try {
             const user = await new User({
+                name,
                 email,
                 password: hashedPassword,
             }).save();
@@ -68,10 +72,8 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
     // console.log(req.body);
     try {
-        const {
-            email,
-            password
-        } = req.body;
+        const { email, password } = req.body;
+
         // check if our db has user with that email
         const user = await User.findOne({
             email

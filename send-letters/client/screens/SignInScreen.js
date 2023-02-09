@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import {Button, Input, Image} from 'react-native-elements';
+import axios from 'axios';
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -16,7 +17,9 @@ const SignInScreen = ({navigation}) => {
       // alert("all fields are required");
       // return;
     }
-    await axis.post("http://localhost:8001/api/signup", { email, password });
+    const resp = await axios.post("http://localhost:8000/api/signIn", { email, password });
+    console.log(resp.data);
+    alert("Sign In Successful");
     navigation.navigate('NavBar');
   }
 
