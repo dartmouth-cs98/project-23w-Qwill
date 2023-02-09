@@ -70,5 +70,10 @@ npm install @react-navigation/native-stack
 expo install react-native-screens react-native-safe-area-context
 
 # serverside
-npm install dotenv
+npm i express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
 ```
+
+## Troubleshooting 
+
+### Module not found errors
+Try running `npm rebuild`
