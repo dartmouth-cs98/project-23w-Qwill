@@ -12,6 +12,9 @@ const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // State for snackbar
+  // See snackbar docs at https://www.npmjs.com/package/expo-snackbar
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
 
@@ -69,7 +72,6 @@ const SignUpScreen = ({navigation}) => {
       </View>
     
       {/* when using native elements, target container style, not style*/}
-      {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} title="Log in"/>
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
 
