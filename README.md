@@ -77,3 +77,6 @@ npm i express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcr
 
 ### Module not found errors
 Try running `npm rebuild`
+
+### Expo not found in the folder
+Try `expo update`
