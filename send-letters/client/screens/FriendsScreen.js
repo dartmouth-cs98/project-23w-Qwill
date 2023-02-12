@@ -8,4 +8,4 @@ function FriendsScreen() {
     );
   }
 
-export default FriendsScreen
+export default FriendsScreen;

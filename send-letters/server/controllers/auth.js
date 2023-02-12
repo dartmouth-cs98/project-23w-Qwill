@@ -14,25 +14,30 @@ export const signUp = async (req, res) => {
         // validation
         const { name, email, password } = req.body;
         
+        // check if fields are valid
         if (!name) {
             return res.json({
                 error: "Name is required",
             });
         }
-
         if (!email) {
             return res.json({
                 error: "Email is required",
             });
         }
-        if (!password || password.length < 6) {
+        if (!password) {
             return res.json({
-                error: "Password is required and should be 6 characters long",
+                error: "Password is required",
             });
         }
-        const exist = await User.findOne({
-            email
-        });
+        if (password.length < 6) {
+            return res.json({
+                error: "Password should be 6 characters long",
+            });
+        }
+
+        // check if a user with email already exists
+        const exist = await User.findOne({ email });
         if (exist) {
             return res.json({
                 error: "Email is taken",
