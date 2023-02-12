@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import {Button, Input, Image} from 'react-native-elements';
+import SnackBar from 'react-native-snackbar-component';
 import axios from 'axios';
 
 
@@ -13,7 +14,7 @@ const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // TODO: To be filled in when auth is implemented
+  // TODO: handle navigation for successful sign up
   const handleSignUpPressed = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "") {
@@ -86,9 +87,20 @@ const SignUpScreen = ({navigation}) => {
       </View>
     
       {/* when using native elements, target container style, not style*/}
-      {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
       <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="I already have an account"/>
+
+      <SnackBar
+          visible={snackIsVisible}
+          //SnackBar visibility control
+          textMessage={snackMessage}
+          //Text on SnackBar
+          actionHandler={() => {
+            setSnackIsVisible(false);
+          }}
+          actionText="OK"
+          //action Text to print on SnackBar
+        />
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>
