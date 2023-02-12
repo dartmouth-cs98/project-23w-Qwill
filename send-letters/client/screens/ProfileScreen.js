@@ -1,11 +1,18 @@
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
+import { AuthContext } from '../context/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 function ProfileScreen({navigation}) {
 
-  const handleSignOutPressed = () => {
-    navigation.replace('SignIn')
+  const [state, setState] = useContext(AuthContext);
+
+  const handleSignOutPressed = async () => {
+    setState({ token: "", user: null });
+    await AsyncStorage.removeItem("auth-rn");
+    navigation.replace('SignIn');
   }
   
     return (
@@ -14,7 +21,7 @@ function ProfileScreen({navigation}) {
         <Button containerStyle={styles.button} onPress={() => handleSignOutPressed()} title="Sign Out"/>
       </View>
     );
-  }
+  };
 
 export default ProfileScreen;
 
