@@ -68,7 +68,16 @@ npm install @react-navigation/native
 npm install @react-navigation/bottom-tabs
 npm install @react-navigation/native-stack
 expo install react-native-screens react-native-safe-area-context
+npm install --save react-native-snackbar-component
 
 # serverside
-npm install dotenv
+npm i express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
 ```
+
+## Troubleshooting 
+
+### Module not found errors
+Try running `npm rebuild`
+
+### Expo not found in the folder
+Try `expo update`
