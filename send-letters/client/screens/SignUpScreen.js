@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import {Button, Input, Image} from 'react-native-elements';
-import SnackBar from 'react-native-snackbar-component';
+// import SnackBar from 'react-native-snackbar-component';
 import axios from 'axios';
 
 
@@ -18,14 +18,14 @@ const SignUpScreen = ({navigation}) => {
   const handleSignUpPressed = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "") {
-      // alert("All fields are required");
+      alert("All fields are required");
       // setSnackMessage("All fields are required");
       // setSnackIsVisible(true);
       return;
     }
 
     if (password.length < 6) {
-      alert("Password should be at least 6 characters");
+      alert("Password must be at least 6 characters long");
       return;
     }
     
@@ -79,7 +79,8 @@ const SignUpScreen = ({navigation}) => {
           type="email"
           keyboardType="email-address"
           autoCompleteType="email"
-          onChangeText={text => setEmail(text)} />
+          autoCapitalize="none"
+          onChangeText={text => setEmail(text.toLowerCase())} />
         <Input 
           placeholder="Password"
           secureTextEntry={true}

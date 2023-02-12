@@ -43,11 +43,12 @@ const SignInScreen = ({navigation}) => {
         {/* autofocus automatically focuses the app on this input */}
         <Input 
           placeholder="Email"
-          autofocus
+          // autofocus
           type="email"
           keyboardType="email-address"
           autoCompleteType="email"
-          onChangeText={text => setEmail(text)} />
+          autoCapitalize="none"
+          onChangeText={text => setEmail(text.toLowerCase())} />
         <Input 
           placeholder="Password"
           secureTextEntry={true}
