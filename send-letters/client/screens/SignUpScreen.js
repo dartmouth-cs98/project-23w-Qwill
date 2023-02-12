@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import {Button, Input, Image} from 'react-native-elements';
+import SnackBar from 'react-native-snackbar-component';
 import axios from 'axios';
 
 // You can get the navigation stack as a prop
@@ -12,16 +13,28 @@ const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // State for snackbar
+  // See snackbar docs at https://www.npmjs.com/package/expo-snackbar
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
+
   // TODO: To be filled in when auth is implemented
   const handleSignUpPressed = async () => {
     if (name === "" || email === "" || password === "") {
-      // alert("all fields are required");
-      // return;
+      setSnackMessage("All fields are required.");
+      setSnackIsVisible(true);
+      return;
     }
-    const resp = await axios.post("http://localhost:8000/api/signUp", { name, email, password });
-    console.log(resp.data);
-    alert("Sign Up Successful");
-    // navigation.navigate('NavBar');
+    const resp = await axios
+      .post("http://localhost:8000/api/signUp", { name, email, password });
+
+    if (resp.data.error) {
+      setSnackMessage(resp.data.error);
+      setSnackIsVisible(true);
+    } else {
+      alert("Account creation successful! Welcome to Qwill.");
+      navigation.replace("NavBar");
+    }
   }
   
   // KeyboardAvoidingView:
@@ -59,9 +72,20 @@ const SignUpScreen = ({navigation}) => {
       </View>
     
       {/* when using native elements, target container style, not style*/}
-      {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} title="Log in"/>
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+
+      <SnackBar
+          visible={snackIsVisible}
+          //SnackBar visibility control
+          textMessage={snackMessage}
+          //Text on SnackBar
+          actionHandler={() => {
+            setSnackIsVisible(false);
+          }}
+          actionText="OK"
+          //action Text to print on SnackBar
+        />
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>
