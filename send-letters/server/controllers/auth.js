@@ -32,7 +32,7 @@ export const signUp = async (req, res) => {
         }
         if (password.length < 6) {
             return res.json({
-                error: "Password should be 6 characters long",
+                error: "Password should be at least 6 characters",
             });
         }
 
@@ -40,9 +40,10 @@ export const signUp = async (req, res) => {
         const exist = await User.findOne({ email });
         if (exist) {
             return res.json({
-                error: "Email is taken",
+                error: "Email is already taken",
             });
         }
+
         // hash password
         const hashedPassword = await hashPassword(password);
         try {
@@ -57,7 +58,7 @@ export const signUp = async (req, res) => {
             }, process.env.JWT_SECRET, {
                 expiresIn: "7d",
             });
-            //   console.log(user);
+            // console.log(user);
             const {
                 password,
                 ...rest

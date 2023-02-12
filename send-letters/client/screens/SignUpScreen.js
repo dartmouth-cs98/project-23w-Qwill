@@ -20,6 +20,11 @@ const SignUpScreen = ({navigation}) => {
       alert("All fields are required");
       return;
     }
+
+    if (password.length < 6) {
+      alert("Password should be at least 6 characters");
+      return;
+    }
     
     // check for a valid email address
     if (validateEmail(email) == false) {
@@ -30,12 +35,20 @@ const SignUpScreen = ({navigation}) => {
     // connect to server and get response
     const resp = await axios.post("http://localhost:8000/api/signUp", { name, email, password });
     console.log(resp.data);
+
+    // alert if any errors detected on backend (such as email already taken)
+    if (resp.data.error) {
+      alert(resp.data.error);
+      return;
+    }
+
+    // successful sign up
     alert("Sign Up Successful");
-    // navigation.navigate('NavBar');
+    // navigation.replace('NavBar');
   }
 
   const handleSignInPressed = () => {
-    navigation.navigate('SignIn');
+    navigation.replace('SignIn');
   }
   
   // KeyboardAvoidingView:
