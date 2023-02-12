@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-native'
-import React, {useState, useLayoutEffect, useEffect} from 'react'
+import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import {Button, Input, Image} from 'react-native-elements';
+import { Button, Input, Image } from 'react-native-elements';
 // import SnackBar from 'react-native-snackbar-component';
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from '../context/auth';
 
 
 // You can get the navigation stack as a prop
@@ -13,6 +15,7 @@ const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [state, setState] = useContext(AuthContext);
 
   // TODO: handle navigation for successful sign up
   const handleSignUpPressed = async () => {
@@ -43,11 +46,13 @@ const SignUpScreen = ({navigation}) => {
     if (resp.data.error) {
       alert(resp.data.error);
       return;
+    } else {
+      setState(resp.data);
+      await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+      // successful sign up
+      alert("Sign Up Successful. Welcome to Qwill");
+      navigation.replace('NavBar');
     }
-
-    // successful sign up
-    alert("Sign Up Successful. Welcome to Qwill");
-    navigation.replace('NavBar');
   }
 
 

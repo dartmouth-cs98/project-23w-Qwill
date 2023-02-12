@@ -40,7 +40,7 @@ export const signUp = async (req, res) => {
         const exist = await User.findOne({ email });
         if (exist) {
             return res.json({
-                error: "Email is already taken",
+                error: "Email is already associated with an account",
             });
         }
 
@@ -86,16 +86,18 @@ export const signIn = async (req, res) => {
         });
         if (!user) {
             return res.json({
-                error: "No user found",
+                error: "No user found with email provided",
             });
         }
+
         // check password
         const match = await comparePassword(password, user.password);
         if (!match) {
             return res.json({
-                error: "Wrong password",
+                error: "Incorrect password",
             });
         }
+        
         // create signed token
         const token = jwt.sign({
             _id: user._id

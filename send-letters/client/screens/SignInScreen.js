@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-native'
-import React, {useState, useLayoutEffect, useEffect} from 'react'
+import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import {Button, Input, Image} from 'react-native-elements';
+import { Button, Input, Image } from 'react-native-elements';
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from '../context/auth';
+
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -10,17 +13,27 @@ const SignInScreen = ({navigation}) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [state, setState] = useContext(AuthContext);
 
   // TODO: To be filled in when auth is implemented
   const handleSignInPressed = async () => {
     if (email === "" || password === "") {
-      // alert("all fields are required");
-      // return;
+      return;
     }
+
     const resp = await axios.post("http://localhost:8000/api/signIn", { email, password });
     console.log(resp.data);
-    alert("Sign In Successful");
-    navigation.replace('NavBar');
+
+    // alert if any errors detected on backend (such as email already taken)
+    if (resp.data.error) {
+      alert(resp.data.error);
+      return;
+    } else {
+      setState(resp.data);
+      await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+      alert("Sign In Successful");
+      navigation.replace('NavBar');
+    }
   }
 
   const handleSignUpPressed = () => {

@@ -4,8 +4,9 @@ import {NavigationContainer,  getFocusedRouteNameFromRoute} from '@react-navigat
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SignInScreen from './screens/SignInScreen';
-import NavBar from './components/NavBar';
 import SignUpScreen from './screens/SignUpScreen';
+import { AuthProvider } from './context/auth';
+import NavBar from './components/NavBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,28 +43,30 @@ function getHeaderTitle(route) {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator 
-        initialRouteName="SignIn"
-        screenOptions={globalScreenOptions}>
-        <Stack.Screen 
-          options={{
-            title: "SignIn",
-          }}
-          name='SignIn' 
-          component={SignInScreen}/> 
-          <Stack.Screen options={{
-            title: "SignUp"
-          }}
-          name="SignUp"
-          component={SignUpScreen}/>
-        <Stack.Screen 
-          options={({ route }) => ({
-            headerTitle: getHeaderTitle(route),
-          })}        
-          name='NavBar' 
-          component={NavBar} 
-        />
-      </Stack.Navigator>
+      <AuthProvider>
+        <Stack.Navigator 
+          initialRouteName="SignIn"
+          screenOptions={globalScreenOptions}>
+          <Stack.Screen 
+            options={{
+              title: "SignIn",
+            }}
+            name='SignIn' 
+            component={SignInScreen}/> 
+            <Stack.Screen options={{
+              title: "SignUp"
+            }}
+            name="SignUp"
+            component={SignUpScreen}/>
+          <Stack.Screen 
+            options={({ route }) => ({
+              headerTitle: getHeaderTitle(route),
+            })}        
+            name='NavBar' 
+            component={NavBar} 
+          />
+        </Stack.Navigator>
+      </AuthProvider>
     </NavigationContainer>
   );
 }
