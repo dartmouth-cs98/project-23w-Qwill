@@ -13,7 +13,7 @@ function ProfileScreen({navigation}) {
     setState({ token: "", user: null });
     await AsyncStorage.removeItem("auth-rn");
     navigation.replace('SignIn');
-  }
+  };
   
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -27,7 +27,7 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   button: {
-      width: 200, 
+      width: 200,
       marginTop: 10,
   },
 });

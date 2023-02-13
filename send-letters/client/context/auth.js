@@ -13,7 +13,11 @@ const AuthProvider = ({ children }) => {
         const loadFromAsyncStorage = async () => {
             let data = await AsyncStorage.getItem("auth-rn");
             const parsed = JSON.parse(data);
-            setState({ ...state, user: parsed.user, token: parsed.token });
+            console.log(parsed);
+            if (parsed !== null && parsed.user && parsed.token) {
+                setState({ ...state, user: parsed.user, token: parsed.token });
+            }
+            // setState({ ...state, user: parsed.user, token: parsed.token });
         };
         loadFromAsyncStorage();
     }, []);
