@@ -8,12 +8,15 @@ import SignUpScreen from './screens/SignUpScreen';
 import { AuthProvider } from './context/auth';
 import NavBar from './components/NavBar';
 import Navigation from './components/Navigation';
-import NavigationScreen from './components/NavigationScreen';
 
 
 export default function App() {
   return (
-    <Navigation />
+    <NavigationContainer>
+      <AuthProvider>
+          <Navigation />
+      </AuthProvider>
+    </NavigationContainer>
   );
 }
 
