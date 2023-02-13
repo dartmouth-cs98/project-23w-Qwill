@@ -81,4 +81,4 @@ npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/ma
 Try running `npm rebuild`
 
 ### Expo not found in the folder
-Try `expo update`
+Running `npm audit fix --force` after running an `npm install` may sneakily downgrade your Expo to version 1.0.0. If you're getting an "Expo not found in the folder" error, try running `expo update`
