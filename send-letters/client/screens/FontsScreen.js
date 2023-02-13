@@ -8,4 +8,4 @@ function FontsScreen() {
     );
   }
 
-export default FontsScreen
+export default FontsScreen;

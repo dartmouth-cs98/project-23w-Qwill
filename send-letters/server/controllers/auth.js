@@ -14,30 +14,36 @@ export const signUp = async (req, res) => {
         // validation
         const { name, email, password } = req.body;
         
+        // check if fields are valid
         if (!name) {
             return res.json({
                 error: "Name is required",
             });
         }
-
         if (!email) {
             return res.json({
                 error: "Email is required",
             });
         }
-        if (!password || password.length < 6) {
+        if (!password) {
             return res.json({
-                error: "Password is required and should be 6 characters long",
+                error: "Password is required",
             });
         }
-        const exist = await User.findOne({
-            email
-        });
+        if (password.length < 6) {
+            return res.json({
+                error: "Password should be at least 6 characters",
+            });
+        }
+
+        // check if a user with email already exists
+        const exist = await User.findOne({ email });
         if (exist) {
             return res.json({
-                error: "Email is taken",
+                error: "Email is already associated with an account",
             });
         }
+
         // hash password
         const hashedPassword = await hashPassword(password);
         try {
@@ -52,7 +58,7 @@ export const signUp = async (req, res) => {
             }, process.env.JWT_SECRET, {
                 expiresIn: "7d",
             });
-            //   console.log(user);
+            // console.log(user);
             const {
                 password,
                 ...rest
@@ -80,16 +86,18 @@ export const signIn = async (req, res) => {
         });
         if (!user) {
             return res.json({
-                error: "No user found",
+                error: "No user found with email provided",
             });
         }
+
         // check password
         const match = await comparePassword(password, user.password);
         if (!match) {
             return res.json({
-                error: "Wrong password",
+                error: "Incorrect password",
             });
         }
+        
         // create signed token
         const token = jwt.sign({
             _id: user._id

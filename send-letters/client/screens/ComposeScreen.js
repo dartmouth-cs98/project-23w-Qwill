@@ -9,4 +9,4 @@ function ComposeScreen({navigation}) {
     );
   }
 
-export default ComposeScreen
+export default ComposeScreen;

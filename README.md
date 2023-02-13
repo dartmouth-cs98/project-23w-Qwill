@@ -68,10 +68,11 @@ npm install @react-navigation/native
 npm install @react-navigation/bottom-tabs
 npm install @react-navigation/native-stack
 expo install react-native-screens react-native-safe-area-context
+npm install @react-native-async-storage/async-storage
 npm install --save react-native-snackbar-component
 
 # serverside
-npm i express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
+npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
 ```
 
 ## Troubleshooting 
