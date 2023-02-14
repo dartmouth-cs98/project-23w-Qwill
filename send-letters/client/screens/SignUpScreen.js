@@ -29,14 +29,12 @@ const SignUpScreen = ({navigation}) => {
   const handleSignUpPressed = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "") {
-      // alert("All fields are required");
       setSnackMessage("All fields are required");
       setSnackIsVisible(true);
       return;
     }
 
     if (password.length < 6) {
-      // alert("Password must be at least 6 characters long");
       setSnackMessage("Password must be at least 6 characters long");
       setSnackIsVisible(true);
       return;
@@ -44,7 +42,6 @@ const SignUpScreen = ({navigation}) => {
     
     // check for a valid email address
     if (validateEmail(email) == false) {
-      // alert("You must enter a valid email address");
       setSnackMessage("You must enter a valid email address");
       setSnackIsVisible(true);
       return;
@@ -56,8 +53,7 @@ const SignUpScreen = ({navigation}) => {
 
     // alert if any errors detected on backend (such as email already taken)
     if (resp.data.error) {
-      // alert(resp.data.error);
-      setSnackMessage("You must enter a valid email address");
+      setSnackMessage(resp.data.error);
       setSnackIsVisible(true);
       return;
     } else {
