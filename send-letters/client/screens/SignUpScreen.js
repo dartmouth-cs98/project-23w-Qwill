@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Image } from 'react-native-elements';
-// import SnackBar from 'react-native-snackbar-component';
+import {Snackbar} from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../context/auth';
@@ -17,24 +17,33 @@ const SignUpScreen = ({navigation}) => {
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
 
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+
   // TODO: handle navigation for successful sign up
   const handleSignUpPressed = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "") {
-      alert("All fields are required");
-      // setSnackMessage("All fields are required");
-      // setSnackIsVisible(true);
+      setSnackMessage("All fields are required");
+      setSnackIsVisible(true);
       return;
     }
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters long");
+      setSnackMessage("Password must be at least 6 characters long");
+      setSnackIsVisible(true);
       return;
     }
     
     // check for a valid email address
     if (validateEmail(email) == false) {
-      alert("You must enter a valid email address");
+      setSnackMessage("You must enter a valid email address");
+      setSnackIsVisible(true);
       return;
     }
 
@@ -44,7 +53,8 @@ const SignUpScreen = ({navigation}) => {
 
     // alert if any errors detected on backend (such as email already taken)
     if (resp.data.error) {
-      alert(resp.data.error);
+      setSnackMessage(resp.data.error);
+      setSnackIsVisible(true);
       return;
     } else {
       setState(resp.data);
@@ -99,17 +109,19 @@ const SignUpScreen = ({navigation}) => {
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
       <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="I already have an account"/>
 
-      {/* <SnackBar
-          visible={snackIsVisible}
+      <Snackbar
           //SnackBar visibility control
-          textMessage={snackMessage}
-          //Text on SnackBar
-          actionHandler={() => {
-            setSnackIsVisible(false);
+          visible={snackIsVisible}
+          onDismiss={onDismissSnack}
+          action={{
+            label: 'OK',
+            onPress: () => {
+              onDismissSnack();
+            },
           }}
-          actionText="OK"
-          //action Text to print on SnackBar
-        /> */}
+        >
+          {snackMessage}
+        </Snackbar>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>

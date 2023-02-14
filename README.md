@@ -69,16 +69,23 @@ npm install @react-navigation/bottom-tabs
 npm install @react-navigation/native-stack
 expo install react-native-screens react-native-safe-area-context
 npm install @react-native-async-storage/async-storage
-npm install --save react-native-snackbar-component
+npm install --save react-native-paper
 
 # serverside
 npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
 ```
 
 ## Troubleshooting 
+### Expo not found in the folder
+Running `npm audit fix --force` after running an `npm install` may sneakily downgrade your Expo to version 1.0.0. If you're getting an "Expo not found in the folder" error, try running `expo update.`
 
 ### Module not found errors
-Try running `npm rebuild`
+You may see an error during app bundling "While trying to resolve module..." in `client`. In this case, try stopping the server and running `npm rebuild`, then restarting. 
 
-### Expo not found in the folder
-Running `npm audit fix --force` after running an `npm install` may sneakily downgrade your Expo to version 1.0.0. If you're getting an "Expo not found in the folder" error, try running `expo update`
+If this doesn't work, run `killall node` and then start both the server and the client again. 
+
+The most drastic action if none of the above works is to `killall node` or stop both the client and server in their respective terminals. Then, run `rm -rf node_modules` in the `client` directory to delete the node modules folder. Run `npm install` (you will most likely need to run `npm audit fix --force` and `expo update` after this). Then, restart the server in one terminal window, and the client in another by running `npx expo start` or `expo r -c` (the latter removes all caches from Expo as well). 
+
+
+
+
