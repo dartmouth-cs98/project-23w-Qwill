@@ -17,7 +17,13 @@ const SignInScreen = ({navigation}) => {
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
 
-  // TODO: To be filled in when auth is implemented
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+
+  const onDismissSnack = () => setSnackIsVisible(false);
+
   const handleSignInPressed = async () => {
 
     if (email_username === "" || password === "") {
@@ -41,7 +47,6 @@ const SignInScreen = ({navigation}) => {
     } else {
       setState(resp.data);
       await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-      alert("Sign In Successful. Welcome to Qwill");
       navigation.replace('NavBar');
     }
   }
@@ -75,14 +80,28 @@ const SignInScreen = ({navigation}) => {
           secureTextEntry={true}
           type="password"
           autoCompleteType="password"
-          onChangeText={text => setPassword(text)} />
-          {/* onSubmitEditing={signInPressed}/> */}
+          onChangeText={text => setPassword(text)} 
+          onSubmitEditing={handleSignInPressed}/>
       </View>
     
       {/* when using native elements, target container style, not style*/}
       {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
       <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="Log in"/>
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+
+      <Snackbar
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={onDismissSnack}
+          action={{
+            label: 'OK',
+            onPress: () => {
+              onDismissSnack();
+            },
+          }}
+        >
+          {snackMessage}
+        </Snackbar>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>
