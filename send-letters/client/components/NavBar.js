@@ -40,7 +40,7 @@ const CustomComposeButton = ({children, onPress}) => (
   </TouchableOpacity>
 );
 
-function ComposeStackScreen() {
+function ComposeStack() {
   return (
     <ComposeStack.Navigator initialRouteName="SelectRecipient">
       <ComposeStack.Screen 
@@ -91,7 +91,7 @@ function NavBar() {
             <Tab.Screen name="Friends" component={FriendsScreen} />
             <Tab.Screen 
               name="Compose" 
-              component={ComposeStackScreen}
+              component={ComposeStack}
               options= {{
                 tabBarButton: (props) => (
                   <CustomComposeButton {...props} />
