@@ -29,7 +29,7 @@ function getHeaderTitle(route) {
   
     switch (routeName) {
       case 'Home':
-        return 'Mailbox';
+        return 'Qwill';
       case 'Profile':
         return 'My profile';
       case 'Friends':

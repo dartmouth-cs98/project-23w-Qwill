@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import HomeScreen from '../screens/HomeScreen';
+import HomeStack from '../components/HomeStack';
 import FriendsScreen from '../screens/FriendsScreen';
 import ComposeScreen from '../screens/ComposeScreen';
 import FontsScreen from '../screens/FontsScreen';
@@ -11,6 +11,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 // Citation: https://reactnavigation.org/docs/tab-based-navigation
 
+// Our navigator 
 const Tab = createBottomTabNavigator();
 
 function NavBar() {
@@ -41,7 +42,7 @@ function NavBar() {
               tabBarInactiveTintColor: 'gray',   
             })}
           >
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Friends" component={FriendsScreen} />
             <Tab.Screen name="Compose" component={ComposeScreen} />
             <Tab.Screen name="Fonts" component={FontsScreen} />
