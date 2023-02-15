@@ -37,15 +37,28 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
+    // check password length
     if (password.length < 6) {
       setSnackMessage("Password must be at least 6 characters long");
       setSnackIsVisible(true);
       return;
     }
-    
+    if (password.length > 30) {
+      setSnackMessage("Password must be less than 30 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
     // check for a valid email address
     if (validateEmail(email) == false) {
       setSnackMessage("You must enter a valid email address");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check username length
+    if (username.length > 30) {
+      setSnackMessage("Username must be less than 30 characters long");
       setSnackIsVisible(true);
       return;
     }

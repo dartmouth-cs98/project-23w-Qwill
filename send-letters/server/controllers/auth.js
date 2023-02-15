@@ -35,11 +35,6 @@ export const signUp = async (req, res) => {
                 error: "Password is required",
             });
         }
-        if (password.length < 6) {
-            return res.json({
-                error: "Password should be at least 6 characters",
-            });
-        }
 
         // check if a user with email or username already exists
         const emailExist = await User.findOne({ 'email': email });
