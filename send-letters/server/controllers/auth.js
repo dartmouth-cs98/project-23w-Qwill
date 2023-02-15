@@ -12,7 +12,7 @@ export const signUp = async (req, res) => {
     console.log("SignUp Hit");
     try {
         // validation
-        const { name, email, password } = req.body;
+        const { name, email, username, password } = req.body;
         
         // check if fields are valid
         if (!name) {
@@ -23,6 +23,11 @@ export const signUp = async (req, res) => {
         if (!email) {
             return res.json({
                 error: "Email is required",
+            });
+        }
+        if (!username) {
+            return res.json({
+                error: "Username is required",
             });
         }
         if (!password) {
@@ -36,11 +41,17 @@ export const signUp = async (req, res) => {
             });
         }
 
-        // check if a user with email already exists
-        const exist = await User.findOne({ email });
-        if (exist) {
+        // check if a user with email or username already exists
+        const emailExist = await User.findOne({ 'email': email });
+        if (emailExist) {
             return res.json({
                 error: "Email is already associated with an account",
+            });
+        }
+        const usernameExist = await User.findOne({'username': {'$regex': username,$options:'i'}});
+        if (usernameExist) {
+            return res.json({
+                error: "Username is already associated with an account",
             });
         }
 
@@ -50,13 +61,14 @@ export const signUp = async (req, res) => {
             const user = await new User({
                 name,
                 email,
+                username,
                 password: hashedPassword,
             }).save();
             // create signed token
             const token = jwt.sign({
                 _id: user._id
             }, process.env.JWT_SECRET, {
-                expiresIn: "7d",
+                expiresIn: "21d",
             });
             // console.log(user);
             const {
@@ -78,15 +90,15 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
     // console.log(req.body);
     try {
-        const { email, password } = req.body;
+        const { email_username, password } = req.body;
 
         // check if our db has user with that email
         const user = await User.findOne({
-            email
+            $or: [{ 'email': email_username }, { 'username': email_username }]
         });
         if (!user) {
             return res.json({
-                error: "No user found with email provided",
+                error: "No user found with email/username provided",
             });
         }
 
