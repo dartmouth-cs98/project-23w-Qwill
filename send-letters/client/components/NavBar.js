@@ -3,18 +3,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'; 
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from '../screens/HomeScreen';
 import FriendsScreen from '../screens/FriendsScreen';
 import SelectRecipientScreen from '../screens/compose/SelectRecipientScreen';
 import FontsScreen from '../screens/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ComposeScreen from '../screens/compose/ComposeScreen';
+import PreviewScreen from '../screens/compose/PreviewScreen';
 
 // Citation: 
 // https://reactnavigation.org/docs/tab-based-navigation
 // Custom bottom nav button: https://www.youtube.com/watch?v=gPaBicMaib4
 
 const Tab = createBottomTabNavigator();
+const ComposeStack = createNativeStackNavigator();
 
 const CustomComposeButton = ({children, onPress}) => (
   <TouchableOpacity
@@ -35,6 +39,23 @@ const CustomComposeButton = ({children, onPress}) => (
     </View>
   </TouchableOpacity>
 );
+
+function ComposeStackScreen() {
+  return (
+    <ComposeStack.Navigator initialRouteName="SelectRecipient">
+      <ComposeStack.Screen 
+        name="SelectRecipient" 
+        component={SelectRecipientScreen}
+        options= {{
+          tabBarButton: (props) => (
+            <CustomComposeButton {...props} />
+          )
+        }}/>
+      <ComposeStack.Screen name="Compose" component={ComposeScreen} />
+      <ComposeStack.Screen name="Preview" component={PreviewScreen} />
+    </ComposeStack.Navigator>
+  );
+};
 
 function NavBar() {
     return (
@@ -70,7 +91,7 @@ function NavBar() {
             <Tab.Screen name="Friends" component={FriendsScreen} />
             <Tab.Screen 
               name="Compose" 
-              component={SelectRecipientScreen}
+              component={ComposeStackScreen}
               options= {{
                 tabBarButton: (props) => (
                   <CustomComposeButton {...props} />

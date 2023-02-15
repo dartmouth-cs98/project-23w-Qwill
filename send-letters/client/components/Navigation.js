@@ -8,8 +8,6 @@ import SignInScreen from '../screens/auth/SignInScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
 import { AuthContext, AuthProvider } from '../context/auth';
 import NavBar from './NavBar';
-import ComposeScreen from '../screens/compose/ComposeScreen';
-import PreviewScreen from '../screens/compose/PreviewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,8 +60,6 @@ const Navigation = () => {
                 name='NavBar'
                 component={NavBar}
               />
-              <Stack.Screen name='Compose' component={ComposeScreen} />
-              <Stack.Screen name='Preview' component={PreviewScreen} />
             </>
           ) : (
             <>

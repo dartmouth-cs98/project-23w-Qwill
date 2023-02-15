@@ -26,6 +26,7 @@ function PreviewScreen({ route, navigation }) {
     const resp = await axios.post(findIP()+"/api/compose", { senderID, recipientID, text });
 
     console.log("letter sent");
+
     // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {
       setSnackMessage(resp.data.error);
@@ -33,7 +34,7 @@ function PreviewScreen({ route, navigation }) {
       return;
     } else {
       // successful letter send
-      alert("Letter send Successful.");
+      alert("Letter sent!");
       navigation.replace('NavBar');
     }
   };
