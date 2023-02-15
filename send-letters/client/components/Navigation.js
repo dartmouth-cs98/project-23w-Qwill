@@ -4,10 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer,  getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SignInScreen from '../screens/SignInScreen';
-import SignUpScreen from '../screens/SignUpScreen';
+import SignInScreen from '../screens/auth/SignInScreen';
+import SignUpScreen from '../screens/auth/SignUpScreen';
 import { AuthContext, AuthProvider } from '../context/auth';
 import NavBar from './NavBar';
+import ComposeScreen from '../screens/compose/ComposeScreen';
+import PreviewScreen from '../screens/compose/PreviewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,9 +59,11 @@ const Navigation = () => {
                 options={({ route }) => ({
                   headerTitle: getHeaderTitle(route),
                 })}        
-                name='NavBar' 
-                component={NavBar} 
+                name='NavBar'
+                component={NavBar}
               />
+              <Stack.Screen name='Compose' component={ComposeScreen} />
+              <Stack.Screen name='Preview' component={PreviewScreen} />
             </>
           ) : (
             <>
@@ -67,7 +71,7 @@ const Navigation = () => {
                   options={{
                   title: "SignIn",
                   }}
-                  name='SignIn' 
+                  name='SignIn'
                   component={SignInScreen}
                 /> 
                 <Stack.Screen 

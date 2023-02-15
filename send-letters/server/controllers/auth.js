@@ -83,13 +83,13 @@ export const signUp = async (req, res) => {
 };
 
 export const signIn = async (req, res) => {
-    // console.log(req.body);
     try {
-        const { email_username, password } = req.body;
+        const { emailUsername, password } = req.body;
+        console.log(req.body);
 
         // check if our db has user with that email
         const user = await User.findOne({
-            $or: [{ 'email': email_username }, { 'username': email_username }]
+            $or: [{ 'email': emailUsername }, { 'username': emailUsername }]
         });
         if (!user) {
             return res.json({

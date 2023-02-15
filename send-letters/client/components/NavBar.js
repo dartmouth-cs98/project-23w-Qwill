@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from '../screens/HomeScreen';
 import FriendsScreen from '../screens/FriendsScreen';
-import ComposeScreen from '../screens/ComposeScreen';
+import SelectRecipientScreen from '../screens/compose/SelectRecipientScreen';
 import FontsScreen from '../screens/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
@@ -70,7 +70,7 @@ function NavBar() {
             <Tab.Screen name="Friends" component={FriendsScreen} />
             <Tab.Screen 
               name="Compose" 
-              component={ComposeScreen}
+              component={SelectRecipientScreen}
               options= {{
                 tabBarButton: (props) => (
                   <CustomComposeButton {...props} />

@@ -5,15 +5,18 @@ import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from '../context/auth';
-import findIP from '../helpers/findIP';
+import { AuthContext } from '../../context/auth';
+import findIP from '../../helpers/findIP';
+import { validateEmail, hasWhiteSpace } from '../../helpers/stringValidation';
 
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
-const SignInScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}) => {
 
-  const [email_username, setEmail_username] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
 
@@ -24,19 +27,49 @@ const SignInScreen = ({navigation}) => {
 
   const onDismissSnack = () => setSnackIsVisible(false);
 
-  const handleSignInPressed = async () => {
-
-    if (email_username === "" || password === "") {
+  const handleSignUpPressed = async () => {
+    // check for empty fields
+    if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
       setSnackIsVisible(true);
       return;
     }
 
-    const resp = await axios.post(findIP()+"/api/signIn", { email_username, password });
-
-    if (!resp) {
-      console.log("error");
+    // check password length
+    if (password.length < 6) {
+      setSnackMessage("Password must be at least 6 characters long");
+      setSnackIsVisible(true);
+      return;
     }
+    if (password.length > 30) {
+      setSnackMessage("Password must be less than 30 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check for a valid email address
+    if (validateEmail(email) == false) {
+      setSnackMessage("You must enter a valid email address");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check username length
+    if (username.length > 30) {
+      setSnackMessage("Username must be less than 30 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check for whitespace in a username
+    if (hasWhiteSpace(username) == true) {
+      setSnackMessage("Your username cannot contain spaces");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // connect to server and get response
+    const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
     console.log(resp.data);
 
     // alert if any errors detected on backend (such as email or username already taken)
@@ -47,12 +80,15 @@ const SignInScreen = ({navigation}) => {
     } else {
       setState(resp.data);
       await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+      // successful sign up
+      alert("Sign Up Successful. Welcome to Qwill");
       navigation.replace('NavBar');
     }
   }
 
-  const handleSignUpPressed = () => {
-    navigation.replace('SignUp')
+
+  const handleSignInPressed = () => {
+    navigation.replace('SignIn');
   }
   
   // KeyboardAvoidingView:
@@ -70,24 +106,37 @@ const SignInScreen = ({navigation}) => {
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
         <Input 
-          placeholder="Email/Username"
-          // autofocus
+          placeholder="Name"
+          onChangeText={text => setName(text)}
+          autoCorrect={false} 
+        />
+        <Input 
+          placeholder="Email"
+          autofocus
+          type="email"
+          keyboardType="email-address"
           autoCompleteType="email"
           autoCapitalize="none"
-          onChangeText={text => setEmail_username(text.toLowerCase())} />
+          onChangeText={text => setEmail(text.toLowerCase())} 
+        />
+        <Input 
+          placeholder="Username"
+          autoCapitalize="none"
+          onChangeText={text => setUsername(text)}
+          autoCorrect={false} />
         <Input 
           placeholder="Password"
           secureTextEntry={true}
           type="password"
           autoCompleteType="password"
-          onChangeText={text => setPassword(text)} 
-          onSubmitEditing={handleSignInPressed}/>
+          onChangeText={text => setPassword(text)}
+          onSubmitEditing={handleSignUpPressed}
+        /> 
       </View>
     
       {/* when using native elements, target container style, not style*/}
-      {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
-      <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="Log in"/>
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+      <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="I already have an account"/>
 
       <Snackbar
           //SnackBar visibility control
@@ -107,9 +156,9 @@ const SignInScreen = ({navigation}) => {
       <View style={{height: 100}}/>
     </KeyboardAvoidingView>
   );
-}
+};
 
-export default SignInScreen
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
     inputContainer: {
