@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons'; 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from '../screens/HomeScreen';
@@ -9,9 +10,31 @@ import ComposeScreen from '../screens/ComposeScreen';
 import FontsScreen from '../screens/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
-// Citation: https://reactnavigation.org/docs/tab-based-navigation
+// Citation: 
+// https://reactnavigation.org/docs/tab-based-navigation
+// Custom bottom nav button: https://www.youtube.com/watch?v=gPaBicMaib4
 
 const Tab = createBottomTabNavigator();
+
+const CustomComposeButton = ({children, onPress}) => (
+  <TouchableOpacity
+    style={{
+      top: -30,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+    onPress={onPress}>
+    <View
+      style={{
+        width: 70, 
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: "#383a9c"
+      }}>
+      {children}
+    </View>
+  </TouchableOpacity>
+);
 
 function NavBar() {
     return (
@@ -28,7 +51,9 @@ function NavBar() {
                 } else if (route.name === 'Friends') {
                   iconName = focused ? 'people' : 'people-outline';
                 } else if (route.name === 'Compose') {
-                  iconName = focused ? 'create-sharp' : 'create-outline';
+                  // For this letter create button, we'll use a special icon
+                  // https://icons.expo.fyi/Feather/pen-tool
+                  return <Feather name="pen-tool" size={size} color = "white"/>;
                 } else if (route.name === 'Fonts') {
                   iconName = focused ? 'pencil' : 'pencil-outline';
                 } else if (route.name === 'Profile') {
@@ -43,7 +68,14 @@ function NavBar() {
           >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Friends" component={FriendsScreen} />
-            <Tab.Screen name="Compose" component={ComposeScreen} />
+            <Tab.Screen 
+              name="Compose" 
+              component={ComposeScreen}
+              options= {{
+                tabBarButton: (props) => (
+                  <CustomComposeButton {...props} />
+                )
+              }}/>
             <Tab.Screen name="Fonts" component={FontsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
           </Tab.Navigator>

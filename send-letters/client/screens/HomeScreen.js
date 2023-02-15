@@ -1,3 +1,4 @@
+// Main mailbox screen 
 import { Text, View } from 'react-native';
 
 function HomeScreen() {

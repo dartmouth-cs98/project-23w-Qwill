@@ -24,8 +24,6 @@ const SignUpScreen = ({navigation}) => {
 
   const onDismissSnack = () => setSnackIsVisible(false);
 
-
-  // TODO: handle navigation for successful sign up
   const handleSignUpPressed = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "") {
@@ -101,8 +99,8 @@ const SignUpScreen = ({navigation}) => {
           secureTextEntry={true}
           type="password"
           autoCompleteType="password"
-          onChangeText={text => setPassword(text)} />
-          {/* onSubmitEditing={signUpPressed}/> */}
+          onChangeText={text => setPassword(text)}
+          onSubmitEditing={handleSignUpPressed}/> 
       </View>
     
       {/* when using native elements, target container style, not style*/}
