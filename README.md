@@ -32,6 +32,28 @@ Please see: [https://www.mongodb.com/](https://www.mongodb.com/) for more inform
 
 TODO: Add more tools and libraries as we use more in this project.
 
+### React Native navigation stack structure (client)
+```
+Root navigation stack (components/Navigation.js)
+├── Auth screens (screens/auth)
+│   ├── SignInScreen.js
+│   └── SignUpScreen.js
+├── Main navigation bar (components/NavBar.js)
+│   ├── Home stack (components/HomeStack.js)
+|   |   ├── HomeScreen.js
+│   |   └── DraftsScreen.js
+│   ├── Compose stack (components/ComposeStack.js)
+|   |   ├── SelectRecipientScreen.js
+|   |   ├── ComposeScreen.js
+│   |   └── PreviewScreen.js
+│   ├── Friend stack (components/FriendStack.js)
+|   |   ├── FriendsScreen.js
+|   |   ├── AddFriendsScreen.js (modal view)
+│   |   └── PendingFriendsScreen.js (modal view)
+│   └── Profile 
+└── 
+```
+
 ## Installation
 
 Download Expo, following the official docs: [https://docs.expo.dev/get-started/installation/](https://docs.expo.dev/get-started/installation/)
