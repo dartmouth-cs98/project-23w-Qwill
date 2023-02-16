@@ -2,37 +2,51 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Image } from 'react-native-elements';
+import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
+import findIP from '../../helpers/findIP';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../../context/auth';
 
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
 const SignInScreen = ({navigation}) => {
 
-  const [email, setEmail] = useState("");
+  const [emailUsername, setEmailUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
 
-  // TODO: To be filled in when auth is implemented
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+
+  const onDismissSnack = () => setSnackIsVisible(false);
+
   const handleSignInPressed = async () => {
-    console.log("Sign in pressed")
-    if (email === "" || password === "") {
+
+    if (emailUsername === "" || password === "") {
+      setSnackMessage("All fields are required");
+      setSnackIsVisible(true);
       return;
     }
 
-    const resp = await axios.post("http://localhost:8000/api/signIn", { email, password });
+    const resp = await axios.post(findIP()+"/api/signIn", { emailUsername, password });
+
+    if (!resp) {
+      console.log("error");
+    }
     console.log(resp.data);
 
-    // alert if any errors detected on backend (such as email already taken)
+    // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {
-      alert(resp.data.error);
+      setSnackMessage(resp.data.error);
+      setSnackIsVisible(true);
       return;
     } else {
       setState(resp.data);
       await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-      alert("Sign In Successful");
       navigation.replace('NavBar');
     }
   }
@@ -56,20 +70,20 @@ const SignInScreen = ({navigation}) => {
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
         <Input 
-          placeholder="Email"
+          placeholder="Email/Username"
           // autofocus
-          type="email"
-          keyboardType="email-address"
           autoCompleteType="email"
           autoCapitalize="none"
-          onChangeText={text => setEmail(text.toLowerCase())} />
+          onChangeText={text => setEmailUsername(text.toLowerCase())} 
+        />
         <Input 
           placeholder="Password"
           secureTextEntry={true}
           type="password"
           autoCompleteType="password"
-          onChangeText={text => setPassword(text)} />
-          {/* onSubmitEditing={signInPressed}/> */}
+          onChangeText={text => setPassword(text)} 
+          onSubmitEditing={handleSignInPressed}
+        />
       </View>
     
       {/* when using native elements, target container style, not style*/}
@@ -77,13 +91,27 @@ const SignInScreen = ({navigation}) => {
       <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="Log in"/>
       <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
 
+      <Snackbar
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={onDismissSnack}
+          action={{
+            label: 'OK',
+            onPress: () => {
+              onDismissSnack();
+            },
+          }}
+        >
+          {snackMessage}
+        </Snackbar>
+
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: 100}}/>
     </KeyboardAvoidingView>
   );
-}
+};
 
-export default SignInScreen
+export default SignInScreen;
 
 const styles = StyleSheet.create({
     inputContainer: {
