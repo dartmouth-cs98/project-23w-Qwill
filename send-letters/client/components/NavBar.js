@@ -1,24 +1,21 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Feather } from '@expo/vector-icons'; 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from '../screens/HomeScreen';
-import FriendsScreen from '../screens/FriendsScreen';
-import SelectRecipientScreen from '../screens/compose/SelectRecipientScreen';
+import HomeStack from '../components/HomeStack';
 import FontsScreen from '../screens/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ComposeScreen from '../screens/compose/ComposeScreen';
-import PreviewScreen from '../screens/compose/PreviewScreen';
+import FriendStack from './FriendStack';
+import ComposeStack from './ComposeStack';
 
 // Citation: 
 // https://reactnavigation.org/docs/tab-based-navigation
 // Custom bottom nav button: https://www.youtube.com/watch?v=gPaBicMaib4
 
+// Our navigator 
 const Tab = createBottomTabNavigator();
-const ComposeStack = createNativeStackNavigator();
 
 const CustomComposeButton = ({children, onPress}) => (
   <TouchableOpacity
@@ -40,22 +37,6 @@ const CustomComposeButton = ({children, onPress}) => (
   </TouchableOpacity>
 );
 
-function ComposeStackFunc() {
-  return (
-    <ComposeStack.Navigator initialRouteName="SelectRecipient">
-      <ComposeStack.Screen 
-        name="SelectRecipient" 
-        component={SelectRecipientScreen}
-        options= {{
-          tabBarButton: (props) => (
-            <CustomComposeButton {...props} />
-          )
-        }}/>
-      <ComposeStack.Screen name="Compose" component={ComposeScreen} />
-      <ComposeStack.Screen name="Preview" component={PreviewScreen} />
-    </ComposeStack.Navigator>
-  );
-};
 
 function NavBar() {
     return (
@@ -87,11 +68,11 @@ function NavBar() {
               tabBarInactiveTintColor: 'gray',   
             })}
           >
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Friends" component={FriendsScreen} />
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Friends" component={FriendStack} />
             <Tab.Screen 
               name="Compose" 
-              component={ComposeStackFunc}
+              component={ComposeStack}
               options= {{
                 tabBarButton: (props) => (
                   <CustomComposeButton {...props} />
@@ -112,4 +93,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default NavBar
+export default NavBar;
