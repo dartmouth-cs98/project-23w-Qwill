@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 function HomeScreen({navigation}) {
     return (
       <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-        <View style={{ flexDirection:"row", marginTop: 20 }}>
+        <View style={{ flexDirection:"row" }}>
             <TouchableOpacity
               style={styles.buttonStyleSelected}
             >
