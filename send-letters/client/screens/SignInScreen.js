@@ -17,6 +17,7 @@ const SignInScreen = ({navigation}) => {
 
   // TODO: To be filled in when auth is implemented
   const handleSignInPressed = async () => {
+    console.log("Sign in pressed")
     if (email === "" || password === "") {
       return;
     }
