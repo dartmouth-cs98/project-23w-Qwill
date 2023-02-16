@@ -4,10 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
-import FriendsScreen from '../screens/FriendsScreen';
 import ComposeScreen from '../screens/ComposeScreen';
 import FontsScreen from '../screens/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import FriendStack from './FriendStack';
 
 // Citation: https://reactnavigation.org/docs/tab-based-navigation
 
@@ -43,7 +43,7 @@ function NavBar() {
             })}
           >
             <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Friends" component={FriendsScreen} />
+            <Tab.Screen name="Friends" component={FriendStack} options={{animation: 'none'}}/>
             <Tab.Screen name="Compose" component={ComposeScreen} />
             <Tab.Screen name="Fonts" component={FontsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />

@@ -33,7 +33,7 @@ function getHeaderTitle(route) {
       case 'Profile':
         return 'My profile';
       case 'Friends':
-        return 'Friends';
+        return 'Qwill';
       case 'Compose':
         return 'Compose a letter';
       case 'Fonts':
