@@ -1,9 +1,10 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 function FriendsScreen({navigation}) {
     return (
-      <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
         <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}>
           <Text style={styles.titleText}>Friends</Text>
           <Ionicons 
@@ -17,7 +18,7 @@ function FriendsScreen({navigation}) {
           size={40}
           onPress={() => {navigation.navigate("AddFriends")}}></Ionicons>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 

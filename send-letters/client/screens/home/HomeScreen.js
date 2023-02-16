@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
@@ -6,8 +7,8 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 function HomeScreen({navigation}) {
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ flexDirection:"row" }}>
+      <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+        <View style={{ flexDirection:"row", marginTop: 20 }}>
             <TouchableOpacity
               style={styles.buttonStyleSelected}
             >
@@ -24,7 +25,7 @@ function HomeScreen({navigation}) {
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text>Welcome to the Mailbox page</Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 

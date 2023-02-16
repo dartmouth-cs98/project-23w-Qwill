@@ -9,7 +9,7 @@ function SelectRecipientScreen({navigation}) {
 
   // TODO: Check if recipient is valid email or username in the DB
   const handleNextPressed = () => {
-    navigation.push('Compose', {
+    navigation.push('ComposeHome', {
       recipientID: emailUsername
     });
   };

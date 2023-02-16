@@ -56,6 +56,7 @@ const Navigation = () => {
               <Stack.Screen 
                 options={({ route }) => ({
                   headerTitle: getHeaderTitle(route),
+                  headerShown: false,
                 })}        
                 name='NavBar'
                 component={NavBar}

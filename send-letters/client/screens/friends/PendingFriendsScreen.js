@@ -4,8 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const PendingFriendsScreen = ({navigation}) => {
   return (
-    <View>
-      <Ionicons name={"arrow-back"} onPress={()=>navigation.goBack()}/>
+    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <Ionicons name={"arrow-back"} size={40} onPress={()=>navigation.goBack()}/>
       <Text>PendingFriendsScreen</Text>
     </View>
   )

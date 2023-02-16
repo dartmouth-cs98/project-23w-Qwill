@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
 
 const DraftsScreen = ({navigation}) => {
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
         <View style={{ flexDirection:"row" }}>
           <TouchableOpacity
             style={styles.buttonStyleUnselected}
@@ -22,9 +23,9 @@ const DraftsScreen = ({navigation}) => {
           <Text>Welcome to the Drafts page</Text>
         </View>
 
-      </View>
+      </SafeAreaView>
   );
-}
+};
 
 export default DraftsScreen;
 
