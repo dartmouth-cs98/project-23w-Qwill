@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
+import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { AuthContext, AuthProvider } from '../../context/auth';
@@ -12,6 +13,11 @@ function PreviewScreen({ route, navigation }) {
 
   const { recipientID, text } = route.params;
   const [state, setState] = useContext(AuthContext);
+
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+
+  const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = async () => {
     const authentificated = state && state.token !== "" && state.user !== null;
@@ -43,6 +49,19 @@ function PreviewScreen({ route, navigation }) {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>{JSON.stringify(route.params)}</Text>
       <Button containerStyle={styles.button} onPress={() => handleSendPressed()} title="Yes, send it!"/>
+      <Snackbar
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={onDismissSnack}
+          action={{
+            label: 'OK',
+            onPress: () => {
+              onDismissSnack();
+            },
+          }}
+        >
+          {snackMessage}
+        </Snackbar>
     </View>
   );
 };

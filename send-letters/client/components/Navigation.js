@@ -29,11 +29,11 @@ function getHeaderTitle(route) {
   
     switch (routeName) {
       case 'Home':
-        return 'Mailbox';
+        return 'Qwill';
       case 'Profile':
         return 'My profile';
       case 'Friends':
-        return 'Friends';
+        return 'Qwill';
       case 'Compose':
         return 'Compose a letter';
       case 'Fonts':
@@ -56,6 +56,7 @@ const Navigation = () => {
               <Stack.Screen 
                 options={({ route }) => ({
                   headerTitle: getHeaderTitle(route),
+                  headerShown: false,
                 })}        
                 name='NavBar'
                 component={NavBar}
