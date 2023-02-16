@@ -1,18 +1,62 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Feather } from '@expo/vector-icons'; 
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeStack from '../components/HomeStack';
-import ComposeScreen from '../screens/ComposeScreen';
 import FontsScreen from '../screens/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
+import SelectRecipientScreen from '../screens/compose/SelectRecipientScreen';
+import ComposeScreen from '../screens/compose/ComposeScreen';
+import PreviewScreen from '../screens/compose/PreviewScreen';
 
-// Citation: https://reactnavigation.org/docs/tab-based-navigation
+// Citation: 
+// https://reactnavigation.org/docs/tab-based-navigation
+// Custom bottom nav button: https://www.youtube.com/watch?v=gPaBicMaib4
 
 // Our navigator 
 const Tab = createBottomTabNavigator();
+const ComposeStack = createNativeStackNavigator();
+
+const CustomComposeButton = ({children, onPress}) => (
+  <TouchableOpacity
+    style={{
+      top: -30,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+    onPress={onPress}>
+    <View
+      style={{
+        width: 70, 
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: "#383a9c"
+      }}>
+      {children}
+    </View>
+  </TouchableOpacity>
+);
+
+function ComposeStackFunc() {
+  return (
+    <ComposeStack.Navigator initialRouteName="SelectRecipient">
+      <ComposeStack.Screen 
+        name="SelectRecipient" 
+        component={SelectRecipientScreen}
+        options= {{
+          tabBarButton: (props) => (
+            <CustomComposeButton {...props} />
+          )
+        }}/>
+      <ComposeStack.Screen name="Compose" component={ComposeScreen} />
+      <ComposeStack.Screen name="Preview" component={PreviewScreen} />
+    </ComposeStack.Navigator>
+  );
+};
 
 function NavBar() {
     return (
@@ -29,7 +73,9 @@ function NavBar() {
                 } else if (route.name === 'Friends') {
                   iconName = focused ? 'people' : 'people-outline';
                 } else if (route.name === 'Compose') {
-                  iconName = focused ? 'create-sharp' : 'create-outline';
+                  // For this letter create button, we'll use a special icon
+                  // https://icons.expo.fyi/Feather/pen-tool
+                  return <Feather name="pen-tool" size={size} color = "white"/>;
                 } else if (route.name === 'Fonts') {
                   iconName = focused ? 'pencil' : 'pencil-outline';
                 } else if (route.name === 'Profile') {
@@ -43,8 +89,15 @@ function NavBar() {
             })}
           >
             <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Friends" component={FriendStack} options={{animation: 'none'}}/>
-            <Tab.Screen name="Compose" component={ComposeScreen} />
+            <Tab.Screen name="Friends" component={FriendStack} />
+            <Tab.Screen 
+              name="Compose" 
+              component={ComposeStackFunc}
+              options= {{
+                tabBarButton: (props) => (
+                  <CustomComposeButton {...props} />
+                )
+              }}/>
             <Tab.Screen name="Fonts" component={FontsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
           </Tab.Navigator>

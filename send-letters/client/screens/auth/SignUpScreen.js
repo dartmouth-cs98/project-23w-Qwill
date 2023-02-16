@@ -2,10 +2,12 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-na
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Image } from 'react-native-elements';
-import {Snackbar} from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../../context/auth';
+import findIP from '../../helpers/findIP';
+import { validateEmail, hasWhiteSpace } from '../../helpers/stringValidation';
 
 
 // You can get the navigation stack as a prop
@@ -14,6 +16,7 @@ const SignUpScreen = ({navigation}) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
 
@@ -24,22 +27,26 @@ const SignUpScreen = ({navigation}) => {
 
   const onDismissSnack = () => setSnackIsVisible(false);
 
-
-  // TODO: handle navigation for successful sign up
   const handleSignUpPressed = async () => {
     // check for empty fields
-    if (name === "" || email === "" || password === "") {
+    if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
       setSnackIsVisible(true);
       return;
     }
 
+    // check password length
     if (password.length < 6) {
       setSnackMessage("Password must be at least 6 characters long");
       setSnackIsVisible(true);
       return;
     }
-    
+    if (password.length > 30) {
+      setSnackMessage("Password must be less than 30 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
     // check for a valid email address
     if (validateEmail(email) == false) {
       setSnackMessage("You must enter a valid email address");
@@ -47,11 +54,25 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
+    // check username length
+    if (username.length > 30) {
+      setSnackMessage("Username must be less than 30 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check for whitespace in a username
+    if (hasWhiteSpace(username) == true) {
+      setSnackMessage("Your username cannot contain spaces");
+      setSnackIsVisible(true);
+      return;
+    }
+
     // connect to server and get response
-    const resp = await axios.post("http://localhost:8000/api/signUp", { name, email, password });
+    const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
     console.log(resp.data);
 
-    // alert if any errors detected on backend (such as email already taken)
+    // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {
       setSnackMessage(resp.data.error);
       setSnackIsVisible(true);
@@ -87,7 +108,8 @@ const SignUpScreen = ({navigation}) => {
         <Input 
           placeholder="Name"
           onChangeText={text => setName(text)}
-          autoCorrect={false} />
+          autoCorrect={false} 
+        />
         <Input 
           placeholder="Email"
           autofocus
@@ -95,14 +117,21 @@ const SignUpScreen = ({navigation}) => {
           keyboardType="email-address"
           autoCompleteType="email"
           autoCapitalize="none"
-          onChangeText={text => setEmail(text.toLowerCase())} />
+          onChangeText={text => setEmail(text.toLowerCase())} 
+        />
+        <Input 
+          placeholder="Username"
+          autoCapitalize="none"
+          onChangeText={text => setUsername(text)}
+          autoCorrect={false} />
         <Input 
           placeholder="Password"
           secureTextEntry={true}
           type="password"
           autoCompleteType="password"
-          onChangeText={text => setPassword(text)} />
-          {/* onSubmitEditing={signUpPressed}/> */}
+          onChangeText={text => setPassword(text)}
+          onSubmitEditing={handleSignUpPressed}
+        /> 
       </View>
     
       {/* when using native elements, target container style, not style*/}
@@ -127,7 +156,7 @@ const SignUpScreen = ({navigation}) => {
       <View style={{height: 100}}/>
     </KeyboardAvoidingView>
   );
-}
+};
 
 export default SignUpScreen;
 
@@ -155,10 +184,3 @@ const styles = StyleSheet.create({
         shadowRadius: 2,  
     },
 });
-
-// This function handles valid email checking using Regex expression matching
-// Borrowed from: https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
-const validateEmail = (email) => {
-  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-}
