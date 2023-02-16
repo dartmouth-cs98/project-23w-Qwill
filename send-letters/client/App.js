@@ -11,6 +11,12 @@ import Navigation from './components/Navigation';
 
 
 export default function App() {
+
+  let [fontsLoaded] = useFonts({
+    'NothingYouCouldDo': require('client/assets/fonts/NothingYouCouldDo-Regular.ttf'),
+    'Zeyada': require('./assets/fonts/Zeyada-Regular.ttf'),
+  })
+
   return (
     <NavigationContainer>
       <AuthProvider>
