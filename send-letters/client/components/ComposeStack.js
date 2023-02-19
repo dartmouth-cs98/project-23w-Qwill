@@ -10,7 +10,11 @@ const Stack = createNativeStackNavigator();
 
 const ComposeStack = () => {
     return (
-      <Stack.Navigator initialRouteName="SelectRecipient">
+      <Stack.Navigator 
+        initialRouteName="SelectRecipient"
+        screenOptions={{
+            headerBackTitleVisible: false
+        }}>
         <Stack.Screen 
           name="SelectRecipient" 
           component={SelectRecipientScreen}
