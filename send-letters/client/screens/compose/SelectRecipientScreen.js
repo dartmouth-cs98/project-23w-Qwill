@@ -1,17 +1,50 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, FlatList, ScrollView, } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
+import { AuthContext, AuthProvider } from '../../context/auth';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
 
 
 function SelectRecipientScreen({navigation}) {
 
-  const [emailUsername, setEmailUsername] = useState("");
+  const [recipientField, setRecipientField] = useState("");
+  const [state, setState] = useContext(AuthContext);
+  const [matchingUsers, setMatchingUsers] = useState("");
+
+  const handleChangeText = async (text) => {    
+    const newText = text.toLowerCase();
+    const senderID = state.user._id;  
+
+    const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
+    if (resp.error) {
+      console.log(error);
+    } else if (!resp.data.matchingUsers) {
+      console.log("An error occured");
+    } else {
+      setMatchingUsers(resp.data.matchingUsers);
+    }
+  };
 
   // TODO: Check if recipient is valid email or username in the DB
-  const handleNextPressed = () => {
+  const handleNextPressed = (item) => {
     navigation.push('ComposeHome', {
-      recipientID: emailUsername
+      recipientID: item._id
     });
+  };
+
+  // this function renders the users that match the text in the input component
+  function renderMatches() {
+    // console.log(matchingUsers);
+    if (matchingUsers.length == 0) {
+      return <Text>No users found</Text>
+    }
+    return matchingUsers.map((item, index) => 
+      <Button 
+        key={index}
+        containerStyle={styles.button} 
+        onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}
+      />);
   };
 
   return (
@@ -19,12 +52,15 @@ function SelectRecipientScreen({navigation}) {
       <Text>Compose</Text>
       <View style={styles.inputContainer}>
         <Input 
-          placeholder="enter recipient's email or username"
+          placeholder="enter recipient's name or username"
           autoCompleteType="email"
           autoCapitalize="none"
-          onChangeText={text => setEmailUsername(text.toLowerCase())} 
+          onChangeText={handleChangeText}
         />
-        <Button containerStyle={styles.button} onPress={() => handleNextPressed()} title="Next"/>
+          <ScrollView style={styles.scrollView}>
+            {renderMatches()}
+          </ScrollView>
+        {/* <Button containerStyle={styles.button} onPress={() => handleNextPressed()} title="Next"/> */}
       </View>
     </View>
   );
@@ -46,5 +82,8 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       padding: 10,
       backgroundColor: 'white',
+  },
+  scrollView: {
+    height: 200,
   },
 });
