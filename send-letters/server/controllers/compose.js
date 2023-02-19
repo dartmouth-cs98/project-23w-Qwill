@@ -32,6 +32,7 @@ export const sendLetter = async (req, res) => {
                 sender: senderID,
                 recipient: recipientID,
                 text: text,
+                read: false,
             }).save();
             return res.json({
                 ok: true
