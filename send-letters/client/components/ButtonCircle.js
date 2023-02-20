@@ -22,9 +22,9 @@ const ButtonCircle = props => {
 
 const styles = StyleSheet.create({
     icon: {
-        "display": "flex",
-        "alignItems": "center",
-        "color": "#FFFFFF",
+        display: "flex",
+        alignItems: "center",
+        color: "#FFFFFF",
     }, 
     containerBtn: {
         width: 48, 
