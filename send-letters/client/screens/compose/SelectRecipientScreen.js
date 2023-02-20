@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, FlatList, ScrollView, } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
-import { AuthContext, AuthProvider } from '../../context/auth';
+import { AuthContext } from '../../context/auth';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 
@@ -19,14 +19,13 @@ function SelectRecipientScreen({navigation}) {
     const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
     if (resp.error) {
       console.log(error);
-    } else if (!resp.data.matchingUsers) {
-      console.log("An error occured");
+    } else if (!resp.data || !resp.data.matchingUsers) {
+      console.log("Error: the response does not contain the expected fields");
     } else {
       setMatchingUsers(resp.data.matchingUsers);
     }
   };
 
-  // TODO: Check if recipient is valid email or username in the DB
   const handleNextPressed = (item) => {
     navigation.push('ComposeHome', {
       recipientID: item._id
@@ -35,10 +34,11 @@ function SelectRecipientScreen({navigation}) {
 
   // this function renders the users that match the text in the input component
   function renderMatches() {
-    // console.log(matchingUsers);
+
     if (matchingUsers.length == 0) {
       return <Text>No users found</Text>
     }
+    
     return matchingUsers.map((item, index) => 
       <Button 
         key={index}
@@ -57,10 +57,9 @@ function SelectRecipientScreen({navigation}) {
           autoCapitalize="none"
           onChangeText={handleChangeText}
         />
-          <ScrollView style={styles.scrollView}>
-            {renderMatches()}
-          </ScrollView>
-        {/* <Button containerStyle={styles.button} onPress={() => handleNextPressed()} title="Next"/> */}
+        <ScrollView style={styles.scrollView}>
+          {renderMatches()}
+        </ScrollView>
       </View>
     </View>
   );

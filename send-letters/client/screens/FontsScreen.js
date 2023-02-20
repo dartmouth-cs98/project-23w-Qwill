@@ -36,7 +36,7 @@ export default function FontsScreen() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
             onLayout={onLayoutRootView}>
-        <Text style = {{ fontFamily : 'my_nerve'}}>Fonts</Text>
+        <Text style = {{ fontFamily: 'my_nerve' }}>Fonts</Text>
       </View>
     );
   };
