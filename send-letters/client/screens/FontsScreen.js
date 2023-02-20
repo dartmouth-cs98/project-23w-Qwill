@@ -1,29 +1,42 @@
 import { Text, View } from 'react-native';
-import React, { useState } from "react";
-import AppLoading from 'expo-app-loading';
-import useFonts from '../hooks/useFonts';
+import React, {useState, useEffect, useCallback} from "react";
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
-function FontsScreen() {
+export default function FontsScreen() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
-    const LoadFonts = async() => {
-        await useFonts();
-    };
-    console.log(fontsLoaded);
-    if (!fontsLoaded) {
-        return(
-            <AppLoading
-                startAsync={LoadFonts}
-                onFinish={() => setFontsLoaded(true)}
-                onError={console.warn}
-            />
-        )
-    };
+    // Keep the splash screen visible while we fetch resources
+    SplashScreen.preventAutoHideAsync();
 
+    useEffect(() => {
+        async function prepare() {
+            try {
+                await Font.loadAsync({
+                    'my_nerve': require('../assets/fonts/mynerve.ttf'),
+                });
+
+            } catch (e) {
+                console.warn(e);
+            } finally {
+                // Tell the application to render
+                setFontsLoaded(true);
+            }
+        }
+        prepare();
+    }, []);
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+    if (!fontsLoaded) {
+        return null;
+    }
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            onLayout={onLayoutRootView}>
         <Text style = {{ fontFamily : 'my_nerve'}}>Fonts</Text>
       </View>
     );
   };
-
-export default FontsScreen;
