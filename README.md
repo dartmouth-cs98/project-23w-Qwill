@@ -83,6 +83,8 @@ Front and center: Leah Ryu <br>
 Thanks tutorial!!
 Backend Tutorial to initialize express server and mongodb connection: https://nabendu82.medium.com/react-native-project-with-nodejs-and-mongodb-part-1-443cc5b65b46
 
+Apploading is now SplashPage thanks for documentation Expo: https://docs.expo.dev/versions/v45.0.0/sdk/app-loading/
+
 ## Required Installations
 ```bash
 # clientside
