@@ -20,18 +20,8 @@ function PreviewScreen({ route, navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = async () => {
-    const authentificated = state && state.token !== "" && state.user !== null;
-    if (!authentificated) {
-      setState({ token: "", user: null });
-      await AsyncStorage.removeItem("auth-rn");
-      navigation.replace(SignInScreen);
-      return;
-    }
-
     const senderID = state.user._id;    
-    const resp = await axios.post(findIP()+"/api/compose", { senderID, recipientID, text });
-
-    console.log("letter sent");
+    const resp = await axios.post(findIP()+"/api/sendLetter", { senderID, recipientID, text });
 
     // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {

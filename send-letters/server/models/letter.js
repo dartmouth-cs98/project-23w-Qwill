@@ -8,17 +8,17 @@ const letterSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    // recipient: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // },
     recipient: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     text: {
         type: String,
+        required: true,
+    },
+    read: {
+        type: Boolean,
         required: true,
     },
     resetCode: "",
