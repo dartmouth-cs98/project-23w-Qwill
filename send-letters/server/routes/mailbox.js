@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 
 // controllers 
-const { sendLetter, matchRecipient } = require("../controllers/compose");
+const { receiveLetters } = require("../controllers/mailbox");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -11,7 +11,6 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/sendLetter", sendLetter);
-router.post("/matchRecipient", matchRecipient);
+router.post("/receiveLetters", receiveLetters);
 
 export default router; 

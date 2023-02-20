@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth";
 import composeRoutes from "./routes/compose";
+import mailboxRoutes from "./routes/mailbox";
 
 const morgan = require("morgan");
 
@@ -23,5 +24,6 @@ app.use(morgan("dev"));
 // route middlewares
 app.use("/api", authRoutes);
 app.use("/api", composeRoutes);
+app.use("/api", mailboxRoutes);
 
 app.listen(8000, () => console.log("Server running on port 8000"));
