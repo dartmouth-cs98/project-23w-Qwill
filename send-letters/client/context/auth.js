@@ -16,7 +16,6 @@ const AuthProvider = ({ children }) => {
     const navigation = useNavigation();
     const token = state && state.token ? state.token : "";
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    console.log("testing provider");
     axios.interceptors.response.use(
         async function (response) {
             return response;

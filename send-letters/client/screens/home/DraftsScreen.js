@@ -10,17 +10,17 @@ const DraftsScreen = ({navigation}) => {
             style={styles.buttonStyleUnselected}
             onPress={() => navigation.replace('Mailbox')}
           >
-            <Text style={{color: "blue"}}> Mailbox </Text>
+            <Text style={{color: "blue"}}>Mailbox</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonStyleSelected}
           >
-            <Text style={{color: "white"}}> Drafts </Text>
+            <Text style={{color: "white"}}>Drafts</Text>
           </TouchableOpacity>
         </View>
         
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text>Welcome to the Drafts page</Text>
+          <Text>Feature coming soon!</Text>
         </View>
 
       </SafeAreaView>
