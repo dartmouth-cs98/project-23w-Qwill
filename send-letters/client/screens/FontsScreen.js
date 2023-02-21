@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import {Text, View} from 'react-native';
 import React, {useState, useEffect, useCallback} from "react";
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -12,7 +12,11 @@ export default function FontsScreen() {
         async function prepare() {
             try {
                 await Font.loadAsync({
-                    'my_nerve': require('../assets/fonts/mynerve.ttf'),
+                    'MyNerve': require('../assets/fonts/MyNerve_Regular.ttf'),
+                    'GloriaHallelujah': require('../assets/fonts/GloriaHallelujah-Regular.ttf'),
+                    'HomemadeApple': require('../assets/fonts/HomemadeApple-Regular.ttf'),
+                    'IndieFlower': require('../assets/fonts/Mansalva-Regular.ttf'),
+                    'ShadowsIntoLight': require('../assets/fonts/ShadowsIntoLight-Regular.ttf'),
                 });
 
             } catch (e) {
@@ -22,6 +26,7 @@ export default function FontsScreen() {
                 setFontsLoaded(true);
             }
         }
+
         prepare();
     }, []);
 
@@ -34,9 +39,14 @@ export default function FontsScreen() {
         return null;
     }
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-            onLayout={onLayoutRootView}>
-        <Text style = {{ fontFamily: 'my_nerve' }}>Fonts</Text>
-      </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+              onLayout={onLayoutRootView}>
+            <Text style={{fontFamily: 'MyNerve'}}>MyNerve</Text>
+            <Text style={{fontFamily: 'GloriaHallelujah'}}>GloriaHallelujah</Text>
+            <Text style={{fontFamily: 'HomemadeApple'}}>HomemadeApple</Text>
+            <Text style={{fontFamily: 'IndieFlower'}}>IndieFlower</Text>
+            <Text style={{fontFamily: 'ShadowsIntoLight'}}>ShadowsIntoLight</Text>
+
+        </View>
     );
-  };
+};
