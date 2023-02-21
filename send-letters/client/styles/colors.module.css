@@ -1,4 +1,26 @@
 :root {
+    /*From Figma*/
+    --blue-100: #f8f9fd;
+    --blue-200: #F0F4FF;
+    --blue-300: #E2E8F6;
+    --blue-400: #ACC3FF;
+    --blue-500: #97ACE2;
+    --blue-600: #8095CC;
+    --blue-700: #7184B4;
+    --blue-800: #222941;
+    --blue-900: #06070b;
+
+    --cream-100: #FDFEF1;
+    --cream-200: #F3F4DE;
+    --cream-300: #EFF2CA;
+
+    --screen-100: #b84a32;
+
+    --white: #ffffff;
+    --black: #000000;
+
+    /*Other Colors*/
+
     --primary-dark-100: #f6f6f7;
     --primary-dark-200: #dcddde;
     --primary-dark-300: #b9bbbe;
@@ -6,20 +28,10 @@
     --primary-dark-500: #4f545c;
     --primary-dark-600: #36393f;
     --primary-dark-700: #202225;
-    --brand-100: #f8f9fd;
     --primary-dark-800: #18191c;
     --primary-dark-900: #040405;
-  
-    --brand-200: #e3e7f8;
-    --brand-300: #c7d0f0;
-    --brand-400: #8ea1e1;
-    --brand-500: #7289da;
-    --brand-600: #4e5d94;
-    --brand-700: #2e3757;
+
     --status-red-100: #fef6f6;
-    --brand-800: #222941;
-    --brand-900: #06070b;
-  
     --status-red-200: #fcdada;
     --status-red-300: #f9b5b5;
     --status-red-400: #f36c6c;
@@ -29,7 +41,7 @@
     --status-green-100: #f6fbf9;
     --status-red-800: #481515;
     --status-red-900: #0c0404;
-  
+
     --status-green-200: #d9f0e6;
     --status-green-300: #b4e1cd;
     --status-green-400: #69c49a;
@@ -39,17 +51,15 @@
     --status-grey-100: #f8f9f9;
     --status-green-800: #143627;
     --status-green-900: #030906;
-  
+
     --status-grey-200: #e3e5e8;
     --status-grey-300: #c7ccd1;
     --status-grey-400: #9099a4;
     --status-grey-500: #747f8d;
     --status-grey-600: #4f5660;
     --status-grey-700: #2e3338;
-    --white: #ffffff;
+
     --status-grey-800: #23262a;
     --status-grey-900: #060607;
-  
-    --black: #000000;
-  }
-  
+
+}
