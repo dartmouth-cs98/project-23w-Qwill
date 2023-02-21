@@ -15,7 +15,7 @@ function ComposeScreen({ route, navigation }) {
     });
   };
 
-  return (
+  return ( //todo amanda add fonts
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Make a Letter!</Text>
       <Input 

@@ -65,7 +65,6 @@ export const signUp = async (req, res) => {
             }, process.env.JWT_SECRET, {
                 expiresIn: "21d",
             });
-            // console.log(user);
             const {
                 password,
                 ...rest
@@ -109,7 +108,7 @@ export const signIn = async (req, res) => {
         const token = jwt.sign({
             _id: user._id
         }, process.env.JWT_SECRET, {
-            expiresIn: "7d",
+            expiresIn: "21d",
         });
         user.password = undefined;
         user.secret = undefined;
