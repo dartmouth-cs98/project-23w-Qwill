@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-
+import { COLORS } from '../styles/colors';
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
 const ButtonPrimary = props => {
@@ -29,49 +29,49 @@ const ButtonPrimary = props => {
 
 const styles = StyleSheet.create({
     text: {
-      width: 95,
-      height: 18,
-      fontStyle: "normal",
-      fontWeight: "700",
-      fontSize: 18,
-      lineHeight: 18,
-      display: "flex",
-      alignItems: "center",
-      textAlign: "center",
-      letterSpacing: 0.3,
-      color: "#FFFFFF",
-    }, 
+        width: 95,
+        height: 18,
+        fontStyle: "normal",
+        fontWeight: "700",
+        fontSize: 18,
+        lineHeight: 18,
+        display: "flex",
+        alignItems: "center",
+        textAlign: "center",
+        letterSpacing: 0.3,
+        color: COLORS.white,
+    },
     selectedText: {
-        color: "#FFFFFF",
-    }, 
+        color: COLORS.white,
+    },
     unselectedText: {
-        color: "#7184B4",
-    }, 
+        color: COLORS.blue700,
+    },
     btn: {
-      boxSizing: "border-box",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      paddingTop: 16,
-      paddingRight: 18,
-      paddingBottom: 16,
-      paddingLeft: 18,
-      borderTopLeftRadius: 25,
-      borderTopRightRadius: 25,
-      borderBottomRightRadius: 25,
-      borderBottomLeftRadius: 25,
-      marginRight: 10,
-      marginLeft: 10
-  },
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingTop: 16,
+        paddingRight: 18,
+        paddingBottom: 16,
+        paddingLeft: 18,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        borderBottomRightRadius: 25,
+        borderBottomLeftRadius: 25,
+        marginRight: 10,
+        marginLeft: 10
+    },
     selectedBtn: {
-        backgroundColor: "#7184B4",
+        backgroundColor: COLORS.blue700,
     },
     unselectedBtn: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: COLORS.white,
         borderWidth: 1,
-        borderColor: "#7184B4",
+        borderColor: COLORS.blue700,
         borderStyle: "solid",
-      }
+    }
 });
 
 export default ButtonPrimary;
