@@ -2,6 +2,7 @@ import { Text, View } from 'react-native';
 import React, {useState, useEffect, useCallback} from "react";
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import FontPreview from '../components/FontPreview';
 
 export default function FontsScreen() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -37,6 +38,7 @@ export default function FontsScreen() {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
             onLayout={onLayoutRootView}>
         <Text style = {{ fontFamily: 'my_nerve' }}>Fonts</Text>
+        <FontPreview></FontPreview>
       </View>
     );
   };

@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
 import axios from "axios";
 import findIP from '../../helpers/findIP';
+import ButtonPrimary from "../../components/ButtonPrimary";
 
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
@@ -41,17 +42,8 @@ function HomeScreen({navigation}) {
   return (
     <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
       <View style={{ flexDirection:"row" }}>
-          <TouchableOpacity
-            style={styles.buttonStyleSelected}
-          >
-            <Text style={{color: "white"}}>Mailbox</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonStyleUnselected}
-            onPress={() => navigation.replace('Drafts')}
-          >
-            <Text style={{color: "blue"}}>Drafts</Text>
-          </TouchableOpacity>
+          <ButtonPrimary title="Mailbox" selected={true} onPress={() => navigation.replace('Mailbox')}></ButtonPrimary>
+          <ButtonPrimary title="Drafts" selected={false} onPress={() => navigation.replace('Drafts')}></ButtonPrimary>
       </View>
 
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -63,22 +55,3 @@ function HomeScreen({navigation}) {
 }
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  buttonStyleSelected: {
-    alignItems: 'center',
-    backgroundColor: 'blue',
-    width: '20%',
-    padding: 10,
-    borderRadius: 20,
-  },
-  buttonStyleUnselected: {
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '20%',
-    padding: 10,
-    borderRadius: 20,
-    borderColor: 'blue',
-    borderWidth: 1,
-  }
-});
