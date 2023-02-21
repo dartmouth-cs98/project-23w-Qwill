@@ -1,5 +1,9 @@
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import React, { useState, useEffect, useContext, Text, View, StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../../context/auth';
+import axios from "axios";
+import findIP from '../../helpers/findIP';
+
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
