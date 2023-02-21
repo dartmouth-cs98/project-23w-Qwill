@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer,  getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignInScreen from '../screens/auth/SignInScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
-import { AuthContext, AuthProvider } from '../context/auth';
+import { AuthContext} from '../context/auth';
 import NavBar from './NavBar';
 
 const Stack = createNativeStackNavigator();
@@ -86,13 +84,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      // alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
-  
