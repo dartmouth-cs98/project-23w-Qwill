@@ -3,36 +3,20 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
-const ButtonPrimary = props => {
-  const selected = props.selected;
-
-  // If the button's text is longer, we can make the button a bit wider
-  const textWidth = textWidth ? textWidth : 95;
-
-  if (selected) {
+const ButtonEmptyMailbox = props => {
     return (
         <TouchableOpacity
-          style={[styles.btn, styles.selectedBtn]}
-          onPress={props.onPress}
+            style={[styles.btn, styles.unselectedBtn]}
+            onPress={props.onPress}
         >
-          <Text style={[styles.text, styles.selectedText, {width: textWidth}]}>{props.title}</Text>
+            <Text style={[styles.text, styles.unselectedText]}>{props.title}</Text>
         </TouchableOpacity>
     );
-  }
-  else {
-    return (
-        <TouchableOpacity
-          style={[styles.btn, styles.unselectedBtn]}
-          onPress={props.onPress}
-        >
-          <Text style={[styles.text, styles.unselectedText, {width: textWidth}]}>{props.title}</Text>
-        </TouchableOpacity>
-    );
-  }
 };
 
 const styles = StyleSheet.create({
     text: {
+      width: 115,
       height: 18,
       fontStyle: "normal",
       fontWeight: "700",
@@ -43,12 +27,9 @@ const styles = StyleSheet.create({
       textAlign: "center",
       letterSpacing: 0.3,
       color: "#FFFFFF",
-    },
-    selectedText: {
-        color: "#FFFFFF",
     }, 
     unselectedText: {
-        color: "#7184B4",
+        color: "#000000",
     }, 
     btn: {
       boxSizing: "border-box",
@@ -66,15 +47,9 @@ const styles = StyleSheet.create({
       marginRight: 10,
       marginLeft: 10
   },
-    selectedBtn: {
-        backgroundColor: "#7184B4",
-    },
     unselectedBtn: {
         backgroundColor: "#FFFFFF",
-        borderWidth: 1,
-        borderColor: "#7184B4",
-        borderStyle: "solid",
       }
 });
 
-export default ButtonPrimary;
+export default ButtonEmptyMailbox;
