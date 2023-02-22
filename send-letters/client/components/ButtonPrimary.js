@@ -7,8 +7,7 @@ const ButtonPrimary = props => {
   const selected = props.selected;
 
   // If the button's text is longer, we can make the button a bit wider
-  const longText = props.longText;
-  const textWidth = longText ? 115 : 95;
+  const textWidth = props.textWidth ? props.textWidth : 95;
 
   if (selected) {
     return (

@@ -42,13 +42,13 @@ function PreviewScreen({ route, navigation }) {
       <Text>{JSON.stringify(route.params)}</Text>
       <View style={{flexDirection: 'row'}}>
         <ButtonPrimary
-          longText={true}
+          textWidth={115}
           title={"No, edit it."}
           selected={true}
           onPress={() => navigation.goBack()}
         />
         <ButtonPrimary
-          longText={true}
+          textWidth={115}
           title={"Yes, send it!"}
           selected={true}
           onPress={() => handleSendPressed()}
