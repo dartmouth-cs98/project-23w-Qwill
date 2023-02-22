@@ -7,19 +7,18 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 const DraftsScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-        <View style={{ flexDirection:"row" }}>
-          <ButtonPrimary 
-          selected={false} 
-          title={"Mailbox"} 
-          onPress={() => navigation.replace('Mailbox')}/>
-          <ButtonPrimary selected={true} title={"Drafts"} />
-        </View>
-        
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text>Feature coming soon!</Text>
-        </View>
-
-      </SafeAreaView>
+      <View style={{ flexDirection:"row" }}>
+        <ButtonPrimary 
+        selected={false} 
+        title={"Mailbox"} 
+        onPress={() => navigation.replace('Mailbox')}/>
+        <ButtonPrimary selected={true} title={"Drafts"} />
+      </View>
+      
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text>Feature coming soon!</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
