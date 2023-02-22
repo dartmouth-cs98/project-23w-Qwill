@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, FlatList, ScrollView, } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
@@ -48,8 +49,10 @@ function SelectRecipientScreen({navigation}) {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Compose</Text>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
+      <View style={{flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
+        <Text style={styles.titleText}>Compose</Text>
+      </View>
       <View style={styles.inputContainer}>
         <Input 
           placeholder="enter recipient's name or username"
@@ -61,7 +64,7 @@ function SelectRecipientScreen({navigation}) {
           {renderMatches()}
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -84,5 +87,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     height: 200,
+  },
+  titleText: {
+    fontSize: 40, 
+    fontWeight: 'bold',
+    textAlign: 'left',
+    flex: 1,
+    marginLeft: 20
   },
 });

@@ -1,10 +1,9 @@
 import { Text, View, StyleSheet } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
-import PreviewScreen from './PreviewScreen';
+import ButtonPrimary from '../../components/ButtonPrimary';
 
 function ComposeScreen({ route, navigation }) {
-
   const { recipientID } = route.params;
   const [text, setText] = useState("");
 
@@ -22,7 +21,10 @@ function ComposeScreen({ route, navigation }) {
         placeholder="enter letter text"
         onChangeText={text => setText(text)}
       />
-      <Button containerStyle={styles.button} onPress={() => handleNextPressed()} title="Next"/>
+      <View style={{flexDirection: 'row'}}>
+        <ButtonPrimary title={"Go back."} selected={true} onPress={() => navigation.goBack()}/>
+        <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()}/>
+      </View>
     </View>
   );
 };

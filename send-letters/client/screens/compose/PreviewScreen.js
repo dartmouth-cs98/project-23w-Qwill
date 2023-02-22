@@ -7,7 +7,7 @@ import findIP from '../../helpers/findIP';
 import { AuthContext, AuthProvider } from '../../context/auth';
 import SignInScreen from '../auth/SignInScreen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import ButtonPrimary from '../../components/ButtonPrimary';
 
 function PreviewScreen({ route, navigation }) {
 
@@ -23,6 +23,8 @@ function PreviewScreen({ route, navigation }) {
     const senderID = state.user._id;    
     const resp = await axios.post(findIP()+"/api/sendLetter", { senderID, recipientID, text });
 
+    console.log(resp)
+
     // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {
       setSnackMessage(resp.data.error);
@@ -30,15 +32,26 @@ function PreviewScreen({ route, navigation }) {
       return;
     } else {
       // successful letter send
-      alert("Letter sent!");
-      navigation.replace('NavBar');
+      // pass a param to let Home screen know it should display a "letter sent" snack
+      navigation.replace('NavBar', {screen: "Home", letterSentSnackIsVisible: true});
     }
   };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>{JSON.stringify(route.params)}</Text>
-      <Button containerStyle={styles.button} onPress={() => handleSendPressed()} title="Yes, send it!"/>
+      <View>
+        <ButtonPrimary
+          title={"No, back to editing."}
+          selected={true}
+          onPress={() => navigation.goBack()}
+        />
+        <ButtonPrimary
+          title={"Yes, send it!"}
+          selected={true}
+          onPress={() => handleSendPressed()}
+        />
+      </View>
       <Snackbar
           //SnackBar visibility control
           visible={snackIsVisible}

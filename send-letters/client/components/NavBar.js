@@ -41,9 +41,13 @@ const CustomComposeButton = ({children, onPress}) => (
 function NavBar() {
     return (
         <Tab.Navigator
+          backBehavior={'history'}
           screenOptions={({ route }) => ({
             headerShown: false, 
             tabBarShowLabel: false,
+            tabBarStyle: {
+              backgroundColor: "#e3e3e3"
+            },
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
 
@@ -54,7 +58,7 @@ function NavBar() {
               } else if (route.name === 'Compose') {
                 // For this letter create button, we'll use a special icon
                 // https://icons.expo.fyi/Feather/pen-tool
-                return <Feather name="pen-tool" size={size} color = "white"/>;
+                return <Feather name="pen-tool" size={size * 1.4} color="white"/>;
               } else if (route.name === 'Fonts') {
                 iconName = focused ? 'pencil' : 'pencil-outline';
               } else if (route.name === 'Profile') {
@@ -64,7 +68,7 @@ function NavBar() {
               return <Ionicons name={iconName} size={size} color={color} />;
             },
             tabBarActiveTintColor: 'black',
-            tabBarInactiveTintColor: 'gray',   
+            tabBarInactiveTintColor: 'gray'
           })}
         >
           <Tab.Screen name="Home" component={HomeStack} />
@@ -75,7 +79,8 @@ function NavBar() {
             options= {{
               tabBarButton: (props) => (
                 <CustomComposeButton {...props} />
-              )
+              ),
+              tabBarStyle:{display:'none'} 
             }}/>
           <Tab.Screen name="Fonts" component={FontsScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
