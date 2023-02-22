@@ -4,9 +4,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const FontPreview = props => {
     return (
-        <TouchableOpacity style={styles.container}>
-            <Text style={styles.font}>Aa</Text>
-        </TouchableOpacity>
+        <View>
+            <TouchableOpacity style={styles.container}>
+                <Text style={[styles.font, props.style]}>Aa</Text>
+            </TouchableOpacity>
+            <Text style={[styles.title, props.style]}>{props.title}</Text>
+        </View>
     );
 };
 
@@ -18,11 +21,17 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderStyle: 'dashed',
         borderColor: "#000000",
-        justifyContent: "center"
+        justifyContent: "center",
+        // marginLeft: 10,
+        // marginRight: 10
     },
     font: {
         textAlign: "center",
         fontSize: 30
+    },
+    title: {
+        textAlign: "center",
+        fontSize: 10
     }
 });
 

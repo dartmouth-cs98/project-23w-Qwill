@@ -1,8 +1,10 @@
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet, FlatList} from 'react-native';
 import React, {useState, useEffect, useCallback} from "react";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import FontPreview from '../components/FontPreview';
+import ButtonCircle from '../components/ButtonCircle';
 
 export default function FontsScreen() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -40,14 +42,57 @@ export default function FontsScreen() {
         return null;
     }
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
               onLayout={onLayoutRootView}>
-            <Text style={{fontFamily: 'MyNerve'}}>MyNerve</Text>
-            <Text style={{fontFamily: 'GloriaHallelujah'}}>GloriaHallelujah</Text>
-            <Text style={{fontFamily: 'HomemadeApple'}}>HomemadeApple</Text>
-            <Text style={{fontFamily: 'IndieFlower'}}>IndieFlower</Text>
-            <Text style={{fontFamily: 'ShadowsIntoLight'}}>ShadowsIntoLight</Text>
-
+            <Text style={styles.titleText}>Fonts</Text>
+            <ButtonCircle icon="pencil"></ButtonCircle>
         </View>
+        <FlatList
+          data={itemData}
+          numColumns={3}
+          renderItem={({item}) => <FontPreview style={item.style} title={item.title}></FontPreview>}
+          keyExtractor={(item) => item.alt}
+        />
+      </SafeAreaView>
+        
     );
 };
+
+const itemData = [
+  {
+    style:{fontFamily: 'MyNerve'},
+    title: "MyNerve"
+  },
+  {
+    style:{fontFamily: 'GloriaHallelujah'},
+    title: 'GloriaHallelujah'
+  },
+  {
+    style:{fontFamily: 'HomemadeApple'},
+    title: 'HomemadeApple'
+  },
+  {
+    style:{fontFamily: 'IndieFlower'},
+    title: 'IndieFlower'
+  },
+  {
+    style:{fontFamily: 'ShadowsIntoLight'},
+    title: 'ShadowsIntoLight'
+  },
+  
+
+];
+
+const styles = StyleSheet.create({
+  titleText: {
+    fontSize: 40, 
+    fontWeight: 'bold',
+    textAlign: 'left',
+    flex: 1,
+    marginLeft: 20
+  },
+  icons: {
+    marginRight: 15
+  }
+});
