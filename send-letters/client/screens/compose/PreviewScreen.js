@@ -32,21 +32,23 @@ function PreviewScreen({ route, navigation }) {
       return;
     } else {
       // successful letter send
-      // pass a param to let Home screen know it should display a "letter sent" snack
-      navigation.replace('NavBar', {screen: "Home", letterSentSnackIsVisible: true});
+      alert("Letter sent!");
+      navigation.replace('NavBar', { screen: "Home"});
     }
   };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>{JSON.stringify(route.params)}</Text>
-      <View>
+      <View style={{flexDirection: 'row'}}>
         <ButtonPrimary
-          title={"No, back to editing."}
+          longText={true}
+          title={"No, edit it."}
           selected={true}
           onPress={() => navigation.goBack()}
         />
         <ButtonPrimary
+          longText={true}
           title={"Yes, send it!"}
           selected={true}
           onPress={() => handleSendPressed()}

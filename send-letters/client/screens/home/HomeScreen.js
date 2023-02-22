@@ -23,19 +23,14 @@ const windowWidth = dimensions.width;
 const imageHeight = dimensions.height * (.7);
 const imageWidth = Math.round(imageHeight * .626);
 
-function HomeScreen({route, navigation}) {
+function HomeScreen({ navigation}) {
   const [state, setState] = useContext(AuthContext);
   const userID = state.user._id;
   const [mail, setMail] = useState("");
 
   // Get whether a letter sent snack should be visible from the compose stack
   const [letterSentSnackIsVisible, setLetterSentSnackIsVisible] = useState(false);
-  
-  // https://stackoverflow.com/questions/61949736/how-to-listen-to-navigation-state-params-changes-in-react-native
-  useEffect(() => { //This will run whenever params change
-    const {params = {}} = route;
-    setLetterSentSnackIsVisible(params);
-  }, [route]);
+
 
   // fetch the mail from the server
   useEffect(() => {

@@ -24,6 +24,7 @@
     "expo-status-bar": "~1.4.2",
     "patch-package": "^6.5.1",
     "react": "18.1.0",
+    "react-dom": "18.1.0",
     "react-freeze": "^1.0.3",
     "react-native": "0.70.5",
     "react-native-elements": "^3.4.3",
@@ -32,7 +33,8 @@
     "react-native-screens": "~3.18.0",
     "react-native-snackbar-component": "^1.1.12",
     "react-navigation": "^4.4.4",
-    "stacktrace-parser": "^0.1.10"
+    "stacktrace-parser": "^0.1.10",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
