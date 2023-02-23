@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
   headerStyle: {backgroundColor: "#b84a32"},
   headerTitleStyle: {color: "white"},
-  headerTintColor: "white",
+  headerTintColor: "white"
 };
 
 // Code from https://reactnavigation.org/docs/screen-options-resolution/#setting-parent-screen-options-based-on-child-navigators-state
@@ -46,41 +46,41 @@ const Navigation = () => {
   const [state, setState] = useContext(AuthContext);
   const authentificated = state && state.token !== "" && state.user !== null;
 
-  return (
-    <Stack.Navigator initialRouteName="NavBar" screenOptions={globalScreenOptions}>
-      {authentificated ?
-        (
-          <>
-            <Stack.Screen
-              options={({route}) => ({
-                headerTitle: getHeaderTitle(route),
-                headerShown: false,
-              })}
-              name='NavBar'
-              component={NavBar}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              options={{
-                title: "SignIn",
-              }}
-              name='SignIn'
-              component={SignInScreen}
-            />
-            <Stack.Screen
-              options={{
-                title: "SignUp"
-              }}
-              name="SignUp"
-              component={SignUpScreen}
-            />
-          </>
-        )
-      }
-    </Stack.Navigator>
-  );
+    return (
+      <Stack.Navigator initialRouteName="NavBar" screenOptions={globalScreenOptions}>
+        {authentificated ? 
+          (
+            <>
+              <Stack.Screen 
+                options={({ route }) => ({
+                  headerTitle: getHeaderTitle(route),
+                  headerShown: false,
+                })}        
+                name='NavBar'
+                component={NavBar}
+              />
+            </>
+          ) : (
+            <>
+              <Stack.Screen 
+                  options={{
+                  headerShown: false
+                  }}
+                  name='SignIn'
+                  component={SignInScreen}
+                /> 
+                <Stack.Screen 
+                  options={{
+                    headerShown: false
+                  }}
+                  name="SignUp"
+                  component={SignUpScreen}
+                />
+            </>
+          )
+        }
+      </Stack.Navigator>
+    );
 };
 
 export default Navigation;

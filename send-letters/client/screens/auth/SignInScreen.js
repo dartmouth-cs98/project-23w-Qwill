@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native'
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
+import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../../context/auth';
-
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -54,6 +54,8 @@ const SignInScreen = ({navigation}) => {
   const handleSignUpPressed = () => {
     navigation.replace('SignUp')
   }
+
+
   
   // KeyboardAvoidingView:
   // This component will automatically adjust its height, position, or bottom padding based on the 
@@ -61,12 +63,16 @@ const SignInScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"/>
-      <Image 
-        style={styles.imageWithShadow}
-        source={{
-            uri: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Envelope-letter-icon.png"
-        }}
-      />
+      <View style={{width: "60%"}}>
+        <Image 
+          style={{
+            height: undefined, 
+            width: '100%',
+            aspectRatio: 1,
+            resizeMode: "contain"}}
+          source={require('../../assets/logo.png')}
+        />
+      </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
         <Input 
@@ -85,11 +91,11 @@ const SignInScreen = ({navigation}) => {
           onSubmitEditing={handleSignInPressed}
         />
       </View>
-    
-      {/* when using native elements, target container style, not style*/}
-      {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
-      <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="Log in"/>
-      <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+      
+      <View>
+        <ButtonPrimary selected={true} onPress={() => handleSignInPressed()} title="Log in"/>
+        <ButtonPrimary selected={false} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+      </View>
 
       <Snackbar
           //SnackBar visibility control

@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import FriendPreview from '../../components/FriendPreview';
 
 function FriendsScreen({navigation}) {
     return (
@@ -18,7 +19,14 @@ function FriendsScreen({navigation}) {
           size={40}
           onPress={() => {navigation.navigate("AddFriends")}}></Ionicons>
         </View>
+        <View>
+          <FriendPreview username="trogers428"></FriendPreview>
+          <FriendPreview username="user1234"></FriendPreview>
+          <FriendPreview username="trogers428"></FriendPreview>
+        </View>
       </SafeAreaView>
+
+      
     );
   }
 
