@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
