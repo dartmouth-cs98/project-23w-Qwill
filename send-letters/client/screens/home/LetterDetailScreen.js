@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 
-const LetterDetailScreen = () => {
+const LetterDetailScreen = ({route}) => {
+  const {letterText, letterId, letterIsRead} = route.params;
+
   return (
-    <View>
-      <Text>LetterDetailScreen</Text>
-    </View>
+    <SafeAreaView>
+      <Text>{letterText}</Text>
+    </SafeAreaView>
   )
 };
 

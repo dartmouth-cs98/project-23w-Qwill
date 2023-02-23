@@ -1,15 +1,17 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
 import axios from "axios";
 import findIP from '../../helpers/findIP';
-import { useRoute } from '@react-navigation/native';
+import Carousel from 'react-native-reanimated-carousel';
+import LetterCarousel from '../../components/LetterCarousel';
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
+import UnopenedLetter from '../../components/UnopenedLetter';
 
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
@@ -23,14 +25,32 @@ const windowWidth = dimensions.width;
 const imageHeight = dimensions.height * (.7);
 const imageWidth = Math.round(imageHeight * .626);
 
+// widths for the slider carousel
+const SLIDER_WIDTH = windowWidth;
+const ITEM_WIDTH = Math.round(SLIDER_WIDTH * .7);
+
 function HomeScreen({ navigation}) {
   const [state, setState] = useContext(AuthContext);
   const userID = state.user._id;
   const [mail, setMail] = useState("");
 
-  // Get whether a letter sent snack should be visible from the compose stack
-  const [letterSentSnackIsVisible, setLetterSentSnackIsVisible] = useState(false);
+  const handleLetterOpen = (letterText, letterId, letterIsRead) => {
+    navigation.push('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead });
+  };
 
+  const renderItem = ({item, index}) => {
+    return (
+        <View key={index}>
+            <UnopenedLetter 
+              sender={item.sender}
+              senderAddress={index}
+              recipient={item.recipient}
+              recipientAddress={index}
+              onPress={() => {handleLetterOpen(item.text, item._id, item.read)}}
+            />
+        </View>
+    );
+  };
 
   // fetch the mail from the server
   useEffect(() => {
@@ -73,31 +93,34 @@ function HomeScreen({ navigation}) {
               flex: 1,
               height: imageHeight,
               width: imageWidth}}>
-                {/* TODO: conditionally render this if the mailbox is empty*/}
-                <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={styles.emptyMailboxText}>
-                    You don't have any letters in your mailbox.
-                  </Text>
-              </View> 
-              <View style={{flex: 3.5, alignItems: 'center'}}>
-                <ButtonEmptyMailbox
-                  selected={false}
-                  title={"Send a letter"}
-                  onPress={() => {navigation.navigate('Compose')}}
-                />
-              </View>
+                { mail.length === 0 ? (
+                  <View>
+                    <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+                      <Text style={styles.emptyMailboxText}>
+                        You don't have any letters in your mailbox.
+                      </Text>
+                    </View> 
+                    <View style={{flex: 3.5, alignItems: 'center'}}>
+                      <ButtonEmptyMailbox
+                        selected={false}
+                        title={"Send a letter"}
+                        onPress={() => {navigation.navigate('Compose')}}
+                      />
+                    </View>
+                  </View>
+              ) :
+              (
+                <>
+                  <View style={{flex: 1.5}}/>
+                  <View style={{flex: 6.5}}>
+                    <LetterCarousel 
+                      data={mail}
+                      renderItem={renderItem}/>
+                  </View>
+                </>
+              )}
           </ImageBackground>
         </View>
-
-        <Snackbar
-          //SnackBar visibility control
-          visible={letterSentSnackIsVisible}
-          onDismiss={() => {setLetterSentSnackIsVisible(false)}}
-          duration={2000}
-          style={styles.snackbar}
-        >
-          <Text style={styles.snackBarText}>Letter sent!</Text>
-        </Snackbar>
       </SafeAreaView>
     );
   }

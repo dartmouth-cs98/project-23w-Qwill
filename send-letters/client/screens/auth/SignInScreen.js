@@ -3,6 +3,7 @@ import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
+import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -90,11 +91,11 @@ const SignInScreen = ({navigation}) => {
           onSubmitEditing={handleSignInPressed}
         />
       </View>
-    
-      {/* when using native elements, target container style, not style*/}
-      {/* TODO: we'll replace the navigate here with .replace() once we have an actual auth system built*/}
-      <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="Log in"/>
-      <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+      
+      <View>
+        <ButtonPrimary selected={true} onPress={() => handleSignInPressed()} title="Log in"/>
+        <ButtonPrimary selected={false} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+      </View>
 
       <Snackbar
           //SnackBar visibility control
