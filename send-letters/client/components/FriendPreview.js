@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import UnopenedLetter from './UnopenedLetter';
+import UnopenedLetterSmall from './UnopenedLetterSmall';
 
 
 const FriendPreview = props => {
@@ -9,7 +9,7 @@ const FriendPreview = props => {
             <View style={styles.profilePicture}></View>
             <Text style={styles.username}>{props.username}</Text>
             <View style={styles.letterContainer}>
-                <UnopenedLetter sender="Tommy Rogers" senderAddress="Some Address" recipient="Tate Toussaint" recipientAddress="Some Other Address"></UnopenedLetter>
+                <UnopenedLetterSmall sender="Tommy Rogers" senderAddress="Some Address" recipient="Tate Toussaint" recipientAddress="Some Other Address"></UnopenedLetterSmall>
             </View> 
         </View>
     );

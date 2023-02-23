@@ -11,7 +11,7 @@ import LetterCarousel from '../../components/LetterCarousel';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
-import UnopenedLetter from '../../components/UnopenedLetter';
+import UnopenedLetterLarge from '../../components/UnopenedLetterLarge';
 
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
@@ -41,7 +41,7 @@ function HomeScreen({ navigation}) {
   const renderItem = ({item, index}) => {
     return (
         <View key={index}>
-            <UnopenedLetter 
+            <UnopenedLetterLarge 
               sender={item.sender}
               senderAddress={index}
               recipient={item.recipient}

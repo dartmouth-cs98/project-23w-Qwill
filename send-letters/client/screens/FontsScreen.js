@@ -48,12 +48,14 @@ export default function FontsScreen() {
             <Text style={styles.titleText}>Fonts</Text>
             <ButtonCircle icon="pencil"></ButtonCircle>
         </View>
-        <FlatList
-          data={itemData}
-          numColumns={3}
-          renderItem={({item}) => <FontPreview style={item.style} title={item.title}></FontPreview>}
-          keyExtractor={(item) => item.alt}
-        />
+        <View style={{marginTop: 20}}>
+          <FlatList
+            data={itemData}
+            numColumns={3}
+            renderItem={({item}) => <View style={{marginLeft: 10, marginRight: 10}}><FontPreview style={item.style} title={item.title}></FontPreview></View>}
+            keyExtractor={(item) => item.alt}
+          />
+        </View>
       </SafeAreaView>
         
     );

@@ -7,7 +7,6 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import UnopenedLetter from "./UnopenedLetter";
 
 // Citation: from https://github.com/dohooo/react-native-reanimated-carousel/blob/main/exampleExpo/src/pages/parallax/index.tsx
 
