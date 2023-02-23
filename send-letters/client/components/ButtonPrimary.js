@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {COLORS} from '../styles/colors';
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
 const ButtonPrimary = props => {
@@ -18,8 +18,7 @@ const ButtonPrimary = props => {
           <Text style={[styles.text, styles.selectedText, {width: textWidth}]}>{props.title}</Text>
         </TouchableOpacity>
     );
-  }
-  else {
+  } else {
     return (
         <TouchableOpacity
           style={[styles.btn, styles.unselectedBtn]}
@@ -66,15 +65,31 @@ const styles = StyleSheet.create({
       marginRight: 10,
       marginLeft: 10
   },
-    selectedBtn: {
-        backgroundColor: "#7184B4",
-    },
-    unselectedBtn: {
-        backgroundColor: "#FFFFFF",
-        borderWidth: 1,
-        borderColor: "#7184B4",
-        borderStyle: "solid",
-      }
+  btn: {
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 16,
+    paddingRight: 18,
+    paddingBottom: 16,
+    paddingLeft: 18,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
+    borderBottomLeftRadius: 25,
+    marginRight: 10,
+    marginLeft: 10
+  },
+  selectedBtn: {
+    backgroundColor: COLORS.blue700,
+  },
+  unselectedBtn: {
+    backgroundColor: COLORS.white,
+    borderWidth: 1,
+    borderColor: COLORS.blue700,
+    borderStyle: "solid",
+  }
 });
 
 export default ButtonPrimary;
