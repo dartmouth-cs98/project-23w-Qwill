@@ -23,22 +23,3 @@ const DraftsScreen = ({navigation}) => {
 };
 
 export default DraftsScreen;
-
-const styles = StyleSheet.create({
-    buttonStyleSelected: {
-        alignItems: 'center',
-        backgroundColor: 'blue',
-        width: '20%',
-        padding: 10,
-        borderRadius: 20,
-      },
-      buttonStyleUnselected: {
-        alignItems: 'center',
-        backgroundColor: 'white',
-        width: '20%',
-        padding: 10,
-        borderRadius: 20,
-        borderColor: 'blue',
-        borderWidth: 1,
-      }
-});
