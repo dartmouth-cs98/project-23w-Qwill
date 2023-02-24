@@ -41,13 +41,13 @@ function HomeScreen({ navigation}) {
   const renderItem = ({item, index}) => {
     return (
         <View key={index}>
-            <UnopenedLetter 
-              sender={item.sender}
-              senderAddress={index}
-              recipient={item.recipient}
-              recipientAddress={index}
-              onPress={() => {handleLetterOpen(item.text, item._id, item.read)}}
-            />
+          <UnopenedLetter 
+            sender={item.senderInfo.name}
+            senderAddress={index}
+            recipient={state.user.name}
+            recipientAddress={index}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.read)}}
+          />
         </View>
     );
   };
@@ -71,8 +71,6 @@ function HomeScreen({ navigation}) {
 
     fetchMail();
   }, []);
-
-  console.log(mail);
 
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
