@@ -17,6 +17,7 @@ export const receiveLetters = async (req, res) => {
             });
         }
 
+        // define query (lookup is equivalent of a left join)
         const query = [
             {
                $match: { 
@@ -35,12 +36,10 @@ export const receiveLetters = async (req, res) => {
                 $unwind: '$senderInfo' 
             },
         ];
-
         const cursor = Letter.aggregate(query);
 
+        // build the list of received letters
         var receivedLetters = [];
-
-        Letter.aggregate(query).cursor();
         for await (const doc of cursor) {
             receivedLetters.push(doc);
         }
