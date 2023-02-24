@@ -35,7 +35,7 @@ function HomeScreen({ navigation}) {
   const [mail, setMail] = useState("");
 
   const handleLetterOpen = (letterText, letterId, letterIsRead) => {
-    navigation.push('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead });
+    navigation.navigate('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead });
   };
 
   const renderItem = ({item, index}) => {
