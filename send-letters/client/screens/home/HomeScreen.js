@@ -72,11 +72,6 @@ function HomeScreen({ navigation}) {
     fetchMail();
   }, []);
 
-  // console.log("\n\nfetching letters 1");
-  // console.log(mail);
-  // console.log("fetching letters 2");
-  // console.log( JSON.stringify(mail[0], null, 2));
-
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
         <View style={{ flexDirection:"row"}}>
