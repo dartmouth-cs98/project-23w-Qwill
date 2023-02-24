@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+mongoose.Schema.Types.String.checkRequired(v => typeof v === 'string');
+
 
 // const { Schema } = mongoose;
 
