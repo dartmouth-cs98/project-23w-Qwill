@@ -2,6 +2,8 @@ import User from "../models/user";
 import Letter from "../models/letter";
 
 export const receiveLetters = async (req, res) => {
+    var mongoose = require('mongoose');
+
     try {
         const { userID } = req.body;
 
@@ -15,16 +17,33 @@ export const receiveLetters = async (req, res) => {
             });
         }
 
-        // get all letters sent to the user
-        const receivedLetters = await Letter.find({
-            "recipient": user
-        });
-        if (!receivedLetters) {
-            console.log("nothing!")
-            return res.json({
-                error: "No letters found that matches recipient",
-            });
+        // define query (lookup is equivalent of a left join)
+        const query = [
+            {
+               $match: { 
+                    "recipient": new mongoose.Types.ObjectId(user._id) 
+                }
+            },
+            {
+                $lookup: {
+                    from: "users", 
+                    localField: "sender",
+                    foreignField: "_id",
+                    as: "senderInfo"
+                }
+            },
+            { 
+                $unwind: '$senderInfo' 
+            },
+        ];
+        const cursor = Letter.aggregate(query);
+
+        // build the list of received letters
+        var receivedLetters = [];
+        for await (const doc of cursor) {
+            receivedLetters.push(doc);
         }
+
         return res.json({
             receivedLetters: receivedLetters
         });
