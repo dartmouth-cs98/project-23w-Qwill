@@ -29,15 +29,27 @@ const imageWidth = Math.round(imageHeight * .626);
 const SLIDER_WIDTH = windowWidth;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * .7);
 
-function HomeScreen({ navigation}) {
+function HomeScreen({ navigation, route}) {
   const [state, setState] = useContext(AuthContext);
   const userID = state.user._id;
   const [mail, setMail] = useState("");
 
-  const handleLetterOpen = (letterText, letterId, letterIsRead) => {
-    navigation.navigate('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead });
+  const [letterSentSnackIsVisible, setLetterSentSnackIsVisible] = useState(false);
+  
+  // we'll change the state of the letter snack visibility if something changes in the route params
+  useEffect(() => {
+    if (route.params) {
+      const params = route.params;
+      setLetterSentSnackIsVisible(params.letterSentSnackIsVisible);
+    }
+  }, [route.params]);
+
+  const handleLetterOpen = (letterText, letterId, letterIsRead, senderId) => {
+    navigation.navigate('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead, senderId: senderId });
   };
 
+
+  // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
         <View key={index}>
@@ -46,7 +58,7 @@ function HomeScreen({ navigation}) {
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.read)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id)}}
           />
         </View>
     );
@@ -119,6 +131,16 @@ function HomeScreen({ navigation}) {
               )}
           </ImageBackground>
         </View>
+        <Snackbar
+          style={styles.snackbar}
+          //SnackBar visibility control
+          visible={letterSentSnackIsVisible}
+          onDismiss={() => {setLetterSentSnackIsVisible(false)}}
+          // short dismiss duration
+          duration={2000}
+          >
+            <Text style={styles.snackBarText}>Letter sent!</Text>
+        </Snackbar>
       </SafeAreaView>
     );
   }

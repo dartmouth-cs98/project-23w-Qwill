@@ -11,7 +11,10 @@ import UnopenedLetter from "./UnopenedLetter";
 
 // Citation: from https://github.com/dohooo/react-native-reanimated-carousel/blob/main/exampleExpo/src/pages/parallax/index.tsx
 
-const SLIDER_WIDTH = Dimensions.get('window').width;
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const SLIDER_WIDTH = WINDOW_WIDTH;
+// We'll keep the width of the pagination dots constant, and scale the dots accordingly.
+const PAGINATION_WIDTH = WINDOW_WIDTH * .35;
 
 const LetterCarousel = props => {
   const progressValue = useSharedValue(0);
@@ -45,7 +48,7 @@ const LetterCarousel = props => {
           style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                width: 100,
+                width: PAGINATION_WIDTH,
                 alignSelf: "center",
             }}
         >
@@ -69,7 +72,7 @@ const LetterCarousel = props => {
 
 const PaginationItem = props => {
   const { animValue, index, length, backgroundColor, isRotate } = props;
-  const width = 10;
+  const width = PAGINATION_WIDTH / length;
 
   const animStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];

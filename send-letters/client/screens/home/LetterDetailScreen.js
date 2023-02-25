@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import LetterDetail from '../../components/LetterDetail';
@@ -8,16 +8,33 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import { Button } from 'react-native-elements';
 
 const LetterDetailScreen = ({route, navigation}) => {
-  const {letterText, letterId, letterIsRead} = route.params;
+  // use senderID to know who to reply to
+  const {letterText, letterId, letterIsRead, senderId} = route.params;
 
   const handleBackPressed = () => {
-    // Mark letter read
+    // TODO: Mark letter read
 
     navigation.goBack();
   };
 
+  // If we press reply on this page, we'll be taken to the compose letter screen with the recipient ID
+  // as param. This way, the user doesn't have to fill in the recipient when they hit reply. 
   const handleReplyPressed = () => {
-    
+    navigation.replace('NavBar', {
+      screen: 'Compose',
+      params: {
+        screen: 'SelectTheme',
+        params: {
+          recipientID: senderId
+        }
+      }
+    });
+  }
+
+  // TODO
+  // Mark letter as archived so it no longer shows up in mailbox
+  const handleArchivePressed = () => {
+
   }
 
   return (
@@ -28,15 +45,15 @@ const LetterDetailScreen = ({route, navigation}) => {
       <View style={{ alignItems: 'center'}}>
         <LetterDetail text={letterText}/>
       </View>
-      <View style={{flex: 3, flexDirection: 'row', alignItems: 'center'}}>
-        <ButtonPrimary 
-          selected={true} 
-          title={"Archive"}
-          onPress={handleArchivePressed}/>
-        <ButtonPrimary 
-          selected={true} 
-          title={"Reply"}
-          onPress={handleReplyPressed}/>
+      <View style={{flex: 3, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+          <ButtonPrimary 
+            selected={true} 
+            title={"Archive"}
+            onPress={handleArchivePressed}/>
+          <ButtonPrimary 
+            selected={true} 
+            title={"Reply"}
+            onPress={handleReplyPressed}/>
       </View>
     </View>
   )
