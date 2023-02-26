@@ -46,7 +46,7 @@ export default function FontsScreen() {
         <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
               onLayout={onLayoutRootView}>
             <Text style={styles.titleText}>Fonts</Text>
-            <ButtonCircle icon="pencil"></ButtonCircle>
+              <ButtonCircle icon="pencil"></ButtonCircle>
         </View>
         <View style={{marginTop: 20}}>
           <FlatList
