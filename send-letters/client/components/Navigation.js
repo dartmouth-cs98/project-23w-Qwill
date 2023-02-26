@@ -13,7 +13,10 @@ const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
   headerStyle: {backgroundColor: "#b84a32"},
   headerTitleStyle: {color: "white"},
-  headerTintColor: "white"
+  headerTintColor: "white",
+  cardStyle: {
+    backgroundColor: "#f0f4ff"
+  }
 };
 
 // Code from https://reactnavigation.org/docs/screen-options-resolution/#setting-parent-screen-options-based-on-child-navigators-state

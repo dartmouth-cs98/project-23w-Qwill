@@ -31,13 +31,12 @@ const HomeStack = () => {
         name='Drafts' 
         component={DraftsScreen}
         /> 
-        <Stack.Screen 
-        options={{
-            animation: 'none',
-        }}
-        name='LetterDetail' 
-        component={LetterDetailScreen}
-        /> 
+        <Stack.Group screenOptions={{presentation: 'modal'}}>
+          <Stack.Screen 
+            name='LetterDetail' 
+            component={LetterDetailScreen}
+          /> 
+        </Stack.Group>
   </Stack.Navigator>
   );
 }

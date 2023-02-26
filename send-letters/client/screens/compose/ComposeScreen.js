@@ -2,14 +2,22 @@ import { Text, View, StyleSheet } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import ButtonPrimary from '../../components/ButtonPrimary';
+import { composeStackGoBack } from '../../helpers/composeStackGoBack';
+import { Ionicons } from '@expo/vector-icons';
 
 function ComposeScreen({ route, navigation }) {
-  const { recipientID } = route.params;
+  const { recipientID, themeID, fontID } = route.params;
   const [text, setText] = useState("");
+
+  const composeHomeGoBack = () => {
+    navigation.navigate('Home');
+  };
 
   const handleNextPressed = () => {
     navigation.push('Preview', {
       recipientID: recipientID,
+      themeID: themeID,
+      fontID: fontID,
       text: text,
     });
   };
@@ -22,7 +30,7 @@ function ComposeScreen({ route, navigation }) {
         onChangeText={text => setText(text)}
       />
       <View style={{flexDirection: 'row'}}>
-        <ButtonPrimary title={"Go back."} selected={true} onPress={() => navigation.goBack()}/>
+        <ButtonPrimary title={"Go back."} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()}/>
       </View>
     </View>
