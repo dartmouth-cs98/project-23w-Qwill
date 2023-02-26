@@ -55,6 +55,7 @@ const Navigation = () => {
                 options={({ route }) => ({
                   headerTitle: getHeaderTitle(route),
                   headerShown: false,
+                  contentStyle: { backgroundColor: '#F0F4FF' }
                 })}        
                 name='NavBar'
                 component={NavBar}

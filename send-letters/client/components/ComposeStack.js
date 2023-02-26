@@ -17,6 +17,7 @@ const ComposeStack = ({navigation}) => {
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerTitle: "",
+            contentStyle: { backgroundColor: '#F0F4FF' },
             headerLeft:  () => (
               <Ionicons name={"arrow-back"} size={30} onPress={()=>navigation.goBack()}/>
             )

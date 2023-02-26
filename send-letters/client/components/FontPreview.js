@@ -6,7 +6,7 @@ const FontPreview = props => {
     return (
         <View>
             <TouchableOpacity style={styles.container}>
-                <Text style={[styles.font, props.style]}>Aa</Text>
+                <Text style={[styles.font, props.style]}>AaBbCc</Text>
             </TouchableOpacity>
             <Text style={[styles.title, props.style]}>{props.title}</Text>
         </View>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     font: {
         textAlign: "center",
-        fontSize: 30
+        fontSize: 20
     },
     title: {
         textAlign: "center",

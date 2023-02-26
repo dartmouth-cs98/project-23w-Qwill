@@ -19,6 +19,7 @@ const FriendStack = () => {
       initialRouteName="FriendsHome"
       screenOptions={{
         headerShown: false,
+        contentStyle: { backgroundColor: '#F0F4FF' }
       }}>
         <Stack.Group>
             <Stack.Screen   

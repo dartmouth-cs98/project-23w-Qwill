@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { AuthContext } from '../context/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 function ProfileScreen({navigation}) {
@@ -16,10 +17,10 @@ function ProfileScreen({navigation}) {
   };
   
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <SafeAreaView style={{justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
         <Text>Profile</Text>
         <Button containerStyle={styles.button} onPress={() => handleSignOutPressed()} title="Sign Out"/>
-      </View>
+      </SafeAreaView>
     );
   };
 
