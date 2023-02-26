@@ -7,7 +7,6 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import UnopenedLetter from "./UnopenedLetter";
 
 // Citation: from https://github.com/dohooo/react-native-reanimated-carousel/blob/main/exampleExpo/src/pages/parallax/index.tsx
 
@@ -21,7 +20,7 @@ const LetterCarousel = props => {
   const baseOptions = {
       vertical: false,
       width: SLIDER_WIDTH,
-      height: SLIDER_WIDTH * 0.7,
+      height: SLIDER_WIDTH * 0.97,
     };
 
   return (
@@ -50,6 +49,7 @@ const LetterCarousel = props => {
                 justifyContent: "space-between",
                 width: PAGINATION_WIDTH,
                 alignSelf: "center",
+                marginTop: 0
             }}
         >
           {props.data.map((letter, index) => {
@@ -114,6 +114,7 @@ const PaginationItem = props => {
       <Animated.View
         style={[
           {
+            marginTop: 0,
             borderRadius: 50,
             backgroundColor,
             flex: 1,

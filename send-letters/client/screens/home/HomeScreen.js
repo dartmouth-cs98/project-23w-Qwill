@@ -12,6 +12,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import UnopenedLetter from '../../components/UnopenedLetter';
+import LetterForCarousel from '../../components/LetterForCarousel';
 
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
@@ -44,21 +45,28 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = (letterText, letterId, letterIsRead, senderId) => {
-    navigation.navigate('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead, senderId: senderId });
+  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, themeID, fontID) => {
+    navigation.navigate('LetterDetail', {
+      letterText: letterText,
+      letterID: letterID, 
+      letterIsRead: letterIsRead, 
+      senderID: senderID, 
+      themeID: themeID, 
+      fontID: fontID });
   };
 
-
+  // TODO: replace themeID and fontID params with real fields from backend
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
         <View key={index}>
-          <UnopenedLetter 
+          <LetterForCarousel
+            isRead={item.read}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, 0, 0)}}
           />
         </View>
     );
@@ -121,8 +129,8 @@ function HomeScreen({ navigation, route}) {
               ) :
               (
                 <>
-                  <View style={{flex: 1.5}}/>
-                  <View style={{flex: 6.5}}>
+                  <View style={{flex: 0}}/>
+                  <View style={{flex: 8}}>
                     <LetterCarousel 
                       data={mail}
                       renderItem={renderItem}/>

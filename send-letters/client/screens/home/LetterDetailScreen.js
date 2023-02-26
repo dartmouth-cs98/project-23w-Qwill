@@ -9,7 +9,7 @@ import { Button } from 'react-native-elements';
 
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
-  const {letterText, letterId, letterIsRead, senderId} = route.params;
+  const {letterText, letterID, letterIsRead, senderId, themeID, fontID} = route.params;
 
   const handleBackPressed = () => {
     // TODO: Mark letter read
@@ -43,7 +43,7 @@ const LetterDetailScreen = ({route, navigation}) => {
         <Ionicons name={"arrow-back"} size={40} onPress={handleBackPressed}/>
       </View>
       <View style={{ alignItems: 'center'}}>
-        <LetterDetail text={letterText}/>
+        <LetterDetail text={letterText} themeID={themeID} fontID={fontID}/>
       </View>
       <View style={{flex: 3, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
           <ButtonPrimary 

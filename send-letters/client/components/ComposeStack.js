@@ -37,7 +37,7 @@ const ComposeStack = ({navigation}) => {
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerTitle: "",
-            animationTypeForReplace: 'pop'
+            animationTypeForReplace: "pop"
         }}>
         <Stack.Screen 
           name="SelectRecipient" 
@@ -46,7 +46,7 @@ const ComposeStack = ({navigation}) => {
             tabBarButton: (props) => (
               <CustomComposeButton {...props} />
             ),
-            animationTypeForReplace: 'pop',
+            animationTypeForReplace: 'pop'
           }}
           />
         <Stack.Screen 
