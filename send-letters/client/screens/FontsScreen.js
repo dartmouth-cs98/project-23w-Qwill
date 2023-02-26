@@ -42,7 +42,7 @@ export default function FontsScreen() {
         return null;
     }
     return (
-        <SafeAreaView style={{justifyContent: 'space-between', alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
+        <SafeAreaView style={{alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
           <View style={{alignItems: 'center'}}>
             <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
                   onLayout={onLayoutRootView}>
