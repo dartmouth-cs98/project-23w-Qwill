@@ -72,8 +72,6 @@ function HomeScreen({ navigation}) {
     fetchMail();
   }, []);
 
-  console.log(mail);
-
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
         <View style={{ flexDirection:"row"}}>

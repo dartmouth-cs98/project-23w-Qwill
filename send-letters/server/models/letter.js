@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-
-// const { Schema } = mongoose;
+mongoose.Schema.Types.String.checkRequired(v => typeof v === 'string');
 
 const letterSchema = new mongoose.Schema({
     sender: {

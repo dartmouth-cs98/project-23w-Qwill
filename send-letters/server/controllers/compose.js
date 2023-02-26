@@ -34,6 +34,7 @@ export const sendLetter = async (req, res) => {
                 text: text,
                 read: false,
             }).save();
+
             return res.json({
                 ok: true
             });
