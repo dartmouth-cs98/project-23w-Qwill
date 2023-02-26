@@ -7,18 +7,20 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import UnopenedLetter from "./UnopenedLetter";
 
 // Citation: from https://github.com/dohooo/react-native-reanimated-carousel/blob/main/exampleExpo/src/pages/parallax/index.tsx
 
-const SLIDER_WIDTH = Dimensions.get('window').width;
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const SLIDER_WIDTH = WINDOW_WIDTH;
+// We'll keep the width of the pagination dots constant, and scale the dots accordingly.
+const PAGINATION_WIDTH = WINDOW_WIDTH * .35;
 
 const LetterCarousel = props => {
   const progressValue = useSharedValue(0);
   const baseOptions = {
       vertical: false,
       width: SLIDER_WIDTH,
-      height: SLIDER_WIDTH * 0.7,
+      height: SLIDER_WIDTH * 0.97,
     };
 
   return (
@@ -45,8 +47,9 @@ const LetterCarousel = props => {
           style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                width: 100,
+                width: PAGINATION_WIDTH,
                 alignSelf: "center",
+                marginTop: 0
             }}
         >
           {props.data.map((letter, index) => {
@@ -69,7 +72,7 @@ const LetterCarousel = props => {
 
 const PaginationItem = props => {
   const { animValue, index, length, backgroundColor, isRotate } = props;
-  const width = 10;
+  const width = PAGINATION_WIDTH / length;
 
   const animStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];
@@ -111,6 +114,7 @@ const PaginationItem = props => {
       <Animated.View
         style={[
           {
+            marginTop: 0,
             borderRadius: 50,
             backgroundColor,
             flex: 1,

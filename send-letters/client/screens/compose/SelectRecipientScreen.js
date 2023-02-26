@@ -3,15 +3,21 @@ import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
+import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 
 
-function SelectRecipientScreen({navigation}) {
-
+function SelectRecipientScreen({route, navigation}) {
   const [recipientField, setRecipientField] = useState("");
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
+
+    // This is callback for the composeStackGoBack default helper
+    const selectRecipientGoBack = () => {
+      navigation.navigate('Home');
+    };
 
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
@@ -28,7 +34,7 @@ function SelectRecipientScreen({navigation}) {
   };
 
   const handleNextPressed = (item) => {
-    navigation.push('ComposeHome', {
+    navigation.push('SelectTheme', {
       recipientID: item._id
     });
   };
@@ -49,8 +55,11 @@ function SelectRecipientScreen({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
+      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
+        <Ionicons name={"arrow-back"} size={40} onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}/>
+      </View>
+      <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
         <Text style={styles.titleText}>Compose</Text>
       </View>
       <View style={styles.inputContainer}>

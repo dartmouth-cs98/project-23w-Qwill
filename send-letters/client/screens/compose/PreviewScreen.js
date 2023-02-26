@@ -11,7 +11,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 
 function PreviewScreen({ route, navigation }) {
 
-  const { recipientID, text } = route.params;
+  const { recipientID, themeID, fontID, text } = route.params;
   const [state, setState] = useContext(AuthContext);
 
   const [snackMessage, setSnackMessage] = useState("");
@@ -31,9 +31,16 @@ function PreviewScreen({ route, navigation }) {
       setSnackIsVisible(true);
       return;
     } else {
-      // successful letter send
-      alert("Letter sent!");
-      navigation.replace('NavBar', { screen: "Home"});
+      // successful letter send will be sent as a param, to toggle snackbar on home page
+      navigation.replace('NavBar', 
+          { screen: "Home",
+            params: {
+              screen: 'Mailbox', 
+              params: {
+                letterSentSnackIsVisible: true
+              }
+          }
+      });
     }
   };
 

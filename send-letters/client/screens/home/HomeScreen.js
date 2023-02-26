@@ -12,6 +12,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import UnopenedLetter from '../../components/UnopenedLetter';
+import LetterForCarousel from '../../components/LetterForCarousel';
 
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
@@ -29,24 +30,43 @@ const imageWidth = Math.round(imageHeight * .626);
 const SLIDER_WIDTH = windowWidth;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * .7);
 
-function HomeScreen({ navigation}) {
+function HomeScreen({ navigation, route}) {
   const [state, setState] = useContext(AuthContext);
   const userID = state.user._id;
   const [mail, setMail] = useState("");
 
-  const handleLetterOpen = (letterText, letterId, letterIsRead) => {
-    navigation.push('LetterDetail', {letterText: letterText, letterId: letterId, letterIsRead: letterIsRead });
+  const [letterSentSnackIsVisible, setLetterSentSnackIsVisible] = useState(false);
+  
+  // we'll change the state of the letter snack visibility if something changes in the route params
+  useEffect(() => {
+    if (route.params) {
+      const params = route.params;
+      setLetterSentSnackIsVisible(params.letterSentSnackIsVisible);
+    }
+  }, [route.params]);
+
+  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, themeID, fontID) => {
+    navigation.navigate('LetterDetail', {
+      letterText: letterText,
+      letterID: letterID, 
+      letterIsRead: letterIsRead, 
+      senderID: senderID, 
+      themeID: themeID, 
+      fontID: fontID });
   };
 
+  // TODO: replace themeID and fontID params with real fields from backend
+  // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
         <View key={index}>
-          <UnopenedLetter 
+          <LetterForCarousel
+            isRead={item.read}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.read)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, 0, 0)}}
           />
         </View>
     );
@@ -109,8 +129,8 @@ function HomeScreen({ navigation}) {
               ) :
               (
                 <>
-                  <View style={{flex: 1.5}}/>
-                  <View style={{flex: 6.5}}>
+                  <View style={{flex: 0}}/>
+                  <View style={{flex: 8}}>
                     <LetterCarousel 
                       data={mail}
                       renderItem={renderItem}/>
@@ -119,6 +139,16 @@ function HomeScreen({ navigation}) {
               )}
           </ImageBackground>
         </View>
+        <Snackbar
+          style={styles.snackbar}
+          //SnackBar visibility control
+          visible={letterSentSnackIsVisible}
+          onDismiss={() => {setLetterSentSnackIsVisible(false)}}
+          // short dismiss duration
+          duration={2000}
+          >
+            <Text style={styles.snackBarText}>Letter sent!</Text>
+        </Snackbar>
       </SafeAreaView>
     );
   }

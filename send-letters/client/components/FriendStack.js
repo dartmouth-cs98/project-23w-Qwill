@@ -18,7 +18,7 @@ const FriendStack = () => {
     <Stack.Navigator 
       initialRouteName="FriendsHome"
       screenOptions={{
-        headerShown: false,
+        headerShown: false
       }}>
         <Stack.Group>
             <Stack.Screen   
