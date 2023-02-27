@@ -5,7 +5,7 @@ import {Feather} from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
-import FontsScreen from '../screens/FontsScreen';
+import FontsScreen from '../screens/font/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from './ComposeStack';

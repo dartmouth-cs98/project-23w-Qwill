@@ -24,8 +24,12 @@ function ProfileScreen({navigation}) {
         </View>
         <View style={{alignItems: 'center'}}>
           <View style={styles.profilePhotoBack}></View>
-          <Text style={{marginTop: 10, fontWeight: "bold", fontSize: 18}}>Username123</Text>
-          <Text style={{marginTop: 10, fontWeight: "300", fontSize: 18}}>Joined Qwill in 2019</Text>
+          <Text style={{marginTop: 10, fontWeight: "bold", fontSize: 18}}>
+            {state.user.username}
+          </Text>
+          <Text style={{marginTop: 10, fontWeight: "300", fontSize: 18}}>
+            Joined Qwill in {state.user.createdAt.substring(0,4)}
+          </Text>
           <View style={styles.lineLong}></View>
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>

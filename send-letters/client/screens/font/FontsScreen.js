@@ -3,8 +3,8 @@ import React, {useState, useEffect, useCallback} from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import FontPreview from '../components/FontPreview';
-import ButtonCircle from '../components/ButtonCircle';
+import FontPreview from '../../components/FontPreview';
+import ButtonCircle from '../../components/ButtonCircle';
 
 export default function FontsScreen() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -15,15 +15,17 @@ export default function FontsScreen() {
         async function prepare() {
             try {
                 await Font.loadAsync({
-                    'MyNerve': require('../assets/fonts/MyNerve_Regular.ttf'),
-                    'GloriaHallelujah': require('../assets/fonts/GloriaHallelujah-Regular.ttf'),
-                    'HomemadeApple': require('../assets/fonts/HomemadeApple-Regular.ttf'),
-                    'IndieFlower': require('../assets/fonts/Mansalva-Regular.ttf'),
-                    'ShadowsIntoLight': require('../assets/fonts/ShadowsIntoLight-Regular.ttf'),
+                    'MyNerve': require('../../assets/fonts/MyNerve_Regular.ttf'),
+                    'GloriaHallelujah': require('../../assets/fonts/GloriaHallelujah-Regular.ttf'),
+                    'HomemadeApple': require('../../assets/fonts/HomemadeApple-Regular.ttf'),
+                    'IndieFlower': require('../../assets/fonts/Mansalva-Regular.ttf'),
+                    'ShadowsIntoLight': require('../../assets/fonts/ShadowsIntoLight-Regular.ttf'),
+                    'PTSans': require('../../assets/fonts/PTSans-Regular.ttf'),
+                    'Mansalva': require('../../assets/fonts/Mansalva-Regular.ttf'),
+                    'LibreBaskerville': require('../../assets/fonts/LibreBaskerville-Regular.ttf'),
                 });
-
-            } catch (e) {
-                console.warn(e);
+            } catch (err) {
+                console.warn(err);
             } finally {
                 // Tell the application to render
                 setFontsLoaded(true);
@@ -45,21 +47,26 @@ export default function FontsScreen() {
         <SafeAreaView style={{alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
           <View style={{alignItems: 'center'}}>
             <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
-                  onLayout={onLayoutRootView}>
-                <Text style={styles.titleText}>Fonts</Text>
-                  <ButtonCircle icon="pencil"></ButtonCircle>
+                  onLayout={onLayoutRootView}
+            >
+              <Text style={styles.titleText}>Fonts</Text>
+              <ButtonCircle icon="pencil"></ButtonCircle>
             </View>
             <View style={{flexDirection: "row", marginTop: 20}}>
               <View style={styles.line}></View>
               <Text>Default Fonts</Text>
               <View style={styles.line}></View>
             </View>
-            <View style={{flexDirection: "row", marginTop: 20, marginLeft: 30}}>
+            <View style={{flexDirection: "row", marginTop: 20, marginLeft: 30, marginRight: 30}}>
               <FlatList
+                contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
                 data={itemData}
                 numColumns={3}
-                renderItem={({item}) => <View style={{marginLeft: 10, marginRight: 10}}><FontPreview style={item.style} title={item.title}></FontPreview></View>}
-                keyExtractor={(item) => item.alt}
+                renderItem={({item}) => 
+                  <View style={{marginLeft: 10, marginRight: 10}}>
+                    <FontPreview style={item.style} title={item.title}></FontPreview>
+                  </View>}
+                keyExtractor={(item) => item.title}
               />
             </View>
             <View style={{flexDirection: "row", marginTop: 20}}>
@@ -97,8 +104,18 @@ const itemData = [
     style:{fontFamily: 'ShadowsIntoLight'},
     title: 'ShadowsIntoLight'
   },
-  
-
+  {
+    style:{fontFamily: 'Mansalva'},
+    title: 'Mansalva'
+  },
+  {
+    style:{fontFamily: 'PTSans'},
+    title: 'PTSans'
+  },
+  {
+    style:{fontFamily: 'LibreBaskerville'},
+    title: 'LibreBaskerville'
+  },
 ];
 
 const styles = StyleSheet.create({
