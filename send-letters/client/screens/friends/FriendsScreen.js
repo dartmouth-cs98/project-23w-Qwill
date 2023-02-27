@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FriendPreview from '../../components/FriendPreview';
@@ -6,27 +6,28 @@ import FriendPreview from '../../components/FriendPreview';
 function FriendsScreen({navigation}) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}>
+        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20, marginRight: 10}}>
           <Text style={styles.titleText}>Friends</Text>
-          <Ionicons 
-            style={styles.icons} 
-            name="time-outline" 
+          <TouchableOpacity style={styles.btn} onPress={() => {navigation.navigate("PendingFriends")}}>
+            <Ionicons 
+              name="time-outline" 
+              size={40}>
+              </Ionicons>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => {navigation.navigate("PendingFriends")}}>
+            <Ionicons 
+            name="person-add-outline" 
             size={40}
-            onPress={() => {navigation.navigate("PendingFriends")}}></Ionicons>
-          <Ionicons 
-          style={styles.icons} 
-          name="person-add-outline" 
-          size={40}
-          onPress={() => {navigation.navigate("AddFriends")}}></Ionicons>
+            >
+            </Ionicons>
+          </TouchableOpacity>
         </View>
-        <View>
+        <View style={{flex: 1, marginTop: 20}}>
           <FriendPreview username="trogers428"></FriendPreview>
           <FriendPreview username="user1234"></FriendPreview>
           <FriendPreview username="trogers428"></FriendPreview>
         </View>
       </SafeAreaView>
-
-      
     );
   }
 
@@ -38,9 +39,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: 20
+    marginLeft: 20, 
+    marginTop: 5
   },
-  icons: {
-    marginRight: 15
+  btn: {
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });

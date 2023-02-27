@@ -42,20 +42,37 @@ export default function FontsScreen() {
         return null;
     }
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
-              onLayout={onLayoutRootView}>
-            <Text style={styles.titleText}>Fonts</Text>
-            <ButtonCircle icon="pencil"></ButtonCircle>
-        </View>
-        <FlatList
-          data={itemData}
-          numColumns={3}
-          renderItem={({item}) => <FontPreview style={item.style} title={item.title}></FontPreview>}
-          keyExtractor={(item) => item.alt}
-        />
-      </SafeAreaView>
-        
+        <SafeAreaView style={{alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
+          <View style={{alignItems: 'center'}}>
+            <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
+                  onLayout={onLayoutRootView}>
+                <Text style={styles.titleText}>Fonts</Text>
+                  <ButtonCircle icon="pencil"></ButtonCircle>
+            </View>
+            <View style={{flexDirection: "row", marginTop: 20}}>
+              <View style={styles.line}></View>
+              <Text>Default Fonts</Text>
+              <View style={styles.line}></View>
+            </View>
+            <View style={{flexDirection: "row", marginTop: 20, marginLeft: 30}}>
+              <FlatList
+                data={itemData}
+                numColumns={3}
+                renderItem={({item}) => <View style={{marginLeft: 10, marginRight: 10}}><FontPreview style={item.style} title={item.title}></FontPreview></View>}
+                keyExtractor={(item) => item.alt}
+              />
+            </View>
+            <View style={{flexDirection: "row", marginTop: 20}}>
+              <View style={styles.line}></View>
+              <Text>Custom Fonts</Text>
+              <View style={styles.line}></View>
+            </View>
+            <View style={styles.noCustom}>
+              <Text style={{textAlign: 'center', marginTop: 20}}>You don't have any custom fonts yet.</Text>
+              <Text style={{textAlign: "center", textDecorationLine: 'underline', marginTop: 20}}>Add a custom font</Text>
+            </View>
+          </View>
+        </SafeAreaView>
     );
 };
 
@@ -94,5 +111,21 @@ const styles = StyleSheet.create({
   },
   icons: {
     marginRight: 15
+  },
+  line: {
+    width: 110,
+    height: 0,
+    borderWidth: 1,
+    borderColor: "#737B7D",
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 8
+  },
+  noCustom: {
+    width: 312,
+    height: 112,
+    borderRadius: 20,
+    backgroundColor: "#E2E8F6",
+    marginTop: 20,
   }
 });
