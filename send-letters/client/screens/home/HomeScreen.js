@@ -127,7 +127,19 @@ function HomeScreen({ navigation, route}) {
                     </View>
                   </View>
               ) :
-              (
+                mail.length === 1 ? 
+                (
+                  <View style={{flex: 1, alignItems: 'center'}}>
+                    <LetterForCarousel
+                      isRead={mail[0].read}
+                      sender={mail[0].senderInfo.name}
+                      senderAddress={0}
+                      recipient={state.user.name}
+                      recipientAddress={0}
+                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].read, mail[0].senderInfo._id, 0, 0)}}
+                    />
+                  </View>
+                ): (
                 <>
                   <View style={{flex: 0}}/>
                   <View style={{flex: 8}}>
@@ -135,8 +147,8 @@ function HomeScreen({ navigation, route}) {
                       data={mail}
                       renderItem={renderItem}/>
                   </View>
-                </>
-              )}
+                </>) 
+              }
           </ImageBackground>
         </View>
         <Snackbar
