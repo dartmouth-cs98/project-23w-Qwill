@@ -38,8 +38,6 @@ const AuthProvider = ({ children }) => {
             console.log(parsed);
             if (parsed !== null && parsed.user && parsed.token) {
                 setState({ ...state, user: parsed.user, token: parsed.token });
-            } else {
-                navigation.replace(SignInScreen);
             }
         };
         loadFromAsyncStorage();
