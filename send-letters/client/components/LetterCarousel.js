@@ -37,16 +37,16 @@ const LetterCarousel = props => {
         mode="parallax"
         modeConfig={{
           parallaxScrollingScale: 0.9,
-          parallaxScrollingOffset: 65,
+          parallaxScrollingOffset: 60,
         }}
         data={props.data}
         renderItem={props.renderItem}
       />
-      {!!progressValue && (
+      {!!progressValue && props.data.length > 1 && (
         <View
           style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
+                justifyContent: "center",
                 width: PAGINATION_WIDTH,
                 alignSelf: "center",
                 marginTop: 0
@@ -72,7 +72,7 @@ const LetterCarousel = props => {
 
 const PaginationItem = props => {
   const { animValue, index, length, backgroundColor, isRotate } = props;
-  const width = PAGINATION_WIDTH / length;
+  const width = length > 10 ? PAGINATION_WIDTH / length : 10;
 
   const animStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];
