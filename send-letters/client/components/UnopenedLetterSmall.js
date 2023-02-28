@@ -1,12 +1,11 @@
 import React from 'react';
+
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 // Shadow Citation: https://blog.logrocket.com/applying-box-shadows-in-react-native/
 
-const ITEM_WIDTH = Math.round(Dimensions.get('window').width * 0.95);
-
-const UnopenedLetter = props => {
+const UnopenedLetterSmall = props => {
   return (
     <TouchableOpacity 
       style={[styles.item, styles.shadow]}
@@ -20,8 +19,8 @@ const UnopenedLetter = props => {
 const styles = StyleSheet.create({
     item : {
         backgroundColor : '#EFF2CA',
-        height: ITEM_WIDTH * .7,
-        width: ITEM_WIDTH,
+        height: 75,
+        width: 110,
         borderRadius: 3, 
         flexDirection: 'row',
         alignItems: 'center',
@@ -35,18 +34,18 @@ const styles = StyleSheet.create({
       shadowRadius: 3,
     },
     letterTextHeader: {
-      fontSize: 10,
+      fontSize: 5,
       position: "absolute",
-      left: 15,
-      top: 15
+      left: 5,
+      top: 5
     }, 
     letterTextCenter: {
-      fontSize: 10,
+      fontSize: 5,
       position: "absolute",
-      left: 95,
-      top: 95
+      left: 30,
+      top: 30
     }
 
 });
 
-export default UnopenedLetter;
+export default UnopenedLetterSmall;

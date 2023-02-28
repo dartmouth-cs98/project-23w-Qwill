@@ -4,7 +4,7 @@ import Navigation from './components/Navigation';
 
 export default function App() {  
   return (
-    <NavigationContainer>
+    <NavigationContainer contentStyle={{ backgroundColor: '#F0F4FF' }}>
       <AuthProvider>
         <Navigation />
       </AuthProvider>

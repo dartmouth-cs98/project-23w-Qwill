@@ -5,7 +5,7 @@ import {Feather} from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
-import FontsScreen from '../screens/FontsScreen';
+import FontsScreen from '../screens/font/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from './ComposeStack';
@@ -31,7 +31,11 @@ const CustomComposeButton = ({children, onPress}) => (
             width: 70, 
             height: 70,
             borderRadius: 35,
-            backgroundColor: "#383a9c",
+            backgroundColor: "#ACC3FF",
+            shadowColor: 'rgba(0,0,0, .4)',
+            shadowOffset: { height: 1, width: 1 },
+            shadowOpacity: 1,
+            shadowRadius: 2,
           }}>
           {children}
         </View>
@@ -48,7 +52,7 @@ function NavBar() {
             headerShown: false, 
             tabBarShowLabel: false,
             tabBarStyle: {
-              backgroundColor: "#e3e3e3"
+              backgroundColor: "#E2E8F6"
             },
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -60,7 +64,7 @@ function NavBar() {
               } else if (route.name === 'Compose') {
                 // For this letter create button, we'll use a special icon
                 // https://icons.expo.fyi/Feather/pen-tool
-                return <Feather name="pen-tool" size={size * 1.4} color="white"/>;
+                return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
                 iconName = focused ? 'pencil' : 'pencil-outline';
               } else if (route.name === 'Profile') {

@@ -49,22 +49,6 @@ const styles = StyleSheet.create({
     unselectedText: {
         color: "#7184B4",
     }, 
-    btn: {
-      boxSizing: "border-box",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      paddingTop: 16,
-      paddingRight: 18,
-      paddingBottom: 16,
-      paddingLeft: 18,
-      borderTopLeftRadius: 25,
-      borderTopRightRadius: 25,
-      borderBottomRightRadius: 25,
-      borderBottomLeftRadius: 25,
-      marginRight: 10,
-      marginLeft: 10
-  },
   btn: {
     boxSizing: "border-box",
     display: "flex",

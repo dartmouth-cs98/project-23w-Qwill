@@ -14,7 +14,8 @@ const HomeStack = () => {
     <Stack.Navigator 
       initialRouteName="Mailbox"
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        contentStyle: { backgroundColor: '#F0F4FF' }
       }}>
         <Stack.Screen   
         options={{

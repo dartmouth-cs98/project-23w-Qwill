@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, FlatList, ScrollView, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, FlatList, ScrollView, TouchableOpacity, } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -51,7 +51,8 @@ function SelectRecipientScreen({route, navigation}) {
         key={index}
         containerStyle={styles.button} 
         onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}
-      />);
+      />
+    );
   };
 
   return (
