@@ -37,7 +37,8 @@ const ComposeStack = ({navigation}) => {
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerTitle: "",
-            animationTypeForReplace: "pop"
+            animationTypeForReplace: "pop",
+            contentStyle: { backgroundColor: '#F0F4FF' }
         }}>
         <Stack.Screen 
           name="SelectRecipient" 
