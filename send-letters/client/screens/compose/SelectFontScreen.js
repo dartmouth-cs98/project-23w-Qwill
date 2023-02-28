@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -25,7 +25,9 @@ const SelectFontScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={{marginTop: 20}}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <Ionicons name={"arrow-back"} size={40} onPress={()=>composeStackGoBack(navigation, selectFontGoBack)}/>
+        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectFontGoBack)}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <Text>SelectFontScreen</Text>
       <ButtonPrimary 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import React from 'react';
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -35,7 +35,9 @@ const SelectThemeScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={{marginTop: 20}}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <Ionicons name={"arrow-back"} size={40} onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}/>
+        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <Text>SelectThemeScreen</Text>
       <ButtonPrimary 
