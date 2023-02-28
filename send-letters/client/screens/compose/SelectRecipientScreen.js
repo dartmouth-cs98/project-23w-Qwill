@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   titleText: {
-    fontSize: 40, 
+    fontFamily: 'JosefinSansBold',
+    fontSize: 50, 
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,

@@ -16,6 +16,7 @@ const ButtonEmptyMailbox = props => {
 
 const styles = StyleSheet.create({
     text: {
+      fontFamily: 'JosefinSansBold',
       width: 115,
       height: 18,
       fontStyle: "normal",
