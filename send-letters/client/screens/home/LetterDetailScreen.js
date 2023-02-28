@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import LetterDetail from '../../components/LetterDetail';
@@ -40,7 +40,9 @@ const LetterDetailScreen = ({route, navigation}) => {
   return (
     <View style={{flex: 1}}>
       <View style={{ flex: 1, flexDirection :'row', alignItems: 'flex-start'}}>
-        <Ionicons name={"arrow-back"} size={40} onPress={handleBackPressed}/>
+        <TouchableOpacity onPress={handleBackPressed}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center'}}>
         <LetterDetail text={letterText} themeID={themeID} fontID={fontID}/>
