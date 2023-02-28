@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, FlatList, ScrollView, } from 'react-native';
+import { Text, View, StyleSheet, FlatList, ScrollView, TouchableOpacity} from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -57,7 +57,9 @@ function SelectRecipientScreen({route, navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <Ionicons name={"arrow-back"} size={40} onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}/>
+        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
         <Text style={styles.titleText}>Compose</Text>
