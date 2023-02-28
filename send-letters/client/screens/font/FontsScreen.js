@@ -6,16 +6,12 @@ import ButtonCircle from '../../components/ButtonCircle';
 
 export default function FontsScreen() {
     // Keep the splash screen visible while we fetch resources
-    const onLayoutRootView = useCallback(async () => {
-        await SplashScreen.hideAsync();
-      }
-    );
     
     return (
         <SafeAreaView style={{alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
           <View style={{alignItems: 'center'}}>
             <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
-                  onLayout={onLayoutRootView}
+                  
             >
               <Text style={styles.titleText}>Fonts</Text>
               <ButtonCircle icon="pencil"></ButtonCircle>
