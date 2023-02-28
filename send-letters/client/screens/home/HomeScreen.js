@@ -103,11 +103,13 @@ function HomeScreen({ navigation, route}) {
 
         <View style={{flex: 1}}></View>
 
-        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center'}} >
+        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: windowWidth}} >
           <ImageBackground
             source={require('../../assets/mailboxempty.png')}
             style={{
               flex: 1,
+              alignContent: 'center',
+              alignItems: 'center',
               height: imageHeight,
               width: imageWidth}}>
                 { mail.length === 0 ? (
@@ -141,7 +143,7 @@ function HomeScreen({ navigation, route}) {
                 ): (
                 <>
                   <View style={{flex: 0}}/>
-                  <View style={{flex: 8}}>
+                  <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
                     <LetterCarousel 
                       data={mail}
                       renderItem={renderItem}/>

@@ -58,9 +58,9 @@ function SelectRecipientScreen({route, navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
-          <Ionicons name={"arrow-back"} size={40}/>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
+            <Ionicons name={"arrow-back"} size={40}/>
+          </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
         <Text style={styles.titleText}>Compose</Text>
