@@ -6,10 +6,12 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const LetterDetail = props => {
-  const {text, fontID, themeID} = props;
+  const {text, fontID, themeID, width, height} = props;
+  const propsWidth = width ? width : screenWidth * .9;
+  const propsHeight = height ? height: screenHeight * .65;
 
   return (
-      <View style={styles.letter}>
+      <View style={[styles.letter, {width: propsWidth, height: propsHeight}]}>
         <ImageBackground 
           resizeMode={'cover'}
           style={{ flex: 1, width: '100%', height: '100%'}} 
@@ -29,8 +31,6 @@ export default LetterDetail;
 const styles = StyleSheet.create({
   letter: {
     backgroundColor: "#fdfef1",
-    width: screenWidth * .9,
-    height: screenHeight * .65,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#171717',

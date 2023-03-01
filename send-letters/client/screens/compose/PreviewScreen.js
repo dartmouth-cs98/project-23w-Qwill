@@ -1,5 +1,6 @@
-import { Text, View, StyleSheet } from 'react-native';
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useLayoutEffect, useEffect, useContext } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
@@ -8,6 +9,10 @@ import { AuthContext, AuthProvider } from '../../context/auth';
 import SignInScreen from '../auth/SignInScreen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonPrimary from '../../components/ButtonPrimary';
+import LetterDetail from '../../components/LetterDetail';
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 function PreviewScreen({ route, navigation }) {
 
@@ -45,9 +50,17 @@ function PreviewScreen({ route, navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{JSON.stringify(route.params)}</Text>
-      <View style={{flexDirection: 'row'}}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{flex: 4, alignItems: 'center', marginTop: 30}}>
+        <LetterDetail text={text} themeID={themeID} fontID={fontID} width={screenWidth * .6} height={screenHeight * .43}/>
+      </View>
+      <View style={{flex: 4}}>
+
+      </View>
+      <View style={{flex: 1}}>
+        <Text style={{fontFamily: "JosefinSans", fontSize: 20}}>Does this look good?</Text>
+      </View>
+      <View style={{flexDirection: 'row', marginBottom: 15}}>
         <ButtonPrimary
           textWidth={115}
           title={"No, edit it."}
@@ -74,7 +87,7 @@ function PreviewScreen({ route, navigation }) {
         >
           {snackMessage}
         </Snackbar>
-    </View>
+    </SafeAreaView>
   );
 };
 
