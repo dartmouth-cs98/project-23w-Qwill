@@ -57,13 +57,12 @@ function SelectRecipientScreen({route, navigation}) {
     //   </TouchableOpacity>
     // );
     return (
-      <View style={{marginLeft: 30, marginRight: 30}}>
+      <View>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
           data={matchingUsers}
           numColumns={3}
-          
           renderItem={({item}) => 
             <View>
               <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
@@ -84,11 +83,12 @@ function SelectRecipientScreen({route, navigation}) {
         <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
           <Ionicons name={"arrow-back"} size={40}/>
         </TouchableOpacity>
+        {/* <Text style={styles.titleText}>Compose</Text> */}
       </View>
-      <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
+      <View style={{ flexDirection: 'row'}}>
         <Text style={styles.titleText}>Compose</Text>
       </View>
-      <View style={[styles.recipientsContainer, styles.shadow]}>
+      <View style={[styles.recipientsContainer]}>
         <Text style={styles.selectTitleText}>Select a recipient</Text>
         <View style={styles.inputContainer}>
           <Input 
@@ -100,11 +100,11 @@ function SelectRecipientScreen({route, navigation}) {
             leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
           />
         </View>
-        <ScrollView style={styles.scrollView}>
+        {/* <ScrollView style={styles.scrollView}> */}
           <View>
             {renderMatches()}
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </View>
     </SafeAreaView>
   );
@@ -132,12 +132,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: 20
+    textAlign: "center",
+    // marginLeft: -60
   },
   recipientsContainer: {
     width: 350,
     height: 585,
-    backgroundColor: "#ACC3FF",
+    // backgroundColor: "#ACC3FF",
     borderRadius: 20, 
     marginTop:20,
     flex: 1,
@@ -147,10 +148,13 @@ const styles = StyleSheet.create({
     width: 70,
     borderRadius: 35,
     backgroundColor: "rgba(30,70,147,0.2)",
+    // backgroundColor: "white",
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: 5,
+    marginBottom: 10,
+    // borderWidth: 1,
+    // borderColor: 'black'
   },
   shadow: {
     shadowColor: '#171717',
@@ -163,7 +167,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     justifyContent: "center",
     textAlign: 'center', 
-    marginTop: 15
+    marginTop: 15, 
+    // textDecorationLine: 'underline'
   },
   inputContainer: {
     width: 285,
