@@ -44,6 +44,7 @@ const ComposeStack = ({navigation}) => {
           name="SelectRecipient" 
           component={SelectRecipientScreen}
           options= {{
+            headerShown: false,
             tabBarButton: (props) => (
               <CustomComposeButton {...props} />
             ),

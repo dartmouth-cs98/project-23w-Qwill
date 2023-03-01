@@ -80,10 +80,9 @@ function SelectRecipientScreen({route, navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
-          <Ionicons name={"arrow-back"} size={40}/>
-        </TouchableOpacity>
-        {/* <Text style={styles.titleText}>Compose</Text> */}
+          <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
+            <Ionicons name={"arrow-back"} size={40}/>
+          </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row'}}>
         <Text style={styles.titleText}>Compose</Text>
@@ -128,7 +127,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   titleText: {
-    fontSize: 40, 
+    fontFamily: 'JosefinSansBold',
+    fontSize: 50, 
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
