@@ -18,6 +18,8 @@ export default function App() {
           'GloriaHallelujah': require('./assets/fonts/GloriaHallelujah-Regular.ttf'),
           'HomemadeApple': require('./assets/fonts/HomemadeApple-Regular.ttf'),
           'IndieFlower': require('./assets/fonts/Mansalva-Regular.ttf'),
+          'JosefinSans': require('./assets/fonts/JosefinSans-Regular.ttf'),
+          'JosefinSansBold': require('./assets/fonts/JosefinSans-Bold.ttf'),
           'ShadowsIntoLight': require('./assets/fonts/ShadowsIntoLight-Regular.ttf'),
           'PTSans': require('./assets/fonts/PTSans-Regular.ttf'),
           'Mansalva': require('./assets/fonts/Mansalva-Regular.ttf'),

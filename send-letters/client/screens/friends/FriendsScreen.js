@@ -35,7 +35,8 @@ export default FriendsScreen;
 
 const styles = StyleSheet.create({
   titleText: {
-    fontSize: 40, 
+    fontFamily: 'JosefinSansBold',
+    fontSize: 50, 
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,

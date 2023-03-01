@@ -170,6 +170,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   emptyMailboxText: {
+    fontFamily: 'JosefinSansBold',
     width: 150,
     fontStyle: "normal",
     fontWeight: "700",
