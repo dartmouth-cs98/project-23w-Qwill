@@ -50,19 +50,22 @@ function PreviewScreen({ route, navigation }) {
       });
     }
   };
-
+  
+  // In letter detail, preserving an A4 paper aspect ratio (1.41 height to width)
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{flex: 4, alignItems: 'center', marginTop: 30}}>
-        <LetterDetail text={text} themeID={themeID} fontID={fontID} width={screenWidth * .6} height={screenHeight * .43}/>
+      <View style={{marginTop: 30, marginBottom: 10}}>
+        <LetterDetail text={text} themeID={themeID} fontID={fontID} width={screenWidth * .65} height={screenHeight * .46}/>
       </View>
-      <View style={[{flex: 4, flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
-        <PreviewEditRow text={recipientUsername} category={"Recipient"}/>
-        <PreviewEditRow text={themeID} category={"Theme"}/>
-        <PreviewEditRow text={fontID} category={"Font"}/>
+      <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
+          <PreviewEditRow text={recipientUsername} category={"Recipient"}/>
+          <PreviewEditRow text={themeID} category={"Theme"}/>
+          <PreviewEditRow text={fontID} category={"Font"}/>
+        </View>
       </View>
-      <View style={{flex: 1}}>
-        <Text style={{fontFamily: "JosefinSans", fontSize: 20}}>Does this look good?</Text>
+      <View style={{flex: .7, justifyContent: 'space-between'}}>
+        <Text style={{fontFamily: "JosefinSansBold", fontSize: 20}}>Does this look good?</Text>
       </View>
       <View style={{flexDirection: 'row', marginBottom: 15}}>
         <ButtonPrimary

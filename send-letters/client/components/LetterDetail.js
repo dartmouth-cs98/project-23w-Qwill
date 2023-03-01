@@ -8,7 +8,7 @@ const screenHeight = Dimensions.get('window').height;
 const LetterDetail = props => {
   const {text, fontID, themeID, width, height} = props;
   const propsWidth = width ? width : screenWidth * .9;
-  const propsHeight = height ? height: screenHeight * .65;
+  const propsHeight = height ? height: screenHeight * .64;
 
   return (
       <View style={[styles.letter, {width: propsWidth, height: propsHeight}]}>
