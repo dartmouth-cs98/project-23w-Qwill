@@ -6,7 +6,7 @@ import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 
 function ComposeScreen({ route, navigation }) {
-  const { recipientID, themeID, fontID } = route.params;
+  const { recipientID, recipientUsername, themeID, fontID } = route.params;
   const [text, setText] = useState("");
 
   const composeHomeGoBack = () => {
@@ -16,6 +16,7 @@ function ComposeScreen({ route, navigation }) {
   const handleNextPressed = () => {
     navigation.push('Preview', {
       recipientID: recipientID,
+      recipientUsername: recipientUsername,
       themeID: themeID,
       fontID: fontID,
       text: text,

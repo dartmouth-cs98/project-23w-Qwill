@@ -10,13 +10,15 @@ import SignInScreen from '../auth/SignInScreen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonPrimary from '../../components/ButtonPrimary';
 import LetterDetail from '../../components/LetterDetail';
+import { Feather } from '@expo/vector-icons';
+import PreviewEditRow from '../../components/PreviewEditRow';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function PreviewScreen({ route, navigation }) {
 
-  const { recipientID, themeID, fontID, text } = route.params;
+  const { recipientID, recipientUsername, themeID, fontID, text } = route.params;
   const [state, setState] = useContext(AuthContext);
 
   const [snackMessage, setSnackMessage] = useState("");
@@ -54,8 +56,10 @@ function PreviewScreen({ route, navigation }) {
       <View style={{flex: 4, alignItems: 'center', marginTop: 30}}>
         <LetterDetail text={text} themeID={themeID} fontID={fontID} width={screenWidth * .6} height={screenHeight * .43}/>
       </View>
-      <View style={{flex: 4}}>
-
+      <View style={[{flex: 4, flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
+        <PreviewEditRow text={recipientUsername} category={"Recipient"}/>
+        <PreviewEditRow text={themeID} category={"Theme"}/>
+        <PreviewEditRow text={fontID} category={"Font"}/>
       </View>
       <View style={{flex: 1}}>
         <Text style={{fontFamily: "JosefinSans", fontSize: 20}}>Does this look good?</Text>
@@ -108,4 +112,14 @@ const styles = StyleSheet.create({
       padding: 10,
       backgroundColor: 'white',
   },
+  editContainer: {
+    width: screenWidth * .85,
+    height: screenHeight * .4,
+    backgroundColor: "#ACC3FF",
+    borderRadius: 20, 
+    marginTop: 20,
+    marginBottom: 20,
+    padding: 20,
+    flex: 1,
+  }
 });

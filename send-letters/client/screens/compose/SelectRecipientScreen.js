@@ -35,7 +35,8 @@ function SelectRecipientScreen({route, navigation}) {
 
   const handleNextPressed = (item) => {
     navigation.push('SelectTheme', {
-      recipientID: item._id
+      recipientID: item._id,
+      recipientUsername: item.username
     });
   };
 

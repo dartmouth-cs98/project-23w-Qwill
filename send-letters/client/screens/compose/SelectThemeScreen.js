@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
 
 const SelectThemeScreen = ({navigation, route}) => {
-  const { recipientID } = route.params;
+  const { recipientID, recipientUsername } = route.params;
 
   // Default theme set to string none
   const [themeID, setThemeID] = useState("none");
@@ -16,6 +16,7 @@ const SelectThemeScreen = ({navigation, route}) => {
   const handleNextPressed = () => {
     navigation.push('SelectFont', {
         recipientID: recipientID,
+        recipientUsername: recipientUsername,
         themeID: themeID
     });
   };

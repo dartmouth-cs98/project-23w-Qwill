@@ -6,13 +6,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 
 const SelectFontScreen = ({navigation, route}) => {
-  const {recipientID, themeID} = route.params;
+  const {recipientID, recipientUsername, themeID} = route.params;
   // Default font ID set to 0
   const [fontID, setFontID] = useState(0);
 
   const handleNextPressed = () => {
         navigation.push('ComposeHome', {
             recipientID: recipientID,
+            recipientUsername: recipientUsername,
             themeID: themeID, 
             fontID: fontID
         });
