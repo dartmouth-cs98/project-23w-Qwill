@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
 
 
 function SelectRecipientScreen({route, navigation}) {
@@ -22,6 +23,12 @@ function SelectRecipientScreen({route, navigation}) {
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
     const senderID = state.user._id;  
+
+    // no need to connect to server if text contains restricted characters
+    if (hasRestrictedChar(text) == true) {
+      setMatchingUsers([]);
+      return;
+    }
 
     const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
     if (resp.error) {

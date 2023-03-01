@@ -94,7 +94,7 @@ const SignInScreen = ({navigation}) => {
       
       <View>
         <ButtonPrimary selected={true} onPress={() => handleSignInPressed()} title="Log in"/>
-        <ButtonPrimary selected={false} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
+        <ButtonPrimary selected={false} onPress={() => handleSignUpPressed()} type="outline" title="Sign up" marginTop={5}/>
       </View>
 
       <Snackbar
