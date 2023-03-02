@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext, useRef } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
@@ -6,6 +6,7 @@ import axios from "axios";
 import findIP from '../../helpers/findIP';
 import Carousel from 'react-native-reanimated-carousel';
 import LetterCarousel from '../../components/LetterCarousel';
+import { useIsFocused } from '@react-navigation/native';
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -34,8 +35,10 @@ function HomeScreen({ navigation, route}) {
   const userID = state.user._id;
   const [mail, setMail] = useState("");
 
+  const isFocused = useIsFocused();
+
   const [letterSentSnackIsVisible, setLetterSentSnackIsVisible] = useState(false);
-  
+
   // we'll change the state of the letter snack visibility if something changes in the route params
   useEffect(() => {
     if (route.params) {
@@ -44,11 +47,11 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID, 
-      letterIsRead: letterIsRead, 
+      letterStatus: letterStatus, 
       senderID: senderID, 
       senderUsername: senderUsername,
       themeID: themeID, 
@@ -61,12 +64,12 @@ function HomeScreen({ navigation, route}) {
     return (
         <View key={index}>
           <LetterForCarousel
-            isRead={item.read}
+            letterStatus={item.status}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, item.senderInfo.username, 0, 0)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, 0, 0)}}
           />
         </View>
     );
@@ -88,9 +91,9 @@ function HomeScreen({ navigation, route}) {
         console.error(err);
       }
     }
-
+  
     fetchMail();
-  }, []);
+  }, [isFocused]);
 
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
@@ -133,12 +136,12 @@ function HomeScreen({ navigation, route}) {
                 (
                   <View style={{flex: 1, alignItems: 'center'}}>
                     <LetterForCarousel
-                      isRead={mail[0].read}
+                      letterStatus={mail[0].status}
                       sender={mail[0].senderInfo.name}
                       senderAddress={0}
                       recipient={state.user.name}
                       recipientAddress={0}
-                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].read, mail[0].senderInfo._id, mail[0].senderInfo.username, 0, 0)}}
+                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, 0, 0)}}
                     />
                   </View>
                 ): (
