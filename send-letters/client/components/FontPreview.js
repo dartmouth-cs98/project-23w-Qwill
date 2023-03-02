@@ -5,7 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 const FontPreview = props => {
     return (
         <View>
-            <TouchableOpacity style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={props.onPress}>
                 <Text style={[styles.font, props.style]}>AaBbCc</Text>
             </TouchableOpacity>
             <Text style={[styles.title, props.style]}>{props.title}</Text>
