@@ -74,8 +74,8 @@ function PreviewScreen({ navigation }) {
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
           <PreviewEditRow text={letterInfo.recipientUsername} category={"Recipient"}/>
-          <PreviewEditRow text={letterInfo.themeID} category={"Theme"}/>
-          <PreviewEditRow text={letterInfo.fontID} category={"Font"}/>
+          <PreviewEditRow text={letterInfo.themeID === "" ? "None" : letterInfo.themeID} category={"Theme"}/>
+          <PreviewEditRow text={letterInfo.fontID === "" ? "Default": letterInfo.fontID} category={"Font"}/>
         </View>
       </View>
       <View style={{flex: .7, justifyContent: 'space-between'}}>
