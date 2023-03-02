@@ -17,15 +17,19 @@ function SelectRecipientScreen({navigation}) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
     // This is callback for the composeStackGoBack default helper
-    const selectRecipientGoBack = () => {
-      // setLetterInfo({
-      //   text: "",
-      //   recipientID: 0,
-      //   recipientUsername: "",
-      //   themeID: "",
-      //   fontID: "" });
-      navigation.navigate('Home');
-    };
+  const handleGoBack = () => {
+      setLetterInfo({
+        text: "",
+        recipientID: 0,
+        recipientUsername: "",
+        themeID: "",
+        fontID: "" });
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.navigate('Home');
+      }
+  };
 
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
@@ -65,7 +69,7 @@ function SelectRecipientScreen({navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-          <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
+          <TouchableOpacity onPress={()=>handleGoBack()}>
             <Ionicons name={"arrow-back"} size={40}/>
           </TouchableOpacity>
       </View>
