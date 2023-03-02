@@ -9,7 +9,7 @@ import { Button } from 'react-native-elements';
 
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
-  const {letterText, letterID, letterIsRead, senderId, themeID, fontID} = route.params;
+  const {letterText, letterID, letterIsRead, senderID, senderUsername, themeID, fontID} = route.params;
 
   const handleBackPressed = () => {
     // TODO: Mark letter read
@@ -20,12 +20,14 @@ const LetterDetailScreen = ({route, navigation}) => {
   // If we press reply on this page, we'll be taken to the compose letter screen with the recipient ID
   // as param. This way, the user doesn't have to fill in the recipient when they hit reply. 
   const handleReplyPressed = () => {
+    console.log("reply pressed, sender id", senderID);
     navigation.replace('NavBar', {
       screen: 'Compose',
       params: {
         screen: 'SelectTheme',
         params: {
-          recipientID: senderId
+          recipientID: senderID,
+          recipientUsername: senderUsername
         }
       }
     });
