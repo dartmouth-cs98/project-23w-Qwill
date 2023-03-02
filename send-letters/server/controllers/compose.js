@@ -4,7 +4,7 @@ import Letter from "../models/letter";
 
 export const sendLetter = async (req, res) => {
     try {
-        const { senderID, recipientID, text } = req.body;
+        const { text, recipientID, recipientUsername, themeID, fontID, senderID } = req.body;        
 
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
@@ -32,7 +32,9 @@ export const sendLetter = async (req, res) => {
                 sender: senderID,
                 recipient: recipientID,
                 text: text,
-                read: false,
+                status: 'sent',
+                theme: themeID,
+                font: fontID,
             }).save();
 
             return res.json({

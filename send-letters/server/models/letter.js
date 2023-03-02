@@ -16,9 +16,17 @@ const letterSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    read: {
-        type: Boolean,
+    status: {  // draft, sent, read, archive
+        type: String,
         required: true,
+    },
+    theme: {
+        type: String,
+        required: false,
+    },
+    font: {
+        type: String,
+        required: false,
     },
     resetCode: "",
 }, {

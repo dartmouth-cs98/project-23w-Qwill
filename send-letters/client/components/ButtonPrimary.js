@@ -9,10 +9,13 @@ const ButtonPrimary = props => {
   // If the button's text is longer, we can make the button a bit wider
   const textWidth = props.textWidth ? props.textWidth : 95;
 
+  // add in a margin top if wanted
+  const marginTop = props.marginTop ? props.marginTop : 0;
+
   if (selected) {
     return (
         <TouchableOpacity
-          style={[styles.btn, styles.selectedBtn]}
+          style={[styles.btn, styles.selectedBtn, {marginTop: marginTop}]}
           onPress={props.onPress}
         >
           <Text style={[styles.text, styles.selectedText, {width: textWidth}]}>{props.title}</Text>
@@ -21,7 +24,7 @@ const ButtonPrimary = props => {
   } else {
     return (
         <TouchableOpacity
-          style={[styles.btn, styles.unselectedBtn]}
+          style={[styles.btn, styles.unselectedBtn, {marginTop: marginTop}]}
           onPress={props.onPress}
         >
           <Text style={[styles.text, styles.unselectedText, {width: textWidth}]}>{props.title}</Text>

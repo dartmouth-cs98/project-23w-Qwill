@@ -1,20 +1,37 @@
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React from 'react';
 import LetterDetail from '../../components/LetterDetail';
 import { Ionicons } from '@expo/vector-icons';
-
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
 import ButtonPrimary from '../../components/ButtonPrimary';
+import { Snackbar } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
   const {letterText, letterID, letterIsRead, senderID, senderUsername, themeID, fontID} = route.params;
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
 
-  const handleBackPressed = () => {
-    // TODO: Mark letter read
+  const onDismissSnack = () => setSnackIsVisible(false);
 
-    navigation.goBack();
+  const handleBackPressed = async () => {
+    try {
+      const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
+
+      // alert if any errors detected on backend
+      if (resp.data.error) {
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+        return;
+      } else {
+        navigation.goBack(); 
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // If we press reply on this page, we'll be taken to the compose letter screen with the recipient ID
@@ -33,10 +50,21 @@ const LetterDetailScreen = ({route, navigation}) => {
     });
   }
 
-  // TODO
-  // Mark letter as archived so it no longer shows up in mailbox
-  const handleArchivePressed = () => {
+  const handleArchivePressed = async () => {
+    try {
+      const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "archive"});
 
+      // alert if any errors detected on backend
+      if (resp.data.error) {
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+        return;
+      } else {
+        navigation.goBack();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (

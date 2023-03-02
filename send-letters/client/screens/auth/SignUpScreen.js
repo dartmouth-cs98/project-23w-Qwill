@@ -7,7 +7,7 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../../context/auth';
 import findIP from '../../helpers/findIP';
-import { validateEmail, hasWhiteSpace } from '../../helpers/stringValidation';
+import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 
 
 // You can get the navigation stack as a prop
@@ -64,6 +64,13 @@ const SignUpScreen = ({navigation}) => {
     // check for whitespace in a username
     if (hasWhiteSpace(username) == true) {
       setSnackMessage("Your username cannot contain spaces");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check for restricted characters in a username
+    if (hasRestrictedChar(username) == true) {
+      setSnackMessage("Your username cannot contain a restricted character");
       setSnackIsVisible(true);
       return;
     }

@@ -26,12 +26,9 @@ function PreviewScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = async () => {
-    const senderID = state.user._id;    
-    const recipientID = letterInfo.recipientID;
-    const text = letterInfo.text;
-    const resp = await axios.post(findIP()+"/api/sendLetter", { senderID, recipientID, text });
-
-    console.log(resp)
+    reqBody = letterInfo;
+    reqBody['senderID'] = state.user._id;
+    const resp = await axios.post(findIP()+"/api/sendLetter", reqBody);
 
     // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {
