@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import FontPreview from '../../components/FontPreview';
+import fontData from '../../helpers/fontData';
 
 const SelectFontScreen = ({navigation}) => {
 
@@ -52,7 +53,7 @@ const SelectFontScreen = ({navigation}) => {
         <View style={{flexDirection: "row", marginTop: 20}}>
           <FlatList
             contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
-            data={itemData}
+            data={fontData}
             numColumns={3}
             renderItem={({item}) => 
               <View style={{marginLeft: 10, marginRight: 10}}>
@@ -66,41 +67,6 @@ const SelectFontScreen = ({navigation}) => {
   </SafeAreaView>
   );
 };
-
-const itemData = [
-  {
-    style:{fontFamily: 'MyNerve'},
-    title: "MyNerve"
-  },
-  {
-    style:{fontFamily: 'GloriaHallelujah'},
-    title: 'GloriaHallelujah'
-  },
-  {
-    style:{fontFamily: 'HomemadeApple'},
-    title: 'HomemadeApple'
-  },
-  {
-    style:{fontFamily: 'IndieFlower'},
-    title: 'IndieFlower'
-  },
-  {
-    style:{fontFamily: 'ShadowsIntoLight'},
-    title: 'ShadowsIntoLight'
-  },
-  {
-    style:{fontFamily: 'Mansalva'},
-    title: 'Mansalva'
-  },
-  {
-    style:{fontFamily: 'PTSans'},
-    title: 'PTSans'
-  },
-  {
-    style:{fontFamily: 'LibreBaskerville'},
-    title: 'LibreBaskerville'
-  },
-];
 
 export default SelectFontScreen;
 
