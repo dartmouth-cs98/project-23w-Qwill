@@ -1,33 +1,37 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useContext, useState, useEffect } from 'react';
 import React from 'react';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
+import {ComposeContext} from '../../context/ComposeStackContext';
 
 const SelectThemeScreen = ({navigation, route}) => {
-  const { recipientID } = route.params;
 
-  // Default theme set to string none
-  const [themeID, setThemeID] = useState("none");
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [themeID, setThemeID] = useState(letterInfo.themeID);
+
+  useEffect(() => {
+    if (route.params) {
+      const {recipientID, recipientUsername} = route.params;
+      console.log("recipientID", recipientID);
+      setLetterInfo({...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername});
+    }
+  }, [route.params]);
 
   const handleNextPressed = () => {
-    navigation.push('SelectFont', {
-        recipientID: recipientID,
-        themeID: themeID
-    });
+    // We'll change the letter info context for the whole compose stack only when we push next.
+    setLetterInfo({...letterInfo, themeID: themeID});
+    navigation.push('SelectFont');
   };
 
   const selectThemeGoBack = () => {
     navigation.replace('NavBar', {
         screen: 'Compose', 
         params: {
-            screen: 'SelectRecipient',
-            params: {
-                recipientID: recipientID
-            }
+            screen: 'SelectRecipient'
         }
     });
   };
@@ -35,7 +39,9 @@ const SelectThemeScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={{marginTop: 20}}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <Ionicons name={"arrow-back"} size={40} onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}/>
+        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <Text>SelectThemeScreen</Text>
       <ButtonPrimary 

@@ -7,18 +7,30 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 
 
-function SelectRecipientScreen({route, navigation}) {
+function SelectRecipientScreen({navigation}) {
   const [recipientField, setRecipientField] = useState("");
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
     // This is callback for the composeStackGoBack default helper
-    const selectRecipientGoBack = () => {
-      navigation.navigate('Home');
-    };
+  const handleGoBack = () => {
+      setLetterInfo({
+        text: "",
+        recipientID: 0,
+        recipientUsername: "",
+        themeID: "",
+        fontID: "" });
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.navigate('Home');
+      }
+  };
 
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
@@ -41,9 +53,8 @@ function SelectRecipientScreen({route, navigation}) {
   };
 
   const handleNextPressed = (item) => {
-    navigation.push('SelectTheme', {
-      recipientID: item._id
-    });
+    setLetterInfo({...letterInfo, recipientID: item._id, recipientUsername: item.username});
+    navigation.push('SelectTheme');
   };
 
   // this function renders the users that match the text in the input component
@@ -65,9 +76,9 @@ function SelectRecipientScreen({route, navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectRecipientGoBack)}>
-          <Ionicons name={"arrow-back"} size={40}/>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={()=>handleGoBack()}>
+            <Ionicons name={"arrow-back"} size={40}/>
+          </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 20}}>
         <Text style={styles.titleText}>Compose</Text>
@@ -108,7 +119,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   titleText: {
-    fontSize: 40, 
+    fontFamily: 'JosefinSansBold',
+    fontSize: 50, 
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,

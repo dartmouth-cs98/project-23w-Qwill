@@ -1,53 +1,17 @@
 import {Text, View, StyleSheet, FlatList} from 'react-native';
 import React, {useState, useEffect, useCallback} from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as Font from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 
 export default function FontsScreen() {
-    const [fontsLoaded, setFontsLoaded] = useState(false);
     // Keep the splash screen visible while we fetch resources
-    SplashScreen.preventAutoHideAsync();
-
-    useEffect(() => {
-        async function prepare() {
-            try {
-                await Font.loadAsync({
-                    'MyNerve': require('../../assets/fonts/MyNerve_Regular.ttf'),
-                    'GloriaHallelujah': require('../../assets/fonts/GloriaHallelujah-Regular.ttf'),
-                    'HomemadeApple': require('../../assets/fonts/HomemadeApple-Regular.ttf'),
-                    'IndieFlower': require('../../assets/fonts/Mansalva-Regular.ttf'),
-                    'ShadowsIntoLight': require('../../assets/fonts/ShadowsIntoLight-Regular.ttf'),
-                    'PTSans': require('../../assets/fonts/PTSans-Regular.ttf'),
-                    'Mansalva': require('../../assets/fonts/Mansalva-Regular.ttf'),
-                    'LibreBaskerville': require('../../assets/fonts/LibreBaskerville-Regular.ttf'),
-                });
-            } catch (err) {
-                console.warn(err);
-            } finally {
-                // Tell the application to render
-                setFontsLoaded(true);
-            }
-        }
-
-        prepare();
-    }, []);
-
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-    if (!fontsLoaded) {
-        return null;
-    }
+    
     return (
         <SafeAreaView style={{alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
           <View style={{alignItems: 'center'}}>
             <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
-                  onLayout={onLayoutRootView}
+                  
             >
               <Text style={styles.titleText}>Fonts</Text>
               <ButtonCircle icon="pencil"></ButtonCircle>
@@ -120,11 +84,13 @@ const itemData = [
 
 const styles = StyleSheet.create({
   titleText: {
-    fontSize: 40, 
+    fontFamily: 'JosefinSansBold',
+    fontSize: 50, 
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: 20
+    marginLeft: 20,
+    marginTop: 5
   },
   icons: {
     marginRight: 15

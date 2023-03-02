@@ -44,12 +44,13 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, themeID, fontID) => {
+  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID, 
       letterIsRead: letterIsRead, 
       senderID: senderID, 
+      senderUsername: senderUsername,
       themeID: themeID, 
       fontID: fontID });
   };
@@ -65,7 +66,7 @@ function HomeScreen({ navigation, route}) {
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, 0, 0)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, item.senderInfo.username, 0, 0)}}
           />
         </View>
     );
@@ -103,11 +104,13 @@ function HomeScreen({ navigation, route}) {
 
         <View style={{flex: 1}}></View>
 
-        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center'}} >
+        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: windowWidth}} >
           <ImageBackground
             source={require('../../assets/mailboxempty.png')}
             style={{
               flex: 1,
+              alignContent: 'center',
+              alignItems: 'center',
               height: imageHeight,
               width: imageWidth}}>
                 { mail.length === 0 ? (
@@ -135,13 +138,13 @@ function HomeScreen({ navigation, route}) {
                       senderAddress={0}
                       recipient={state.user.name}
                       recipientAddress={0}
-                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].read, mail[0].senderInfo._id, 0, 0)}}
+                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].read, mail[0].senderInfo._id, mail[0].senderInfo.username, 0, 0)}}
                     />
                   </View>
                 ): (
                 <>
                   <View style={{flex: 0}}/>
-                  <View style={{flex: 8}}>
+                  <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
                     <LetterCarousel 
                       data={mail}
                       renderItem={renderItem}/>
@@ -168,6 +171,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   emptyMailboxText: {
+    fontFamily: 'JosefinSansBold',
     width: 150,
     fontStyle: "normal",
     fontWeight: "700",

@@ -1,18 +1,24 @@
-import { Text, View, StyleSheet } from 'react-native';
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useLayoutEffect, useEffect, useContext } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { AuthContext, AuthProvider } from '../../context/auth';
-import SignInScreen from '../auth/SignInScreen';
+import { AuthContext } from '../../context/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonPrimary from '../../components/ButtonPrimary';
+import LetterDetail from '../../components/LetterDetail';
+import PreviewEditRow from '../../components/PreviewEditRow';
+import {ComposeContext} from '../../context/ComposeStackContext';
 
-function PreviewScreen({ route, navigation }) {
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
-  const { recipientID, themeID, fontID, text } = route.params;
+function PreviewScreen({ navigation }) {
+
   const [state, setState] = useContext(AuthContext);
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
@@ -20,10 +26,9 @@ function PreviewScreen({ route, navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = async () => {
-    const senderID = state.user._id;    
-    const resp = await axios.post(findIP()+"/api/sendLetter", { senderID, recipientID, text });
-
-    console.log(resp)
+    reqBody = letterInfo;
+    reqBody['senderID'] = state.user._id;
+    const resp = await axios.post(findIP()+"/api/sendLetter", reqBody);
 
     // alert if any errors detected on backend (such as email or username already taken)
     if (resp.data.error) {
@@ -32,6 +37,14 @@ function PreviewScreen({ route, navigation }) {
       return;
     } else {
       // successful letter send will be sent as a param, to toggle snackbar on home page
+      // Reset our letter context
+      setLetterInfo({
+        text: "",
+        recipientID: 0,
+        recipientUsername: "",
+        themeID: "",
+        fontID: ""
+      });
       navigation.replace('NavBar', 
           { screen: "Home",
             params: {
@@ -43,11 +56,29 @@ function PreviewScreen({ route, navigation }) {
       });
     }
   };
-
+  
+  // In letter detail, preserving an A4 paper aspect ratio (1.41 height to width)
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{JSON.stringify(route.params)}</Text>
-      <View style={{flexDirection: 'row'}}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{marginTop: 30, marginBottom: 10}}>
+        <LetterDetail 
+          text={letterInfo.text} 
+          themeID={letterInfo.themeID} 
+          fontID={letterInfo.fontID} 
+          width={screenWidth * .65} 
+          height={screenHeight * .46}/>
+      </View>
+      <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
+          <PreviewEditRow text={letterInfo.recipientUsername} category={"Recipient"}/>
+          <PreviewEditRow text={letterInfo.themeID === "" ? "None" : letterInfo.themeID} category={"Theme"}/>
+          <PreviewEditRow text={letterInfo.fontID === "" ? "Default": letterInfo.fontID} category={"Font"}/>
+        </View>
+      </View>
+      <View style={{flex: .7, justifyContent: 'space-between'}}>
+        <Text style={{fontFamily: "JosefinSansBold", fontSize: 20}}>Does this look good?</Text>
+      </View>
+      <View style={{flexDirection: 'row', marginBottom: 15}}>
         <ButtonPrimary
           textWidth={115}
           title={"No, edit it."}
@@ -74,7 +105,7 @@ function PreviewScreen({ route, navigation }) {
         >
           {snackMessage}
         </Snackbar>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -95,4 +126,14 @@ const styles = StyleSheet.create({
       padding: 10,
       backgroundColor: 'white',
   },
+  editContainer: {
+    width: screenWidth * .85,
+    height: screenHeight * .4,
+    backgroundColor: "#ACC3FF",
+    borderRadius: 20, 
+    marginTop: 20,
+    marginBottom: 20,
+    padding: 20,
+    flex: 1,
+  }
 });
