@@ -44,12 +44,13 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, themeID, fontID) => {
+  const handleLetterOpen = (letterText, letterID, letterIsRead, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID, 
       letterIsRead: letterIsRead, 
       senderID: senderID, 
+      senderUsername: senderUsername,
       themeID: themeID, 
       fontID: fontID });
   };
@@ -65,7 +66,7 @@ function HomeScreen({ navigation, route}) {
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, 0, 0)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.read, item.senderInfo._id, item.senderInfo.username, 0, 0)}}
           />
         </View>
     );
@@ -137,7 +138,7 @@ function HomeScreen({ navigation, route}) {
                       senderAddress={0}
                       recipient={state.user.name}
                       recipientAddress={0}
-                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].read, mail[0].senderInfo._id, 0, 0)}}
+                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].read, mail[0].senderInfo._id, mail[0].senderInfo.username, 0, 0)}}
                     />
                   </View>
                 ): (
