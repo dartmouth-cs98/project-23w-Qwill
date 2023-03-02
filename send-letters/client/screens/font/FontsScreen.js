@@ -3,6 +3,7 @@ import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
+import fontData from '../../helpers/fontData';
 
 export default function FontsScreen() {
     // Keep the splash screen visible while we fetch resources
@@ -22,7 +23,7 @@ export default function FontsScreen() {
             <View style={{flexDirection: "row", marginTop: 20, marginLeft: 20, marginRight: 20}}>
               <FlatList
                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
-                data={itemData}
+                data={fontData}
                 numColumns={3}
                 renderItem={({item}) => 
                   <View style={{marginLeft: 10, marginRight: 10}}>
@@ -44,41 +45,6 @@ export default function FontsScreen() {
         </SafeAreaView>
     );
 };
-
-const itemData = [
-  {
-    style:{fontFamily: 'MyNerve'},
-    title: "MyNerve"
-  },
-  {
-    style:{fontFamily: 'GloriaHallelujah'},
-    title: 'GloriaHallelujah'
-  },
-  {
-    style:{fontFamily: 'HomemadeApple'},
-    title: 'HomemadeApple'
-  },
-  {
-    style:{fontFamily: 'IndieFlower'},
-    title: 'IndieFlower'
-  },
-  {
-    style:{fontFamily: 'ShadowsIntoLight'},
-    title: 'ShadowsIntoLight'
-  },
-  {
-    style:{fontFamily: 'Mansalva'},
-    title: 'Mansalva'
-  },
-  {
-    style:{fontFamily: 'PTSans'},
-    title: 'PTSans'
-  },
-  {
-    style:{fontFamily: 'LibreBaskerville'},
-    title: 'LibreBaskerville'
-  },
-];
 
 const styles = StyleSheet.create({
   titleText: {
