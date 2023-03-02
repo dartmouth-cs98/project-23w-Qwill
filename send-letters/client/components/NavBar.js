@@ -1,4 +1,4 @@
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Feather} from '@expo/vector-icons';
@@ -58,7 +58,7 @@ function NavBar() {
               let iconName;
 
               if (route.name === 'Home') {
-                iconName = focused ? 'home': 'home-outline';
+                iconName = focused ? 'mail': 'mail-outline';
               } else if (route.name === 'Friends') {
                 iconName = focused ? 'people' : 'people-outline';
               } else if (route.name === 'Compose') {
@@ -66,7 +66,19 @@ function NavBar() {
                 // https://icons.expo.fyi/Feather/pen-tool
                 return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
-                iconName = focused ? 'pencil' : 'pencil-outline';
+                // iconName = focused ? 'pencil' : 'pencil-outline';
+                if (focused) {
+                  return (
+                    <View style={[styles.fontIcon, styles.fontIconSelected]}>
+                      <Text style={styles.fontIconTextSelected}>Aa</Text>
+                    </View>
+                  )}
+                else {
+                  return (
+                    <View style={[styles.fontIcon, styles.fontIconUnselected]}>
+                      <Text style={styles.fontIconTextUnselected}>Aa</Text>
+                    </View>
+                  )}
               } else if (route.name === 'Profile') {
                 iconName = focused ? 'person-circle' : 'person-circle-outline';
               }
@@ -100,6 +112,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
   },
+  fontIcon: {
+    height: 24, 
+    width: 24,
+    borderRadius: 5,
+    borderWidth: 2,
+    alignItems: 'center'
+  },
+  fontIconSelected: {
+    borderColor: 'black',
+    backgroundColor: 'black'
+  },
+  fontIconUnselected: {
+    borderColor: 'grey'
+  },
+  fontIconTextSelected: {
+    fontWeight: "700",
+    color: "#E2E8F6",
+    marginTop: 1
+  },
+  fontIconTextUnselected: {
+    fontWeight: "400",
+    color: 'grey',
+    marginTop: 1
+  }
 });
 
 export default NavBar;
