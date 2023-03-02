@@ -11,7 +11,7 @@ const ThemePreview = props => {
       style={styles.containerTheme}
       onPress={props.onPress}
     >
-        <Text>{props.themeName}</Text>
+        <Text style={styles.text}>{props.themeName}</Text>
         <Image 
           style={{
             height: undefined, 
@@ -31,7 +31,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: '#E2E8F6',
-    borderRadius: 20
+    borderRadius: 20,
+    marginTop: 10
+  },
+  text: {
+    fontWeight: "700"
   }
 });
 

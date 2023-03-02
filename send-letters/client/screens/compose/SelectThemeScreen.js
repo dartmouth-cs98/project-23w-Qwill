@@ -57,7 +57,7 @@ const SelectThemeScreen = ({navigation, route}) => {
       <View style={styles.themeContainer}>
         <Text style={styles.selectTitleText}>Select a theme</Text>
         <ScrollView style={styles.scrollView}>
-          <ThemePreview themeName="Stars"></ThemePreview>
+          <ThemePreview themeName="Stars" onPress={handleNextPressed}></ThemePreview>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    fontSize: 40, 
+    fontSize: 50, 
+    fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
-    textAlign: 'left',
     flex: 1,
     textAlign: "center",
     // marginLeft: -60

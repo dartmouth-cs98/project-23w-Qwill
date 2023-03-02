@@ -130,10 +130,9 @@ const styles = StyleSheet.create({
     fontFamily: 'JosefinSansBold',
     fontSize: 50, 
     fontWeight: 'bold',
-    textAlign: 'left',
     flex: 1,
     textAlign: "center",
-    // marginLeft: -60
+    // marginLeft: -10
   },
   recipientsContainer: {
     width: 350,
