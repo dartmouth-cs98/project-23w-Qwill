@@ -22,11 +22,28 @@ Expo is a development tool that allows developers to view the mobile development
 Please see: [https://expo.dev/](https://expo.dev/) for more information.
 
 ### MongoDB
-The backend will use MongoDB for a database to store infromation, such as user profiles and letters sent and received.
+The backend uses the Mongoose MongoDB library store information, such as user profiles and letters sent.
 
 Handwritten fonts will be only stored on the sender's database. The receiver will get a letter that just has a photo of their words in their font, that way the database does not need to trasmit a new font. The transmission will also include a plain text version for voice accessibility.
 
-TODO: Flesh out this section about MongoDB once we have tables established, how they relate to each other, etc. Preferably make a graphic.
+User Schema:
+```
+name: String < 30 characters,
+email: String that must be valid email syntax,
+username: String that must be alphanumeric or '.' or '_'
+password: String that is hashed and hidden on backend
+```
+
+Letter Schema:
+```
+sender: ObjectID that is a foreign key to the user collection,
+recipient: ObjectID that is a foreign key to the user collection,
+text: String representing the letter content
+status: String representing the current status of the letter,
+    // 4 options: draft, sent, read, archive
+theme: String representing the filename of the theme
+font: String represeting the filename of the font
+```
 
 Please see: [https://www.mongodb.com/](https://www.mongodb.com/) for more information.
 
