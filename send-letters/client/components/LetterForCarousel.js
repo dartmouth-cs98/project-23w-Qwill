@@ -7,12 +7,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ImageBackground }
 const ITEM_WIDTH = Math.round(Dimensions.get('window').width * 0.95);
 
 const LetterForCarousel = props => {
-  const isRead = props.isRead;
+  const letterStatus = props.letterStatus;
+
   return (
     <View style={{margin: 0}}>
       <ImageBackground 
         style={styles.imageBackground}
-        source={isRead ? require('../assets/openedLetter.png') : require('../assets/letter.png')}>
+        source={letterStatus === "read" ? require('../assets/openedLetter.png') : require('../assets/letter.png')}>
           <TouchableOpacity 
           style={styles.item}
           onPress={props.onPress}>
