@@ -1,5 +1,5 @@
 import {Text, View, StyleSheet, FlatList} from 'react-native';
-import React, {useState, useEffect, useCallback} from "react";
+import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
@@ -10,9 +10,7 @@ export default function FontsScreen() {
     return (
         <SafeAreaView style={{alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF"}}>
           <View style={{alignItems: 'center'}}>
-            <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}
-                  
-            >
+            <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop: 20}}>
               <Text style={styles.titleText}>Fonts</Text>
               <ButtonCircle icon="pencil"></ButtonCircle>
             </View>
@@ -21,7 +19,7 @@ export default function FontsScreen() {
               <Text>Default Fonts</Text>
               <View style={styles.line}></View>
             </View>
-            <View style={{flexDirection: "row", marginTop: 20, marginLeft: 30, marginRight: 30}}>
+            <View style={{flexDirection: "row", marginTop: 20, marginLeft: 20, marginRight: 20}}>
               <FlatList
                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
                 data={itemData}
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   icons: {
-    marginRight: 15
+    marginRight: 10
   },
   line: {
     width: 110,
