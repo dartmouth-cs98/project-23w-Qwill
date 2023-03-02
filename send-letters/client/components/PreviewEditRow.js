@@ -9,7 +9,7 @@ const PreviewEditRow = props => {
         <Text style={styles.categoryText}>{props.category}</Text>
         <Text style={styles.descriptionText}>{props.text}</Text>
       </View>
-      <Feather size={25} name='edit'></Feather>
+      {/* <Feather size={25} name='edit'></Feather> */}
   </View>
   )
 };
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row', 
       flexGrow: 1, 
       justifyContent: 'space-between', 
-      marginRight: 15
+    //   marginRight: 15
     },
     categoryText: {
       fontFamily:'JosefinSansBold',

@@ -7,15 +7,23 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
+import { ComposeContext } from '../../context/ComposeStackContext';
 
 
-function SelectRecipientScreen({route, navigation}) {
+function SelectRecipientScreen({navigation}) {
   const [recipientField, setRecipientField] = useState("");
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
     // This is callback for the composeStackGoBack default helper
     const selectRecipientGoBack = () => {
+      // setLetterInfo({
+      //   text: "",
+      //   recipientID: 0,
+      //   recipientUsername: "",
+      //   themeID: "",
+      //   fontID: "" });
       navigation.navigate('Home');
     };
 
@@ -34,10 +42,8 @@ function SelectRecipientScreen({route, navigation}) {
   };
 
   const handleNextPressed = (item) => {
-    navigation.push('SelectTheme', {
-      recipientID: item._id,
-      recipientUsername: item.username
-    });
+    setLetterInfo({...letterInfo, recipientID: item._id, recipientUsername: item.username});
+    navigation.push('SelectTheme');
   };
 
   // this function renders the users that match the text in the input component

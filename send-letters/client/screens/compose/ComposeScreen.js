@@ -4,23 +4,18 @@ import { Button, Input, Image } from 'react-native-elements';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
+import { ComposeContext } from '../../context/ComposeStackContext';
 
-function ComposeScreen({ route, navigation }) {
-  const { recipientID, recipientUsername, themeID, fontID } = route.params;
-  const [text, setText] = useState("");
+function ComposeScreen({ navigation, route }) {
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [text, setText] = useState(letterInfo.text);
 
   const composeHomeGoBack = () => {
     navigation.navigate('Home');
   };
 
   const handleNextPressed = () => {
-    navigation.push('Preview', {
-      recipientID: recipientID,
-      recipientUsername: recipientUsername,
-      themeID: themeID,
-      fontID: fontID,
-      text: text,
-    });
+    navigation.push('Preview');
   };
 
   return ( //todo amanda add fonts
@@ -28,7 +23,8 @@ function ComposeScreen({ route, navigation }) {
       <Text>Make a Letter!</Text>
       <Input 
         placeholder="enter letter text"
-        onChangeText={text => setText(text)}
+        defaultValue={text}
+        onChangeText={text => setLetterInfo({...letterInfo, text: text})}
       />
       <View style={{flexDirection: 'row'}}>
         <ButtonPrimary title={"Go back."} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>

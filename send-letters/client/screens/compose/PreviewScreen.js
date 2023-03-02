@@ -5,21 +5,20 @@ import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { AuthContext, AuthProvider } from '../../context/auth';
-import SignInScreen from '../auth/SignInScreen';
+import { AuthContext } from '../../context/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonPrimary from '../../components/ButtonPrimary';
 import LetterDetail from '../../components/LetterDetail';
-import { Feather } from '@expo/vector-icons';
 import PreviewEditRow from '../../components/PreviewEditRow';
+import {ComposeContext} from '../../context/ComposeStackContext';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-function PreviewScreen({ route, navigation }) {
+function PreviewScreen({ navigation }) {
 
-  const { recipientID, recipientUsername, themeID, fontID, text } = route.params;
   const [state, setState] = useContext(AuthContext);
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
@@ -28,6 +27,8 @@ function PreviewScreen({ route, navigation }) {
 
   const handleSendPressed = async () => {
     const senderID = state.user._id;    
+    const recipientID = letterInfo.recipientID;
+    const text = letterInfo.text;
     const resp = await axios.post(findIP()+"/api/sendLetter", { senderID, recipientID, text });
 
     console.log(resp)
@@ -39,6 +40,14 @@ function PreviewScreen({ route, navigation }) {
       return;
     } else {
       // successful letter send will be sent as a param, to toggle snackbar on home page
+      // Reset our letter context
+      setLetterInfo({
+        text: "",
+        recipientID: 0,
+        recipientUsername: "",
+        themeID: "",
+        fontID: ""
+      });
       navigation.replace('NavBar', 
           { screen: "Home",
             params: {
@@ -55,13 +64,18 @@ function PreviewScreen({ route, navigation }) {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{marginTop: 30, marginBottom: 10}}>
-        <LetterDetail text={text} themeID={themeID} fontID={fontID} width={screenWidth * .65} height={screenHeight * .46}/>
+        <LetterDetail 
+          text={letterInfo.text} 
+          themeID={letterInfo.themeID} 
+          fontID={letterInfo.fontID} 
+          width={screenWidth * .65} 
+          height={screenHeight * .46}/>
       </View>
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
-          <PreviewEditRow text={recipientUsername} category={"Recipient"}/>
-          <PreviewEditRow text={themeID} category={"Theme"}/>
-          <PreviewEditRow text={fontID} category={"Font"}/>
+          <PreviewEditRow text={letterInfo.recipientUsername} category={"Recipient"}/>
+          <PreviewEditRow text={letterInfo.themeID} category={"Theme"}/>
+          <PreviewEditRow text={letterInfo.fontID} category={"Font"}/>
         </View>
       </View>
       <View style={{flex: .7, justifyContent: 'space-between'}}>
