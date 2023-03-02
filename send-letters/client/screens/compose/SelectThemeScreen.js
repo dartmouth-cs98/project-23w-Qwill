@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   themeContainer: {
     width: 350,
     height: 585,
-    // backgroundColor: "#ACC3FF",
+    backgroundColor: "#ACC3FF",
     borderRadius: 20, 
     marginTop:20,
     flex: 1,
