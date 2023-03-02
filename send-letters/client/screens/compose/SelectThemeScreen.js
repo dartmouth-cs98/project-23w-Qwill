@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   themeContainer: {
     width: 350,
     height: 585,
-    backgroundColor: "#ACC3FF",
+    // backgroundColor: "#ACC3FF",
     borderRadius: 20, 
     marginTop:20,
     flex: 1,
