@@ -27,7 +27,7 @@ const LetterDetailScreen = ({route, navigation}) => {
         setSnackIsVisible(true);
         return;
       } else {
-        navigation.replace('NavBar'); // please fix @LEAH
+        navigation.goBack(); 
       }
     } catch (err) {
       console.log(err);
