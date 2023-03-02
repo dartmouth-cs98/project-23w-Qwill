@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';

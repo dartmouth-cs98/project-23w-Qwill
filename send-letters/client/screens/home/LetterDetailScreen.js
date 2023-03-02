@@ -11,7 +11,7 @@ import { Button } from 'react-native-elements';
 
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
-  const {letterText, letterID, letterIsRead, senderID, senderUsername, themeID, fontID} = route.params;
+  const {letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID} = route.params;
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
 
