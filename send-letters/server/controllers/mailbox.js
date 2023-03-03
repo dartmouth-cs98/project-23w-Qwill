@@ -60,7 +60,6 @@ export const receiveLetters = async (req, res) => {
 
 
 export const updateLetterStatus = async (req, res) => {    
-    console.log("inside letter status update");
     try {
         const { letterID, newStatus } = req.body;
         console.log(letterID);

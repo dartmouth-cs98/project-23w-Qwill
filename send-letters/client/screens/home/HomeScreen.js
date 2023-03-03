@@ -47,7 +47,7 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID, 
@@ -56,6 +56,18 @@ function HomeScreen({ navigation, route}) {
       senderUsername: senderUsername,
       themeID: themeID, 
       fontID: fontID });
+
+      try {
+        const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
+  
+        // alert if any errors detected on backend
+        if (resp.data.error) {
+          setSnackMessage(resp.data.error);
+          setSnackIsVisible(true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
   };
 
   // TODO: replace themeID and fontID params with real fields from backend
