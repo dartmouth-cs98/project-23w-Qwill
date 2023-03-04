@@ -21,8 +21,8 @@ function ComposeScreen({ navigation, route }) {
   return ( //todo amanda add fonts
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Make a Letter!</Text>
-      <Input 
-        placeholder="enter letter text"
+      <Input
+        style={{fontFamily: letterInfo.fontID}} 
         defaultValue={text}
         onChangeText={text => setLetterInfo({...letterInfo, text: text})}
       />
