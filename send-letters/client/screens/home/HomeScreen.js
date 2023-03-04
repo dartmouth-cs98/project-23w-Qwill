@@ -58,6 +58,7 @@ function HomeScreen({ navigation, route}) {
       fontID: fontID });
   };
 
+  console.log(mail);
   // TODO: replace themeID and fontID params with real fields from backend
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
@@ -69,7 +70,7 @@ function HomeScreen({ navigation, route}) {
             senderAddress={index}
             recipient={state.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, 0, 0)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
           />
         </View>
     );

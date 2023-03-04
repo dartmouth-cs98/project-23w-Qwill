@@ -18,7 +18,7 @@ const ThemePreview = props => {
             width: '100%',
             aspectRatio: 1,
             resizeMode: "contain"}}
-          source={require('../assets/themes/theme1.png')}
+          source={props.imageSource}
         />
     </TouchableOpacity>
   );

@@ -6,17 +6,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import FontPreview from '../../components/FontPreview';
-import fontData from '../../helpers/fontData';
+import fontData from '../../assets/fontData';
 
 const SelectFontScreen = ({navigation}) => {
 
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
-   // Default font ID set to 0
-   const [fontID, setFontID] = useState(letterInfo.fontID);
-
-  const handleNextPressed = () => {
-      setLetterInfo({...letterInfo, fontID: fontID});
+  const handleNextPressed = (selectedFont) => {
+      setLetterInfo({...letterInfo, fontID: selectedFont});
       navigation.push('ComposeHome');
   };
 
@@ -25,18 +22,6 @@ const SelectFontScreen = ({navigation}) => {
   }
 
   return (
-    // <SafeAreaView style={{marginTop: 20}}>
-    //   <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-    //     <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectFontGoBack)}>
-    //       <Ionicons name={"arrow-back"} size={40}/>
-    //     </TouchableOpacity>
-    //   </View>
-    //   <Text>SelectFontScreen</Text>
-    //   <ButtonPrimary 
-    //     title={"Next"} 
-    //     selected={true}
-    //     onPress={handleNextPressed}/>
-    // </SafeAreaView>
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
     <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
       <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectFontGoBack)}>
@@ -49,7 +34,6 @@ const SelectFontScreen = ({navigation}) => {
     </View>
     <View style={styles.fontsContainer}>
       <Text style={styles.selectTitleText}>Select a font</Text>
-      {/* <ScrollView style={styles.scrollView}> */}
         <View style={{flexDirection: "row", marginTop: 20}}>
           <FlatList
             contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
@@ -57,7 +41,7 @@ const SelectFontScreen = ({navigation}) => {
             numColumns={3}
             renderItem={({item}) => 
               <View style={{marginLeft: 10, marginRight: 10}}>
-                <FontPreview style={item.style} title={item.title} onPress={handleNextPressed}></FontPreview>
+                <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title)}></FontPreview>
               </View>}
             keyExtractor={(item) => item.title}
           />
