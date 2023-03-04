@@ -32,23 +32,26 @@ const SignInScreen = ({navigation}) => {
       return;
     }
 
-    const resp = await axios.post(findIP()+"/api/signIn", { emailUsername, password });
+    try {
+      const resp = await axios.post(findIP()+"/api/signIn", { emailUsername, password });
 
-    if (!resp) {
-      console.log("error");
-    }
-    console.log(resp.data);
-
-    // alert if any errors detected on backend (such as email or username already taken)
-    if (resp.data.error) {
-      setSnackMessage(resp.data.error);
-      setSnackIsVisible(true);
-      return;
-    } else {
-      setState(resp.data);
-      await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-      navigation.replace('NavBar');
-    }
+      // alert if any errors detected on backend
+      if (!resp) {
+        console.log("error");
+      } else if (resp.data.error) {
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+        return;
+      } else {
+        console.log("print test");
+        console.log(resp.data);
+        setState(resp.data);
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+        navigation.replace('NavBar');
+      }
+    } catch (err) {
+      console.log(err);
+    }    
   }
 
   const handleSignUpPressed = () => {

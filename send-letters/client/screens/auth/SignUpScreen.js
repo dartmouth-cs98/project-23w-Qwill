@@ -76,20 +76,25 @@ const SignUpScreen = ({navigation}) => {
     }
 
     // connect to server and get response
-    const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
-    console.log(resp.data);
+    try {
+      const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
 
-    // alert if any errors detected on backend (such as email or username already taken)
-    if (resp.data.error) {
-      setSnackMessage(resp.data.error);
-      setSnackIsVisible(true);
-      return;
-    } else {
-      setState(resp.data);
-      await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-      // successful sign up
-      alert("Sign Up Successful. Welcome to Qwill");
-      navigation.replace('NavBar');
+      // alert if any errors detected on backend
+      if (!resp) {
+        console.log("error");
+      } else if (resp.data.error) {
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+        return;
+      } else {
+        setState(resp.data);
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+        // successful sign up
+        alert("Sign Up Successful. Welcome to Qwill");
+        navigation.replace('NavBar');
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
