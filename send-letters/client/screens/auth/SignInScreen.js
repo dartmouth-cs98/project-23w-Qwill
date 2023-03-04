@@ -43,7 +43,6 @@ const SignInScreen = ({navigation}) => {
         setSnackIsVisible(true);
         return;
       } else {
-        console.log("print test");
         console.log(resp.data);
         setState(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
@@ -51,7 +50,7 @@ const SignInScreen = ({navigation}) => {
       }
     } catch (err) {
       console.log(err);
-    }    
+    }
   }
 
   const handleSignUpPressed = () => {

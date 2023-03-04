@@ -151,10 +151,10 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   lineShort: {
-    width: 290,
+    width: 0.75 * WINDOW_WIDTH,
     height: 0,
     borderWidth: 1,
     borderColor: "#737B7D",
-    marginLeft: 68,
+    marginLeft: 0.125 * WINDOW_WIDTH,
   },
 });
