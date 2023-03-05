@@ -1,13 +1,19 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard } from 'react-native'
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
+import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Button, Input, Image } from 'react-native-elements';
+import { Input, Image } from 'react-native-elements';
+import ButtonPrimary from '../../components/ButtonPrimary';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../../context/auth';
 import findIP from '../../helpers/findIP';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import {COLORS} from '../../styles/colors';
+
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 
 // You can get the navigation stack as a prop
@@ -76,20 +82,25 @@ const SignUpScreen = ({navigation}) => {
     }
 
     // connect to server and get response
-    const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
-    console.log(resp.data);
+    try {
+      const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
 
-    // alert if any errors detected on backend (such as email or username already taken)
-    if (resp.data.error) {
-      setSnackMessage(resp.data.error);
-      setSnackIsVisible(true);
-      return;
-    } else {
-      setState(resp.data);
-      await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-      // successful sign up
-      alert("Sign Up Successful. Welcome to Qwill");
-      navigation.replace('NavBar');
+      // alert if any errors detected on backend
+      if (!resp) {
+        console.log("error");
+      } else if (resp.data.error) {
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+        return;
+      } else {
+        setState(resp.data);
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+        // successful sign up
+        alert("Sign Up Successful. Welcome to Qwill");
+        navigation.replace('NavBar');
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -104,12 +115,16 @@ const SignUpScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"/>
-      <Image 
-        style={styles.imageWithShadow}
-        source={{
-            uri: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Envelope-letter-icon.png"
-        }}
-      />
+      <View style={{width: "60%"}}>
+        <Image 
+          style={{
+            height: undefined, 
+            width: '100%',
+            aspectRatio: 1,
+            resizeMode: "contain"}}
+          source={require('../../assets/logo.png')}
+        />
+      </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
         <Input 
@@ -117,7 +132,7 @@ const SignUpScreen = ({navigation}) => {
           onChangeText={text => setName(text)}
           autoCorrect={false} 
         />
-        <Input 
+        <Input
           placeholder="Email"
           autofocus
           type="email"
@@ -126,12 +141,12 @@ const SignUpScreen = ({navigation}) => {
           autoCapitalize="none"
           onChangeText={text => setEmail(text.toLowerCase())} 
         />
-        <Input 
+        <Input
           placeholder="Username"
           autoCapitalize="none"
           onChangeText={text => setUsername(text)}
           autoCorrect={false} />
-        <Input 
+        <Input
           placeholder="Password"
           secureTextEntry={true}
           type="password"
@@ -141,9 +156,26 @@ const SignUpScreen = ({navigation}) => {
         /> 
       </View>
     
-      {/* when using native elements, target container style, not style*/}
-      <Button containerStyle={styles.button} onPress={() => handleSignUpPressed()} type="outline" title="Sign up"/>
-      <Button containerStyle={styles.button} onPress={() => handleSignInPressed()} title="I already have an account"/>
+      <View>
+        <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
+          <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+          <Ionicons
+            style={{color: "#FFFFFF"}}
+            name={"arrow-forward-outline"}
+            size={24}>
+            </Ionicons>
+        </TouchableOpacity>
+
+        <View style={styles.orContainer}>
+          <View style={styles.lineShort}></View>
+          <Text style={styles.text}>or</Text>
+          <View style={styles.lineShort}></View>
+        </View>
+
+        <TouchableOpacity onPress={() => handleSignInPressed()}>
+          <Text style={styles.underLineText}>I already have an account</Text>
+        </TouchableOpacity>
+      </View>
 
       <Snackbar
           //SnackBar visibility control
@@ -172,7 +204,7 @@ const styles = StyleSheet.create({
         width: 300,
     },
     button: {
-        width: 200, 
+        width: 200,
         marginTop: 10,
     },
     container: {
@@ -189,5 +221,62 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.8,
         shadowRadius: 2,  
+    },
+    btn: {
+      backgroundColor: COLORS.blue700,
+      marginTop: 15,
+      boxSizing: "border-box",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      paddingTop: 16,
+      paddingRight: 18,
+      paddingBottom: 16,
+      paddingLeft: 18,
+      borderTopLeftRadius: 25,
+      borderTopRightRadius: 25,
+      borderBottomRightRadius: 25,
+      borderBottomLeftRadius: 25,
+      marginRight: 0.15 * WINDOW_WIDTH,
+      marginLeft: 0.15 * WINDOW_WIDTH,
+    },
+    buttonText: {
+      flex: 1,
+      height: 18,
+      fontStyle: "normal",
+      fontWeight: "500",
+      fontSize: 18,
+      lineHeight: 18,
+      display: "flex",
+      alignItems: "center",
+      textAlign: "center",
+      letterSpacing: 0.3,
+      color: "#FFFFFF",
+    },
+    lineShort: {
+      width: 0.4 * WINDOW_WIDTH,
+      height: 0,
+      borderWidth: 1,
+      borderColor: "#737B7D",
+    },
+    text: {
+      fontSize: 16,
+      fontWeight: "600", 
+      color: '#737B7D',
+    },
+    underLineText: {
+      fontSize: 17,
+      textDecorationLine: 'underline',
+      color: '#737B7D',
+      fontWeight: '600',
+      textAlign: 'center',
+    },
+    orContainer: {
+      width: 0.9 * WINDOW_WIDTH,
+      height: 60,
+      flexDirection: "row",
+      justifyContent: 'space-between', 
+      alignItems: 'center',
+      color: '#737B7D'
     },
 });

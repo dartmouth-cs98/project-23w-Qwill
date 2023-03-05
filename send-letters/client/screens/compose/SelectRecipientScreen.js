@@ -42,13 +42,19 @@ function SelectRecipientScreen({navigation}) {
       return;
     }
 
-    const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
-    if (resp.error) {
-      console.log(error);
-    } else if (!resp.data || !resp.data.matchingUsers) {
-      console.log("Error: the response does not contain the expected fields");
-    } else {
-      setMatchingUsers(resp.data.matchingUsers);
+    try {
+      const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
+      
+      // check for error on backend
+      if (resp.error) {
+        console.log(error);
+      } else if (!resp.data || !resp.data.matchingUsers) {
+        console.log("Error: the response does not contain the expected fields");
+      } else {
+        setMatchingUsers(resp.data.matchingUsers);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

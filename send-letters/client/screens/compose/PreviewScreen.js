@@ -28,32 +28,37 @@ function PreviewScreen({ navigation }) {
   const handleSendPressed = async () => {
     reqBody = letterInfo;
     reqBody['senderID'] = state.user._id;
-    const resp = await axios.post(findIP()+"/api/sendLetter", reqBody);
 
-    // alert if any errors detected on backend (such as email or username already taken)
-    if (resp.data.error) {
-      setSnackMessage(resp.data.error);
-      setSnackIsVisible(true);
-      return;
-    } else {
-      // successful letter send will be sent as a param, to toggle snackbar on home page
-      // Reset our letter context
-      setLetterInfo({
-        text: "",
-        recipientID: 0,
-        recipientUsername: "",
-        themeID: "",
-        fontID: ""
-      });
-      navigation.replace('NavBar', 
+    try {
+      const resp = await axios.post(findIP()+"/api/sendLetter", reqBody);
+
+      // alert if any errors detected on backend
+      if (resp.data.error) {
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        // successful letter send will be sent as a param, to toggle snackbar on home page
+        // Reset our letter context
+        setLetterInfo({
+          text: "",
+          recipientID: 0,
+          recipientUsername: "",
+          themeID: "",
+          fontID: ""
+        });
+        navigation.replace('NavBar', 
           { screen: "Home",
             params: {
               screen: 'Mailbox', 
               params: {
                 letterSentSnackIsVisible: true
               }
+            }
           }
-      });
+        );
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   

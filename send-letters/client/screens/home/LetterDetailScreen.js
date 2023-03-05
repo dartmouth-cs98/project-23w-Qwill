@@ -17,21 +17,8 @@ const LetterDetailScreen = ({route, navigation}) => {
 
   const onDismissSnack = () => setSnackIsVisible(false);
 
-  const handleBackPressed = async () => {
-    try {
-      const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
-
-      // alert if any errors detected on backend
-      if (resp.data.error) {
-        setSnackMessage(resp.data.error);
-        setSnackIsVisible(true);
-        return;
-      } else {
-        navigation.goBack(); 
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  const handleBackPressed = () => {
+    navigation.goBack();
   };
 
   // If we press reply on this page, we'll be taken to the compose letter screen with the recipient ID
