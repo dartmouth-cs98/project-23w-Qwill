@@ -3,7 +3,7 @@ import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
-import fontData from '../../helpers/fontData';
+import fontData from '../../assets/fontData';
 
 export default function FontsScreen() {
     // Keep the splash screen visible while we fetch resources

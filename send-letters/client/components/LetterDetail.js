@@ -9,16 +9,21 @@ const LetterDetail = props => {
   const {text, fontID, themeID, width, height} = props;
   const propsWidth = width ? width : screenWidth * .9;
   const propsHeight = height ? height: screenHeight * .64;
+ 
+  // we'll render the default system font unless a fontID is specified
+  const textStyle = fontID.length === 0 ? {} : {
+    fontFamily: fontID
+  };
 
   return (
       <View style={[styles.letter, {width: propsWidth, height: propsHeight}]}>
         <ImageBackground 
           resizeMode={'cover'}
           style={{ flex: 1, width: '100%', height: '100%'}} 
-          source={themeID === 0 ? null : images.themes[themeID]}> 
+          source={themeID === "" ? null : images.themes[themeID]}> 
         <ScrollView style={{width:'100%', height:'100%'}}>
           <View style={{padding: 20}}>
-            <Text>{text}</Text> 
+            <Text style={textStyle}>{text}</Text> 
           </View>
         </ScrollView>
         </ImageBackground>
