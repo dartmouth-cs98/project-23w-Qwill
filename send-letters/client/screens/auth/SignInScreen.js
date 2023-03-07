@@ -79,8 +79,7 @@ const SignInScreen = ({navigation}) => {
         {/* autofocus automatically focuses the app on this input */}
         <Input 
           placeholder="Email/Username"
-          // autofocus
-          autoCompleteType="email"
+          // autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={text => setEmailUsername(text.toLowerCase())} 
         />
