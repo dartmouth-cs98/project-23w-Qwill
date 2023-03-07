@@ -70,9 +70,6 @@ function HomeScreen({ navigation, route}) {
       }
   };
 
-
-  console.log(mail);
-  // TODO: replace themeID and fontID params with real fields from backend
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
