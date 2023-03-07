@@ -34,6 +34,7 @@ function ComposeScreen({ navigation, route }) {
             inputContainerStyle={{borderBottomWidth:0}}
             onChangeText={text => setLetterInfo({...letterInfo, text: text})}
             multiline={true}
+            autoCapitalize='none'
           />
       </ImageBackground>
       <View style={{flexDirection: 'row'}}>
