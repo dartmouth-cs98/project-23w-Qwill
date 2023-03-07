@@ -41,8 +41,6 @@ function getHeaderTitle(route) {
       return 'Fonts';
   }
 }
-
-
 // This screen determines which pages to load based on the user's authentification status
 const Navigation = () => {
 

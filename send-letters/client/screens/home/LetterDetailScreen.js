@@ -1,13 +1,10 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import LetterDetail from '../../components/LetterDetail';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import ButtonPrimary from '../../components/ButtonPrimary';
-import { Snackbar } from 'react-native-paper';
-import { Button } from 'react-native-elements';
 
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
