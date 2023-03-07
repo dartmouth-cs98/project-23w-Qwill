@@ -12,6 +12,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
+import {COLORS} from '../../styles/colors';
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
@@ -193,10 +194,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     letterSpacing: 0.3,
-    color: "#FFFFFF"
+    color: COLORS.white
   },
   snackBarText: {
-    color: "#fff",
+    color: COLORS.white,
     textAlign: 'center'
   },
   snackbar: {

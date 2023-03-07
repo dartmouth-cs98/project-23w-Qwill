@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native'
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
+import { StyleSheet, View, KeyboardAvoidingView} from 'react-native'
+import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Button, Input, Image } from 'react-native-elements';
+import { Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
@@ -56,8 +56,6 @@ const SignInScreen = ({navigation}) => {
   const handleSignUpPressed = () => {
     navigation.replace('SignUp')
   }
-
-
   
   // KeyboardAvoidingView:
   // This component will automatically adjust its height, position, or bottom padding based on the 

@@ -2,7 +2,6 @@ import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensi
 import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Input, Image } from 'react-native-elements';
-import ButtonPrimary from '../../components/ButtonPrimary';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -103,7 +102,6 @@ const SignUpScreen = ({navigation}) => {
       console.log(err);
     }
   }
-
 
   const handleSignInPressed = () => {
     navigation.replace('SignIn');
@@ -251,7 +249,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       textAlign: "center",
       letterSpacing: 0.3,
-      color: "#FFFFFF",
+      color: COLORS.white,
     },
     lineShort: {
       width: 0.4 * WINDOW_WIDTH,

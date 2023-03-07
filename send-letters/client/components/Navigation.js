@@ -1,18 +1,18 @@
-import React, {useContext} from 'react';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useContext } from 'react';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignInScreen from '../screens/auth/SignInScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
-import {AuthContext} from '../context/auth';
+import { AuthContext } from '../context/auth';
 import NavBar from './NavBar';
 
 const Stack = createNativeStackNavigator();
 
 // Header tint color turns icons put inside the header white
 const globalScreenOptions = {
-  headerStyle: {backgroundColor: "#b84a32"},
-  headerTitleStyle: {color: "white"},
+  headerStyle: { backgroundColor: "#b84a32" },
+  headerTitleStyle: { color: "white" },
   headerTintColor: "white",
   cardStyle: {
     backgroundColor: "#f0f4ff"
@@ -47,42 +47,29 @@ const Navigation = () => {
   const [state, setState] = useContext(AuthContext);
   const authentificated = state && state.token !== "" && state.user !== null;
 
-    return (
-      <Stack.Navigator initialRouteName="NavBar" screenOptions={globalScreenOptions}>
-        {authentificated ? 
-          (
-            <>
-              <Stack.Screen 
-                options={({ route }) => ({
-                  headerTitle: getHeaderTitle(route),
-                  headerShown: false,
-                  contentStyle: { backgroundColor: '#F0F4FF' }
-                })}        
-                name='NavBar'
-                component={NavBar}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen 
-                  options={{
-                  headerShown: false
-                  }}
-                  name='SignIn'
-                  component={SignInScreen}
-                /> 
-                <Stack.Screen 
-                  options={{
-                    headerShown: false
-                  }}
-                  name="SignUp"
-                  component={SignUpScreen}
-                />
-            </>
-          )
-        }
-      </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator initialRouteName="NavBar" screenOptions={globalScreenOptions}>
+      {authentificated ?
+        (
+          <>
+            <Stack.Screen options={({ route }) => ({
+              headerTitle: getHeaderTitle(route),
+              headerShown: false,
+              contentStyle: { backgroundColor: '#F0F4FF' }
+            })}
+              name='NavBar'
+              component={NavBar}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen options={{ headerShown: false }} name='SignIn' component={SignInScreen}/>
+            <Stack.Screen options={{headerShown: false }} name="SignUp" component={SignUpScreen}/>
+          </>
+        )
+      }
+    </Stack.Navigator>
+  );
 };
 
 export default Navigation;

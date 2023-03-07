@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {COLORS} from '../styles/colors';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
@@ -27,10 +28,10 @@ const styles = StyleSheet.create({
       alignItems: "center",
       textAlign: "center",
       letterSpacing: 0.3,
-      color: "#FFFFFF",
+      color: COLORS.white,
     }, 
     unselectedText: {
-        color: "#000000",
+        color: COLORS.black,
     }, 
     btn: {
       boxSizing: "border-box",
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
       marginLeft: 10
   },
     unselectedBtn: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: COLORS.white,
       }
 });
 
