@@ -30,7 +30,7 @@ function ComposeScreen({ navigation, route }) {
         source={images.themes[letterInfo.themeID]}> 
           <Input
             style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
-            placeholder={"Write!"}
+            placeholder={"Start writing your letter!"}
             inputContainerStyle={{borderBottomWidth:0}}
             onChangeText={text => setLetterInfo({...letterInfo, text: text})}
             multiline={true}
