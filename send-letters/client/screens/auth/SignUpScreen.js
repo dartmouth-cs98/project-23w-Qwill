@@ -85,9 +85,7 @@ const SignUpScreen = ({navigation}) => {
       const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
 
       // alert if any errors detected on backend
-      if (!resp) {
-        console.log("error");
-      } else if (resp.data.error) {
+      if (resp.data.error) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
         return;
@@ -99,7 +97,7 @@ const SignUpScreen = ({navigation}) => {
         navigation.replace('NavBar');
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 

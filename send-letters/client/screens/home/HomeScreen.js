@@ -64,11 +64,9 @@ function HomeScreen({ navigation, route}) {
           setSnackIsVisible(true);
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
   };
-
-  console.log(mail);
   // TODO: replace themeID and fontID params with real fields from backend
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
@@ -92,9 +90,9 @@ function HomeScreen({ navigation, route}) {
       try {
         const resp = await axios.post(findIP()+"/api/receiveLetters", { userID });
         if (resp.error) {
-          console.log(error);
+          console.error(error);
         } else if (!resp.data || !resp.data.receivedLetters) {
-          console.log("Error: the response does not contain the expected fields");
+          console.error("Error: the response does not contain the expected fields");
         } else {
           setMail(resp.data.receivedLetters);
         }

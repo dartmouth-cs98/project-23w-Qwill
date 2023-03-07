@@ -34,22 +34,18 @@ const SignInScreen = ({navigation}) => {
 
     try {
       const resp = await axios.post(findIP()+"/api/signIn", { emailUsername, password });
-
       // alert if any errors detected on backend
-      if (!resp) {
-        console.log("error");
-      } else if (resp.data.error) {
+      if (resp.data.error) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
         return;
       } else {
-        console.log(resp.data);
         setState(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
         navigation.replace('NavBar');
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 

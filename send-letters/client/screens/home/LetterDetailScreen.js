@@ -21,7 +21,6 @@ const LetterDetailScreen = ({route, navigation}) => {
   // If we press reply on this page, we'll be taken to the compose letter screen with the recipient ID
   // as param. This way, the user doesn't have to fill in the recipient when they hit reply. 
   const handleReplyPressed = () => {
-    console.log("reply pressed, sender id", senderID);
     navigation.replace('NavBar', {
       screen: 'Compose',
       params: {
@@ -47,7 +46,7 @@ const LetterDetailScreen = ({route, navigation}) => {
         navigation.goBack();
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
