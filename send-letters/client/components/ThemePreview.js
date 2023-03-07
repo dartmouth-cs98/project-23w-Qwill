@@ -1,5 +1,6 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Text, Dimensions, View } from 'react-native';
+import { StyleSheet, Text, Dimensions, View } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Image } from 'react-native-elements';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import COLORS from '../styles/colors'

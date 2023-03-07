@@ -23,7 +23,7 @@ function ComposeScreen({ navigation, route }) {
 
   return ( //todo amanda add fonts
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={styles.titleText}>Make your Letter!</Text>
+      <Text style={styles.titleText}>Write your Letter!</Text>
       <ImageBackground 
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%'}} 
@@ -34,6 +34,7 @@ function ComposeScreen({ navigation, route }) {
             inputContainerStyle={{borderBottomWidth:0}}
             onChangeText={text => setLetterInfo({...letterInfo, text: text})}
             multiline={true}
+            autoCapitalize='none'
           />
       </ImageBackground>
       <View style={{flexDirection: 'row'}}>
