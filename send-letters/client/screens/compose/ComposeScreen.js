@@ -31,6 +31,7 @@ function ComposeScreen({ navigation, route }) {
           <Input
             style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
             placeholder={"Start writing your letter!"}
+            defaultValue={text}
             inputContainerStyle={{borderBottomWidth:0}}
             onChangeText={text => setLetterInfo({...letterInfo, text: text})}
             multiline={true}
