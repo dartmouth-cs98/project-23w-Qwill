@@ -8,8 +8,7 @@ Qwill is a mobile app to customize your handwriting into digital letters. <br>
 
 
 ![home](https://user-images.githubusercontent.com/45802767/224577360-9e8f7cb8-d32a-4695-a91d-8652d030394f.png)
-![letter_view](https://user-images.githubusercontent.com/45802767/224577362-741c9135-bd42-423a-baff![Simulator Screen Shot - iPhone 11 Pro - 2023-03-12 at 18 22 36](https://user-images.githubusercontent.com/45802767/224577369-bb3a8911-2486-49a3-80b6-599857a9d9c7.png)
--dc7fd675a241.png)
+![letter_view](https://user-images.githubusercontent.com/45802767/224577362-741c9135-bd42-423a-baff-dc7fd675a241.png)
 ![friends](https://user-images.githubusercontent.com/45802767/224577422-80c84e11-b014-4a02-86e0-1d6f460138d8.png)
 
 ![font](https://user-images.githubusercontent.com/45802767/224577364-eb829670-523f-49d8-a893-488c538c1b1a.png)
