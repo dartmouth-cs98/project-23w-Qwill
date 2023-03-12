@@ -27,6 +27,7 @@ const LetterForCarousel = props => {
 
 const styles = StyleSheet.create({
     imageBackground: {
+        alignSelf: 'center',
         width: ITEM_WIDTH * 1.03,
         height: ITEM_WIDTH * 1.03  // do not change, this is the aspect ratio of the letter png
     },

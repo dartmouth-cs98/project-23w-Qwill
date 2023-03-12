@@ -27,7 +27,7 @@ const LetterCarousel = props => {
     <View>
       <Carousel
         {...baseOptions}
-        style={{alignContent:'center'}}
+        style={{alignContent:'center', alignItems: 'center', alignSelf: 'center'}}
         loop
         pagingEnabled={true}
         snapEnabled={true}
@@ -36,8 +36,8 @@ const LetterCarousel = props => {
         }
         mode="parallax"
         modeConfig={{
-          parallaxScrollingScale: 0.9,
-          parallaxScrollingOffset: 60,
+          parallaxScrollingScale: 0.8,
+          parallaxScrollingOffset: 110,
         }}
         data={props.data}
         renderItem={props.renderItem}
