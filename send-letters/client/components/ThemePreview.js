@@ -1,8 +1,11 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Text} from 'react-native';
+import { StyleSheet, Text, Dimensions, View } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Image } from 'react-native-elements';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import COLORS from '../styles/colors'
+
+const screenWidth = Dimensions.get('window').width;
 
 
 const ThemePreview = props => {
@@ -11,22 +14,24 @@ const ThemePreview = props => {
       style={styles.containerTheme}
       onPress={props.onPress}
     >
-        <Text style={styles.text}>{props.themeName}</Text>
+      <View style={{flexDirection: 'row'}}>
+        {/* <Text style={styles.text}>{props.themeName}</Text> */}
         <Image 
-          style={{
-            height: undefined, 
-            width: '100%',
-            aspectRatio: 1,
-            resizeMode: "contain"}}
+          style={styles.theme}
           source={props.imageSource}
         />
+        <View style={styles.titleContainer}>
+          <Text style={styles.themeNameText}>{props.themeName}</Text>
+        </View>
+        
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   containerTheme: {
-    width: 150,
+    width: screenWidth*.9,
     height: 200,
     justifyContent: "center",
     alignItems: "center",
@@ -34,8 +39,28 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 10
   },
-  text: {
-    fontWeight: "700"
+  theme: {
+    height: undefined, 
+    width: screenWidth*.45,
+    aspectRatio: 1,
+    resizeMode: "contain"
+  },
+  titleContainer: {
+    height: 180,
+    width: screenWidth*.5,
+    // justifyContent: "center",
+    // justifyContent: 'center', //Centered horizontally
+    // alignItems: 'center', //Centered vertically
+    // flex:1
+    // textAlignVertical: "center"
+  },
+  themeNameText: {
+    fontSize: 30, 
+    fontFamily: 'JosefinSansBold',
+    fontWeight: 'bold',
+    flex: 1,
+    marginTop: 75
+    // textAlign: "center",
   }
 });
 

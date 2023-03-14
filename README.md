@@ -1,13 +1,18 @@
 # Qwill
 
-TODO: Make an add an official logo and display it here
+
+![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
 
 Qwill is a mobile app to customize your handwriting into digital letters. <br>
 
-![homepage](https://user-images.githubusercontent.com/67716136/216882499-6d6f2f69-205a-4947-8352-9b44847b9ec0.JPG)
-![mailbox](https://user-images.githubusercontent.com/67716136/216882575-8a990e8c-294e-4e22-9c29-3ec77b50342c.JPG)
-![fonts](https://user-images.githubusercontent.com/67716136/216883213-fe6d7e58-74c2-47c2-b76d-021a052eb7fe.JPG)
-![sampleletter](https://user-images.githubusercontent.com/67716136/216883200-e9552c38-7459-4fad-bdbe-0dbeeaf2a404.JPG)
+
+
+![home](https://user-images.githubusercontent.com/45802767/224577360-9e8f7cb8-d32a-4695-a91d-8652d030394f.png)
+![letter_view](https://user-images.githubusercontent.com/45802767/224577362-741c9135-bd42-423a-baff![Simulator Screen Shot - iPhone 11 Pro - 2023-03-12 at 18 22 36](https://user-images.githubusercontent.com/45802767/224577369-bb3a8911-2486-49a3-80b6-599857a9d9c7.png)
+-dc7fd675a241.png)
+![friends](https://user-images.githubusercontent.com/45802767/224577422-80c84e11-b014-4a02-86e0-1d6f460138d8.png)
+
+![font](https://user-images.githubusercontent.com/45802767/224577364-eb829670-523f-49d8-a893-488c538c1b1a.png)
 
 ## Architecture
 
@@ -56,7 +61,7 @@ Root navigation stack (components/Navigation.js)
 │   ├── SignInScreen.js
 │   └── SignUpScreen.js
 ├── Main navigation bar (components/NavBar.js)
-│   ├── Home stack (components/HomeStack.js)
+│   ├── Mailbox stack (components/HomeStack.js)
 |   |   ├── HomeScreen.js
 │   |   └── DraftsScreen.js
 │   ├── Compose stack (components/ComposeStack.js)
@@ -67,6 +72,7 @@ Root navigation stack (components/Navigation.js)
 |   |   ├── FriendsScreen.js
 |   |   ├── AddFriendsScreen.js (modal view)
 │   |   └── PendingFriendsScreen.js (modal view)
+|   └── Fonts
 │   └── Profile 
 └── 
 ```
