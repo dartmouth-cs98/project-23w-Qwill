@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
       alignItems: "center",
       textAlign: "center",
       letterSpacing: 0.3,
-      color: "#FFFFFF",
+      color: COLORS.white,
     },
     selectedText: {
-        color: "#FFFFFF",
+        color:  COLORS.white,
     }, 
     unselectedText: {
-        color: "#7184B4",
+        color: COLORS.blue700,
     }, 
   btn: {
     boxSizing: "border-box",

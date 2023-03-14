@@ -47,14 +47,14 @@ function SelectRecipientScreen({navigation}) {
       
       // check for error on backend
       if (resp.error) {
-        console.log(error);
+        console.error(error);
       } else if (!resp.data || !resp.data.matchingUsers) {
-        console.log("Error: the response does not contain the expected fields");
+        console.error("Error: the response does not contain the expected fields");
       } else {
         setMatchingUsers(resp.data.matchingUsers);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.error(e);
     }
   };
 

@@ -7,8 +7,8 @@ import React, { useState, useEffect, useCallback } from "react";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
+  
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
   useEffect(() => {
     async function prepare() {
       try {
@@ -31,7 +31,6 @@ export default function App() {
         setFontsLoaded(true);
       }
     }
-
     prepare();
   }, [fontsLoaded]);
 

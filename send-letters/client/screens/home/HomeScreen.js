@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useContext, useRef } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import React, {useState, useEffect, useContext } from 'react';
+import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
 import axios from "axios";
 import findIP from '../../helpers/findIP';
-import Carousel from 'react-native-reanimated-carousel';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -13,7 +12,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
-
+import {COLORS} from '../../styles/colors';
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
@@ -28,7 +27,6 @@ const imageWidth = Math.round(imageHeight * .626);
 
 // widths for the slider carousel
 const SLIDER_WIDTH = windowWidth;
-const ITEM_WIDTH = Math.round(SLIDER_WIDTH * .7);
 
 function HomeScreen({ navigation, route}) {
   const [state, setState] = useContext(AuthContext);
@@ -66,7 +64,7 @@ function HomeScreen({ navigation, route}) {
           setSnackIsVisible(true);
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
   };
 
@@ -92,9 +90,9 @@ function HomeScreen({ navigation, route}) {
       try {
         const resp = await axios.post(findIP()+"/api/receiveLetters", { userID });
         if (resp.error) {
-          console.log(error);
+          console.error(error);
         } else if (!resp.data || !resp.data.receivedLetters) {
-          console.log("Error: the response does not contain the expected fields");
+          console.error("Error: the response does not contain the expected fields");
         } else {
           setMail(resp.data.receivedLetters);
         }
@@ -102,7 +100,6 @@ function HomeScreen({ navigation, route}) {
         console.error(err);
       }
     }
-  
     fetchMail();
   }, [isFocused]);
 
@@ -195,10 +192,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     letterSpacing: 0.3,
-    color: "#FFFFFF"
+    color: COLORS.white
   },
   snackBarText: {
-    color: "#fff",
+    color: COLORS.white,
     textAlign: 'center'
   },
   snackbar: {

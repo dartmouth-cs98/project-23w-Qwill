@@ -2,7 +2,6 @@ import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensi
 import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Input, Image } from 'react-native-elements';
-import ButtonPrimary from '../../components/ButtonPrimary';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -86,9 +85,7 @@ const SignUpScreen = ({navigation}) => {
       const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
 
       // alert if any errors detected on backend
-      if (!resp) {
-        console.log("error");
-      } else if (resp.data.error) {
+      if (resp.data.error) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
         return;
@@ -100,10 +97,9 @@ const SignUpScreen = ({navigation}) => {
         navigation.replace('NavBar');
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
-
 
   const handleSignInPressed = () => {
     navigation.replace('SignIn');
@@ -251,7 +247,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       textAlign: "center",
       letterSpacing: 0.3,
-      color: "#FFFFFF",
+      color: COLORS.white,
     },
     lineShort: {
       width: 0.4 * WINDOW_WIDTH,

@@ -35,7 +35,6 @@ const AuthProvider = ({ children }) => {
         const loadFromAsyncStorage = async () => {
             let data = await AsyncStorage.getItem("auth-rn");
             const parsed = JSON.parse(data);
-            console.log(parsed);  // when app is loaded this logs as null
             if (parsed !== null && parsed.user && parsed.token) {
                 setState({ ...state, user: parsed.user, token: parsed.token });
             }

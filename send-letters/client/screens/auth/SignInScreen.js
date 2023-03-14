@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native'
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
+import { StyleSheet, View, KeyboardAvoidingView} from 'react-native'
+import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Button, Input, Image } from 'react-native-elements';
+import { Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
@@ -34,30 +34,24 @@ const SignInScreen = ({navigation}) => {
 
     try {
       const resp = await axios.post(findIP()+"/api/signIn", { emailUsername, password });
-
       // alert if any errors detected on backend
-      if (!resp) {
-        console.log("error");
-      } else if (resp.data.error) {
+      if (resp.data.error) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
         return;
       } else {
-        console.log(resp.data);
         setState(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
         navigation.replace('NavBar');
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
   const handleSignUpPressed = () => {
     navigation.replace('SignUp')
   }
-
-
   
   // KeyboardAvoidingView:
   // This component will automatically adjust its height, position, or bottom padding based on the 
