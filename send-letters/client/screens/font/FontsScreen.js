@@ -1,25 +1,44 @@
-import { Text, View, StyleSheet, FlatList } from 'react-native';
-import React, {useState} from "react";
+import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import ButtonPrimary from '../../components/ButtonPrimary';
+import CameraScreen from './CameraScreen.js';
 import fontData from '../../assets/fontData';
 
 import { Camera, CameraType } from 'expo-camera';
-const [type, setType] = useState(CameraType.back);
-
-function toggleCameraType() {
-  setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-}
+// https://stackoverflow.com/questions/73349710/giving-an-error-with-expo-camera-typeerror-undefined-is-not-an-object-evaluat
 
 export default function FontsScreen() {
   // Keep the splash screen visible while we fetch resources
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  function toggleCameraType() {
+    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  }
+
+  // if (!permission) {
+  //   // Camera permissions are still loading
+  //   return <View />;
+  // }
+
+  // if (!permission.granted) {
+  //   // Camera permissions are not granted yet
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={{ textAlign: 'center' }}>
+  //         We need your permission to show the camera
+  //       </Text>
+  //       <Button onPress={requestPermission} title="grant permission" />
+  //     </View>
+  //   );
+  // }
 
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={{ alignItems: 'center' }}>
-
         <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: 20 }}>
           <Text style={styles.titleText}>Fonts</Text>
           <ButtonCircle icon="pencil"></ButtonCircle>
@@ -47,14 +66,15 @@ export default function FontsScreen() {
           <View style={styles.line}></View>
         </View>
         <View style={styles.noCustom}>
-        <Text style={{ textAlign: 'center', marginTop: 20 }}>You don't have any custom fonts yet.</Text>
+          <Text style={{ textAlign: 'center', marginTop: 20 }}>You don't have any custom fonts yet.</Text>
           {/* <Text style={{ textAlign: "center", textDecorationLine: 'underline', marginTop: 20 }}>Add a custom font</Text> */}
           <ButtonPrimary
             selected={false}
             title={"Add custom font"}
-            onPress={toggleCameraType}
+            onPress={CameraScreen}
           />
         </View>
+
       </View>
     </SafeAreaView>
   );
@@ -88,5 +108,28 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#E2E8F6",
     marginTop: 20,
-  }
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  camera: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    margin: 64,
+  },
+  button: {
+    flex: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
