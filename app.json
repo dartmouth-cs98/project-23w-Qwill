@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "project-23w-send-letters",
+    "slug": "project-23w-send-letters",
+    "version": "1.0.0",
+    "sdkVersion": "1.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.amandasun.project-23w-send-letters"
+    }
+  }
+}
