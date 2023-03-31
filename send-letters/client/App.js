@@ -4,9 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './context/auth';
 import Navigation from './components/Navigation';
 import React, { useState, useEffect, useCallback } from "react";
+import CameraScreen from './screens/font/CameraScreen.js';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
+  
+  CameraScreen();
   
   const [fontsLoaded, setFontsLoaded] = useState(false);
   useEffect(() => {
@@ -44,6 +47,7 @@ export default function App() {
   onLayoutRootView().catch((e) => console.error(e))
 
   return (
+    
     <NavigationContainer contentStyle={{ backgroundColor: '#F0F4FF' }}>
       <AuthProvider>
         <Navigation />
