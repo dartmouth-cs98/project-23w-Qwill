@@ -72,7 +72,7 @@ const FontsScreen = ({navigation}) => {
           <ButtonPrimary
             selected={false}
             title={"Add custom font"}
-            onPress={() => navigation}
+            onPress={() =>{navigation.navigate("CameraScreen")}}
           />
         </View>
 
