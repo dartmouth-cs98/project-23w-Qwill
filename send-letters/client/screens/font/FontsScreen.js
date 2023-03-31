@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import ButtonPrimary from '../../components/ButtonPrimary';
-import CameraScreen from './CameraScreen.js';
+// import CameraScreen from './CameraScreen.js';
 import fontData from '../../assets/fontData';
 
 //import { Camera, CameraType } from 'expo-camera';

@@ -4,7 +4,7 @@ import FontsScreen from './FontsScreen';
 import CameraScreen from './CameraScreen';
 const Stack = createNativeStackNavigator();
 
-// This stack will have a main screen (friends) and one modal screens which can be navigated to
+// This stack will have a main screen (fonts) and one modal screen which can be navigated to
 // https://reactnavigation.org/docs/modal/
 const FontsStack = () => {
   // the "name" property of each screen is what should be referred to when routing with navigators

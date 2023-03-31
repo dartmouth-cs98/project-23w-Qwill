@@ -1,11 +1,12 @@
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Feather} from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
-import FontsScreen from '../screens/font/FontsScreen';
+import FontsStack from '../screens/font/FontsStack';
+// import FontsScreen from '../screens/font/FontsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from './ComposeStack';
@@ -100,7 +101,7 @@ function NavBar() {
               ),
               tabBarStyle:{display:'none'} 
             }}/>
-          <Tab.Screen name="Fonts" component={FontsScreen} />
+          <Tab.Screen name="Fonts" component={FontsStack} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
     );
