@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FriendPreview from '../../components/FriendPreview';
