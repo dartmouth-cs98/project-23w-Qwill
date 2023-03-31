@@ -1,16 +1,11 @@
-import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import React, { useState } from "react";
+import { Text, View, StyleSheet, FlatList } from 'react-native';
+import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import ButtonPrimary from '../../components/ButtonPrimary';
-// import CameraScreen from './CameraScreen.js';
 import fontData from '../../assets/fontData';
 
-//import { Camera, CameraType } from 'expo-camera';
-// https://stackoverflow.com/questions/73349710/giving-an-error-with-expo-camera-typeerror-undefined-is-not-an-object-evaluat
-
-// export default function FontsScreen
 const FontsScreen = ({navigation}) => {
   // Keep the splash screen visible while we fetch resources
   // const [type, setType] = useState(Camera.Constants.Type.back);

@@ -4,10 +4,14 @@ import FontsScreen from './FontsScreen';
 import CameraScreen from './CameraScreen';
 const Stack = createNativeStackNavigator();
 
-// This stack will have a main screen (fonts) and one modal screen which can be navigated to
-// https://reactnavigation.org/docs/modal/
+/* 
+This Fonts Stack will have a main screen (fonts) and one modal camera screen which can be navigated to.
+Citation: 
+https://reactnavigation.org/docs/modal/
+https://docs.expo.dev/versions/latest/sdk/camera/
+*/
+
 const FontsStack = () => {
-  // the "name" property of each screen is what should be referred to when routing with navigators
   return (
     <Stack.Navigator 
       initialRouteName="FontsScreen"
