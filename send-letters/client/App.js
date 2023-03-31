@@ -44,6 +44,7 @@ export default function App() {
   onLayoutRootView().catch((e) => console.error(e))
 
   return (
+    
     <NavigationContainer contentStyle={{ backgroundColor: '#F0F4FF' }}>
       <AuthProvider>
         <Navigation />
