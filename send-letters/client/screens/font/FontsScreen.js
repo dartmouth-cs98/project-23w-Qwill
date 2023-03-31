@@ -7,31 +7,6 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import fontData from '../../assets/fontData';
 
 const FontsScreen = ({navigation}) => {
-  // Keep the splash screen visible while we fetch resources
-  // const [type, setType] = useState(Camera.Constants.Type.back);
-  // const [permission, requestPermission] = Camera.useCameraPermissions();
-
-  // function toggleCameraType() {
-  //   setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  // }
-
-  // if (!permission) {
-  //   // Camera permissions are still loading
-  //   return <View />;
-  // }
-
-  // if (!permission.granted) {
-  //   // Camera permissions are not granted yet
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text style={{ textAlign: 'center' }}>
-  //         We need your permission to show the camera
-  //       </Text>
-  //       <Button onPress={requestPermission} title="grant permission" />
-  //     </View>
-  //   );
-  // }
-  
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={{ alignItems: 'center' }}>
