@@ -119,6 +119,7 @@ npm install @react-native-async-storage/async-storage
 npm install --save react-native-paper
 npm install react-native-reanimated-carousel react-native-reanimated
 npx expo install expo-camera
+npm install expo-sharing
 
 # serverside
 npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
