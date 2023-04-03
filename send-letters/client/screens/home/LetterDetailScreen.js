@@ -9,9 +9,11 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
   const {letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID} = route.params;
+  
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
-
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleBackPressed = () => {
