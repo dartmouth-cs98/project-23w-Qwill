@@ -16,7 +16,7 @@ function ComposeScreen({ navigation, route }) {
     navigation.navigate('Home');
   };
 
-  const handleNextPressed = () => {
+  const handleNextPressed = () => {    
     navigation.push('Preview');
   };
 
