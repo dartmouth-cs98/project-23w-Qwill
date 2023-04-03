@@ -17,6 +17,12 @@ function SelectRecipientScreen({navigation}) {
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
     // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
       setLetterInfo({
@@ -45,16 +51,19 @@ function SelectRecipientScreen({navigation}) {
     try {
       const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
       
-      // check for error on backend
-      if (resp.error) {
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
         console.error(error);
       } else if (!resp.data || !resp.data.matchingUsers) {
         console.error("Error: the response does not contain the expected fields");
       } else {
         setMatchingUsers(resp.data.matchingUsers);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
     }
   };
 

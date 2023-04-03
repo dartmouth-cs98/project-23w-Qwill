@@ -9,9 +9,11 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 const LetterDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
   const {letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID} = route.params;
+  
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
-
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleBackPressed = () => {
@@ -37,8 +39,11 @@ const LetterDetailScreen = ({route, navigation}) => {
     try {
       const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "archive"});
 
-      // alert if any errors detected on backend
-      if (resp.data.error) {
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
         return;

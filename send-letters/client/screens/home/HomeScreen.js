@@ -18,7 +18,6 @@ import {COLORS} from '../../styles/colors';
 // The react Button component renders the native button on each platform it uses. Because of this, 
 // it does not respond to the style prop. It has its own set of props.
 
-
 // calculate dimensions for the mailbox image
 const dimensions = Dimensions.get('window');
 const windowWidth = dimensions.width;
@@ -32,6 +31,13 @@ function HomeScreen({ navigation, route}) {
   const [state, setState] = useContext(AuthContext);
   const userID = state.user._id;
   const [mail, setMail] = useState("");
+
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+
+  const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
 
@@ -58,8 +64,11 @@ function HomeScreen({ navigation, route}) {
       try {
         const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
   
-        // alert if any errors detected on backend
-        if (resp.data.error) {
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
           setSnackMessage(resp.data.error);
           setSnackIsVisible(true);
         }
@@ -89,7 +98,12 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/receiveLetters", { userID });
-        if (resp.error) {
+        
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
           console.error(error);
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
