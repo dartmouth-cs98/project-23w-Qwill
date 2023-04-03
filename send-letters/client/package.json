@@ -37,7 +37,9 @@
     "react-native-snackbar-component": "^1.1.12",
     "react-navigation": "^4.4.4",
     "stacktrace-parser": "^0.1.10",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "expo-camera": "~13.2.1",
+    "expo-sharing": "~11.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

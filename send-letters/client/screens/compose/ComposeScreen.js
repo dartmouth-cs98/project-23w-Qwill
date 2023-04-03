@@ -11,13 +11,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [text, setText] = useState(letterInfo.text);
+  const [pressed, setPressed] = useState(false);
 
   const composeHomeGoBack = () => {
     navigation.navigate('Home');
   };
 
   const handleNextPressed = () => {
-    navigation.push('Preview');
+    if (!pressed){
+      console.log(pressed)
+      navigation.push('Preview');
+      setPressed(true);
+      console.log(pressed)
+      
+    }
   };
 
 
@@ -40,7 +47,7 @@ function ComposeScreen({ navigation, route }) {
       </ImageBackground>
       <View style={{flexDirection: 'row'}}>
         <ButtonPrimary title={"Go back"} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()}/>
+        <ButtonPrimary title={"Next!"} selected={true} onPress={() =>handleNextPressed()}/>
       </View>
     </SafeAreaView>
   );

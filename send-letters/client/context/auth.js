@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
         },
         async function (error) {
             let res = error.response;
-            if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
+            if (res && res.status && res.status === 401 && res.config && !res.config.__isRetryRequest) {
                 await AsyncStorage.removeItem("auth-rn");
                 setState({user: null, token: ""});
                 navigation.navigate("SignIn");

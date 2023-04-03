@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input, Image } from 'react-native-elements';
@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonPrimary from '../../components/ButtonPrimary';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
-import {ComposeContext} from '../../context/ComposeStackContext';
+import { ComposeContext } from '../../context/ComposeStackContext';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -32,8 +32,11 @@ function PreviewScreen({ navigation }) {
     try {
       const resp = await axios.post(findIP()+"/api/sendLetter", reqBody);
 
-      // alert if any errors detected on backend
-      if (resp.data.error) {
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
@@ -57,8 +60,27 @@ function PreviewScreen({ navigation }) {
           }
         );
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSharePressed = async () => {
+    try {
+      const result = await Share.share({
+        message: 'This is Qwill',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
     }
   };
   
@@ -97,6 +119,12 @@ function PreviewScreen({ navigation }) {
           onPress={() => handleSendPressed()}
         />
       </View>
+      <ButtonPrimary
+          textWidth={115}
+          title={"share it!!!"}
+          selected={true}
+          onPress={() => handleSharePressed()}
+        />
       <Snackbar
           //SnackBar visibility control
           visible={snackIsVisible}

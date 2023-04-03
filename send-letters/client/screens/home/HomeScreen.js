@@ -58,8 +58,11 @@ function HomeScreen({ navigation, route}) {
       try {
         const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
   
-        // alert if any errors detected on backend
-        if (resp.data.error) {
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
           setSnackMessage(resp.data.error);
           setSnackIsVisible(true);
         }
@@ -89,7 +92,12 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/receiveLetters", { userID });
-        if (resp.error) {
+        
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
           console.error(error);
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
