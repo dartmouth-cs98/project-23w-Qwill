@@ -39,11 +39,9 @@ const SignInScreen = ({navigation}) => {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
         setSnackIsVisible(true);
-        return;
       } else if (resp.data.error) {  // backend error
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
-        return;
       } else {
         setState(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
