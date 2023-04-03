@@ -88,10 +88,10 @@ Also see the React Native Expo Go quickstart guide: [https://reactnative.dev/doc
 To run the backend, use the following commands from the base directory:
 ```bash
 cd send-letters/server
-npm start
+npm run dev:start
 ```
 
-To run the backend, use the following commands from the base directory:
+To run the frontend, use the following commands from the base directory:
 ```bash
 cd send-letters/client
 npx expo start
