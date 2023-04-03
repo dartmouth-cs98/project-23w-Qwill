@@ -17,6 +17,12 @@ function SelectRecipientScreen({navigation}) {
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
     // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
       setLetterInfo({
