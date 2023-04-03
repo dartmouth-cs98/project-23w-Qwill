@@ -9,7 +9,6 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 export const signUp = async (req, res) => {
-    console.log("SignUp Hit");
     try {
         // validation
         const { name, email, username, password } = req.body;
@@ -83,7 +82,7 @@ export const signUp = async (req, res) => {
 
 export const signIn = async (req, res) => {
     console.log("inside signin");
-    
+
     try {
         const { emailUsername, password } = req.body;
 

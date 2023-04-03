@@ -6,7 +6,8 @@ import authRoutes from "./routes/auth";
 import composeRoutes from "./routes/compose";
 import mailboxRoutes from "./routes/mailbox";
 
-const port = process.env.PORT || 8000;
+// const port = process.env.PORT || 8000;
+const port = 8000;
 
 const morgan = require("morgan");
 
