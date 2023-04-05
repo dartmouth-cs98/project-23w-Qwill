@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/auth';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { Snackbar } from 'react-native-paper';
@@ -9,13 +10,12 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import { useIsFocused } from '@react-navigation/native';
 
 
-const DraftsScreen = ({navigation}) => {
+function DraftsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const userID = userInfo.user._id;
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [drafts, setDrafts] = useState("");
 
-  // For snackbar:
-  // https://callstack.github.io/react-native-paper/snackbar.html
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -46,7 +46,48 @@ const DraftsScreen = ({navigation}) => {
     fetchDrafts();
   }, [isFocused]);
 
-  console.log(drafts);
+  const handleDraftPressed = (item) => {
+    // clicking on draft button will update the current letter info
+    setLetterInfo({
+      senderID: userID,
+      letterID: item._id,
+      text: item.text,
+      recipientID: item.recipient,
+      themeID: item.theme,
+      fontID: item.font
+    });
+    // navigation.push('ComposeHome');
+    console.log(item);
+  };
+
+
+  // this function renders the user's drafts found in the DB
+  function renderDrafts() {
+
+    if (drafts.length == 0) {
+      return <Text style={{textAlign:'center'}}>No drafts found</Text>
+    }
+
+    return (
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <FlatList
+          nestedScrollEnabled
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
+          data={drafts}
+          numColumns={1}
+          renderItem={({item}) => 
+            <View>
+              <TouchableOpacity onPress={() => handleDraftPressed(item)} title={JSON.stringify(item)}>
+                <Text>{(JSON.stringify(item))}</Text>
+              </TouchableOpacity>
+            </View>
+            }
+          keyExtractor={item => item._id}
+        />
+      </View>
+    );
+  };
+
 
   return (
     <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
@@ -57,9 +98,8 @@ const DraftsScreen = ({navigation}) => {
         onPress={() => navigation.replace('Mailbox')}/>
         <ButtonPrimary selected={true} title={"Drafts"} />
       </View>
-      
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Feature coming soon!</Text>
+      <View>
+        {renderDrafts()}
       </View>
     </SafeAreaView>
   );

@@ -11,7 +11,7 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 
 
-function SelectRecipientScreen({navigation}) {
+function SelectRecipientScreen({ navigation }) {
   const [recipientField, setRecipientField] = useState("");
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
@@ -25,17 +25,17 @@ function SelectRecipientScreen({navigation}) {
 
     // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
-      setLetterInfo({
-        text: "",
-        recipientID: 0,
-        recipientUsername: "",
-        themeID: "",
-        fontID: "" });
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate('Home');
-      }
+    setLetterInfo({
+      text: "",
+      recipientID: 0,
+      recipientUsername: "",
+      themeID: "",
+      fontID: "" });
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Home');
+    }
   };
 
   const handleChangeText = async (text) => {    
@@ -79,16 +79,6 @@ function SelectRecipientScreen({navigation}) {
       return <Text style={{textAlign:'center'}}>No users found</Text>
     }
     
-    // return matchingUsers.map((item, index) => 
-    //   // <Button 
-    //   //   key={index}
-    //   //   containerStyle={styles.button} 
-    //   //   onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}
-    //   // />
-    //   <TouchableOpacity style={styles.friendCircle} keyExtractor={(item) => item.title}>
-    //     <Text>{(JSON.stringify(item.username)).replace(/["]/g, '')}</Text>
-    //   </TouchableOpacity>
-    // );
     return (
       <View>
         <FlatList
@@ -113,9 +103,9 @@ function SelectRecipientScreen({navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-          <TouchableOpacity onPress={()=>handleGoBack()}>
-            <Ionicons name={"arrow-back"} size={40}/>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleGoBack()}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row'}}>
         <Text style={styles.titleText}>Compose</Text>
@@ -132,11 +122,9 @@ function SelectRecipientScreen({navigation}) {
             leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
           />
         </View>
-        {/* <ScrollView style={styles.scrollView}> */}
-          <View>
-            {renderMatches()}
-          </View>
-        {/* </ScrollView> */}
+        <View>
+          {renderMatches()}
+        </View>
       </View>
     </SafeAreaView>
   );

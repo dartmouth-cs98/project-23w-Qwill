@@ -20,7 +20,6 @@ function PreviewScreen({ navigation }) {
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
-
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = async () => {

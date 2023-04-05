@@ -1,5 +1,5 @@
 import { Snackbar } from 'react-native-paper';
-import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard,} from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -67,16 +67,14 @@ function ComposeScreen({ navigation, route }) {
         source={images.themes[letterInfo.themeID]}> 
           <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={{flex: 1}}>
-                <Input
-                style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
-                placeholder={"Start writing your letter!"}
-                defaultValue={text}
-                inputContainerStyle={{borderBottomWidth:0}}
-                onChangeText={text => setLetterInfo({...letterInfo, text: text})}
-                multiline={true}
-                autoCapitalize='none'
-                keyboard='default'
-              /> 
+              <Input
+              style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
+              placeholder={"Start writing your letter!"}
+              inputContainerStyle={{borderBottomWidth:0}}
+              onChangeText={text => handleTextChange(text)}
+              multiline={true}
+              autoCapitalize='none'
+            />
             </View>
           </TouchableWithoutFeedback>
       </ImageBackground>
