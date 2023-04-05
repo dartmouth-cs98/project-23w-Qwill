@@ -119,6 +119,7 @@ npm install @react-native-async-storage/async-storage
 npm install --save react-native-paper
 npm install react-native-reanimated-carousel react-native-reanimated
 npx expo install expo-camera
+npx expo install expo-image-picker
 npm install expo-sharing
 
 # serverside
