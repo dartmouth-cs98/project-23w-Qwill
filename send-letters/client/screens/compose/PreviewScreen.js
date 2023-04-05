@@ -1,12 +1,10 @@
 import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { AuthContext } from '../../context/auth';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonPrimary from '../../components/ButtonPrimary';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
@@ -17,7 +15,7 @@ const screenHeight = Dimensions.get('window').height;
 
 function PreviewScreen({ navigation }) {
 
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const [snackMessage, setSnackMessage] = useState("");
@@ -26,11 +24,17 @@ function PreviewScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = async () => {
-    reqBody = letterInfo;
-    reqBody['senderID'] = state.user._id;
-
     try {
-      const resp = await axios.post(findIP()+"/api/sendLetter", reqBody);
+      resp = null;
+      if (letterInfo.letterID == "") {
+        // letter hasn't been made in DB (never saved as a draft); make new letter with status sent
+        reqBody = letterInfo;
+        reqBody['status'] = "sent"
+        resp = await axios.post(findIP()+"/api/makeLetter", reqBody);
+      } else {
+        // letter exists in DB as a draft; update status to sent
+        resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID: letterInfo.letterID, newStatus: "sent"});
+      }
 
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
@@ -43,9 +47,9 @@ function PreviewScreen({ navigation }) {
         // successful letter send will be sent as a param, to toggle snackbar on home page
         // Reset our letter context
         setLetterInfo({
+          letterID: "",
           text: "",
-          recipientID: 0,
-          recipientUsername: "",
+          recipientID: "",
           themeID: "",
           fontID: ""
         });
@@ -68,19 +72,21 @@ function PreviewScreen({ navigation }) {
   const handleSharePressed = async () => {
     try {
       const result = await Share.share({
-        message: 'This is Qwill',
+        message:
+          'This is Qwill',
       });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      Alert.alert(error.message);
+      // if (result.action === Share.sharedAction) {
+      //   if (result.activityType) {
+      //     // shared with activity type of result.activityType
+      //   } else {
+      //     // shared
+      //   }
+      // } else if (result.action === Share.dismissedAction) {
+      //   // dismissed
+      // }
+    } catch (err) {
+      setSnackMessage(err);
+      setSnackIsVisible(true);
     }
   };
   

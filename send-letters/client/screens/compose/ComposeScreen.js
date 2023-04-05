@@ -1,16 +1,54 @@
-import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView} from 'react-native';
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
-import { Button, Input, Image } from 'react-native-elements';
+import { Text, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useContext } from 'react'
+import { Input } from 'react-native-elements';
+import { Snackbar } from 'react-native-paper';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
-import { Ionicons } from '@expo/vector-icons';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import images from '../../assets/imageIndex';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
-  const [text, setText] = useState(letterInfo.text);
+
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+  // function that updates the letter context and also saves the letter as a draft on the server
+  const handleTextChange = async (text) => {
+    setLetterInfo({...letterInfo, text: text});
+    
+    reqBody = letterInfo;
+    reqBody["text"] = text;  // have to update text since context not yet updated
+    reqBody["status"] = "draft";
+
+    try {
+      resp = null;
+      if (letterInfo.letterID == "") {
+        // letter hasn't been made in DB (never saved as a draft); make new letter with status draft
+        resp = await axios.post(findIP()+"/api/makeLetter", reqBody);
+      } else {
+        // letter exists in DB as a draft; update new info
+        resp = await axios.post(findIP()+"/api/updateLetterInfo", reqBody);
+      }
+
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setLetterInfo({...letterInfo, letterID: resp.data.letterID});
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const composeHomeGoBack = () => {
     navigation.navigate('Home');
@@ -20,8 +58,7 @@ function ComposeScreen({ navigation, route }) {
     navigation.push('Preview');
   };
 
-
-  return ( //todo amanda add fonts
+  return ( 
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={styles.titleText}>Write your Letter!</Text>
       <ImageBackground 
@@ -31,17 +68,19 @@ function ComposeScreen({ navigation, route }) {
           <Input
             style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
             placeholder={"Start writing your letter!"}
-            defaultValue={text}
+            // defaultValue={letterInfo.text}
             inputContainerStyle={{borderBottomWidth:0}}
-            onChangeText={text => setLetterInfo({...letterInfo, text: text})}
+            onChangeText={text => handleTextChange(text)}
             multiline={true}
             autoCapitalize='none'
           />
       </ImageBackground>
-      <View style={{flexDirection: 'row'}}>
+      <KeyboardAvoidingView style={{flexDirection: 'row'}}>
+      {/* <View style={{flexDirection: 'row'}}> */}
         <ButtonPrimary title={"Go back"} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()}/>
-      </View>
+      {/* </View> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

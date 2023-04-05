@@ -59,6 +59,39 @@ export const receiveLetters = async (req, res) => {
 };
 
 
+export const getDrafts = async (req, res) => {
+
+    var mongoose = require('mongoose');
+
+    try {
+        const { userID } = req.body;
+
+        // check if our db has a user with the ID of the recipient
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        const drafts = await Letter.find({
+            'sender': userID,
+            'status': "draft"
+        });
+
+        return res.json({
+            drafts: drafts
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
 export const updateLetterStatus = async (req, res) => {    
     try {
         const { letterID, newStatus } = req.body;
@@ -94,3 +127,44 @@ export const updateLetterStatus = async (req, res) => {
     }
 };
 
+export const updateLetterInfo = async (req, res) => {    
+    try {
+        // get letterID and the new values for the letter
+        const { letterID, text, recipientID, themeID, fontID, senderID, status } = req.body;    
+
+        // check if our db has a letter with the ID of the recipient
+        const letter = await Letter.findOne({
+            "_id": letterID
+        });
+        if (!letter) {
+            return res.json({
+                error: "No letter found with letterID",
+            });
+        }
+
+        // update the status of letter to archive
+        try {
+            const resp = await Letter.updateOne(
+                {'_id': letterID},
+                {
+                    'status': status,
+                    'text': text,
+                    'sender': senderID,
+                    'recipient': recipientID,
+                    'theme': themeID,
+                    'font': fontID,
+                }
+            );
+    
+            return res.json({
+                letterID: letterID
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};

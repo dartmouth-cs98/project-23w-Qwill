@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 
 // controllers 
-const { sendLetter, matchRecipient } = require("../controllers/compose");
+const { makeLetter, matchRecipient } = require("../controllers/compose");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/sendLetter", sendLetter);
+router.post("/makeLetter", makeLetter);
 router.post("/matchRecipient", matchRecipient);
 
 export default router; 

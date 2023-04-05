@@ -2,9 +2,9 @@ import User from "../models/user";
 import Letter from "../models/letter";
 
 
-export const sendLetter = async (req, res) => {
+export const makeLetter = async (req, res) => {
     try {
-        const { text, recipientID, recipientUsername, themeID, fontID, senderID } = req.body;        
+        const { text, recipientID, themeID, fontID, senderID, status } = req.body;        
 
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
@@ -32,13 +32,13 @@ export const sendLetter = async (req, res) => {
                 sender: senderID,
                 recipient: recipientID,
                 text: text,
-                status: 'sent',
+                status: status,
                 theme: themeID,
                 font: fontID,
             }).save();
 
             return res.json({
-                ok: true
+                letterID: letter._id
             });
         } catch (err) {
             console.log(err);

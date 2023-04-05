@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
-import axios from "axios";
+import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
@@ -28,15 +28,14 @@ const imageWidth = Math.round(imageHeight * .626);
 const SLIDER_WIDTH = windowWidth;
 
 function HomeScreen({ navigation, route}) {
-  const [state, setState] = useContext(AuthContext);
-  const userID = state.user._id;
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const userID = userInfo.user._id;
   const [mail, setMail] = useState("");
 
   // For snackbar:
   // https://callstack.github.io/react-native-paper/snackbar.html
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
-
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
@@ -85,7 +84,7 @@ function HomeScreen({ navigation, route}) {
             letterStatus={item.status}
             sender={item.senderInfo.name}
             senderAddress={index}
-            recipient={state.user.name}
+            recipient={userInfo.user.name}
             recipientAddress={index}
             onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
           />
@@ -161,7 +160,7 @@ function HomeScreen({ navigation, route}) {
                       letterStatus={mail[0].status}
                       sender={mail[0].senderInfo.name}
                       senderAddress={0}
-                      recipient={state.user.name}
+                      recipient={userInfo.user.name}
                       recipientAddress={0}
                       onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
                     />
