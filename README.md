@@ -69,7 +69,7 @@ Root navigation stack (components/Navigation.js)
 |   |   ├── ComposeScreen.js
 │   |   └── PreviewScreen.js
 │   ├── Friend stack (components/FriendStack.js)
-|   |   ├── FriendsScreen.js
+|   |   ├── HomeFriendsScreen.js
 |   |   ├── AddFriendsScreen.js (modal view)
 │   |   └── PendingFriendsScreen.js (modal view)
 |   └── Fonts
