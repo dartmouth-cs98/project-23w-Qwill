@@ -1,11 +1,20 @@
-# Qwill
+# Todos
 
+[] Handwriting
+    1. Write 3-4 sentences with all letters of alphabet.
+    2. User scans image.
+    3. OCR to take a border. <
+    4. Ink extraction for that letter. <
+    5. Change into OTF/TTF file. 
+[] Friends Flow
+[] Home page
+[] Drafts
+
+# Qwill
 
 ![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
 
 Qwill is a mobile app to customize your handwriting into digital letters. <br>
-
-
 
 ![home](https://user-images.githubusercontent.com/45802767/224577360-9e8f7cb8-d32a-4695-a91d-8652d030394f.png)
 ![letter_view](https://user-images.githubusercontent.com/45802767/224577362-741c9135-bd42-423a-baff![Simulator Screen Shot - iPhone 11 Pro - 2023-03-12 at 18 22 36](https://user-images.githubusercontent.com/45802767/224577369-bb3a8911-2486-49a3-80b6-599857a9d9c7.png)
