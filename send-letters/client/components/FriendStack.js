@@ -34,16 +34,16 @@ const FriendStack = () => {
         <Stack.Group screenOptions={{presentation: 'modal'}}>
             <Stack.Screen 
             options={{
-                title: "Add Friends",
+                title: "AddFriendsScreen",
             }}
-            name='AddFriends' 
+            name='AddFriendsScreen' 
             component={AddFriendsScreen}
             />
             <Stack.Screen 
             options={{
-              title: "Friend Requests",
+              title: "PendingFriendsScreen",
             }}
-            name='PendingFriends' 
+            name='PendingFriendsScreen' 
             component={PendingFriendsScreen}
         /> 
         </Stack.Group>
