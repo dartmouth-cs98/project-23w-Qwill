@@ -130,6 +130,16 @@ npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/ma
 ### Expo not found in the folder
 Running `npm audit fix --force` after running an `npm install` may sneakily downgrade your Expo to version 1.0.0. If you're getting an "Expo not found in the folder" error, try running `expo update.`
 
+### Specific Error
+```
+amanda@Amandas-MacBook-Air-3 client (main)*$ npx expo start
+npm ERR! could not determine executable to run
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/amanda/.npm/_logs/2023-04-06T20_07_51_354Z-debug-0.log
+```
+Running expo update may fix the issue.
+
 ### Module not found errors
 You may see an error during app bundling "While trying to resolve module..." in `client`. In this case, try stopping the server and running `npm rebuild`, then restarting. 
 
@@ -141,6 +151,13 @@ The most drastic action if none of the above works is to `killall node` or stop 
 
 If signing up is not working with Promisify, I was able to `npm i react-native-paper.` Also make sure your expo, Node, etc are on the most recent version.
 
+## Package Managing
 
+*node_modules and package.json*
+package.json tells `npm install` what to install into node_modules
+Thus, never edit node_modules!! Instead, edit package.json and then run `npm install`
+
+*.expo file*
+.expo is only needed on client side. It should not exist in server or top-level.
 
 
