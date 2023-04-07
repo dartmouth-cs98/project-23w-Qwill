@@ -41,8 +41,13 @@ const FontsScreen = ({navigation}) => {
           {/* <Text style={{ textAlign: "center", textDecorationLine: 'underline', marginTop: 20 }}>Add a custom font</Text> */}
           <ButtonPrimary
             selected={false}
-            title={"Add custom font"}
+            title={"Add Font By Camera"}
             onPress={() =>{navigation.navigate("CameraScreen")}}
+          />
+          <ButtonPrimary
+            selected={false}
+            title={"Add Font By Image"}
+            onPress={() =>{navigation.navigate("ImagePickerScreen")}}
           />
         </View>
 
@@ -106,3 +111,4 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
