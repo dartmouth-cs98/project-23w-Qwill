@@ -43,7 +43,7 @@ function ComposeScreen({ navigation, route }) {
               /> 
             </View>
           </TouchableWithoutFeedback>               
-}
+          }
       </ImageBackground>
       <View style={{flexDirection: 'row'}}>
         <ButtonPrimary title={"Go back"} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>
