@@ -42,9 +42,7 @@ function ComposeScreen({ navigation, route }) {
                 keyboard='default'
               /> 
             </View>
-          </TouchableWithoutFeedback>
-          
-          
+          </TouchableWithoutFeedback>               
 }
       </ImageBackground>
       <View style={{flexDirection: 'row'}}>
