@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 // This stack will have a main screen (friends) and two modal screens which can be navigated to
 // (pending friend requests and add friends)
 // https://reactnavigation.org/docs/modal/
-const FriendStack = () => {
+export default function FriendStack () {
   // the "name" property of each screen is what should be referred to when routing with navigators
   return (
     <Stack.Navigator 
@@ -23,26 +23,20 @@ const FriendStack = () => {
       }}>
         <Stack.Group>
             <Stack.Screen   
-            options={{
-                title: "HomeFriendsScreen",
-            }}
+            options={{title: "HomeFriendsScreen",}}
             name='HomeFriendsScreen' 
             component={HomeFriendsScreen} 
             />
 
         </Stack.Group>
-        <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Group screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
             <Stack.Screen 
-            options={{
-                title: "AddFriendsScreen",
-            }}
+            options={{title: "AddFriendsScreen",}}
             name='AddFriendsScreen' 
             component={AddFriendsScreen}
             />
             <Stack.Screen 
-            options={{
-              title: "PendingFriendsScreen",
-            }}
+            options={{title: "PendingFriendsScreen",}}
             name='PendingFriendsScreen' 
             component={PendingFriendsScreen}
         /> 
@@ -50,7 +44,3 @@ const FriendStack = () => {
     </Stack.Navigator>
   );
 }
-
-export default FriendStack
-
-const styles = StyleSheet.create({})

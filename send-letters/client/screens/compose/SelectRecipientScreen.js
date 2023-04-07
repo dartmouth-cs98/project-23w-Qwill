@@ -11,7 +11,6 @@ import { hasRestrictedChar } from '../../helpers/stringValidation';
 import styles from '../../styles/Profile.component.style';
 
 function SelectRecipientScreen({navigation}) {
-  const [recipientField, setRecipientField] = useState("");
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -73,21 +72,9 @@ function SelectRecipientScreen({navigation}) {
 
   // this function renders the users that match the text in the input component
   function renderMatches() {
-
     if (matchingUsers.length == 0) {
       return <Text style={{textAlign:'center'}}>No users found</Text>
     }
-    
-    // return matchingUsers.map((item, index) => 
-    //   // <Button 
-    //   //   key={index}
-    //   //   containerStyle={styles.button} 
-    //   //   onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}
-    //   // />
-    //   <TouchableOpacity style={styles.friendCircle} keyExtractor={(item) => item.title}>
-    //     <Text>{(JSON.stringify(item.username)).replace(/["]/g, '')}</Text>
-    //   </TouchableOpacity>
-    // );
     return (
       <View>
         <FlatList
@@ -131,11 +118,9 @@ function SelectRecipientScreen({navigation}) {
             leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
           />
         </View>
-        
         <View>
           {renderMatches()}
-        </View>
-        
+        </View>     
       </View>
     </SafeAreaView>
   );
