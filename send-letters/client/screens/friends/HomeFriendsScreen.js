@@ -103,7 +103,6 @@ function HomeFriendsScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
 export default HomeFriendsScreen;
 
 const styles = StyleSheet.create({
