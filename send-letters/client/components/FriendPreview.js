@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import UnopenedLetterSmall from './UnopenedLetterSmall';
 
-
 const FriendPreview = props => {
     return (
         <View style={[styles.container, styles.shadow]}>

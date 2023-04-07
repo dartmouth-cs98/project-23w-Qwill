@@ -10,12 +10,6 @@ function FriendsScreen({navigation}) {
           <Text style={styles.titleText}>Friends</Text>
           <TouchableOpacity style={styles.btn} onPress={() => {navigation.navigate("PendingFriends")}}>
             <Ionicons 
-              name="time-outline" 
-              size={40}>
-              </Ionicons>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => {navigation.navigate("PendingFriends")}}>
-            <Ionicons 
             name="person-add-outline" 
             size={40}
             >
@@ -36,7 +30,7 @@ export default FriendsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 50, 
+    fontSize: 45, 
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,

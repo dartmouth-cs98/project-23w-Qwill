@@ -2,7 +2,7 @@ import { StyleSheet} from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import FriendsScreen from '../screens/friends/FriendsScreen';
+import HomeFriendsScreen from '../screens/friends/HomeFriendsScreen';
 import AddFriendsScreen from '../screens/friends/AddFriendsScreen';
 import PendingFriendsScreen from '../screens/friends/PendingFriendsScreen';
 
@@ -24,10 +24,10 @@ const FriendStack = () => {
         <Stack.Group>
             <Stack.Screen   
             options={{
-                title: "Friends",
+                title: "HomeFriendsScreen",
             }}
-            name='FriendsHome' 
-            component={FriendsScreen} 
+            name='HomeFriendsScreen' 
+            component={HomeFriendsScreen} 
             />
 
         </Stack.Group>

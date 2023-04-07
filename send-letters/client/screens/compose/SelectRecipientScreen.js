@@ -8,7 +8,7 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
-import styles from './Profile.component.style';
+import styles from '../../styles/Profile.component.style';
 
 function SelectRecipientScreen({navigation}) {
   const [recipientField, setRecipientField] = useState("");
