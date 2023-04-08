@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
-import {ComposeContext} from '../../context/ComposeStackContext';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import images from '../../assets/imageIndex';
 
 const screenWidth = Dimensions.get('window').width;
@@ -17,10 +17,12 @@ const SelectThemeScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params) {
-      const {recipientID, recipientUsername} = route.params;
+      const { recipientID, recipientUsername } = route.params;
       setLetterInfo({...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername});
     }
   }, [route.params]);
+
+  console.log(letterInfo);
 
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.

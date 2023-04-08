@@ -32,7 +32,7 @@ const ComposeStack = ({navigation}) => {
    * */
 
     return (
-      <Stack.Navigator 
+      <Stack.Navigator
         initialRouteName="SelectRecipient"
         screenOptions={{
             headerBackTitleVisible: false,
@@ -51,7 +51,7 @@ const ComposeStack = ({navigation}) => {
             ),
             animationTypeForReplace: 'pop'
           }}
-          />
+        />
         <Stack.Screen 
           name="ComposeHome" 
           component={ComposeScreen}

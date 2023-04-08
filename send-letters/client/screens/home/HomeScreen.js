@@ -12,7 +12,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
-import {COLORS} from '../../styles/colors';
+import { COLORS } from '../../styles/colors';
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
@@ -53,27 +53,28 @@ function HomeScreen({ navigation, route}) {
   const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
-      letterID: letterID, 
-      letterStatus: letterStatus, 
-      senderID: senderID, 
+      letterID: letterID,
+      letterStatus: letterStatus,
+      senderID: senderID,
       senderUsername: senderUsername,
-      themeID: themeID, 
-      fontID: fontID });
+      themeID: themeID,
+      fontID: fontID
+    });
 
-      try {
-        const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
-  
-        if (!resp) {  // could not connect to backend
-          console.log("ERROR: Could not establish server connection with axios");
-        setSnackMessage("Could not establish connection to the server");
+    try {
+      const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
+
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+      setSnackMessage("Could not establish connection to the server");
+      setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
-        } else if (resp.data.error) {  // backend error
-          setSnackMessage(resp.data.error);
-          setSnackIsVisible(true);
-        }
-      } catch (err) {
-        console.error(err);
       }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // This func is passed as a param to the letter carousel to render each itme 
@@ -96,7 +97,8 @@ function HomeScreen({ navigation, route}) {
   useEffect(() => {
     async function fetchMail() {
       try {
-        const resp = await axios.post(findIP()+"/api/receiveLetters", { userID });
+        const possibleStatuses = [{ 'status': "sent" }, { 'status': "read" }]
+        const resp = await axios.post(findIP()+"/api/receiveLetters", { userID, possibleStatuses });
         
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");

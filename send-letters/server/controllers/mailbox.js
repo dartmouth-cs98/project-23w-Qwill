@@ -5,7 +5,7 @@ export const receiveLetters = async (req, res) => {
     var mongoose = require('mongoose');
 
     try {
-        const { userID } = req.body;
+        const { userID, possibleStatuses } = req.body;
 
         // check if our db has a user with the ID of the recipient
         const user = await User.findOne({
@@ -22,10 +22,11 @@ export const receiveLetters = async (req, res) => {
             {
                $match: { 
                     'recipient': new mongoose.Types.ObjectId(user._id), 
-                    '$or': [
-                        { 'status': "sent" },
-                        { 'status': "read" }
-                    ]
+                    // '$or': [
+                    //     { 'status': "sent" },
+                    //     { 'status': "read" }
+                    // ]
+                    '$or': possibleStatuses
                 }
             },
             {
@@ -92,10 +93,9 @@ export const getDrafts = async (req, res) => {
 };
 
 
-export const updateLetterStatus = async (req, res) => {    
+export const updateLetterStatus = async (req, res) => {  
     try {
         const { letterID, newStatus } = req.body;
-        console.log(letterID);
 
         // check if our db has a letter with the ID of the recipient
         const letter = await Letter.findOne({

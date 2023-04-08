@@ -68,7 +68,6 @@ function NavBar() {
                 // https://icons.expo.fyi/Feather/pen-tool
                 return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
-                // iconName = focused ? 'pencil' : 'pencil-outline';
                 if (focused) {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconSelected]}>

@@ -16,15 +16,21 @@ function ComposeScreen({ navigation, route }) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
+  
+  // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
   // function that updates the letter context and also saves the letter as a draft on the server
-  const handleTextChange = async (text) => {
-    setLetterInfo({...letterInfo, text: text});
-    
+  const handleTextChange = (text) => {
+    setLetterInfo({...letterInfo, text: text, status: "draft"});
+  
     reqBody = letterInfo;
     reqBody["text"] = text;  // have to update text since context not yet updated
     reqBody["status"] = "draft";
+    updateBackend(reqBody);
+  };
 
+  const updateBackend = async (reqBody) => {
     try {
       resp = null;
       if (letterInfo.letterID == "") {
@@ -68,13 +74,15 @@ function ComposeScreen({ navigation, route }) {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={{flex: 1}}>
               <Input
-              style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
-              placeholder={"Start writing your letter!"}
-              inputContainerStyle={{borderBottomWidth:0}}
-              onChangeText={text => handleTextChange(text)}
-              multiline={true}
-              autoCapitalize='none'
-            />
+                style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
+                placeholder={"Start writing your letter!"}
+                inputContainerStyle={{borderBottomWidth:0}}
+                onChangeText={(text) => {hasTyped = true; handleTextChange(text);}}
+                multiline={true}
+                // defaultValue={letterInfo.text}  // conditional prevents asynchrounous lag on input field
+                defaultValue={defaultText}
+                autoCapitalize='none'
+              />
             </View>
           </TouchableWithoutFeedback>
       </ImageBackground>

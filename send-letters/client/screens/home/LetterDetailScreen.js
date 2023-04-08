@@ -33,7 +33,7 @@ const LetterDetailScreen = ({route, navigation}) => {
         }
       }
     });
-  }
+  };
 
   const handleArchivePressed = async () => {
     try {
@@ -53,7 +53,7 @@ const LetterDetailScreen = ({route, navigation}) => {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <View style={{flex: 1}}>
