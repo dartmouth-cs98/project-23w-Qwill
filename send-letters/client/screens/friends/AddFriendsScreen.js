@@ -139,8 +139,6 @@ const styles = StyleSheet.create({
     height: 0,
     borderWidth: 1,
     borderColor: COLORS.black20,
-    // marginLeft: 10,
-    // marginRight: 10,
     marginTop: 5,
     marginBottom: 10
   },

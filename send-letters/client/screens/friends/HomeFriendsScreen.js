@@ -9,6 +9,7 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import COLORS from '../../styles/colors';
+import ButtonBlue from '../../components/ButtonBlue.components';
 
 function truncate(str, n) {
   return (str.length > n) ? str.slice(0, n - 1) + '...' : str; 
@@ -44,7 +45,7 @@ function HomeFriendsScreen({ navigation }) {
 
   function renderMatches() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center' }}>No users found</Text>
+      return
     }
     return (
       <View>
@@ -95,6 +96,7 @@ function HomeFriendsScreen({ navigation }) {
           {renderMatches()}
         </View>
         <View style={styles.line}></View>
+        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" ></ButtonBlue>
       </View>
     </SafeAreaView>
   );
@@ -222,8 +224,7 @@ const styles = StyleSheet.create({
     height: 0,
     borderWidth: 1,
     borderColor: COLORS.black20,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 8
+    marginTop: 10,
+    marginBottom: 10
   },
 });
