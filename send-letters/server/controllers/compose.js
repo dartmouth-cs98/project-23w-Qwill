@@ -3,6 +3,8 @@ import Letter from "../models/letter";
 
 
 export const makeLetter = async (req, res) => {
+    console.log("\nthis is where the error occurs\n");
+    console.log(req.body);
     try {
         const { text, recipientID, themeID, fontID, senderID, status } = req.body;        
 
