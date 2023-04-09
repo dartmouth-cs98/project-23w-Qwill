@@ -26,7 +26,7 @@ function DraftsScreen({ navigation }) {
   useEffect(() => {
     async function fetchDrafts() {
       try {
-        const resp = await axios.post(findIP()+"/api/getDrafts", { userID });
+        const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
         
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
@@ -34,10 +34,10 @@ function DraftsScreen({ navigation }) {
           setSnackIsVisible(true);
         } else if (resp.data.error) {  // backend error
           console.error(error);
-        } else if (!resp.data || !resp.data.drafts) {
+        } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {
-          setDrafts(resp.data.drafts);
+          setDrafts(resp.data.receivedLetters);
         }
       } catch (err) {
         console.error(err);
@@ -53,6 +53,7 @@ function DraftsScreen({ navigation }) {
       letterID: item._id,
       text: item.text,
       recipientID: item.recipient,
+      recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font
     });
@@ -64,7 +65,6 @@ function DraftsScreen({ navigation }) {
       }
     });
   };
-
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {

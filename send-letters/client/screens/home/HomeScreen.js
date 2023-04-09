@@ -97,8 +97,7 @@ function HomeScreen({ navigation, route}) {
   useEffect(() => {
     async function fetchMail() {
       try {
-        const possibleStatuses = [{ 'status': "sent" }, { 'status': "read" }]
-        const resp = await axios.post(findIP()+"/api/receiveLetters", { userID, possibleStatuses });
+        const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
         
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");

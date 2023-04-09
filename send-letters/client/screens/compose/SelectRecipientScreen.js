@@ -12,7 +12,6 @@ import { hasRestrictedChar } from '../../helpers/stringValidation';
 
 
 function SelectRecipientScreen({ navigation }) {
-  const [recipientField, setRecipientField] = useState("");
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -26,11 +25,13 @@ function SelectRecipientScreen({ navigation }) {
     // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
     setLetterInfo({
+      letterID: "",
       text: "",
-      recipientID: 0,
+      recipientID: "",
       recipientUsername: "",
       themeID: "",
-      fontID: "" });
+      fontID: "" 
+    });
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {

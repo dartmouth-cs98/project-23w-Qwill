@@ -50,6 +50,7 @@ function PreviewScreen({ navigation }) {
           text: "",
           recipientID: "",
           themeID: "",
+          recipientUsername: "",
           fontID: ""
         });
         navigation.replace('NavBar', 

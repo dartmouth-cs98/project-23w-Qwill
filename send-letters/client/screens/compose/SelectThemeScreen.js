@@ -22,8 +22,6 @@ const SelectThemeScreen = ({navigation, route}) => {
     }
   }, [route.params]);
 
-  console.log(letterInfo);
-
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.
     setLetterInfo({...letterInfo, themeID: selectedTheme});
@@ -31,12 +29,23 @@ const SelectThemeScreen = ({navigation, route}) => {
   };
 
   const selectThemeGoBack = () => {
-    navigation.replace('NavBar', {
-        screen: 'Compose', 
-        params: {
-            screen: 'SelectRecipient'
-        }
-    });
+    if (route.params) {
+      setLetterInfo({
+        letterID: "",
+        text: "",
+        recipientID: "",
+        recipientUsername: "",
+        themeID: "",
+        fontID: "" 
+      });
+    }
+    // navigation.replace('NavBar', {
+    //     screen: 'Compose', 
+    //     params: {
+    //         screen: 'SelectRecipient'
+    //     }
+    // });
+    navigation.goBack();
   };
 
   // Get the list of themes from the images index under assets
