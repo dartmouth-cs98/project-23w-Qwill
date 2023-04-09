@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { Text, TextInput, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon, Input } from 'react-native-elements'
+import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
 
@@ -8,9 +8,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
+import COLORS from '../../styles/colors';
 
-function truncate(str, n){
-  return (str.length > n) ? str.slice(0, n-1) + '&hellip;' : str;
+function truncate(str, n) {
+  return (str.length > n) ? str.slice(0, n - 1) + '...' : str; 
+  // based on https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings
 };
 
 function HomeFriendsScreen({ navigation }) {
@@ -54,9 +56,11 @@ function HomeFriendsScreen({ navigation }) {
           renderItem={({ item }) =>
             <View>
               <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
-                <Text style={styles.friendMidText}>{(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
+                <Text style={styles.friendMidText}>{truncate(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: 12 }}>{truncate((JSON.stringify(item.username)).replace(/["]/g, ''))}</Text>
+              <Text style={{ textAlign: 'center', fontSize: 12 }}>
+                {(truncate((JSON.stringify(item.username)).replace(/["]/g, ''), 10))}
+              </Text>
             </View>
           }
           keyExtractor={item => item.username}
@@ -77,28 +81,20 @@ function HomeFriendsScreen({ navigation }) {
         <View style={styles.inputContainer}>
           {/* <FaBeer />
           <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000" /> */}
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChangeText}
-            maxLength={40}
-            placeholder="Search for your friends"
+          <Input 
+            placeholder=" enter name or username"
             autoCompleteType="email"
             autoCapitalize="none"
-            keyboardType="numeric"
+            onChangeText={handleChangeText}
+            inputContainerStyle={{borderBottomWidth:0, backgroundColor: 'white', height: 32, borderRadius: 5}}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
           />
-          {/* <Input
-            placeholder="enter name or username"
-            autoCompleteType="email"
-            autoCapitalize="none"
-            onChangeText={handleChangeText}
-            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
-            maxLength={20}
-          /> */}
+          
         </View>
         <View>
           {renderMatches()}
         </View>
+        <View style={styles.line}></View>
       </View>
     </SafeAreaView>
   );
@@ -185,7 +181,6 @@ const styles = StyleSheet.create({
     width: 70,
     borderRadius: 35,
     backgroundColor: "rgba(30,70,147,0.2)",
-    // backgroundColor: "white",
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
@@ -221,5 +216,14 @@ const styles = StyleSheet.create({
     marginTop: 21,
     fontWeight: "600"
     // backgroundColor: "rgba(0,0,0,1)" 
-  }
+  },
+  line: {
+    width: 110,
+    height: 0,
+    borderWidth: 1,
+    borderColor: COLORS.black20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 8
+  },
 });

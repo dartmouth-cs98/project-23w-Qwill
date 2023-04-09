@@ -2,6 +2,24 @@ import { StyleSheet } from 'react-native';
 // Separating styles from component code src: https://www.reactnative.guide/8-styling/8.3-separating-styles-from-component.html
 
 export default StyleSheet.create({
+  titleText: {
+    fontFamily: 'JosefinSansBold',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    flex: 1,
+    marginLeft: 30,
+    marginTop: 5
+  },
+  line: {
+    width: 110,
+    height: 0,
+    borderWidth: 1,
+    borderColor: "#737B7D",
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 8
+  },
   container: {
     height: 94,
     width: 312,
