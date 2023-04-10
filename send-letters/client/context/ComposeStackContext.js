@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useState, useContext, createContext } from 'react';
 import React from 'react';
-import { AuthContext } from './auth';
+import { AuthContext } from './AuthContext';
 
 const ComposeContext = createContext();
 

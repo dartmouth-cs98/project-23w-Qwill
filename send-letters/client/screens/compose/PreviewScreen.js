@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';

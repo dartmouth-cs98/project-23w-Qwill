@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthContextProvider } from './context/auth';
+import { AuthContextProvider } from './context/AuthContext';
 import Navigation from './components/Navigation';
 import React, { useState, useEffect, useCallback } from "react";
 

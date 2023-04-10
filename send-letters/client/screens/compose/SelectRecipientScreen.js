@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, FlatList, ScrollView, TouchableOpacity, } from 
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';

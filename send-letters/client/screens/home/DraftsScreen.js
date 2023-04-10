@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
