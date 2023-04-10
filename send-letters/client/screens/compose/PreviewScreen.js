@@ -54,7 +54,7 @@ function PreviewScreen({ navigation }) {
           fontID: ""
         });
         navigation.replace('NavBar', 
-          { screen: "Home",
+          { screen: 'Home',
             params: {
               screen: 'Mailbox', 
               params: {

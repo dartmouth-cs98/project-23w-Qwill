@@ -58,7 +58,6 @@ function DraftsScreen({ navigation }) {
       fontID: item.font
     });
     navigation.navigate('NavBar', {
-    // navigation.push('NavBar', {
       screen: 'Compose',
       params: {
         screen: 'ComposeHome',
