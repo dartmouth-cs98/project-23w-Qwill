@@ -15,6 +15,8 @@ export default function App() {
         // Pre-load fonts, make any API calls you need to do here
         await Font.loadAsync({
           'MyNerve': require('./assets/fonts/MyNerve_Regular.ttf'),
+          'Mulish-Italic': require('./assets/fonts/Mulish-Italic.ttf'),
+          'Mulish': require('./assets/fonts/Mulish.ttf'),
           'GloriaHallelujah': require('./assets/fonts/GloriaHallelujah-Regular.ttf'),
           'HomemadeApple': require('./assets/fonts/HomemadeApple-Regular.ttf'),
           'IndieFlower': require('./assets/fonts/Mansalva-Regular.ttf'),

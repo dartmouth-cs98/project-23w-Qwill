@@ -1,11 +1,20 @@
-# Qwill
+# Todos
 
+[] Handwriting
+    1. Write 3-4 sentences with all letters of alphabet.
+    2. User scans image.
+    3. OCR to take a border. <
+    4. Ink extraction for that letter. <
+    5. Change into OTF/TTF file. 
+[] Friends Flow
+[] Home page
+[] Drafts
+
+# Qwill
 
 ![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
 
 Qwill is a mobile app to customize your handwriting into digital letters. <br>
-
-
 
 ![home](https://user-images.githubusercontent.com/45802767/224577360-9e8f7cb8-d32a-4695-a91d-8652d030394f.png)
 ![letter_view](https://user-images.githubusercontent.com/45802767/224577362-741c9135-bd42-423a-baff![Simulator Screen Shot - iPhone 11 Pro - 2023-03-12 at 18 22 36](https://user-images.githubusercontent.com/45802767/224577369-bb3a8911-2486-49a3-80b6-599857a9d9c7.png)
@@ -43,7 +52,7 @@ Root navigation stack (components/Navigation.js)
 |   |   ├── ComposeScreen.js
 │   |   └── PreviewScreen.js
 │   ├── Friend stack (components/FriendStack.js)
-|   |   ├── FriendsScreen.js
+|   |   ├── HomeFriendsScreen.js
 |   |   ├── AddFriendsScreen.js (modal view)
 │   |   └── PendingFriendsScreen.js (modal view)
 |   └── Fonts
@@ -136,6 +145,8 @@ npm install @react-native-async-storage/async-storage
 npm install --save react-native-paper
 npm install react-native-reanimated-carousel react-native-reanimated
 npx expo install expo-camera
+npx expo install expo-image-picker
+npm install expo-sharing
 
 # serverside
 npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
@@ -144,6 +155,16 @@ npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/ma
 ## Troubleshooting 
 ### Expo not found in the folder
 Running `npm audit fix --force` after running an `npm install` may sneakily downgrade your Expo to version 1.0.0. If you're getting an "Expo not found in the folder" error, try running `expo update.`
+
+### Specific Error
+```
+amanda@Amandas-MacBook-Air-3 client (main)*$ npx expo start
+npm ERR! could not determine executable to run
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/amanda/.npm/_logs/2023-04-06T20_07_51_354Z-debug-0.log
+```
+Running expo update may fix the issue.
 
 ### Module not found errors
 You may see an error during app bundling "While trying to resolve module..." in `client`. In this case, try stopping the server and running `npm rebuild`, then restarting. 
@@ -156,6 +177,13 @@ The most drastic action if none of the above works is to `killall node` or stop 
 
 If signing up is not working with Promisify, I was able to `npm i react-native-paper.` Also make sure your expo, Node, etc are on the most recent version.
 
+## Package Managing
 
+*node_modules and package.json*
+package.json tells `npm install` what to install into node_modules
+Thus, never edit node_modules!! Instead, edit package.json and then run `npm install`
+
+*.expo file*
+.expo is only needed on client side. It should not exist in server or top-level.
 
 

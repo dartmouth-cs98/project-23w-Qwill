@@ -2,6 +2,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FontsScreen from './FontsScreen';
 import CameraScreen from './CameraScreen';
+import ImagePickerScreen from './ImagePickerScreen';
 const Stack = createNativeStackNavigator();
 
 /* 
@@ -36,6 +37,13 @@ const FontsStack = () => {
             }}
             name='CameraScreen' 
             component={CameraScreen}
+            />
+            <Stack.Screen 
+            options={{
+                title: "ImagePickerScreen",
+            }}
+            name='ImagePickerScreen' 
+            component={ImagePickerScreen}
             />
         </Stack.Group>
     </Stack.Navigator>
