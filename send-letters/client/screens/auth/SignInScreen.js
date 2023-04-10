@@ -7,7 +7,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -45,16 +45,16 @@ const SignInScreen = ({navigation}) => {
       } else {
         setState(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-        navigation.replace('NavBar');
+        navigation.navigate('NavBar');
       }
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const handleSignUpPressed = () => {
-    navigation.replace('SignUp')
-  }
+    navigation.replace('SignUp');
+  };
   
   // KeyboardAvoidingView:
   // This component will automatically adjust its height, position, or bottom padding based on the 

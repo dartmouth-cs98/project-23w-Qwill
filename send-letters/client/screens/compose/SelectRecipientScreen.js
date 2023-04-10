@@ -2,7 +2,7 @@ import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
 import React, { useState, useContext } from 'react'
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
@@ -23,17 +23,19 @@ function SelectRecipientScreen({navigation}) {
 
     // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
-      setLetterInfo({
-        text: "",
-        recipientID: 0,
-        recipientUsername: "",
-        themeID: "",
-        fontID: "" });
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate('Home');
-      }
+    setLetterInfo({
+      letterID: "",
+      text: "",
+      recipientID: "",
+      recipientUsername: "",
+      themeID: "",
+      fontID: "" 
+    });
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Home');
+    }
   };
 
   const handleChangeText = async (text) => {    
@@ -99,9 +101,9 @@ function SelectRecipientScreen({navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-          <TouchableOpacity onPress={()=>handleGoBack()}>
-            <Ionicons name={"arrow-back"} size={40}/>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleGoBack()}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row'}}>
         <Text style={styles.titleText}>Compose</Text>

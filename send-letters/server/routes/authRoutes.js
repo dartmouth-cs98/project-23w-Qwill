@@ -2,8 +2,8 @@ import express from "express";
 
 const router = express.Router();
 
-// controllers 
-const { signUp, signIn, forgotPassword, resetPassword } = require("../controllers/auth");
+// get controllers 
+const { signUp, signIn, forgotPassword, resetPassword } = require("../controllers/authControllers");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
     });
 });
 
+// post routes
 router.post("/signUp", signUp);
 router.post("/signIn", signIn);
 router.post("/forgotPassword", forgotPassword);

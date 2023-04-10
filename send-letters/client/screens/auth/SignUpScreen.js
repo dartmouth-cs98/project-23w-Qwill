@@ -5,11 +5,11 @@ import { Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 import findIP from '../../helpers/findIP';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {COLORS} from '../../styles/colors';
+import { COLORS } from '../../styles/colors';
 
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -97,16 +97,16 @@ const SignUpScreen = ({navigation}) => {
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
         // successful sign up
         alert("Sign Up Successful. Welcome to Qwill");
-        navigation.replace('NavBar');
+        navigation.navigate('NavBar');
       }
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const handleSignInPressed = () => {
     navigation.replace('SignIn');
-  }
+  };
   
   // KeyboardAvoidingView:
   // This component will automatically adjust its height, position, or bottom padding based on the 

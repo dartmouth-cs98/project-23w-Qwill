@@ -6,7 +6,7 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+const AuthContextProvider = ({ children }) => {
     const [state, setState] = useState({
         user: null,
         token: "",
@@ -49,4 +49,4 @@ const AuthProvider = ({ children }) => {
     );
 };
 
-export { AuthContext, AuthProvider };
+export { AuthContext, AuthContextProvider };

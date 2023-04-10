@@ -1,11 +1,9 @@
-
-
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useState, useContext } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Input } from 'react-native-elements'
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 //import styles from '../../styles/Profile.component.style.js';
 import COLORS from '../../styles/colors';
 

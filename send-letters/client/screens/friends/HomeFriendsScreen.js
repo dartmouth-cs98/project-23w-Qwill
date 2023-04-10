@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';

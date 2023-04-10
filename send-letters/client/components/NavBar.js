@@ -9,6 +9,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from './ComposeStack';
 
+import { ComposeContextProvider } from '../context/ComposeStackContext';
+
 // Citation: 
 // https://reactnavigation.org/docs/tab-based-navigation
 // Custom bottom nav button: https://www.youtube.com/watch?v=gPaBicMaib4
@@ -45,6 +47,7 @@ const CustomComposeButton = ({children, onPress}) => (
 
 function NavBar() {
     return (
+      <ComposeContextProvider>
         <Tab.Navigator
           backBehavior={'history'}
           screenOptions={({ route }) => ({
@@ -65,7 +68,6 @@ function NavBar() {
                 // https://icons.expo.fyi/Feather/pen-tool
                 return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
-                // iconName = focused ? 'pencil' : 'pencil-outline';
                 if (focused) {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconSelected]}>
@@ -102,6 +104,7 @@ function NavBar() {
           <Tab.Screen name="Fonts" component={FontsStack} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
+      </ComposeContextProvider>
     );
   }
 

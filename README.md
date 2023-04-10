@@ -25,17 +25,49 @@ Qwill is a mobile app to customize your handwriting into digital letters. <br>
 
 ## Architecture
 
-### React Native
+### Frontend
+
+#### React Native
 React Native is the chosen tool for mobile development. React Native is a open-source mobile application framework which gives access to native UI controls. This means React Native is cross-platform friendly so we can eventually deploy Qwill on both Apple and Android devices.
 
 Please see: [https://reactnative.dev/](https://reactnative.dev/) for more information.
 
-### Expo
+#### Expo
 Expo is a development tool that allows developers to view the mobile development in progress on a device.
 
 Please see: [https://expo.dev/](https://expo.dev/) for more information.
 
-### MongoDB
+#### React Native navigation stack structure (client)
+```
+Root navigation stack (components/Navigation.js)
+├── Auth screens (screens/auth)
+│   ├── SignInScreen.js
+│   └── SignUpScreen.js
+├── Main navigation bar (components/NavBar.js)
+│   ├── Mailbox stack (components/HomeStack.js)
+|   |   ├── HomeScreen.js
+│   |   └── DraftsScreen.js
+│   ├── Compose stack (components/ComposeStack.js)
+|   |   ├── SelectRecipientScreen.js
+|   |   ├── ComposeScreen.js
+│   |   └── PreviewScreen.js
+│   ├── Friend stack (components/FriendStack.js)
+|   |   ├── HomeFriendsScreen.js
+|   |   ├── AddFriendsScreen.js (modal view)
+│   |   └── PendingFriendsScreen.js (modal view)
+|   └── Fonts
+│   └── Profile 
+└── 
+```
+
+### Backend
+
+### Express / NodeJS Server
+
+The backend is run using a NodeJS server run through a bash script. The [Express](https://expressjs.com) library manages the routes and controllers of the server. There is no UI to the backend other than the terminal interface. Calls to the server from the frontend are made using the [axios](https://axios-http.com) library. 
+
+#### MongoDB
+
 The backend uses the Mongoose MongoDB library store information, such as user profiles and letters sent.
 
 Handwritten fonts will be only stored on the sender's database. The receiver will get a letter that just has a photo of their words in their font, that way the database does not need to trasmit a new font. The transmission will also include a plain text version for voice accessibility.
@@ -61,30 +93,9 @@ font: String represeting the filename of the font
 
 Please see: [https://www.mongodb.com/](https://www.mongodb.com/) for more information.
 
-TODO: Add more tools and libraries as we use more in this project.
+### Render.com
 
-### React Native navigation stack structure (client)
-```
-Root navigation stack (components/Navigation.js)
-├── Auth screens (screens/auth)
-│   ├── SignInScreen.js
-│   └── SignUpScreen.js
-├── Main navigation bar (components/NavBar.js)
-│   ├── Mailbox stack (components/HomeStack.js)
-|   |   ├── HomeScreen.js
-│   |   └── DraftsScreen.js
-│   ├── Compose stack (components/ComposeStack.js)
-|   |   ├── SelectRecipientScreen.js
-|   |   ├── ComposeScreen.js
-│   |   └── PreviewScreen.js
-│   ├── Friend stack (components/FriendStack.js)
-|   |   ├── HomeFriendsScreen.js
-|   |   ├── AddFriendsScreen.js (modal view)
-│   |   └── PendingFriendsScreen.js (modal view)
-|   └── Fonts
-│   └── Profile 
-└── 
-```
+The server is hosted on [render.com](render.com), which connects to the Git reporsitory and autodeploys the backend. Currently, only the free tier is activated which causes the backend to go into sleep mode if not used for a period of time. This may cause delays of up to a minute when beginning to use the app. 
 
 ## Installation
 
@@ -94,17 +105,23 @@ Also see the React Native Expo Go quickstart guide: [https://reactnative.dev/doc
 
 ## Build
 
+### Backend
+
 To run the backend, use the following commands from the base directory:
 ```bash
 cd send-letters/server
 npm run dev:start
 ```
 
+### Frontend
+
 To run the frontend, use the following commands from the base directory:
 ```bash
 cd send-letters/client
 npx expo start
 ```
+
+This will prompt the user to open up an emulator through the terminal or use the barcode to open the app on a smartphone.
 
 ## Authors
 ![team1](https://user-images.githubusercontent.com/45802767/213886442-e6182d95-9df6-4775-bfa4-18b788df374b.jpg)
