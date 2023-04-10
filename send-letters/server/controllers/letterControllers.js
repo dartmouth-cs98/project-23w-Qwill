@@ -1,5 +1,55 @@
-import User from "../models/user";
-import Letter from "../models/letter";
+import User from "../schemas/userSchema";
+import Letter from "../schemas/letterSchema";
+
+
+export const makeLetter = async (req, res) => {
+    try {
+        const { text, recipientID, themeID, fontID, senderID, status } = req.body;        
+
+        // check if our db has user with the ID of the sender
+        const sender = await User.findOne({
+            "_id": senderID
+        });
+        if (!sender) {
+            return res.json({
+                error: "No user found with the senderID",
+            });
+        }
+
+        // check if our db has user with the ID of the recipient
+        const recipient = await User.findOne({
+            "_id": recipientID
+        });
+        if (!recipient) {
+            return res.json({
+                error: "No user found with recipientID",
+            });
+        }
+
+        // add letter to db
+        try {
+            const letter = await new Letter({
+                sender: senderID,
+                recipient: recipientID,
+                text: text,
+                status: status,
+                theme: themeID,
+                font: fontID,
+            }).save();
+
+            return res.json({
+                letterID: letter._id
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
 
 export const fetchLetters = async (req, res) => {
     var mongoose = require('mongoose');
@@ -107,6 +157,7 @@ export const updateLetterStatus = async (req, res) => {
         return res.status(400).send("Error. Try again.");
     }
 };
+
 
 export const updateLetterInfo = async (req, res) => {    
     try {

@@ -2,8 +2,8 @@ import express from "express";
 
 const router = express.Router();
 
-// controllers 
-const { fetchLetters, updateLetterStatus, updateLetterInfo } = require("../controllers/mailbox");
+// get controllers 
+const { makeLetter, fetchLetters, updateLetterStatus, updateLetterInfo } = require("../controllers/letterControllers");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -11,6 +11,8 @@ router.get("/", (req, res) => {
     });
 });
 
+// post routes
+router.post("/makeLetter", makeLetter);
 router.post("/fetchLetters", fetchLetters);
 router.post("/updateLetterStatus", updateLetterStatus);
 router.post("/updateLetterInfo", updateLetterInfo);

@@ -47,7 +47,7 @@ export default function App() {
     
     <NavigationContainer contentStyle={{ backgroundColor: '#F0F4FF' }}>
       <AuthContextProvider>
-        <Navigation />
+        <Navigation/>
       </AuthContextProvider>
     </NavigationContainer>
   );

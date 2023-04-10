@@ -64,7 +64,7 @@ const Navigation = () => {
         ) : (
           <>
             <Stack.Screen options={{ headerShown: false }} name='SignIn' component={SignInScreen}/>
-            <Stack.Screen options={{headerShown: false }} name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen options={{headerShown: false }} name='SignUp' component={SignUpScreen}/>
           </>
         )
       }
