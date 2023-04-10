@@ -23,7 +23,7 @@ const LetterDetailScreen = ({route, navigation}) => {
   // If we press reply on this page, we'll be taken to the compose letter screen with the recipient ID
   // as param. This way, the user doesn't have to fill in the recipient when they hit reply. 
   const handleReplyPressed = () => {
-    navigation.replace('NavBar', {
+    navigation.push('NavBar', {
       screen: 'Compose',
       params: {
         screen: 'SelectTheme',
@@ -33,7 +33,7 @@ const LetterDetailScreen = ({route, navigation}) => {
         }
       }
     });
-  }
+  };
 
   const handleArchivePressed = async () => {
     try {
@@ -53,7 +53,7 @@ const LetterDetailScreen = ({route, navigation}) => {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <View style={{flex: 1}}>

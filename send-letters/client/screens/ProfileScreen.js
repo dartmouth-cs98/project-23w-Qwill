@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -14,7 +14,7 @@ function ProfileScreen({navigation}) {
   const handleSignOutPressed = async () => {
     setState({ token: "", user: null });
     await AsyncStorage.removeItem("auth-rn");
-    navigation.replace('SignIn');
+    navigation.navigate('SignIn');
   };
   
     return (

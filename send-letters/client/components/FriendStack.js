@@ -2,7 +2,7 @@ import { StyleSheet} from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import FriendsScreen from '../screens/friends/FriendsScreen';
+import HomeFriendsScreen from '../screens/friends/HomeFriendsScreen';
 import AddFriendsScreen from '../screens/friends/AddFriendsScreen';
 import PendingFriendsScreen from '../screens/friends/PendingFriendsScreen';
 
@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 // This stack will have a main screen (friends) and two modal screens which can be navigated to
 // (pending friend requests and add friends)
 // https://reactnavigation.org/docs/modal/
-const FriendStack = () => {
+export default function FriendStack () {
   // the "name" property of each screen is what should be referred to when routing with navigators
   return (
     <Stack.Navigator 
@@ -23,34 +23,24 @@ const FriendStack = () => {
       }}>
         <Stack.Group>
             <Stack.Screen   
-            options={{
-                title: "Friends",
-            }}
-            name='FriendsHome' 
-            component={FriendsScreen} 
+            options={{title: "HomeFriendsScreen",}}
+            name='HomeFriendsScreen' 
+            component={HomeFriendsScreen} 
             />
 
         </Stack.Group>
-        <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Group screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
             <Stack.Screen 
-            options={{
-                title: "Add Friends",
-            }}
-            name='AddFriends' 
+            options={{title: "AddFriendsScreen",}}
+            name='AddFriendsScreen' 
             component={AddFriendsScreen}
             />
             <Stack.Screen 
-            options={{
-              title: "Friend Requests",
-            }}
-            name='PendingFriends' 
+            options={{title: "PendingFriendsScreen",}}
+            name='PendingFriendsScreen' 
             component={PendingFriendsScreen}
         /> 
         </Stack.Group>
     </Stack.Navigator>
   );
 }
-
-export default FriendStack
-
-const styles = StyleSheet.create({})

@@ -2,8 +2,8 @@ import express from "express";
 
 const router = express.Router();
 
-// controllers 
-const { sendLetter, matchRecipient } = require("../controllers/compose");
+// get controllers 
+const { matchRecipient } = require("../controllers/userControllers");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/sendLetter", sendLetter);
+// post routes
 router.post("/matchRecipient", matchRecipient);
 
 export default router; 

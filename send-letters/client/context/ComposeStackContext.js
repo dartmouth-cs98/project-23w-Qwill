@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
-import { createContext } from 'react';
+import { useState, useContext, createContext } from 'react';
 import React from 'react';
+import { AuthContext } from './AuthContext';
 
 const ComposeContext = createContext();
 
 const ComposeContextProvider = ({ children }) => {
+    const [userInfo, setUserInfo] = useContext(AuthContext);
     const [letterInfo, setLetterInfo] = useState({
+        senderID: userInfo.user._id,
+        letterID: "",
         text: "",
-        recipientID: 0,
+        recipientID: "",
         recipientUsername: "",
         themeID: "",
         fontID: ""
@@ -21,4 +24,4 @@ const ComposeContextProvider = ({ children }) => {
     );
 };
 
-export {ComposeContext, ComposeContextProvider};
+export { ComposeContext, ComposeContextProvider };

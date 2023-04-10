@@ -8,7 +8,7 @@ import PreviewScreen from '../screens/compose/PreviewScreen';
 import SelectFontScreen from '../screens/compose/SelectFontScreen';
 import SelectThemeScreen from '../screens/compose/SelectThemeScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {ComposeContextProvider} from '../context/ComposeStackContext';
+import { ComposeContextProvider } from '../context/ComposeStackContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,8 +32,7 @@ const ComposeStack = ({navigation}) => {
    * */
 
     return (
-      <ComposeContextProvider>
-      <Stack.Navigator 
+      <Stack.Navigator
         initialRouteName="SelectRecipient"
         screenOptions={{
             headerBackTitleVisible: false,
@@ -52,7 +51,7 @@ const ComposeStack = ({navigation}) => {
             ),
             animationTypeForReplace: 'pop'
           }}
-          />
+        />
         <Stack.Screen 
           name="ComposeHome" 
           component={ComposeScreen}
@@ -79,7 +78,6 @@ const ComposeStack = ({navigation}) => {
             animationTypeForReplace: 'pop'
           }} />
       </Stack.Navigator>
-      </ComposeContextProvider>
     );
   };
 
