@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './context/auth';
+import { AuthContextProvider } from './context/auth';
 import Navigation from './components/Navigation';
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -46,9 +46,9 @@ export default function App() {
   return (
     
     <NavigationContainer contentStyle={{ backgroundColor: '#F0F4FF' }}>
-      <AuthProvider>
+      <AuthContextProvider>
         <Navigation />
-      </AuthProvider>
+      </AuthContextProvider>
     </NavigationContainer>
   );
 }
