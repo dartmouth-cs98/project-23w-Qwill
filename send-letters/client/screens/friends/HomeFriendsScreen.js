@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { Text, TextInput, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon, Input } from 'react-native-elements'
+import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/auth';
 
@@ -8,10 +8,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
-
-function truncate(str, n){
-  return (str.length > n) ? str.slice(0, n-1) + '&hellip;' : str;
-};
+import COLORS from '../../styles/colors';
+import ButtonBlue from '../../components/ButtonBlue.components';
+import {truncate} from '../../helpers/stringValidation';
 
 function HomeFriendsScreen({ navigation }) {
   const [state, setState] = useContext(AuthContext);
@@ -42,7 +41,7 @@ function HomeFriendsScreen({ navigation }) {
 
   function renderMatches() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center' }}>No users found</Text>
+      return
     }
     return (
       <View>
@@ -56,7 +55,9 @@ function HomeFriendsScreen({ navigation }) {
               <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
                 <Text style={styles.friendMidText}>{(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: 12 }}>{truncate((JSON.stringify(item.username)).replace(/["]/g, ''))}</Text>
+              <Text style={{ textAlign: 'center', fontSize: 12 }}>
+                {(truncate((JSON.stringify(item.username)).replace(/["]/g, ''), 10))}
+              </Text>
             </View>
           }
           keyExtractor={item => item.username}
@@ -77,33 +78,25 @@ function HomeFriendsScreen({ navigation }) {
         <View style={styles.inputContainer}>
           {/* <FaBeer />
           <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000" /> */}
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChangeText}
-            maxLength={40}
-            placeholder="Search for your friends"
-            autoCompleteType="email"
-            autoCapitalize="none"
-            keyboardType="numeric"
-          />
-          {/* <Input
-            placeholder="enter name or username"
+          <Input
+            placeholder=" enter name or username"
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={handleChangeText}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
             leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
-            maxLength={20}
-          /> */}
+          />
+
         </View>
         <View>
           {renderMatches()}
         </View>
+        <View style={styles.line}></View>
+        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" ></ButtonBlue>
       </View>
     </SafeAreaView>
   );
 }
-
 export default HomeFriendsScreen;
 
 const styles = StyleSheet.create({
@@ -186,7 +179,6 @@ const styles = StyleSheet.create({
     width: 70,
     borderRadius: 35,
     backgroundColor: "rgba(30,70,147,0.2)",
-    // backgroundColor: "white",
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
@@ -222,5 +214,13 @@ const styles = StyleSheet.create({
     marginTop: 21,
     fontWeight: "600"
     // backgroundColor: "rgba(0,0,0,1)" 
-  }
+  },
+  line: {
+    width: 110,
+    height: 0,
+    borderWidth: 1,
+    borderColor: COLORS.black20,
+    marginTop: 10,
+    marginBottom: 10
+  },
 });
