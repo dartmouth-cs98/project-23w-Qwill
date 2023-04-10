@@ -10,11 +10,7 @@ import findIP from '../../helpers/findIP';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import COLORS from '../../styles/colors';
 import ButtonBlue from '../../components/ButtonBlue.components';
-
-function truncate(str, n) {
-  return (str.length > n) ? str.slice(0, n - 1) + '...' : str; 
-  // based on https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings
-};
+import {truncate} from '../../helpers/stringValidation';
 
 function HomeFriendsScreen({ navigation }) {
   const [state, setState] = useContext(AuthContext);
@@ -57,7 +53,7 @@ function HomeFriendsScreen({ navigation }) {
           renderItem={({ item }) =>
             <View>
               <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
-                <Text style={styles.friendMidText}>{truncate(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
+                <Text style={styles.friendMidText}>{(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
               <Text style={{ textAlign: 'center', fontSize: 12 }}>
                 {(truncate((JSON.stringify(item.username)).replace(/["]/g, ''), 10))}
@@ -82,15 +78,15 @@ function HomeFriendsScreen({ navigation }) {
         <View style={styles.inputContainer}>
           {/* <FaBeer />
           <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000" /> */}
-          <Input 
+          <Input
             placeholder=" enter name or username"
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={handleChangeText}
-            inputContainerStyle={{borderBottomWidth:0, backgroundColor: 'white', height: 32, borderRadius: 5}}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
           />
-          
+
         </View>
         <View>
           {renderMatches()}

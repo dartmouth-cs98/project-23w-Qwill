@@ -32,7 +32,9 @@ const AddFriendsScreen = ({ navigation }) => {
   const handleChangeText = async (text) => {
     const newText = text.toLowerCase();
     const senderID = state.user._id;
+    
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
+    
     try {
       const resp = await axios.post(findIP() + "/api/matchRecipient", { senderID, newText });
       if (!resp) {
