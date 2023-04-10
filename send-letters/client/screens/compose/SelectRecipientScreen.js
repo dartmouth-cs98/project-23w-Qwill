@@ -77,17 +77,6 @@ function SelectRecipientScreen({navigation}) {
     if (matchingUsers.length == 0) {
       return <Text style={{textAlign:'center'}}>No users found</Text>
     }
-    
-    // return matchingUsers.map((item, index) => 
-    //   // <Button 
-    //   //   key={index}
-    //   //   containerStyle={styles.button} 
-    //   //   onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}
-    //   // />
-    //   <TouchableOpacity style={styles.friendCircle} keyExtractor={(item) => item.title}>
-    //     <Text>{(JSON.stringify(item.username)).replace(/["]/g, '')}</Text>
-    //   </TouchableOpacity>
-    // );
     return (
       <View>
         <FlatList
@@ -131,11 +120,9 @@ function SelectRecipientScreen({navigation}) {
             leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
           />
         </View>
-        {/* <ScrollView style={styles.scrollView}> */}
-          <View>
-            {renderMatches()}
-          </View>
-        {/* </ScrollView> */}
+        <View>
+          {renderMatches()}
+        </View>     
       </View>
     </SafeAreaView>
   );
