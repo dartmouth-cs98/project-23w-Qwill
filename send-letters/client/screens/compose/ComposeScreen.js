@@ -28,7 +28,6 @@ function ComposeScreen({ navigation, route }) {
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%'}} 
         source={images.themes[letterInfo.themeID]}> 
-          {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={{flex: 1}}>
                 <Input
@@ -43,7 +42,6 @@ function ComposeScreen({ navigation, route }) {
               /> 
             </View>
           </TouchableWithoutFeedback>               
-          }
       </ImageBackground>
       <View style={{flexDirection: 'row'}}>
         <ButtonPrimary title={"Go back"} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>
