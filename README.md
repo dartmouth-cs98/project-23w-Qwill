@@ -149,7 +149,18 @@ npx expo install expo-image-picker
 npm install expo-sharing
 
 # serverside
-npm install express express-jwt jsonwebtoken mongoose morgan nanoid @sendgrid/mail bcrypt cors dotenv esm
+npm install express
+npm install express-jwt
+npm install jsonwebtoken
+npm install mongoose
+npm install morgan
+npm install nanoid
+npm install @sendgrid/mail
+npm install bcrypt
+npm install cors
+npm install dotenv
+npm install esm
+npm install node-cron
 ```
 
 ## Troubleshooting 

@@ -13,10 +13,15 @@ const morgan = require("morgan");
 
 const app = express();
 
+// connect to mongoDB database
 mongoose
     .connect(process.env.DATABASE)
     .then(() => console.log("DB connected"))
     .catch((err) => console.log("DB CONNECTION ERROR: ", err));
+
+// set up timer to ping Render.com server every 10 minutes so it doesn't go into sleep mode
+const scheduledFunctions = require('./helpers/scheduledFunctions');
+scheduledFunctions.initScheduledJobs(); 
 
 // middlewares
 app.use(express.json());
