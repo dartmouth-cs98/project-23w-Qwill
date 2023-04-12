@@ -9,9 +9,11 @@ import findIP from '../../helpers/findIP';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import styles from '../../styles/Profile.component.style';
+import { Snackbar } from 'react-native-paper';
+
 
 function SelectRecipientScreen({navigation}) {
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
@@ -40,7 +42,7 @@ function SelectRecipientScreen({navigation}) {
 
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
-    const senderID = state.user._id;  
+    const senderID = userInfo.user._id;  
 
     // no need to connect to server if text contains restricted characters
     if (hasRestrictedChar(text) == true) {

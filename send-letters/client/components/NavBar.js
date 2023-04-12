@@ -1,6 +1,6 @@
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Feather} from '@expo/vector-icons';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Feather } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
@@ -25,8 +25,9 @@ const CustomComposeButton = ({children, onPress}) => (
       justifyContent: 'center',
       alignItems: 'center',
     }}
-    onPress={onPress}>
-    <View>
+    onPress={onPress}
+  >
+      <View>
         <View
           style={{
             width: 70, 
@@ -37,7 +38,8 @@ const CustomComposeButton = ({children, onPress}) => (
             shadowOffset: { height: 1, width: 1 },
             shadowOpacity: 1,
             shadowRadius: 2,
-          }}>
+          }}
+        >
           {children}
         </View>
       </View>
@@ -73,13 +75,14 @@ function NavBar() {
                     <View style={[styles.fontIcon, styles.fontIconSelected]}>
                       <Text style={styles.fontIconTextSelected}>Aa</Text>
                     </View>
-                  )}
-                else {
+                  )
+                } else {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconUnselected]}>
                       <Text style={styles.fontIconTextUnselected}>Aa</Text>
                     </View>
-                  )}
+                  )
+                }
               } else if (route.name === 'Profile') {
                 iconName = focused ? 'person-circle' : 'person-circle-outline';
               }
@@ -100,7 +103,8 @@ function NavBar() {
                 <CustomComposeButton {...props} />
               ),
               tabBarStyle:{display:'none'} 
-            }}/>
+            }}
+          />
           <Tab.Screen name="Fonts" component={FontsStack} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>

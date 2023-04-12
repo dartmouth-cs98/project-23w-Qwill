@@ -1,38 +1,70 @@
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Input } from 'react-native-elements'
 import { AuthContext } from '../../context/AuthContext';
 //import styles from '../../styles/Profile.component.style.js';
 import COLORS from '../../styles/colors';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
 
-const handleGoBack = () => {
-  setLetterInfo({
-    text: "",
-    recipientID: 0,
-    recipientUsername: "",
-    themeID: "",
-    fontID: ""
-  });
-  if (navigation.canGoBack()) {
-    navigation.goBack();
-  } else {
-    navigation.navigate('Home');
-  }
-};
 
 const AddFriendsScreen = ({ navigation }) => {
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const userID = userInfo.user._id;
+  const [pendingFriends, setPendingFriends] = useState("");
   const [matchingUsers, setMatchingUsers] = useState("");
   const [text, onChangeText] = React.useState("");
+  const isFocused = useIsFocused();
+
+  // snackbar
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+  // fetch any pending friend requests from the server
+  useEffect(() => {
+    async function loadPendingFriends() {
+      try {
+        const resp = await axios.post(findIP()+"/api/getPendingFriends", { userID });
+        
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
+          console.error(error);
+        } else if (!resp.data || !resp.data.pendingFriends) {
+          console.error("Error: the response does not contain the expected fields");
+        } else {
+          setPendingFriends(resp.data.pendingFriends);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    loadPendingFriends();
+  }, [isFocused]);
+
+
+  const handleGoBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Home');
+    }
+  };
+
 
   const handleChangeText = async (text) => {
     const newText = text.toLowerCase();
     const senderID = state.user._id;
     
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
-    
+  
     try {
       const resp = await axios.post(findIP() + "/api/matchRecipient", { senderID, newText });
       if (!resp) {
@@ -40,7 +72,7 @@ const AddFriendsScreen = ({ navigation }) => {
         setSnackMessage("Could not establish connection to the server");
         setSnackIsVisible(true);
       } else if (resp.data.error) {
-        console.error(error);
+        console.error(resp.data.error);
       } else if (!resp.data || !resp.data.matchingUsers) {
         console.error("Error: the response does not contain the expected fields");
       } else {
@@ -94,7 +126,22 @@ const AddFriendsScreen = ({ navigation }) => {
           inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
           leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
         />
-        <Text style={styles.subtitleText}>Pending - </Text>
+        <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
+        { 
+          pendingFriends.length == 0 ? (
+            <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={styles.noMatchingUsers}>
+                You don't have any incoming friend requests.
+              </Text>
+            </View> 
+          ) : (
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <Text style={styles.noMatchingUsers}>
+                You have a friend request.
+              </Text>
+            </View>
+          )
+        }
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
         <View style={styles.line}></View>
@@ -141,5 +188,18 @@ const styles = StyleSheet.create({
     borderColor: COLORS.black20,
     marginTop: 5,
     marginBottom: 10
+  },
+  noMatchingUsers: {
+    fontFamily: 'JosefinSansBold',
+    width: 150,
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: 20,
+    lineHeight: 20,
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    letterSpacing: 0.3,
+    color: COLORS.black
   },
 })

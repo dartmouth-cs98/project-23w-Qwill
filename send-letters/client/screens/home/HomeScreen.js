@@ -124,7 +124,7 @@ function HomeScreen({ navigation, route}) {
             <ButtonPrimary 
               selected={false} 
               title={"Drafts"} 
-              onPress={() => navigation.replace('Drafts')}/>
+              onPress={() => navigation.navigate('Drafts')}/>
         </View>
 
         <View style={{flex: 1}}></View>
@@ -137,45 +137,45 @@ function HomeScreen({ navigation, route}) {
               alignContent: 'center',
               alignItems: 'center',
               height: imageHeight,
-              width: imageWidth}}>
-                { mail.length === 0 ? (
-                  <View>
-                    <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
-                      <Text style={styles.emptyMailboxText}>
-                        You don't have any letters in your mailbox.
-                      </Text>
-                    </View> 
-                    <View style={{flex: 3.5, alignItems: 'center'}}>
-                      <ButtonEmptyMailbox
-                        selected={false}
-                        title={"Send a letter"}
-                        onPress={() => {navigation.navigate('Compose')}}
-                      />
-                    </View>
-                  </View>
-              ) :
-                mail.length === 1 ? 
-                (
-                  <View style={{flex: 1, alignItems: 'center'}}>
-                    <LetterForCarousel
-                      letterStatus={mail[0].status}
-                      sender={mail[0].senderInfo.name}
-                      senderAddress={0}
-                      recipient={userInfo.user.name}
-                      recipientAddress={0}
-                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
+              width: imageWidth
+            }}
+          >
+            { mail.length === 0 ? (
+                <View>
+                  <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={styles.emptyMailboxText}>
+                      You don't have any letters in your mailbox.
+                    </Text>
+                  </View> 
+                  <View style={{flex: 3.5, alignItems: 'center'}}>
+                    <ButtonEmptyMailbox
+                      selected={false}
+                      title={"Send a letter"}
+                      onPress={() => {navigation.navigate('Compose')}}
                     />
                   </View>
-                ): (
-                <>
-                  <View style={{flex: 0}}/>
-                  <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
-                    <LetterCarousel 
-                      data={mail}
-                      renderItem={renderItem}/>
-                  </View>
-                </>) 
-              }
+                </View>
+              ) : mail.length === 1 ? (
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <LetterForCarousel
+                    letterStatus={mail[0].status}
+                    sender={mail[0].senderInfo.name}
+                    senderAddress={0}
+                    recipient={userInfo.user.name}
+                    recipientAddress={0}
+                    onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
+                  />
+                </View>
+              ): (
+              <>
+                <View style={{flex: 0}}/>
+                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
+                  <LetterCarousel 
+                    data={mail}
+                    renderItem={renderItem}/>
+                </View>
+              </>) 
+            }
           </ImageBackground>
         </View>
         <Snackbar
