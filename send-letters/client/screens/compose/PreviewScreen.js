@@ -18,6 +18,8 @@ function PreviewScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
+  console.log(letterInfo);
+
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -25,6 +27,7 @@ function PreviewScreen({ navigation }) {
   const handleSendPressed = async () => {
     try {
       resp = null;
+
       if (letterInfo.letterID == "") {
         // letter hasn't been made in DB (never saved as a draft); make new letter with status sent
         reqBody = letterInfo;

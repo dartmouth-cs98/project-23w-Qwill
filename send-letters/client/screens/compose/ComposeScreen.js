@@ -29,7 +29,7 @@ function ComposeScreen({ navigation, route }) {
     reqBody["status"] = "draft";
     updateBackend(reqBody);
   };
-
+ 
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
@@ -56,6 +56,26 @@ function ComposeScreen({ navigation, route }) {
     }
   }
 
+  const handleGoBackPressed = () => {
+    // have to reset letterInfo if coming from drafts since previous screen (draftsScreen) is part of home stack
+    // also have to replace compose navigation with select recipient screen and go back one additional time 
+    //    so that compose stack is reset when clicking on compose icon from navBar
+    if (route.params && route.params.fromDrafts && route.params.fromDrafts) {
+      setLetterInfo({
+        ...letterInfo,
+        letterID: "",
+        text: "",
+        recipientID: "",
+        themeID: "",
+        recipientUsername: "",
+        fontID: ""
+      });
+      navigation.replace("SelectRecipient");
+      composeStackGoBack(navigation, composeHomeGoBack);
+    } 
+    composeStackGoBack(navigation, composeHomeGoBack);
+  };
+
   const composeHomeGoBack = () => {
     navigation.navigate('Home');
   };
@@ -79,7 +99,6 @@ function ComposeScreen({ navigation, route }) {
                 inputContainerStyle={{borderBottomWidth:0}}
                 onChangeText={(text) => {hasTyped = true; handleTextChange(text);}}
                 multiline={true}
-                // defaultValue={letterInfo.text}  // conditional prevents asynchrounous lag on input field
                 defaultValue={defaultText}
                 autoCapitalize='none'
               />
@@ -88,7 +107,7 @@ function ComposeScreen({ navigation, route }) {
       </ImageBackground>
       <KeyboardAvoidingView style={{flexDirection: 'row'}}>
       {/* <View style={{flexDirection: 'row'}}> */}
-        <ButtonPrimary title={"Go back"} selected={true} onPress={() => composeStackGoBack(navigation, composeHomeGoBack)}/>
+        <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()}/>
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()}/>
       {/* </View> */}
       </KeyboardAvoidingView>

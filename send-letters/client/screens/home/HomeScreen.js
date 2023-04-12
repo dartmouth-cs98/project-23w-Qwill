@@ -124,7 +124,7 @@ function HomeScreen({ navigation, route}) {
             <ButtonPrimary 
               selected={false} 
               title={"Drafts"} 
-              onPress={() => navigation.replace('Drafts')}/>
+              onPress={() => navigation.navigate('Drafts')}/>
         </View>
 
         <View style={{flex: 1}}></View>

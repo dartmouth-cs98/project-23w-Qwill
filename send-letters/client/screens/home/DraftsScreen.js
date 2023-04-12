@@ -24,6 +24,7 @@ function DraftsScreen({ navigation }) {
 
   // fetch the drafts from the server
   useEffect(() => {
+    
     async function fetchDrafts() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
@@ -61,7 +62,10 @@ function DraftsScreen({ navigation }) {
       screen: 'Compose',
       params: {
         screen: 'ComposeHome',
-        params: {text: item.text}
+        params: {
+          text: item.text,
+          fromDrafts: true
+        }
       }
     });
   };
