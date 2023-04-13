@@ -1,68 +1,63 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {COLORS} from '../styles/colors';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { COLORS } from '../styles/colors';
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
 const ButtonBlue = props => {
-  const selected = props.selected;
-
-  // If the button's text is longer, we can make the button a bit wider
-  const textWidth = props.textWidth ? props.textWidth : 95;
-
-  // add in a margin top if wanted
   const marginTop = props.marginTop ? props.marginTop : 0;
+  return (
+    <TouchableOpacity
+      style={[styles.btn, styles.unselectedBtn, { marginTop: marginTop }]}
+      onPress={props.onPress}
+    >
+      <Text style={[styles.unselectedText]}>{props.title}</Text>
+    </TouchableOpacity>
+  );
+  // const selected = props.selected;
 
-  if (selected) {
-    return (
-        <TouchableOpacity
-          style={[styles.btn, styles.selectedBtn, {marginTop: marginTop}]}
-          onPress={props.onPress}
-        >
-          <Text style={[styles.text, styles.selectedText, {width: textWidth}]}>{props.title}</Text>
-        </TouchableOpacity>
-    );
-  } 
-  else {
-    return (
-        <TouchableOpacity
-          style={[styles.btn, styles.unselectedBtn, {marginTop: marginTop}]}
-          onPress={props.onPress}
-        >
-          <Text style={[styles.text, styles.unselectedText, {width: textWidth}]}>{props.title}</Text>
-        </TouchableOpacity>
-    );
-  }
+  // // If the button's text is longer, we can make the button a bit wider
+  // const textWidth = props.textWidth ? props.textWidth : 300;
+
+  // // add in a margin top if wanted
+  // const marginTop = props.marginTop ? props.marginTop : 0;
+
+  // if (selected) {
+  //   return (
+  //     <TouchableOpacity style={[styles.selectedBtn]} onPress={props.onPress}>
+  //       <Text style={[styles.selectedText]}>{props.title}</Text>
+  //     </TouchableOpacity>
+  //   );
+  // }
+  // else {
+  //   return (
+  //     <TouchableOpacity
+  //       style={[styles.btn, styles.unselectedBtn, { marginTop: marginTop }]}
+  //       onPress={props.onPress}
+  //     >
+  //       <Text style={[styles.unselectedText]}>{props.title}</Text>
+  //     </TouchableOpacity>
+  //   );
+  // }
 };
 
 const styles = StyleSheet.create({
-    text: {
-      height: 18,
-      fontStyle: "normal",
-      fontFamily: "Mulish-Italic",
-      fontWeight: "700",
-      fontSize: 15,
-      lineHeight: 18,
-      display: "flex",
-      alignItems: "center",
-      textAlign: "center",
-      letterSpacing: 0.3,
-      color: COLORS.white,
-    },
-    selectedText: {
-        color:  COLORS.white,
-    }, 
-    unselectedText: {
-        color: COLORS.blue700,
-    }, 
+  selectedText: {
+    fontFamily: "Mulish-Italic",
+    fontWeight: "heavy",
+    fontSize: 15,
+    letterSpacing: 0.3,
+    color: COLORS.blue400,
+  },
+  unselectedText: {
+    fontFamily: "Mulish-Italic",
+    fontWeight: "heavy",
+    fontSize: 15,
+    letterSpacing: 0.3,
+    color: COLORS.blue800,
+  },
   btn: {
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "row",
     alignItems: "center",
-    paddingTop: 16,
-    paddingRight: 18,
-    paddingBottom: 16,
-    paddingLeft: 18,
+    padding: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,

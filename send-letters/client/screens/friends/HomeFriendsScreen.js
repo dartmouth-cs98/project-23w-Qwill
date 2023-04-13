@@ -12,7 +12,7 @@ import COLORS from '../../styles/colors';
 import ButtonBlue from '../../components/ButtonBlue.components';
 import {truncate} from '../../helpers/stringValidation';
 
-function HomeFriendsScreen({ navigation }) {
+export default function HomeFriendsScreen({ navigation }) {
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [text, onChangeText] = React.useState("");
@@ -76,8 +76,6 @@ function HomeFriendsScreen({ navigation }) {
       </View>
       <View style={[styles.recipientsContainer]}>
         <View style={styles.inputContainer}>
-          {/* <FaBeer />
-          <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000" /> */}
           <Input
             placeholder=" enter name or username"
             autoCompleteType="email"
@@ -86,18 +84,16 @@ function HomeFriendsScreen({ navigation }) {
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
             leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
           />
-
         </View>
         <View>
           {renderMatches()}
         </View>
-        <View style={styles.line}></View>
+        <View style={styles.line}/>
         <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" ></ButtonBlue>
       </View>
     </SafeAreaView>
   );
 }
-export default HomeFriendsScreen;
 
 const styles = StyleSheet.create({
   searchIcon: {
@@ -114,18 +110,17 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   btn: {
-    width: 60,
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "18%",
+    // alignItems: 'left',
+    // justifyContent: 'left',
   },
-  container: {
-    height: 94,
-    width: 312,
-    backgroundColor: "#97ACE2",
-    borderRadius: 20,
-    marginBottom: 15
-  },
+  // container: {
+  //   height: 94,
+  //   width: 312,
+  //   backgroundColor: "#97ACE2",
+  //   borderRadius: 20,
+  //   marginBottom: 15
+  // },
   shadow: {
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
@@ -166,7 +161,6 @@ const styles = StyleSheet.create({
   scrollView: {
     height: 200,
   },
-
   recipientsContainer: {
     width: 350,
     height: 585,
@@ -177,12 +171,12 @@ const styles = StyleSheet.create({
   friendCircle: {
     height: 70,
     width: 70,
-    borderRadius: 35,
-    backgroundColor: "rgba(30,70,147,0.2)",
-    marginTop: 5,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+    borderRadius: 50,
+    backgroundColor: COLORS.profilebackground,
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
     // borderWidth: 1,
     // borderColor: 'black'
   },
@@ -216,11 +210,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(0,0,0,1)" 
   },
   line: {
-    width: 110,
-    height: 0,
-    borderWidth: 1,
-    borderColor: COLORS.black20,
     marginTop: 10,
-    marginBottom: 10
+    borderBottomColor: COLORS.blue400,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
