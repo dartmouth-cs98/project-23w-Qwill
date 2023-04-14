@@ -11,7 +11,7 @@ const ButtonPrimary = props => {
 
   // add in a margin top if wanted
   const marginTop = props.marginTop ? props.marginTop : 0;
-
+  
   if (selected) {
     return (
         <TouchableOpacity

@@ -16,6 +16,7 @@ export default function HomeFriendsScreen({ navigation }) {
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [text, onChangeText] = React.useState("");
+  // todo setsnackmessage does not exist
 
   const handleChangeText = async (text) => {
     const newText = text.toLowerCase();
