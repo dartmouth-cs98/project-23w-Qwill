@@ -17,6 +17,7 @@ const AddFriendsScreen = ({ navigation }) => {
   const userID = userInfo.user._id;
   const [pendingFriends, setPendingFriends] = useState("");
   const [matchingUsers, setMatchingUsers] = useState("");
+  const [pendingRequests, setPendingRequests] = useState(""); //todo
   const [text, onChangeText] = React.useState("");
   const isFocused = useIsFocused();
 
@@ -119,12 +120,12 @@ const AddFriendsScreen = ({ navigation }) => {
       </View>
       <View style={styles.inputContainer}>
         <Input
-          placeholder=" enter name or username"
+          placeholder="enter name or username"
           autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={handleChangeText}
           inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-          leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
+          leftIcon={{type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
         />
         <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
         { 
@@ -146,6 +147,7 @@ const AddFriendsScreen = ({ navigation }) => {
         <Text style={styles.subtitleText}>Suggestions</Text>
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
+        <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Copy Qwill Link</Text>
       </View>
       {/* <View><Text style={styles.subtitleText}>Pending - </Text></View> */}
@@ -182,12 +184,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   line: {
-    width: 110,
-    height: 0,
-    borderWidth: 1,
-    borderColor: COLORS.black20,
-    marginTop: 5,
-    marginBottom: 10
+    marginTop: 15,
+    marginBottom: 15,
+    borderBottomColor: COLORS.blue400,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   noMatchingUsers: {
     fontFamily: 'JosefinSansBold',
