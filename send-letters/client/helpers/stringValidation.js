@@ -27,3 +27,8 @@ export function hasRestrictedChar(s) {
   }
   return false;
 };
+
+export function truncate(str, n) {
+  return (str.length > n) ? str.slice(0, n - 1) + '...' : str; 
+  // based on https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings
+};

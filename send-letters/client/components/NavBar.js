@@ -1,6 +1,6 @@
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Feather} from '@expo/vector-icons';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Feather } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
@@ -8,6 +8,8 @@ import FontsStack from '../screens/font/FontsStack';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from './ComposeStack';
+
+import { ComposeContextProvider } from '../context/ComposeStackContext';
 
 // Citation: 
 // https://reactnavigation.org/docs/tab-based-navigation
@@ -23,8 +25,9 @@ const CustomComposeButton = ({children, onPress}) => (
       justifyContent: 'center',
       alignItems: 'center',
     }}
-    onPress={onPress}>
-    <View>
+    onPress={onPress}
+  >
+      <View>
         <View
           style={{
             width: 70, 
@@ -35,7 +38,8 @@ const CustomComposeButton = ({children, onPress}) => (
             shadowOffset: { height: 1, width: 1 },
             shadowOpacity: 1,
             shadowRadius: 2,
-          }}>
+          }}
+        >
           {children}
         </View>
       </View>
@@ -45,6 +49,7 @@ const CustomComposeButton = ({children, onPress}) => (
 
 function NavBar() {
     return (
+      <ComposeContextProvider>
         <Tab.Navigator
           backBehavior={'history'}
           screenOptions={({ route }) => ({
@@ -65,19 +70,19 @@ function NavBar() {
                 // https://icons.expo.fyi/Feather/pen-tool
                 return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
-                // iconName = focused ? 'pencil' : 'pencil-outline';
                 if (focused) {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconSelected]}>
                       <Text style={styles.fontIconTextSelected}>Aa</Text>
                     </View>
-                  )}
-                else {
+                  )
+                } else {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconUnselected]}>
                       <Text style={styles.fontIconTextUnselected}>Aa</Text>
                     </View>
-                  )}
+                  )
+                }
               } else if (route.name === 'Profile') {
                 iconName = focused ? 'person-circle' : 'person-circle-outline';
               }
@@ -98,10 +103,12 @@ function NavBar() {
                 <CustomComposeButton {...props} />
               ),
               tabBarStyle:{display:'none'} 
-            }}/>
+            }}
+          />
           <Tab.Screen name="Fonts" component={FontsStack} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
+      </ComposeContextProvider>
     );
   }
 

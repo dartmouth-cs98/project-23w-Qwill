@@ -1,8 +1,10 @@
 export const COLORS = {
     /*From Figma*/
     white: '#ffffff',
+    black20: '#DBDDE0',
     black: '#000000',
 
+    profilebackground: "rgba(30,70,147,0.2)",
     blue100: '#f8f9fd',
     blue200: '#F0F4FF',
     blue300: '#E2E8F6',

@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './context/auth';
+import { AuthContextProvider } from './context/AuthContext';
 import Navigation from './components/Navigation';
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -15,6 +15,8 @@ export default function App() {
         // Pre-load fonts, make any API calls you need to do here
         await Font.loadAsync({
           'MyNerve': require('./assets/fonts/MyNerve_Regular.ttf'),
+          'Mulish-Italic': require('./assets/fonts/Mulish-Italic.ttf'),
+          'Mulish': require('./assets/fonts/Mulish.ttf'),
           'GloriaHallelujah': require('./assets/fonts/GloriaHallelujah-Regular.ttf'),
           'HomemadeApple': require('./assets/fonts/HomemadeApple-Regular.ttf'),
           'IndieFlower': require('./assets/fonts/Mansalva-Regular.ttf'),
@@ -46,9 +48,9 @@ export default function App() {
   return (
     
     <NavigationContainer contentStyle={{ backgroundColor: '#F0F4FF' }}>
-      <AuthProvider>
-        <Navigation />
-      </AuthProvider>
+      <AuthContextProvider>
+        <Navigation/>
+      </AuthContextProvider>
     </NavigationContainer>
   );
 }
