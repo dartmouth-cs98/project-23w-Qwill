@@ -28,6 +28,7 @@ export function hasRestrictedChar(s) {
   return false;
 };
 
+// this function truncates the username string to a certain length to ensure it does not render too long
 export function truncate(str, n) {
   return (str.length > n) ? str.slice(0, n - 1) + '...' : str; 
   // based on https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings

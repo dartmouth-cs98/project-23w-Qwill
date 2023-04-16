@@ -9,7 +9,7 @@ const handleChangeText = async (text) => {
     }
   
     try {
-      const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
+      const resp = await axios.post(findIP()+"/api/matchUser", { senderID, newText, friends: true });
       
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
