@@ -13,17 +13,16 @@ import ButtonBlue from '../../components/ButtonBlue.components';
 import {truncate} from '../../helpers/stringValidation';
 
 export default function HomeFriendsScreen({ navigation }) {
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
-  const [text, onChangeText] = React.useState("");
-  // todo setsnackmessage does not exist
+  const [text, onChangeText] = useState("");
 
   const handleChangeText = async (text) => {
     const newText = text.toLowerCase();
-    const senderID = state.user._id;
+    const senderID = userInfo.user._id;
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
     try {
-      const resp = await axios.post(findIP() + "/api/matchRecipient", { senderID, newText });
+      const resp = await axios.post(findIP() + "/api/matchUser", { senderID, newText, friends: true });
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -94,7 +93,7 @@ export default function HomeFriendsScreen({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   searchIcon: {

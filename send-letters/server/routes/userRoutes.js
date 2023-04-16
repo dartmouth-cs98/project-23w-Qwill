@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 
 // get controllers 
-const { matchRecipient } = require("../controllers/userControllers");
+const { matchUser } = require("../controllers/userControllers");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -12,6 +12,6 @@ router.get("/", (req, res) => {
 });
 
 // post routes
-router.post("/matchRecipient", matchRecipient);
+router.post("/matchUser", matchUser);
 
 export default router; 
