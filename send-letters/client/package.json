@@ -19,14 +19,16 @@
     "expo": "^48.0.0",
     "expo-app-loading": "~2.1.1",
     "expo-asset": "~8.9.1",
+    "expo-camera": "~13.2.1",
     "expo-font": "~11.1.1",
+    "expo-sharing": "~11.2.2",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",
     "patch-package": "^6.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-freeze": "^1.0.3",
-    "react-native": "0.71.4",
+    "react-native": "0.71.6",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-paper": "^5.2.0",
@@ -37,9 +39,7 @@
     "react-native-snackbar-component": "^1.1.12",
     "react-navigation": "^4.4.4",
     "stacktrace-parser": "^0.1.10",
-    "styled-components": "^5.3.6",
-    "expo-camera": "~13.2.1",
-    "expo-sharing": "~11.2.2"
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
