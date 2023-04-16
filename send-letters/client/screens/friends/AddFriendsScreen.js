@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -7,9 +7,10 @@ import { Input } from 'react-native-elements'
 import { AuthContext } from '../../context/AuthContext';
 //import styles from '../../styles/Profile.component.style.js';
 import COLORS from '../../styles/colors';
-import { hasRestrictedChar } from '../../helpers/stringValidation';
+import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
+import AddFriendButton from '../../components/AddFriendButton';
 
 
 const AddFriendsScreen = ({ navigation }) => {
@@ -17,8 +18,8 @@ const AddFriendsScreen = ({ navigation }) => {
   const userID = userInfo.user._id;
   const [pendingFriends, setPendingFriends] = useState("");
   const [matchingUsers, setMatchingUsers] = useState("");
-  const [pendingRequests, setPendingRequests] = useState(""); //todo
-  const [text, onChangeText] = React.useState("");
+  const [pendingRequests, setPendingRequests] = useState("");
+  const [text, onChangeText] = useState("");
   const isFocused = useIsFocused();
 
   // snackbar
@@ -62,12 +63,13 @@ const AddFriendsScreen = ({ navigation }) => {
 
   const handleChangeText = async (text) => {
     const newText = text.toLowerCase();
-    const senderID = state.user._id;
+    const senderID = userID;
     
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
   
     try {
-      const resp = await axios.post(findIP() + "/api/matchRecipient", { senderID, newText });
+      const resp = await axios.post(findIP()+"/api/matchUser", { senderID, newText, friends: false });
+
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -84,35 +86,34 @@ const AddFriendsScreen = ({ navigation }) => {
     }
   };
 
+
+  const handleFriendPressed = (item) => {
+    // console.log(item);
+    // console.log("pressed");
+  };
+
+
   function renderMatches() {
     if (matchingUsers.length == 0) {
       return <Text style={{ textAlign: 'center' }}>No users found</Text>
     }
     return (
-      <View>
+      <View style={styles.suggestionsContainer}>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
           data={matchingUsers}
-          numColumns={3}
-          renderItem={({ item }) =>
-            <View>
-              <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
-                <Text style={styles.friendMidText}>{truncate(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
-              </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: 12 }}>
-                {(truncate((JSON.stringify(item.username)).replace(/["]/g, ''), 10))}
-              </Text>
-            </View>
-          }
+          numColumns={1}
+          renderItem={({item}) => <AddFriendButton userInfo={item} onPress={() => handleFriendPressed(item)}/>}
           keyExtractor={item => item.username}
         />
       </View>
     );
   };
+
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'left', marginTop: 20 }}>
-      <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
+      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
@@ -121,7 +122,6 @@ const AddFriendsScreen = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <Input
           placeholder="enter name or username"
-          autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={handleChangeText}
           inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
@@ -130,12 +130,12 @@ const AddFriendsScreen = ({ navigation }) => {
         <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
         { 
           pendingFriends.length == 0 ? (
-            <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flex: 2, padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
               <Text style={styles.noMatchingUsers}>
                 You don't have any incoming friend requests.
               </Text>
             </View> 
-          ) : (
+          ) : (  // at least one pending friend request
             <View style={{flex: 1, alignItems: 'center'}}>
               <Text style={styles.noMatchingUsers}>
                 You have a friend request.
@@ -145,14 +145,16 @@ const AddFriendsScreen = ({ navigation }) => {
         }
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
+        <View styles={{flex: 1}}>
+          {renderMatches()}
+        </View> 
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Copy Qwill Link</Text>
       </View>
-      {/* <View><Text style={styles.subtitleText}>Pending - </Text></View> */}
     </SafeAreaView>
-  )
+  );
 };
 
 export default AddFriendsScreen;
@@ -177,11 +179,15 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'column', 
-    flex: 1,
+    flex: 15,
     width: 350,
     marginLeft: 45,
     marginTop: 10,
     justifyContent: 'center'
+  },
+  suggestionsContainer: {
+    // backgroundColor: COLORS.cream200,
+    width: "100%",
   },
   line: {
     marginTop: 15,
