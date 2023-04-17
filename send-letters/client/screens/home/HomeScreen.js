@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/auth';
-import axios from "axios";
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
@@ -12,7 +12,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
-import {COLORS} from '../../styles/colors';
+import { COLORS } from '../../styles/colors';
 
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
@@ -28,15 +28,14 @@ const imageWidth = Math.round(imageHeight * .626);
 const SLIDER_WIDTH = windowWidth;
 
 function HomeScreen({ navigation, route}) {
-  const [state, setState] = useContext(AuthContext);
-  const userID = state.user._id;
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const userID = userInfo.user._id;
   const [mail, setMail] = useState("");
 
   // For snackbar:
   // https://callstack.github.io/react-native-paper/snackbar.html
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
-
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
@@ -54,27 +53,28 @@ function HomeScreen({ navigation, route}) {
   const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
-      letterID: letterID, 
-      letterStatus: letterStatus, 
-      senderID: senderID, 
+      letterID: letterID,
+      letterStatus: letterStatus,
+      senderID: senderID,
       senderUsername: senderUsername,
-      themeID: themeID, 
-      fontID: fontID });
+      themeID: themeID,
+      fontID: fontID
+    });
 
-      try {
-        const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
-  
-        if (!resp) {  // could not connect to backend
-          console.log("ERROR: Could not establish server connection with axios");
-        setSnackMessage("Could not establish connection to the server");
+    try {
+      const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
+
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+      setSnackMessage("Could not establish connection to the server");
+      setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
-        } else if (resp.data.error) {  // backend error
-          setSnackMessage(resp.data.error);
-          setSnackIsVisible(true);
-        }
-      } catch (err) {
-        console.error(err);
       }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // This func is passed as a param to the letter carousel to render each itme 
@@ -85,7 +85,7 @@ function HomeScreen({ navigation, route}) {
             letterStatus={item.status}
             sender={item.senderInfo.name}
             senderAddress={index}
-            recipient={state.user.name}
+            recipient={userInfo.user.name}
             recipientAddress={index}
             onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
           />
@@ -97,7 +97,7 @@ function HomeScreen({ navigation, route}) {
   useEffect(() => {
     async function fetchMail() {
       try {
-        const resp = await axios.post(findIP()+"/api/receiveLetters", { userID });
+        const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
         
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
@@ -124,7 +124,7 @@ function HomeScreen({ navigation, route}) {
             <ButtonPrimary 
               selected={false} 
               title={"Drafts"} 
-              onPress={() => navigation.replace('Drafts')}/>
+              onPress={() => navigation.navigate('Drafts')}/>
         </View>
 
         <View style={{flex: 1}}></View>
@@ -137,45 +137,45 @@ function HomeScreen({ navigation, route}) {
               alignContent: 'center',
               alignItems: 'center',
               height: imageHeight,
-              width: imageWidth}}>
-                { mail.length === 0 ? (
-                  <View>
-                    <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
-                      <Text style={styles.emptyMailboxText}>
-                        You don't have any letters in your mailbox.
-                      </Text>
-                    </View> 
-                    <View style={{flex: 3.5, alignItems: 'center'}}>
-                      <ButtonEmptyMailbox
-                        selected={false}
-                        title={"Send a letter"}
-                        onPress={() => {navigation.navigate('Compose')}}
-                      />
-                    </View>
-                  </View>
-              ) :
-                mail.length === 1 ? 
-                (
-                  <View style={{flex: 1, alignItems: 'center'}}>
-                    <LetterForCarousel
-                      letterStatus={mail[0].status}
-                      sender={mail[0].senderInfo.name}
-                      senderAddress={0}
-                      recipient={state.user.name}
-                      recipientAddress={0}
-                      onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
+              width: imageWidth
+            }}
+          >
+            { mail.length === 0 ? (
+                <View>
+                  <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={styles.emptyMailboxText}>
+                      You don't have any letters in your mailbox.
+                    </Text>
+                  </View> 
+                  <View style={{flex: 3.5, alignItems: 'center'}}>
+                    <ButtonEmptyMailbox
+                      selected={false}
+                      title={"Send a letter"}
+                      onPress={() => {navigation.navigate('Compose')}}
                     />
                   </View>
-                ): (
-                <>
-                  <View style={{flex: 0}}/>
-                  <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
-                    <LetterCarousel 
-                      data={mail}
-                      renderItem={renderItem}/>
-                  </View>
-                </>) 
-              }
+                </View>
+              ) : mail.length === 1 ? (
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <LetterForCarousel
+                    letterStatus={mail[0].status}
+                    sender={mail[0].senderInfo.name}
+                    senderAddress={0}
+                    recipient={userInfo.user.name}
+                    recipientAddress={0}
+                    onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
+                  />
+                </View>
+              ): (
+              <>
+                <View style={{flex: 0}}/>
+                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
+                  <LetterCarousel 
+                    data={mail}
+                    renderItem={renderItem}/>
+                </View>
+              </>) 
+            }
           </ImageBackground>
         </View>
         <Snackbar

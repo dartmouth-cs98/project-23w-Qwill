@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
@@ -13,20 +14,25 @@ import ButtonBlue from '../../components/ButtonBlue.components';
 import {truncate} from '../../helpers/stringValidation';
 
 export default function HomeFriendsScreen({ navigation }) {
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
-  const [text, onChangeText] = React.useState("");
-  // For snackbar:
-  // https://callstack.github.io/react-native-paper/snackbar.html
+
+  const [text, onChangeText] = useState("");
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const isFocused = useIsFocused();
+
+  // fetch any pending friend requests from the server
+  useEffect(() => {
+    handleChangeText("");
+  }, [isFocused]);
 
   const handleChangeText = async (text) => {
-    const newText = text.toLowerCase();
-    const senderID = state.user._id;
+    const textToMatch = text.toLowerCase();
+    const senderID = userInfo.user._id;
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
     try {
-      const resp = await axios.post(findIP() + "/api/matchRecipient", { senderID, newText });
+      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch, friends: true });
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -97,7 +103,7 @@ export default function HomeFriendsScreen({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   searchIcon: {

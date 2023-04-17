@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignInScreen from '../screens/auth/SignInScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../context/AuthContext';
 import NavBar from './NavBar';
 
 const Stack = createNativeStackNavigator();
@@ -65,7 +65,7 @@ const Navigation = () => {
         ) : (
           <>
             <Stack.Screen options={{ headerShown: false }} name='SignIn' component={SignInScreen}/>
-            <Stack.Screen options={{headerShown: false }} name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen options={{headerShown: false }} name='SignUp' component={SignUpScreen}/>
           </>
         )
       }

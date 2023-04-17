@@ -1,5 +1,5 @@
 const handleChangeText = async (text) => {    
-    const newText = text.toLowerCase();
+    const textToMatch = text.toLowerCase();
     const senderID = state.user._id;  
   
     // no need to connect to server if text contains restricted characters
@@ -9,7 +9,7 @@ const handleChangeText = async (text) => {
     }
   
     try {
-      const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch, friends: true });
       
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");

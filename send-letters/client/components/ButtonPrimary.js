@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {COLORS} from '../styles/colors';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { COLORS } from '../styles/colors';
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
-const ButtonPrimary = props => {
+const ButtonPrimary = (props) => {
   const selected = props.selected;
 
   // If the button's text is longer, we can make the button a bit wider

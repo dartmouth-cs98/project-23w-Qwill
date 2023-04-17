@@ -1,17 +1,20 @@
 import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { hasRestrictedChar } from '../../helpers/stringValidation';
+import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
 import styles from '../../styles/Profile.component.style';
+import { Snackbar } from 'react-native-paper';
+import SelectRecipientButton from '../../components/SelectRecipientButton';
+
 
 function SelectRecipientScreen({navigation}) {
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
@@ -21,24 +24,26 @@ function SelectRecipientScreen({navigation}) {
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
 
-    // This is callback for the composeStackGoBack default helper
+  // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
-      setLetterInfo({
-        text: "",
-        recipientID: 0,
-        recipientUsername: "",
-        themeID: "",
-        fontID: "" });
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate('Home');
-      }
+    setLetterInfo({
+      letterID: "",
+      text: "",
+      recipientID: "",
+      recipientUsername: "",
+      themeID: "",
+      fontID: "" 
+    });
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Home');
+    }
   };
 
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
-    const senderID = state.user._id;  
+    const senderID = userInfo.user._id;  
 
     // no need to connect to server if text contains restricted characters
     if (hasRestrictedChar(text) == true) {
@@ -47,7 +52,7 @@ function SelectRecipientScreen({navigation}) {
     }
 
     try {
-      const resp = await axios.post(findIP()+"/api/matchRecipient", { senderID, newText });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch: newText, friends: true });
       
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
@@ -64,6 +69,11 @@ function SelectRecipientScreen({navigation}) {
       console.error(err);
     }
   };
+
+  // update the matching users when the page is first (will correspond to all friends)
+  useEffect(() => {
+    handleChangeText("");
+  }, []);
 
   const handleNextPressed = (item) => {
     setLetterInfo({...letterInfo, recipientID: item._id, recipientUsername: item.username});
@@ -82,14 +92,7 @@ function SelectRecipientScreen({navigation}) {
           contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
           data={matchingUsers}
           numColumns={3}
-          renderItem={({item}) => 
-            <View>
-              <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
-                <Text style={styles.friendMidText}>{(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
-              </TouchableOpacity>
-              <Text style={{textAlign: 'center', fontSize: 12}}>{(JSON.stringify(item.username)).replace(/["]/g, '')}</Text>
-            </View>
-            }
+          renderItem={({item}) => <SelectRecipientButton userInfo={item} onPress={() => handleNextPressed(item)}/>}
           keyExtractor={item => item.username}
         />
       </View>
@@ -99,9 +102,9 @@ function SelectRecipientScreen({navigation}) {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-          <TouchableOpacity onPress={()=>handleGoBack()}>
-            <Ionicons name={"arrow-back"} size={40}/>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleGoBack()}>
+          <Ionicons name={"arrow-back"} size={40}/>
+        </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row'}}>
         <Text style={styles.titleText}>Compose</Text>

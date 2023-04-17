@@ -1,4 +1,4 @@
-import User from "../models/user";
+import User from "../schemas/userSchema";
 import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
