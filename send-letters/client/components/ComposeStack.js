@@ -7,8 +7,8 @@ import ComposeScreen from '../screens/compose/ComposeScreen';
 import PreviewScreen from '../screens/compose/PreviewScreen';
 import SelectFontScreen from '../screens/compose/SelectFontScreen';
 import SelectThemeScreen from '../screens/compose/SelectThemeScreen';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { ComposeContextProvider } from '../context/ComposeStackContext';
+// import CameraScreen from '../CameraScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +55,15 @@ const ComposeStack = ({ navigation }) => {
         <Stack.Screen name="Preview" component={PreviewScreen} />
         <Stack.Screen name="SelectFont" component={SelectFontScreen} />
         <Stack.Screen name="SelectTheme" component={SelectThemeScreen} />
+
+        {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen name='ChangeRecipient' component={CameraScreen} /> 
+          {/* todo replace CameraScreen 
+          <Stack.Screen name='ChangeFont' component={CameraScreen} />
+          <Stack.Screen name='ChangeTheme' component={CameraScreen} />
+          <Stack.Screen name='ChangeSticker' component={CameraScreen} />
+        </Stack.Group> */}
+
       </Stack.Navigator>
     </ComposeContextProvider>
   );
