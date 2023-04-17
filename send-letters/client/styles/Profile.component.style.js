@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,

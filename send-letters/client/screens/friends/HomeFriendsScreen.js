@@ -16,7 +16,10 @@ export default function HomeFriendsScreen({ navigation }) {
   const [state, setState] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [text, onChangeText] = React.useState("");
-  // todo setsnackmessage does not exist
+  // For snackbar:
+  // https://callstack.github.io/react-native-paper/snackbar.html
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
 
   const handleChangeText = async (text) => {
     const newText = text.toLowerCase();

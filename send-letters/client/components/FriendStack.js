@@ -16,7 +16,7 @@ export default function FriendStack () {
   // the "name" property of each screen is what should be referred to when routing with navigators
   return (
     <Stack.Navigator 
-      initialRouteName="FriendsHome"
+      initialRouteName="HomeFriendsScreen"
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: '#F0F4FF' }
