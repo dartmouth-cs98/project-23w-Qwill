@@ -4,8 +4,8 @@ import { COLORS } from '../styles/colors';
 
 const screenWidth = Dimensions.get('window').width;
 
-const AddFriendButton = (props) => {
-    const item = props.userInfo;
+const PendingFriendButton = (props) => {
+    const item = props.userInfo.requesterInfo;
 
     return (
         <View style={styles.outerView}>
@@ -13,23 +13,21 @@ const AddFriendButton = (props) => {
                 <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
             </View>
             <View>
-                <Text style={{textAlign: 'left', fontSize: 12}}>{(item.username).replace(/["]/g, '')}</Text>
-                <Text style={{textAlign: 'left', fontSize: 12}}>{"Already on Qwill"}</Text>
+                <Text style={{textAlign: 'left', fontSize: 12}}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
             </View>
             <View>
-                <TouchableOpacity style={styles.sendInviteButton} onPress={props.onPress}>
-                    {item.friendStatus == "non-friends" ?
-                        <Text>Send Invite</Text>
-                        :
-                        <Text>Request Sent</Text>
-                    }
+                <TouchableOpacity style={styles.sendInviteButton} onPress={props.onAcceptPressed}>
+                    <Text>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.sendInviteButton} onPress={props.onDeclinePressed}>
+                    <Text>Decline</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 };
 
-export default AddFriendButton;
+export default PendingFriendButton;
 
 
 const styles = StyleSheet.create({

@@ -11,6 +11,7 @@ import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import AddFriendButton from '../../components/AddFriendButton';
+import PendingFriendButton from '../../components/PendingFriendButton';
 
 
 const AddFriendsScreen = ({ navigation }) => {
@@ -18,9 +19,10 @@ const AddFriendsScreen = ({ navigation }) => {
   const userID = userInfo.user._id;
   const [pendingFriends, setPendingFriends] = useState("");
   const [matchingUsers, setMatchingUsers] = useState("");
-  const [pendingRequests, setPendingRequests] = useState("");
-  const [text, onChangeText] = useState("");
+  const [text, setText] = useState("");
   const isFocused = useIsFocused();
+
+  const [extraData, setExtraData] = React.useState(new Date());
 
   // snackbar
   const [snackMessage, setSnackMessage] = useState("");
@@ -29,28 +31,28 @@ const AddFriendsScreen = ({ navigation }) => {
 
   // fetch any pending friend requests from the server
   useEffect(() => {
-    async function loadPendingFriends() {
-      try {
-        const resp = await axios.post(findIP()+"/api/getPendingFriends", { userID });
-        
-        if (!resp) {  // could not connect to backend
-          console.log("ERROR: Could not establish server connection with axios");
-          setSnackMessage("Could not establish connection to the server");
-          setSnackIsVisible(true);
-        } else if (resp.data.error) {  // backend error
-          console.error(error);
-        } else if (!resp.data || !resp.data.pendingFriends) {
-          console.error("Error: the response does not contain the expected fields");
-        } else {
-          setPendingFriends(resp.data.pendingFriends);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
     loadPendingFriends();
   }, [isFocused]);
 
+  const loadPendingFriends = async () => {
+    try {
+      const resp = await axios.post(findIP()+"/api/getIncomingFriendReqs", { userID });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        console.error(error);
+      } else if (!resp.data || !resp.data.incomingFriendReqs) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        setPendingFriends(resp.data.incomingFriendReqs);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const handleGoBack = () => {
     if (navigation.canGoBack()) {
@@ -62,13 +64,13 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   const handleChangeText = async (text) => {
-    const newText = text.toLowerCase();
-    const senderID = userID;
+    const textToMatch = text.toLowerCase();
+    setText(textToMatch);
     
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
   
     try {
-      const resp = await axios.post(findIP()+"/api/matchUser", { senderID, newText, friends: false });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID: userID, textToMatch, nonFriends: true, pendingFriends: true, hideIncoming: true });
 
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
@@ -87,13 +89,93 @@ const AddFriendsScreen = ({ navigation }) => {
   };
 
 
-  const handleFriendPressed = (item) => {
-    // console.log(item);
-    // console.log("pressed");
+  const handleAcceptFriendPressed = async (item, index) => {
+    try {
+      const resp = await axios.post(findIP()+"/api/acceptFriendRequest", { friendReqID: item._id });
+
+      if (!resp) {
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {
+        console.error(resp.data.error);
+      } else {
+        loadPendingFriends();
+        setSnackMessage("Friend request approved!");
+        setSnackIsVisible(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeclineFriendPressed = async (item, index) => {
+    try {
+      const resp = await axios.post(findIP()+"/api/declineFriendRequest", { friendReqID: item._id });
+
+      if (!resp) {
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {
+        console.error(resp.data.error);
+      } else {
+        loadPendingFriends();
+        setSnackMessage("Friend request declined!");
+        setSnackIsVisible(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+
+  function renderPendingFriends() {
+    if (pendingFriends.length == 0) {
+      return <Text style={{ textAlign: 'center' }}>No pending requests found</Text>
+    }
+    return (
+      <View style={styles.suggestionsContainer}>
+        <FlatList
+          nestedScrollEnabled
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
+          data={pendingFriends}
+          extraData={extraData}
+          numColumns={1}
+          renderItem={({item, index}) => <PendingFriendButton userInfo={item} onAcceptPressed={() => handleAcceptFriendPressed(item, index)} onDeclinePressed={() => handleDeclineFriendPressed(item, index)}/>}
+          keyExtractor={item => item._id}
+        />
+      </View>
+    );
   };
 
 
-  function renderMatches() {
+
+  const handleAddFriendPressed = async (item, index) => {
+    console.log(item);
+
+    if (item.friendStatus == "non-friends") {
+      try {
+        const resp = await axios.post(findIP()+"/api/sendFriendRequest", { senderID: userID, recipientID: item._id });
+  
+        if (!resp) {
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {
+          console.error(resp.data.error);
+        } else {
+          handleChangeText(text); //TODO: figure out if there is a way to use extradata to update component faster / without server call
+          setSnackMessage("Request Sent!");
+          setSnackIsVisible(true);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  function renderAddFriends() {
     if (matchingUsers.length == 0) {
       return <Text style={{ textAlign: 'center' }}>No users found</Text>
     }
@@ -103,13 +185,15 @@ const AddFriendsScreen = ({ navigation }) => {
           nestedScrollEnabled
           contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
           data={matchingUsers}
+          extraData={extraData}
           numColumns={1}
-          renderItem={({item}) => <AddFriendButton userInfo={item} onPress={() => handleFriendPressed(item)}/>}
-          keyExtractor={item => item.username}
+          renderItem={({item, index}) => <AddFriendButton userInfo={item} onPress={() => handleAddFriendPressed(item, index)}/>}
+          keyExtractor={item => item._id}
         />
       </View>
     );
   };
+
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'left', marginTop: 20 }}>
@@ -137,16 +221,14 @@ const AddFriendsScreen = ({ navigation }) => {
             </View> 
           ) : (  // at least one pending friend request
             <View style={{flex: 1, alignItems: 'center'}}>
-              <Text style={styles.noMatchingUsers}>
-                You have a friend request.
-              </Text>
+              {renderPendingFriends()}
             </View>
           )
         }
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
         <View styles={{flex: 1}}>
-          {renderMatches()}
+          {renderAddFriends()}
         </View> 
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
@@ -186,7 +268,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   suggestionsContainer: {
-    // backgroundColor: COLORS.cream200,
     width: "100%",
   },
   line: {
