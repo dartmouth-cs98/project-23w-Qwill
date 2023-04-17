@@ -19,8 +19,10 @@ const AddFriendsScreen = ({ navigation }) => {
   const [pendingFriends, setPendingFriends] = useState("");
   const [matchingUsers, setMatchingUsers] = useState("");
   const [pendingRequests, setPendingRequests] = useState("");
-  const [text, onChangeText] = useState("");
+  const [text, setText] = useState("");
   const isFocused = useIsFocused();
+
+  const [extraData, setExtraData] = React.useState(new Date());
 
   // snackbar
   const [snackMessage, setSnackMessage] = useState("");
@@ -31,7 +33,7 @@ const AddFriendsScreen = ({ navigation }) => {
   useEffect(() => {
     async function loadPendingFriends() {
       try {
-        const resp = await axios.post(findIP()+"/api/getPendingFriends", { userID });
+        const resp = await axios.post(findIP()+"/api/matchUsers", { senderID: userID, pendingFriends: true });
         
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
@@ -39,10 +41,10 @@ const AddFriendsScreen = ({ navigation }) => {
           setSnackIsVisible(true);
         } else if (resp.data.error) {  // backend error
           console.error(error);
-        } else if (!resp.data || !resp.data.pendingFriends) {
+        } else if (!resp.data || !resp.data.matchingUsers) {
           console.error("Error: the response does not contain the expected fields");
         } else {
-          setPendingFriends(resp.data.pendingFriends);
+          setPendingFriends(resp.data.matchingUsers);
         }
       } catch (err) {
         console.error(err);
@@ -62,13 +64,13 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   const handleChangeText = async (text) => {
-    const newText = text.toLowerCase();
-    const senderID = userID;
+    const textToMatch = text.toLowerCase();
+    setText(textToMatch);
     
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
   
     try {
-      const resp = await axios.post(findIP()+"/api/matchUser", { senderID, newText, friends: false });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID: userID, textToMatch, nonFriends: true, pendingFriends: true });
 
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
@@ -87,9 +89,28 @@ const AddFriendsScreen = ({ navigation }) => {
   };
 
 
-  const handleFriendPressed = (item) => {
-    // console.log(item);
-    // console.log("pressed");
+  const handleAddFriendPressed = async (item, index) => {
+    console.log(item);
+
+    if (item.friendStatus == "non-friends") {
+      try {
+        const resp = await axios.post(findIP()+"/api/sendFriendRequest", { senderID: userID, recipientID: item._id });
+  
+        if (!resp) {
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {
+          console.error(resp.data.error);
+        } else {
+          handleChangeText(text); //TODO: figure out if there is a way to use extradata to update component faster / without server call
+          setSnackMessage("Request Sent!");
+          setSnackIsVisible(true);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
 
@@ -103,8 +124,9 @@ const AddFriendsScreen = ({ navigation }) => {
           nestedScrollEnabled
           contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
           data={matchingUsers}
+          extraData={extraData}
           numColumns={1}
-          renderItem={({item}) => <AddFriendButton userInfo={item} onPress={() => handleFriendPressed(item)}/>}
+          renderItem={({item, index}) => <AddFriendButton userInfo={item} onPress={() => handleAddFriendPressed(item, index)}/>}
           keyExtractor={item => item.username}
         />
       </View>

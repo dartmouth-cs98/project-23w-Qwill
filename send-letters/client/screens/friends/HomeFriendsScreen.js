@@ -18,11 +18,11 @@ export default function HomeFriendsScreen({ navigation }) {
   const [text, onChangeText] = useState("");
 
   const handleChangeText = async (text) => {
-    const newText = text.toLowerCase();
+    const textToMatch = text.toLowerCase();
     const senderID = userInfo.user._id;
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
     try {
-      const resp = await axios.post(findIP() + "/api/matchUser", { senderID, newText, friends: true });
+      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch, friends: true });
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");

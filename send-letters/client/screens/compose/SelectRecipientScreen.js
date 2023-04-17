@@ -52,7 +52,7 @@ function SelectRecipientScreen({navigation}) {
     }
 
     try {
-      const resp = await axios.post(findIP()+"/api/matchUser", { senderID, newText, friends: true });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch: newText, friends: true });
       
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");

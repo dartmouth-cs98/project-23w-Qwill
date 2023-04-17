@@ -18,7 +18,11 @@ const AddFriendButton = (props) => {
             </View>
             <View>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onPress}>
-                    <Text>Send Invite</Text>
+                    {item.friendStatus == "non-friends" ?
+                        <Text>Send Invite</Text>
+                        :
+                        <Text>Request Sent</Text>
+                    }
                 </TouchableOpacity>
             </View>
         </View>
