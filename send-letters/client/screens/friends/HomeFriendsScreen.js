@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
@@ -16,6 +17,12 @@ export default function HomeFriendsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [text, onChangeText] = useState("");
+  const isFocused = useIsFocused();
+
+  // fetch any pending friend requests from the server
+  useEffect(() => {
+    handleChangeText("");
+  }, [isFocused]);
 
   const handleChangeText = async (text) => {
     const textToMatch = text.toLowerCase();

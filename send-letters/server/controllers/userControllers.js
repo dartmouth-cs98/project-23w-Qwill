@@ -5,7 +5,8 @@ import Friend from "../schemas/friendSchema";
 export const matchUsers = async (req, res) => {
     try {
         // senderID of the request, the text to match, and whether to match the non-friends, pending friends, and friends
-        const { senderID, textToMatch="", nonFriends=false, pendingFriends=false, friends=false } = req.body;
+        // hide incoming does not return incoming requests for the add friends screen
+        const { senderID, textToMatch="", nonFriends=false, pendingFriends=false, friends=false, hideIncoming=false } = req.body;
 
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
@@ -62,10 +63,11 @@ export const matchUsers = async (req, res) => {
                 if (friendStatus && friendStatus.status == "pending") {
                     if (friendStatus.friendReqSender == senderID) {
                         matchedUser["friendStatus"] = "request sent";
-                    } else {
+                        filteredUsers.push(matchedUser);
+                    } else if (friendStatus.friendReqRecipient == senderID && !hideIncoming) {
                         matchedUser["friendStatus"] = "request received";
+                        filteredUsers.push(matchedUser);
                     }
-                    filteredUsers.push(matchedUser);
                 }
             }
             if (friends) {
@@ -79,20 +81,6 @@ export const matchUsers = async (req, res) => {
                 }
             }
         }
-
-
-        //
-        // for (const matchedUser of matchedUsers) {
-        //     console.log(matchedUser);
-        // }
-
-        // for (const user of filteredUsers) {
-        //     console.log(user.username);
-        //     console.log(user.friendStatus);
-        //     console.log("");
-        // }
-        
-
 
         return res.json({
             // matchingUsers: matchedUsers
@@ -151,6 +139,131 @@ export const sendFriendRequest = async (req, res) => {
         } catch (err) {
             console.log(err);
         }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+export const acceptFriendRequest = async (req, res) => {
+    try {
+        const { friendReqID } = req.body;        
+
+        // check if our db has user with the ID of the sender
+        const friendReq = await Friend.findOne({
+            "_id": friendReqID
+        });
+        if (!friendReq) {
+            return res.json({
+                error: "No friend request found with the friendReqID",
+            });
+        }
+
+        try {
+            const resp = await Friend.updateOne(
+                {'_id': friendReqID},
+                {'status': "friends"}
+            );
+
+            return res.json({
+                ok: true
+            });
+        } catch (err) {
+            console.log(err);
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+export const declineFriendRequest = async (req, res) => {
+    try {
+        const { friendReqID } = req.body;        
+
+        // check if our db has user with the ID of the sender
+        const friendReq = await Friend.findOne({
+            "_id": friendReqID
+        });
+        if (!friendReq) {
+            return res.json({
+                error: "No friend request found with the friendReqID",
+            });
+        }
+
+        try {
+            const resp = await Friend.deleteOne(
+                {'_id': friendReqID}
+            );
+
+            return res.json({
+                ok: true
+            });
+        } catch (err) {
+            console.log(err);
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+export const getIncomingFriendReqs = async (req, res) => {
+    var mongoose = require('mongoose');
+
+    try {
+        const { userID } = req.body;  
+
+        // check if our db has user with the ID of the user
+        const user = await User.findOne({
+            "_id": userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with the userID",
+            });
+        }
+
+        // define query (lookup is equivalent of a left join)
+        const query = [
+            {
+               $match: {
+                    "friendReqRecipient": new mongoose.Types.ObjectId(user._id), 
+                    "status": "pending",
+                }
+            },
+            {
+                $lookup: {
+                    from: "users", 
+                    localField: "friendReqSender",
+                    foreignField: "_id",
+                    as: "requesterInfo"
+                }
+            },
+            { 
+                $unwind: "$requesterInfo"
+            },
+        ];
+        const cursor = Friend.aggregate(query);
+
+        // build the list of incoming friend requests
+        let incomingFriendReqs = [];
+        for await (const doc of cursor) {
+            incomingFriendReqs.push(doc);
+        }
+
+        return res.json({
+            incomingFriendReqs: incomingFriendReqs
+        });
+        
 
     } catch (err) {
         console.log(err);

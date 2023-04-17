@@ -74,7 +74,7 @@ export const fetchLetters = async (req, res) => {
         }
 
         // userInfoNeeded will be the opposite of the user status since the user info is already stored in context on the frontend
-        var userInfoNeeded = "";
+        let userInfoNeeded = "";
         if (userStatus == "sender") {
             userInfoNeeded = "recipient";
         } else if (userStatus == "recipient") {
