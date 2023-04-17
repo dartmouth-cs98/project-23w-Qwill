@@ -7,13 +7,13 @@ import ComposeScreen from '../screens/compose/ComposeScreen';
 import PreviewScreen from '../screens/compose/PreviewScreen';
 import SelectFontScreen from '../screens/compose/SelectFontScreen';
 import SelectThemeScreen from '../screens/compose/SelectThemeScreen';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { ComposeContextProvider } from '../context/ComposeStackContext';
+
 
 const Stack = createNativeStackNavigator();
 
-const ComposeStack = ({navigation}) => {
-  
+const ComposeStack = ({ navigation }) => {
+
   /**
    *  We are going to have scenarios in which the user needs to go back within this stack. Within the normal 
    * flow (user presses the middle compose button in the nav bar and is lead to select recipient), screens will be
@@ -31,54 +31,42 @@ const ComposeStack = ({navigation}) => {
    * See ../helpers/composeStackGoBack.js to see the generalized helper function.
    * */
 
-    return (
+  return (
+    <ComposeContextProvider>
       <Stack.Navigator
         initialRouteName="SelectRecipient"
         screenOptions={{
-            headerBackTitleVisible: false,
-            headerTransparent: true,
-            headerTitle: "",
-            animationTypeForReplace: "pop",
-            contentStyle: { backgroundColor: '#F0F4FF' }
+          headerBackTitleVisible: false,
+          headerTransparent: true,
+          headerTitle: "",
+          animationTypeForReplace: "pop",
+          contentStyle: { backgroundColor: '#F0F4FF' },
+          headerShown: false
         }}>
-        <Stack.Screen 
-          name="SelectRecipient" 
-          component={SelectRecipientScreen}
-          options= {{
-            headerShown: false,
+        <Stack.Screen name="SelectRecipient" component={SelectRecipientScreen}
+          options={{
             tabBarButton: (props) => (
               <CustomComposeButton {...props} />
             ),
             animationTypeForReplace: 'pop'
           }}
         />
-        <Stack.Screen 
-          name="ComposeHome" 
-          component={ComposeScreen}
-          options= {{
-            headerShown: false
-          }} />
-        <Stack.Screen 
-          name="Preview" 
-          component={PreviewScreen}
-          options= {{
-            headerShown: false
-          }} />
-        <Stack.Screen 
-          name="SelectFont" 
-          component={SelectFontScreen}
-          options= {{
-            headerShown: false
-          }} />
-        <Stack.Screen 
-          name="SelectTheme" 
-          component={SelectThemeScreen}
-          options= {{
-            headerShown: false,
-            animationTypeForReplace: 'pop'
-          }} />
-      </Stack.Navigator>
-    );
-  };
+        <Stack.Screen name="ComposeHome" component={ComposeScreen} />
+        <Stack.Screen name="Preview" component={PreviewScreen} />
+        <Stack.Screen name="SelectFont" component={SelectFontScreen} />
+        <Stack.Screen name="SelectTheme" component={SelectThemeScreen} />
 
-  export default ComposeStack;
+        {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen name='ChangeRecipient' component={CameraScreen} /> 
+          {/* todo replace CameraScreen 
+          <Stack.Screen name='ChangeFont' component={CameraScreen} />
+          <Stack.Screen name='ChangeTheme' component={CameraScreen} />
+          <Stack.Screen name='ChangeSticker' component={CameraScreen} />
+        </Stack.Group> */}
+
+      </Stack.Navigator>
+    </ComposeContextProvider>
+  );
+};
+
+export default ComposeStack;

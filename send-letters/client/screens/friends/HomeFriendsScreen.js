@@ -16,7 +16,10 @@ import {truncate} from '../../helpers/stringValidation';
 export default function HomeFriendsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
+
   const [text, onChangeText] = useState("");
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
   const isFocused = useIsFocused();
 
   // fetch any pending friend requests from the server

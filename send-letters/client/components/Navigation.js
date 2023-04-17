@@ -11,6 +11,7 @@ const Stack = createNativeStackNavigator();
 
 // Header tint color turns icons put inside the header white
 const globalScreenOptions = {
+  headerShown: false,
   headerStyle: { backgroundColor: "#b84a32" },
   headerTitleStyle: { color: "white" },
   headerTintColor: "white",
