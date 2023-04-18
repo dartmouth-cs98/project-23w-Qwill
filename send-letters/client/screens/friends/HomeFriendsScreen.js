@@ -29,7 +29,7 @@ export default function HomeFriendsScreen({ navigation }) {
     const senderID = userInfo.user._id;
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
     try {
-      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch, friends: true });
+      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch, friends: true, returnSelf: true });
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
