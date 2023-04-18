@@ -31,10 +31,94 @@ export const matchUsers = async (req, res) => {
             });
         }
 
-        // 
+
+
+        
+        const start = Date.now();
+        
+        var mongoose = require('mongoose');
+        var senderID_object = mongoose.Types.ObjectId(senderID);
+
+        const query = [
+            // match all users in the DB who have usernames OR names matching the given text
+            {
+               $match: {
+                    $or: [
+                        { 'username': { '$regex': "^"+textToMatch, $options:'i' } },
+                        { 'name': { '$regex': "^"+textToMatch, $options:'i' } }
+                    ]
+                }
+            },
+            // perform a left join on the friends table to receive all friends for each matching user
+            {
+                $lookup: {
+                    from: "friends", 
+                    localField: "_id",
+                    foreignField: "friendReqSender",
+                    as: "friendsList"
+                }
+            },
+            // project the fields that are necesary on the frontend
+            // from the User Schema: "_id", "name", "username"
+            // from the joined Friends Schema: filter all friends in which the user 
+            //   was either the friend request sender or friend request recipient
+            {
+                $project: {
+                    "_id": 1,
+                    "name": 1,
+                    "username": 1,
+                    "friendsList": {
+                        $filter: {
+                            input: "$friendsList",
+                            as: "friendItem",
+                            cond: {
+                                $or: [
+                                    { $eq: ['$$friendItem.friendReqRecipient', senderID_object] },
+                                    { $eq: ['$$friendItem.friendReqSender', senderID_object] }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            // unwind the array; there should only be one friend request between the two users so unwinding
+            //  should not poduce additional documents
+            {
+                $unwind: "$friendsList"
+            },
+            // use add field and project to rename "friendsList" to "friend" now that the field is unwinded
+            { $addFields: { "friend": "$friendsList" }},
+            { $project: { "friendsList": 0 } },
+            // limit the amount of matched friends to 50 to prevent slow state updates and rendering on frontend
+            { 
+                $limit : 50
+            }
+        ];
+        const cursor = User.aggregate(query);
+
+        // build the list of incoming friend requests
+        let userFriends = [];
+        for await (const matchedUser of cursor) {
+            userFriends.push(matchedUser);
+            console.log(matchedUser);
+        }
+
+
+
+
+        console.log(`Execution time 1: ${Date.now() - start} ms`);
+
+
+
+
+
+
+
+
         const filteredUsers = [];
         for (let matchedUser of matchedUsers) {
             matchedUser = matchedUser.toJSON(); // convert to JSON for easy manipulation
+            delete matchedUser['password'];
 
             // get the friend status between the user and matching user
             // NOTE: friend being undefined means they are not friends and their is no pending request
@@ -82,8 +166,10 @@ export const matchUsers = async (req, res) => {
             }
         }
 
+        console.log(`Execution time 2: ${Date.now() - start} ms`);
+
+
         return res.json({
-            // matchingUsers: matchedUsers
             matchingUsers: filteredUsers
         });
 
@@ -216,6 +302,11 @@ export const declineFriendRequest = async (req, res) => {
 };
 
 
+/**
+ * This function takes in the ID of the user and returns a JSON file containing
+ *   all incoming friend requests from the mongo Friends collection
+ * @param userID The ID of the user from the mongo user collection
+ */
 export const getIncomingFriendReqs = async (req, res) => {
     var mongoose = require('mongoose');
 
@@ -251,6 +342,9 @@ export const getIncomingFriendReqs = async (req, res) => {
             { 
                 $unwind: "$requesterInfo"
             },
+            {
+                $limit : 250
+            }
         ];
         const cursor = Friend.aggregate(query);
 
