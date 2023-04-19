@@ -11,7 +11,7 @@ import findIP from '../../helpers/findIP';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import COLORS from '../../styles/colors';
 import ButtonBlue from '../../components/ButtonBlue.components';
-import {truncate} from '../../helpers/stringValidation';
+import { truncate } from '../../helpers/stringValidation';
 
 export default function HomeFriendsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -46,6 +46,14 @@ export default function HomeFriendsScreen({ navigation }) {
     }
   };
 
+  const handleFriendPressed = async (item, index) => {
+    try {
+      navigation.navigate('FriendHistoryScreen', { item: item });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   function renderMatches() {
     if (matchingUsers.length == 0) {
       return
@@ -57,13 +65,13 @@ export default function HomeFriendsScreen({ navigation }) {
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
           data={matchingUsers}
           numColumns={3}
-          renderItem={({ item }) =>
+          renderItem={({ item, index }) =>
             <View>
-              <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
-                <Text style={styles.friendMidText}>{(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
+              <TouchableOpacity style={styles.friendCircle} onPress={() => handleFriendPressed(item, index)} title={item.username}>
+                <Text style={styles.friendMidText}>{item.name.replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
               <Text style={{ textAlign: 'center', fontSize: 12 }}>
-                {(truncate((JSON.stringify(item.username)).replace(/["]/g, ''), 10))}
+                {truncate(item.username.replace(/["]/g, ''), 10)}
               </Text>
             </View>
           }
@@ -96,7 +104,7 @@ export default function HomeFriendsScreen({ navigation }) {
           {renderMatches()}
         </View>
         <View style={styles.line}/>
-        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" ></ButtonBlue>
+        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue>
       </View>
     </SafeAreaView>
   );

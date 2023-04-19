@@ -200,3 +200,70 @@ export const updateLetterInfo = async (req, res) => {
         return res.status(400).send("Error. Try again.");
     }
 };
+
+
+export const fetchLetterHistory = async (req, res) => {
+    var mongoose = require('mongoose');
+
+    try {
+        const { userID, userStatus } = req.body;
+
+        // check if our db has a user with the ID of the recipient
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // userInfoNeeded will be the opposite of the user status since the user info is already stored in context on the frontend
+        let userInfoNeeded = "";
+        if (userStatus == "sender") {
+            userInfoNeeded = "recipient";
+        } else if (userStatus == "recipient") {
+            userInfoNeeded = "sender";
+        } else {
+            return res.json({
+                error: "Only acceptable values for userStatus are \"sender\" and \"recipient\".",
+            });
+        }
+
+        // define query (lookup is equivalent of a left join)
+        const query = [
+            {
+               $match: {
+                    '$or': [
+                        {
+                            "sender": new mongoose.Types.ObjectId(user._id),
+                            "recipient": new mongoose.Types.ObjectId(user._id)
+                        },
+                        {
+                            "sender": new mongoose.Types.ObjectId(user._id),
+                            "recipient": new mongoose.Types.ObjectId(user._id)
+                        }
+                    ]
+                }
+            },
+            // {
+            //     '$sort': { createdAt: -1 }
+            // }
+        ];
+        const cursor = Letter.aggregate(query);
+
+        // build the list of received letters
+        var receivedLetters = [];
+        for await (const doc of cursor) {
+            receivedLetters.push(doc);
+        }
+
+        return res.json({
+            receivedLetters: receivedLetters
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};

@@ -89,7 +89,7 @@ export const matchUsers = async (req, res) => {
                 }
             },
             // unwind the array; there should only be one friend request between the two users so unwinding
-            //  should not poduce additional documents unless the matchedUser is the user themself
+            //  should not poduce additional documents
             { 
                 $unwind: {
                     "path": "$friendsList",
@@ -98,7 +98,14 @@ export const matchUsers = async (req, res) => {
             },
             // use add field and project to rename "friendsList" to "friend" now that the field is unwinded
             { $addFields: { "friend": "$friendsList" } },
-            { $project: { "friendsList": 0 } },
+            { 
+                $project: { 
+                    "friendsList": 0, 
+                    "friend.createdAt": 0,
+                    "friend.updatedAt": 0,
+                    "friend.__v": 0
+                } 
+            },
         ];
         const cursor = User.aggregate(query);
 
@@ -123,11 +130,9 @@ export const matchUsers = async (req, res) => {
                 if (matchedUser.friend && matchedUser.friend.status == "pending") {
                     if (matchedUser.friend.friendReqSender == senderID) {
                         matchedUser["friendStatus"] = "request sent";
-                        delete matchedUser["friend"];
                         userFriends.push(matchedUser);
                     } else if (matchedUser.friend.friendReqRecipient == senderID && !hideIncoming) {
                         matchedUser["friendStatus"] = "request received";
-                        delete matchedUser["friend"];
                         userFriends.push(matchedUser);                    
                     }
                 }
@@ -136,7 +141,6 @@ export const matchUsers = async (req, res) => {
             if (friends) {
                 if (matchedUser.friend && matchedUser.friend.status == "friends") {
                     matchedUser["friendStatus"] = "friends";
-                    delete matchedUser["friend"];
                     userFriends.push(matchedUser);
                 }
             }
@@ -254,7 +258,7 @@ export const acceptFriendRequest = async (req, res) => {
 };
 
 
-export const declineFriendRequest = async (req, res) => {
+export const deleteFriendRequest = async (req, res) => {
     try {
         const { friendReqID } = req.body;        
 
@@ -325,8 +329,21 @@ export const getIncomingFriendReqs = async (req, res) => {
                     as: "requesterInfo"
                 }
             },
-            { 
+            {
                 $unwind: "$requesterInfo"
+            },
+            {
+                $sort: { "createdAt": -1 },
+            },
+            {
+                $project: {
+                    "_id": 1,
+                    "friendReqRecipient": 1,
+                    "friendReqSender": 1,
+                    "requesterInfo._id": 1,
+                    "requesterInfo.name": 1,
+                    "requesterInfo.username": 1
+                }
             },
             {
                 $limit : 250

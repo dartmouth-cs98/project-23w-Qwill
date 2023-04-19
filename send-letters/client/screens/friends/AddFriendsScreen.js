@@ -32,6 +32,7 @@ const AddFriendsScreen = ({ navigation }) => {
   // fetch any pending friend requests from the server
   useEffect(() => {
     loadPendingFriends();
+    // handleChangeText("");
   }, [isFocused]);
 
   const loadPendingFriends = async () => {
@@ -70,7 +71,9 @@ const AddFriendsScreen = ({ navigation }) => {
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
   
     try {
-      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID: userID, textToMatch, nonFriends: true, pendingFriends: true, hideIncoming: true });
+      const resp = await axios.post(findIP()+"/api/matchUsers", 
+        { senderID: userID, textToMatch, nonFriends: true, pendingFriends: true, hideIncoming: true }
+      );
 
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
@@ -111,7 +114,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   const handleDeclineFriendPressed = async (item, index) => {
     try {
-      const resp = await axios.post(findIP()+"/api/declineFriendRequest", { friendReqID: item._id });
+      const resp = await axios.post(findIP()+"/api/deleteFriendRequest", { friendReqID: item._id });
 
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
@@ -128,7 +131,7 @@ const AddFriendsScreen = ({ navigation }) => {
       console.error(err);
     }
   };
-  
+
 
   function renderPendingFriends() {
     if (pendingFriends.length == 0) {
@@ -142,7 +145,13 @@ const AddFriendsScreen = ({ navigation }) => {
           data={pendingFriends}
           extraData={extraData}
           numColumns={1}
-          renderItem={({item, index}) => <PendingFriendButton userInfo={item} onAcceptPressed={() => handleAcceptFriendPressed(item, index)} onDeclinePressed={() => handleDeclineFriendPressed(item, index)}/>}
+          renderItem={
+            ({item, index}) => <PendingFriendButton 
+              userInfo={item} 
+              onAcceptPressed={() => handleAcceptFriendPressed(item, index)} 
+              onDeclinePressed={() => handleDeclineFriendPressed(item, index)}
+            />
+          }
           keyExtractor={item => item._id}
         />
       </View>
@@ -152,26 +161,31 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   const handleAddFriendPressed = async (item, index) => {
-    console.log(item);
+    try {
+      let resp = false;
+      let msg;
 
-    if (item.friendStatus == "non-friends") {
-      try {
-        const resp = await axios.post(findIP()+"/api/sendFriendRequest", { senderID: userID, recipientID: item._id });
-  
-        if (!resp) {
-          console.log("ERROR: Could not establish server connection with axios");
-          setSnackMessage("Could not establish connection to the server");
-          setSnackIsVisible(true);
-        } else if (resp.data.error) {
-          console.error(resp.data.error);
-        } else {
-          handleChangeText(text); //TODO: figure out if there is a way to use extradata to update component faster / without server call
-          setSnackMessage("Request Sent!");
-          setSnackIsVisible(true);
-        }
-      } catch (err) {
-        console.error(err);
+      if (item.friendStatus == "non-friends") {
+        resp = await axios.post(findIP()+"/api/sendFriendRequest", { senderID: userID, recipientID: item._id });
+        msg = "Request Sent!"
+      } else {
+        resp = await axios.post(findIP()+"/api/deleteFriendRequest", { friendReqID: item.friend._id });
+        msg = "Request unsent"
       }
+
+      if (!resp) {
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {
+        console.error(resp.data.error);
+      } else {
+        handleChangeText(text); //TODO: figure out if there is a way to use extradata to update component faster / without server call
+        setSnackMessage(msg);
+        setSnackIsVisible(true);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -187,7 +201,12 @@ const AddFriendsScreen = ({ navigation }) => {
           data={matchingUsers}
           extraData={extraData}
           numColumns={1}
-          renderItem={({item, index}) => <AddFriendButton userInfo={item} onPress={() => handleAddFriendPressed(item, index)}/>}
+          renderItem={
+            ({item, index}) => <AddFriendButton 
+              userInfo={item} 
+              onPress={() => handleAddFriendPressed(item, index)}
+            />
+          }
           keyExtractor={item => item._id}
         />
       </View>
