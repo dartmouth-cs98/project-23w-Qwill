@@ -31,20 +31,8 @@ const FontsStack = () => {
 
         </Stack.Group>
         <Stack.Group screenOptions={{presentation: 'modal'}}>
-            <Stack.Screen 
-            options={{
-                title: "CameraScreen",
-            }}
-            name='CameraScreen' 
-            component={CameraScreen}
-            />
-            <Stack.Screen 
-            options={{
-                title: "ImagePickerScreen",
-            }}
-            name='ImagePickerScreen' 
-            component={ImagePickerScreen}
-            />
+            <Stack.Screen name='CameraScreen' component={CameraScreen}/>
+            <Stack.Screen name='ImagePickerScreen' component={ImagePickerScreen}/>
         </Stack.Group>
     </Stack.Navigator>
   );

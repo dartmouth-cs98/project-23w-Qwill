@@ -1,4 +1,4 @@
-import { StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,15 +13,20 @@ const Stack = createNativeStackNavigator();
 // This stack will have a main screen (friends) and two modal screens which can be navigated to
 // (pending friend requests and add friends)
 // https://reactnavigation.org/docs/modal/
-export default function FriendStack () {
+export default function FriendStack() {
   // the "name" property of each screen is what should be referred to when routing with navigators
   return (
-    <Stack.Navigator 
-      initialRouteName="FriendsHome"
+    <Stack.Navigator
+      initialRouteName="HomeFriendsScreen"
       screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: '#F0F4FF' }
-      }}>
+        headerBackTitleVisible: false,
+        headerTransparent: true,
+        headerTitle: "",
+        animationTypeForReplace: "pop",
+        contentStyle: { backgroundColor: '#F0F4FF' },
+        headerShown: false
+      }}
+    >
         <Stack.Group>
           <Stack.Screen   
             options={{title: "HomeFriendsScreen",}}
