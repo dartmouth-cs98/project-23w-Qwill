@@ -159,7 +159,6 @@ const AddFriendsScreen = ({ navigation }) => {
   };
 
 
-
   const handleAddFriendPressed = async (item, index) => {
     try {
       let resp = false;

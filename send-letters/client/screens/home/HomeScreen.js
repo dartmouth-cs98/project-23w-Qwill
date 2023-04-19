@@ -104,7 +104,8 @@ function HomeScreen({ navigation, route}) {
           setSnackMessage("Could not establish connection to the server");
           setSnackIsVisible(true);
         } else if (resp.data.error) {  // backend error
-          console.error(error);
+          setSnackMessage(resp.data.error);
+          setSnackIsVisible(true);
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {

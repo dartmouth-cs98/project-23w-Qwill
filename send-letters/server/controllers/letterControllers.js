@@ -206,9 +206,9 @@ export const fetchLetterHistory = async (req, res) => {
     var mongoose = require('mongoose');
 
     try {
-        const { userID, userStatus } = req.body;
+        const { userID, friendID } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -218,48 +218,53 @@ export const fetchLetterHistory = async (req, res) => {
             });
         }
 
-        // userInfoNeeded will be the opposite of the user status since the user info is already stored in context on the frontend
-        let userInfoNeeded = "";
-        if (userStatus == "sender") {
-            userInfoNeeded = "recipient";
-        } else if (userStatus == "recipient") {
-            userInfoNeeded = "sender";
-        } else {
+        // check if our db has a user with the ID of the friend
+        const friend = await User.findOne({
+            '_id': friendID
+        });
+        if (!user) {
             return res.json({
-                error: "Only acceptable values for userStatus are \"sender\" and \"recipient\".",
+                error: "No user found with friendID",
             });
         }
 
-        // define query (lookup is equivalent of a left join)
+        // define query
         const query = [
             {
                $match: {
-                    '$or': [
+                    'status': { $ne: "draft" }, 
+                    $or: [
                         {
-                            "sender": new mongoose.Types.ObjectId(user._id),
-                            "recipient": new mongoose.Types.ObjectId(user._id)
+                            'sender': new mongoose.Types.ObjectId(user._id),
+                            'recipient': new mongoose.Types.ObjectId(friend._id)
                         },
                         {
-                            "sender": new mongoose.Types.ObjectId(user._id),
-                            "recipient": new mongoose.Types.ObjectId(user._id)
+                            'sender': new mongoose.Types.ObjectId(friend._id),
+                            'recipient': new mongoose.Types.ObjectId(user._id)
                         }
                     ]
                 }
             },
-            // {
-            //     '$sort': { createdAt: -1 }
-            // }
+            {
+                $sort: { 'createdAt': 1 }
+            },
+            {
+                $project: { '__v': 0 }
+            },
+            {
+                $limit: 100
+            }
         ];
         const cursor = Letter.aggregate(query);
 
         // build the list of received letters
-        var receivedLetters = [];
+        var letterHistory = [];
         for await (const doc of cursor) {
-            receivedLetters.push(doc);
+            letterHistory.push(doc);
         }
 
         return res.json({
-            receivedLetters: receivedLetters
+            letterHistory: letterHistory
         });
 
     } catch (err) {

@@ -27,15 +27,18 @@ export default function HomeFriendsScreen({ navigation }) {
   const handleChangeText = async (text) => {
     const textToMatch = text.toLowerCase();
     const senderID = userInfo.user._id;
+
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
+
     try {
-      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch, friends: true, returnSelf: true });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch, friends: true, returnSelf: true });
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
         setSnackIsVisible(true);
       } else if (resp.data.error) {
-        console.error(error);
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
       } else if (!resp.data || !resp.data.matchingUsers) {
         console.error("Error: the response does not contain the expected fields");
       } else {
