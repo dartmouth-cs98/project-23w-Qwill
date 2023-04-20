@@ -150,6 +150,8 @@ npm install expo-sharing
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 npm install @react-navigation/native@^5.x @react-navigation/stack@^5.x @react-navigation/drawer@^5.x @react-navigation/bottom-tabs@^5.x
 
+** Note that [react-navigation is deprecated](https://www.npmjs.com/package/react-navigation)! Must use [react-native-navigation](https://www.npmjs.com/package/react-native-navigation) instead.
+
 # serverside
 npm install express
 npm install express-jwt
