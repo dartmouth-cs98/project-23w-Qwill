@@ -1,14 +1,14 @@
 # Todos
 
-[] Handwriting
+[ ] Handwriting
     1. Write 3-4 sentences with all letters of alphabet.
     2. User scans image.
     3. OCR to take a border. <
     4. Ink extraction for that letter. <
     5. Change into OTF/TTF file. 
-[] Friends Flow
-[] Home page
-[] Drafts
+[ ] Friends Flow
+[ ] Home page
+[ ] Drafts
 
 # Qwill
 
@@ -147,6 +147,8 @@ npm install react-native-reanimated-carousel react-native-reanimated
 npx expo install expo-camera
 npx expo install expo-image-picker
 npm install expo-sharing
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+npm install @react-navigation/native@^5.x @react-navigation/stack@^5.x @react-navigation/drawer@^5.x @react-navigation/bottom-tabs@^5.x
 
 # serverside
 npm install express
