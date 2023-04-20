@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeFriendsScreen from '../screens/friends/HomeFriendsScreen';
+import FriendHistoryScreen from '../screens/friends/FriendHistoryScreen';
 import AddFriendsScreen from '../screens/friends/AddFriendsScreen';
 import PendingFriendsScreen from '../screens/friends/PendingFriendsScreen';
 
@@ -24,14 +25,32 @@ export default function FriendStack() {
         animationTypeForReplace: "pop",
         contentStyle: { backgroundColor: '#F0F4FF' },
         headerShown: false
-      }}>
-
-      <Stack.Screen name='HomeFriendsScreen' component={HomeFriendsScreen} />
-      <Stack.Group screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' } }}>
-        <Stack.Screen name='AddFriendsScreen' component={AddFriendsScreen}/>
-        <Stack.Screen name='PendingFriendsScreen' component={PendingFriendsScreen} />
-      </Stack.Group>
-      
+      }}
+    >
+        <Stack.Group>
+          <Stack.Screen   
+            options={{title: "HomeFriendsScreen",}}
+            name='HomeFriendsScreen' 
+            component={HomeFriendsScreen} 
+          />
+        </Stack.Group>
+        <Stack.Group screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
+          <Stack.Screen 
+            options={{title: "FriendHistoryScreen",}}
+            name='FriendHistoryScreen' 
+            component={FriendHistoryScreen}
+          />
+          <Stack.Screen 
+            options={{title: "AddFriendsScreen",}}
+            name='AddFriendsScreen' 
+            component={AddFriendsScreen}
+          />
+          <Stack.Screen 
+            options={{title: "PendingFriendsScreen",}}
+            name='PendingFriendsScreen' 
+            component={PendingFriendsScreen}
+          />
+        </Stack.Group>
     </Stack.Navigator>
   );
 }

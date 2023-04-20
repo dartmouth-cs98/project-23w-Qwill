@@ -6,7 +6,7 @@ const router = express.Router();
 const { matchUsers, 
     sendFriendRequest, 
     acceptFriendRequest, 
-    declineFriendRequest, 
+    deleteFriendRequest, 
     getIncomingFriendReqs 
 } = require("../controllers/userControllers");
 
@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 router.post("/matchUsers", matchUsers);
 router.post("/sendFriendRequest", sendFriendRequest);
 router.post("/acceptFriendRequest", acceptFriendRequest);
-router.post("/declineFriendRequest", declineFriendRequest);
+router.post("/deleteFriendRequest", deleteFriendRequest);
 router.post("/getIncomingFriendReqs", getIncomingFriendReqs);
 
 export default router; 

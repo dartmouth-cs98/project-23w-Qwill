@@ -3,7 +3,13 @@ import express from "express";
 const router = express.Router();
 
 // get controllers 
-const { makeLetter, fetchLetters, updateLetterStatus, updateLetterInfo } = require("../controllers/letterControllers");
+const {
+    makeLetter,
+    fetchLetters,
+    updateLetterStatus,
+    updateLetterInfo,
+    fetchLetterHistory
+} = require("../controllers/letterControllers");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -16,5 +22,6 @@ router.post("/makeLetter", makeLetter);
 router.post("/fetchLetters", fetchLetters);
 router.post("/updateLetterStatus", updateLetterStatus);
 router.post("/updateLetterInfo", updateLetterInfo);
+router.post("/fetchLetterHistory", fetchLetterHistory);
 
 export default router; 

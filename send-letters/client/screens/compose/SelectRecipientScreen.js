@@ -52,14 +52,15 @@ function SelectRecipientScreen({navigation}) {
     }
 
     try {
-      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch: newText, friends: true });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch: newText, friends: true, returnSelf: true });
       
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
         setSnackIsVisible(true);
       } else if (resp.data.error) {  // backend error
-        console.error(error);
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
       } else if (!resp.data || !resp.data.matchingUsers) {
         console.error("Error: the response does not contain the expected fields");
       } else {
