@@ -27,30 +27,30 @@ export default function FriendStack() {
         headerShown: false
       }}
     >
-        <Stack.Group>
-          <Stack.Screen   
-            options={{title: "HomeFriendsScreen",}}
-            name='HomeFriendsScreen' 
-            component={HomeFriendsScreen} 
-          />
-        </Stack.Group>
-        <Stack.Group screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
-          <Stack.Screen 
-            options={{title: "FriendHistoryScreen",}}
-            name='FriendHistoryScreen' 
-            component={FriendHistoryScreen}
-          />
-          <Stack.Screen 
-            options={{title: "AddFriendsScreen",}}
-            name='AddFriendsScreen' 
-            component={AddFriendsScreen}
-          />
-          <Stack.Screen 
-            options={{title: "PendingFriendsScreen",}}
-            name='PendingFriendsScreen' 
-            component={PendingFriendsScreen}
-          />
-        </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen   
+          options={{title: "HomeFriendsScreen",}}
+          name='HomeFriendsScreen' 
+          component={HomeFriendsScreen} 
+        />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
+        <Stack.Screen 
+          options={{title: "FriendHistoryScreen",}}
+          name='FriendHistoryScreen' 
+          component={FriendHistoryScreen}
+        />
+        <Stack.Screen 
+          options={{title: "AddFriendsScreen",}}
+          name='AddFriendsScreen' 
+          component={AddFriendsScreen}
+        />
+        <Stack.Screen 
+          options={{title: "PendingFriendsScreen",}}
+          name='PendingFriendsScreen' 
+          component={PendingFriendsScreen}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
