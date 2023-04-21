@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     color: COLORS.blue400,
   },
   unselectedText: {
-    fontFamily: "Mulish-Italic",
-    fontWeight: "heavy",
+    fontFamily: "Mulish",
+    fontWeight: "900",
     fontSize: 15,
     letterSpacing: 0.3,
     color: COLORS.blue800,
