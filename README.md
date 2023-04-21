@@ -1,14 +1,14 @@
 # Todos
 
-[ ] Handwriting
+* Handwriting
     1. Write 3-4 sentences with all letters of alphabet.
     2. User scans image.
     3. OCR to take a border. <
     4. Ink extraction for that letter. <
     5. Change into OTF/TTF file. 
-[ ] Friends Flow
-[ ] Home page
-[ ] Drafts
+* Friends Flow
+* Home page
+* Drafts
 
 # Qwill
 
@@ -118,7 +118,7 @@ npm run dev:start
 To run the frontend, use the following commands from the base directory:
 ```bash
 cd send-letters/client
-npx expo start
+npm run start
 ```
 
 This will prompt the user to open up an emulator through the terminal or use the barcode to open the app on a smartphone.
@@ -131,25 +131,10 @@ Front and center: Leah Ryu <br>
 ## Acknowledgments
 Thanks tutorial!!
 Backend Tutorial to initialize express server and mongodb connection: https://nabendu82.medium.com/react-native-project-with-nodejs-and-mongodb-part-1-443cc5b65b46
-
 Apploading is now SplashPage thanks for documentation Expo: https://docs.expo.dev/versions/v45.0.0/sdk/app-loading/
 
 ## Required Installations
-```bash
-# clientside
-npm install @react-navigation/native
-npm install @react-navigation/bottom-tabs
-npm install @react-navigation/native-stack
-expo install react-native-screens react-native-safe-area-context
-npm install @react-native-async-storage/async-storage
-npm install --save react-native-paper
-npm install react-native-reanimated-carousel react-native-reanimated
-npx expo install expo-camera
-npx expo install expo-image-picker
-npm install expo-sharing
-expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
-npm install @react-navigation/native@^5.x @react-navigation/stack@^5.x @react-navigation/drawer@^5.x @react-navigation/bottom-tabs@^5.x
-
+Ask Amanda for the package.json for client and server and then run npm install instead of installing packages individually.
 ** Note that [react-navigation is deprecated](https://www.npmjs.com/package/react-navigation)! Must use [react-native-navigation](https://www.npmjs.com/package/react-native-navigation) instead.
 
 # serverside
@@ -167,8 +152,28 @@ npm install esm
 npm install node-cron
 ```
 
-## Troubleshooting 
-### Expo not found in the folder
+## Troubleshooting for Development
+
+## Read this before anything else to understand how the packages works!
+There are 4 files:
+- `package.json` 
+- `package-lock.json`
+- `node_modules`
+- `.expo`
+
+`package.json` is the recipe that your computer follows when running `npm install` and it will build `package-lock.json` and `node_modules`
+- anytime you run npm i/install <packagename>, it adds a line to package.json as a recipe
+- to check any version of your package, go to package.json
+
+Package Managing
+*node_modules and package.json*
+package.json tells `npm install` what to install into node_modules
+Thus, never edit node_modules!! Instead, edit package.json and then run `npm install`
+
+*.expo file*
+.expo is only needed on client side. It should not exist in server or top-level.
+
+### .expo not found in the folder
 Running `npm audit fix --force` after running an `npm install` may sneakily downgrade your Expo to version 1.0.0. If you're getting an "Expo not found in the folder" error, try running `expo update.`
 
 ### Specific Error
@@ -189,16 +194,4 @@ If this doesn't work, run `killall node` and then start both the server and the 
 The most drastic action if none of the above works is to `killall node` or stop both the client and server in their respective terminals. Then, run `rm -rf node_modules` in the `client` directory to delete the node modules folder. Run `npm install` (you will most likely need to run `npm audit fix --force` and `expo update` after this). Then, restart the server in one terminal window, and the client in another by running `npx expo start` or `expo r -c` (the latter removes all caches from Expo as well). 
 
 ### Promisify Error
-
 If signing up is not working with Promisify, I was able to `npm i react-native-paper.` Also make sure your expo, Node, etc are on the most recent version.
-
-## Package Managing
-
-*node_modules and package.json*
-package.json tells `npm install` what to install into node_modules
-Thus, never edit node_modules!! Instead, edit package.json and then run `npm install`
-
-*.expo file*
-.expo is only needed on client side. It should not exist in server or top-level.
-
-
