@@ -6,8 +6,8 @@ export const matchUsers = async (req, res) => {
     try {
         // senderID of the request, the text to match, and whether to match the non-friends, pending friends, and friends
         // hide incoming does not return incoming requests for the add friends screen
-        const { senderID, textToMatch="", nonFriends=false, pendingFriends=false, friends=false, hideIncoming=false } = req.body;
-
+        const { senderID, textToMatch="", nonFriends=false, pendingFriends=false, friends=false, hideIncoming=false, returnSelf=false } = req.body;
+        
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
             "_id": senderID
@@ -31,60 +31,136 @@ export const matchUsers = async (req, res) => {
             });
         }
 
-        // 
-        const filteredUsers = [];
-        for (let matchedUser of matchedUsers) {
-            matchedUser = matchedUser.toJSON(); // convert to JSON for easy manipulation
+        // run a query to determine relationships between the sender of the request and other users
+        var mongoose = require('mongoose');
+        var senderID_object = mongoose.Types.ObjectId(senderID);
+        const query = [
+            // match all users in the DB who have usernames OR names matching the given text
+            // we don't want to fetch the sender of the request as the sender is handled separately
+            {
+               $match: {
+                    $or: [
+                        { 'username': { '$regex': "^"+textToMatch, $options:'i' } },
+                        { 'name': { '$regex': "^"+textToMatch, $options:'i' } }
+                    ],
+                    '_id': { $ne: senderID_object }
+                }
+            },
+            // perform a left join on the friends table to receive all friends for each matching user
+            //   two conditions: the matching user sent the friend request OR the matching user received the request
+            {
+                $lookup: {
+                    from: "friends",
+                    let: { id: "$_id" },
+                    pipeline: [ {
+                       $match: {
+                          $expr: {
+                             $or: [
+                                { $eq: [ "$$id", "$friendReqSender" ] },
+                                { $eq: [ "$$id", "$friendReqRecipient" ] }
+                             ]
+                          }
+                       }
+                    } ],
+                    as: "friendsList"
+                 }
+            },
+            // project the fields that are necesary on the frontend
+            // from the User Schema: "_id", "name", "username"
+            // from the joined Friends Schema: filter all friends in which the user 
+            //   was either the friend request sender or friend request recipient
+            {
+                $project: {
+                    "_id": 1,
+                    "name": 1,
+                    "username": 1,
+                    "friendsList": {
+                        $filter: {
+                            input: "$friendsList",
+                            as: "friendItem",
+                            cond: {
+                                $or: [
+                                    { $eq: ['$$friendItem.friendReqRecipient', senderID_object] },
+                                    { $eq: ['$$friendItem.friendReqSender', senderID_object] }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            // unwind the array; there should only be one friend request between the two users so unwinding
+            //  should not poduce additional documents
+            { 
+                $unwind: {
+                    "path": "$friendsList",
+                    "preserveNullAndEmptyArrays": true
+                } 
+            },
+            // use add field and project to rename "friendsList" to "friend" now that the field is unwinded
+            { $addFields: { "friend": "$friendsList" } },
+            { 
+                $project: { 
+                    "friendsList": 0, 
+                    "friend.createdAt": 0,
+                    "friend.updatedAt": 0,
+                    "friend.__v": 0
+                } 
+            },
+        ];
+        const cursor = User.aggregate(query);
 
-            // get the friend status between the user and matching user
-            // NOTE: friend being undefined means they are not friends and their is no pending request
-            const friendStatus = await Friend.findOne({
-                '$or': [
-                    {
-                        'friendReqSender': matchedUser._id.toString(),
-                        'friendReqRecipient': senderID
-                    },
-                    {
-                        'friendReqSender': senderID,
-                        'friendReqRecipient': matchedUser._id.toString()
-                    },
-                ]
-            });
+        // build the list of incoming friend requests
+        let userFriends = [];
+        for await (const matchedUser of cursor) {
+            // frontend should only store 250 documents at a time to prevent lag
+            if (userFriends.length >= 250) {
+                break;
+            }
 
-        
-            // add all matched users with that have the requested statuses
+            // check for non-friends
             if (nonFriends) {
-                if (!friendStatus && matchedUser._id != senderID) {
+                if (!matchedUser.friend) {
                     matchedUser["friendStatus"] = "non-friends";
-                    filteredUsers.push(matchedUser);
+                    delete matchedUser["friend"];
+                    userFriends.push(matchedUser);
                 }
             }
-            if (pendingFriends) {  // need some extra magic here for who was which
-                if (friendStatus && friendStatus.status == "pending") {
-                    if (friendStatus.friendReqSender == senderID) {
+            // check for pending friends
+            if (pendingFriends) {
+                if (matchedUser.friend && matchedUser.friend.status == "pending") {
+                    if (matchedUser.friend.friendReqSender == senderID) {
                         matchedUser["friendStatus"] = "request sent";
-                        filteredUsers.push(matchedUser);
-                    } else if (friendStatus.friendReqRecipient == senderID && !hideIncoming) {
+                        userFriends.push(matchedUser);
+                    } else if (matchedUser.friend.friendReqRecipient == senderID && !hideIncoming) {
                         matchedUser["friendStatus"] = "request received";
-                        filteredUsers.push(matchedUser);
+                        userFriends.push(matchedUser);                    
                     }
                 }
             }
+            // check for friends
             if (friends) {
-                if (friendStatus && friendStatus.status == "friends") {
+                if (matchedUser.friend && matchedUser.friend.status == "friends") {
                     matchedUser["friendStatus"] = "friends";
-                    filteredUsers.push(matchedUser);
-                 // additional check for user self
-                } else if (!friendStatus && matchedUser._id.toString() == senderID) {
-                    matchedUser["friendStatus"] = "self";
-                    filteredUsers.push(matchedUser);
+                    userFriends.push(matchedUser);
                 }
             }
         }
 
+        // check if user should be returned
+        if (returnSelf) {
+            if (sender.name.includes(textToMatch) || sender.username.includes(textToMatch)) {
+                userFriends.push({
+                    "_id": senderID,
+                    "name": sender.name,
+                    "username": sender.username,
+                    "friendStatus": "self"
+                });
+            }
+        }
+        
+        // return the list of matching friends (and their corresponding friend status) to the user
         return res.json({
-            // matchingUsers: matchedUsers
-            matchingUsers: filteredUsers
+            matchingUsers: userFriends
         });
 
     } catch (err) {
@@ -182,7 +258,7 @@ export const acceptFriendRequest = async (req, res) => {
 };
 
 
-export const declineFriendRequest = async (req, res) => {
+export const deleteFriendRequest = async (req, res) => {
     try {
         const { friendReqID } = req.body;        
 
@@ -216,6 +292,11 @@ export const declineFriendRequest = async (req, res) => {
 };
 
 
+/**
+ * This function takes in the ID of the user and returns a JSON file containing
+ *   all incoming friend requests from the mongo Friends collection
+ * @param userID The ID of the user from the mongo user collection
+ */
 export const getIncomingFriendReqs = async (req, res) => {
     var mongoose = require('mongoose');
 
@@ -248,9 +329,25 @@ export const getIncomingFriendReqs = async (req, res) => {
                     as: "requesterInfo"
                 }
             },
-            { 
+            {
                 $unwind: "$requesterInfo"
             },
+            {
+                $sort: { "createdAt": -1 },
+            },
+            {
+                $project: {
+                    "_id": 1,
+                    "friendReqRecipient": 1,
+                    "friendReqSender": 1,
+                    "requesterInfo._id": 1,
+                    "requesterInfo.name": 1,
+                    "requesterInfo.username": 1
+                }
+            },
+            {
+                $limit : 250
+            }
         ];
         const cursor = Friend.aggregate(query);
 

@@ -200,3 +200,75 @@ export const updateLetterInfo = async (req, res) => {
         return res.status(400).send("Error. Try again.");
     }
 };
+
+
+export const fetchLetterHistory = async (req, res) => {
+    var mongoose = require('mongoose');
+
+    try {
+        const { userID, friendID } = req.body;
+
+        // check if our db has a user with the ID of the user
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // check if our db has a user with the ID of the friend
+        const friend = await User.findOne({
+            '_id': friendID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with friendID",
+            });
+        }
+
+        // define query
+        const query = [
+            {
+               $match: {
+                    'status': { $ne: "draft" }, 
+                    $or: [
+                        {
+                            'sender': new mongoose.Types.ObjectId(user._id),
+                            'recipient': new mongoose.Types.ObjectId(friend._id)
+                        },
+                        {
+                            'sender': new mongoose.Types.ObjectId(friend._id),
+                            'recipient': new mongoose.Types.ObjectId(user._id)
+                        }
+                    ]
+                }
+            },
+            {
+                $sort: { 'createdAt': 1 }
+            },
+            {
+                $project: { '__v': 0 }
+            },
+            {
+                $limit: 100
+            }
+        ];
+        const cursor = Letter.aggregate(query);
+
+        // build the list of received letters
+        var letterHistory = [];
+        for await (const doc of cursor) {
+            letterHistory.push(doc);
+        }
+
+        return res.json({
+            letterHistory: letterHistory
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};

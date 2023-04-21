@@ -6,7 +6,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const LetterDetail = props => {
-  const {text, fontID, themeID, width, height} = props;
+  const { text, fontID, themeID, width, height } = props;
   const propsWidth = width ? width : screenWidth * .9;
   const propsHeight = height ? height: screenHeight * .64;
 
