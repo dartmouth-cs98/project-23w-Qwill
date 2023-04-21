@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio } from 'react-native';
 import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
@@ -9,21 +9,28 @@ import fontData from '../../assets/fontData';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
+
+const normalize = (size) => {
+  const newSize = size * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+};
+
 const FontsScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={{ alignItems: 'center' }}>
-        <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: 20 }}>
+        <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
           <Text style={styles.titleText}>Fonts</Text>
           <ButtonCircle icon="pencil"></ButtonCircle>
         </View>
-        <View style={{ flexDirection: "row", marginTop: 20 }}>
+        <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
           <View style={styles.line}></View>
-          <Text>Custom Fonts</Text>
+          <Text style={{fontSize: normalize(12) }}>Custom Fonts</Text>
           <View style={styles.line}></View>
         </View>
         <View style={styles.noCustom}>
-          <Text style={{ textAlign: 'center', marginTop: 20 }}>You don't have any custom fonts yet.</Text>
+          <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
           {/* <Text style={{ textAlign: "center", textDecorationLine: 'underline', marginTop: 20 }}>Add a custom font</Text> */}
           {/* <ButtonPrimary
             selected={false}
@@ -35,20 +42,20 @@ const FontsScreen = ({navigation}) => {
             title={"Add Font By Image..."}
             onPress={() =>{navigation.navigate("ImagePickerScreen")}}
           /> */}
-          <Text style={{ textAlign: 'center', marginTop: 20, textDecorationLine: 'underline'}} onPress={() =>{navigation.navigate("CameraScreen")}}>Add Custom Font</Text>
+          <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("CameraScreen")}}>Add Custom Font</Text>
         </View>
-        <View style={{ flexDirection: "row", marginTop: 20 }}>
+        <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
           <View style={styles.line}></View>
-          <Text>Default Fonts</Text>
+          <Text style={{fontSize: normalize(12) }}>Default Fonts</Text>
           <View style={styles.line}></View>
         </View>
-        <View style={{ flexDirection: "row", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+        <View style={{ flexDirection: "row", marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06 }}>
           <FlatList
             contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
             data={fontData}
             numColumns={3}
             renderItem={({ item }) =>
-              <View style={{ marginLeft: 10, marginRight: 10 }}>
+              <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025}}>
                 <FontPreview style={item.style} title={item.title}></FontPreview>
               </View>}
             keyExtractor={(item) => item.title}
@@ -64,31 +71,29 @@ export default FontsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 50,
+    fontSize: normalize(50),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: 20,
-    marginTop: 5
-  },
-  icons: {
-    marginRight: 10
+    marginLeft: windowWidth *.04,
+    marginTop: windowHeight *.008
   },
   line: {
-    width: 110,
+    width: windowWidth * .3,
     height: 0,
     borderWidth: 1,
     borderColor: "#737B7D",
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 8
+    marginLeft: windowWidth *.02,
+    marginRight: windowWidth *.02,
+    marginTop: normalize(7)
   },
   noCustom: {
-    width: 312,
-    height: 112,
+    width: windowWidth *.8,
+    // height: windowHeight *.12,
+    aspectRatio: 4,
     borderRadius: 20,
     backgroundColor: "#E2E8F6",
-    marginTop: 20,
+    marginTop: windowHeight *.02,
   },
   container: {
     flex: 1,
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: 24,
+    fontSize: normalize(24),
     fontWeight: 'bold',
     color: 'white',
   },

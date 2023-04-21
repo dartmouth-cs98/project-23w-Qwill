@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,6 +12,16 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import AddFriendButton from '../../components/AddFriendButton';
 import PendingFriendButton from '../../components/PendingFriendButton';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
+
+const normalize = (size) => {
+  const newSize = size * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+};
 
 
 const AddFriendsScreen = ({ navigation }) => {
@@ -199,7 +209,7 @@ const AddFriendsScreen = ({ navigation }) => {
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'left', marginTop: 20 }}>
       <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name={"arrow-back"} size={40} />
+          <Ionicons name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
         <Text style={styles.titleText}>Add Friends</Text>
       </View>
@@ -275,6 +285,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    width: "90%",
   },
   noMatchingUsers: {
     fontFamily: 'JosefinSansBold',

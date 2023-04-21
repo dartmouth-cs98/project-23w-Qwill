@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,6 +12,16 @@ import { hasRestrictedChar } from '../../helpers/stringValidation';
 import COLORS from '../../styles/colors';
 import ButtonBlue from '../../components/ButtonBlue.components';
 import {truncate} from '../../helpers/stringValidation';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
+
+const normalize = (size) => {
+  const newSize = size * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+};
 
 export default function HomeFriendsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -74,22 +84,22 @@ export default function HomeFriendsScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
+    <SafeAreaView style={{flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
-          <Ionicons name="person-add-outline" size={40} ></Ionicons>
+          <Ionicons name="person-add-outline" size={normalize(40)} ></Ionicons>
         </TouchableOpacity>
       </View>
-      <View style={[styles.recipientsContainer]}>
+      <View style={styles.recipientsContainer}>
         <View style={styles.inputContainer}>
           <Input
             placeholder=" enter name or username"
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={handleChangeText}
-            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: normalize(32), width: normalize(330), borderRadius: 5 }}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
           />
         </View>
         <View>
@@ -109,12 +119,12 @@ const styles = StyleSheet.create({
   input: { borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 45,
+    fontSize: normalize(45),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: 20,
-    marginTop: 5
+    marginLeft: normalize(20),
+    marginTop: normalize(5)
   },
   btn: {
     width: "18%",
@@ -135,8 +145,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   profilePicture: {
-    height: 56,
-    width: 56,
+    height: normalize(56),
+    width: normalize(56),
     borderRadius: 28,
     backgroundColor: "#000000",
     position: "absolute",
@@ -144,7 +154,7 @@ const styles = StyleSheet.create({
     top: 11
   },
   username: {
-    fontSize: 11,
+    fontSize: normalize(11),
     position: "absolute",
     top: 72,
     left: 18
@@ -174,6 +184,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     flex: 1,
+    alignContent: "center"
   },
   friendCircle: {
     height: 70,
@@ -202,9 +213,12 @@ const styles = StyleSheet.create({
     // textDecorationLine: 'underline'
   },
   inputContainer: {
-    width: 350,
+    // width: 350,
     marginLeft: 5,
-    marginTop: 10
+    marginTop: 10, 
+    // flex: 1, 
+    // flex: "row", 
+    // alignContent: "center", 
   },
   friendMidText: {
     textAlign: "center",
