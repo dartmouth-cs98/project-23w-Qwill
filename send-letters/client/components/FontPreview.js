@@ -1,7 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, PixelRatio  } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler'
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
+
+const normalize = (size) => {
+  const newSize = size * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+};
 
 const FontPreview = props => {
     return (
@@ -16,23 +25,21 @@ const FontPreview = props => {
 
 const styles = StyleSheet.create({
     container: {
-        height: 90,
-        width: 90,
-        borderWidth: 1,
-        borderRadius: 20,
+        width: windowWidth*.25,
+        aspectRatio: 1,
+        borderWidth: normalize(1),
+        borderRadius: normalize(20),
         borderStyle: 'dashed',
         borderColor: "#000000",
         justifyContent: "center",
-        // marginLeft: 10,
-        // marginRight: 10
     },
     font: {
         textAlign: "center",
-        fontSize: 20
+        fontSize: normalize(20)
     },
     title: {
         textAlign: "center",
-        fontSize: 10
+        fontSize: normalize(10)
     }
 });
 
