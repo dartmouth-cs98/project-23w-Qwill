@@ -11,7 +11,7 @@ import findIP from '../../helpers/findIP';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import COLORS from '../../styles/colors';
 import ButtonBlue from '../../components/ButtonBlue.components';
-import {truncate} from '../../helpers/stringValidation';
+import { truncate } from '../../helpers/stringValidation';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -26,7 +26,10 @@ const normalize = (size) => {
 export default function HomeFriendsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
+
   const [text, onChangeText] = useState("");
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
   const isFocused = useIsFocused();
 
   // fetch any pending friend requests from the server
@@ -37,20 +40,31 @@ export default function HomeFriendsScreen({ navigation }) {
   const handleChangeText = async (text) => {
     const textToMatch = text.toLowerCase();
     const senderID = userInfo.user._id;
+
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
+
     try {
-      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch, friends: true });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch, friends: true, returnSelf: true });
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
         setSnackIsVisible(true);
       } else if (resp.data.error) {
-        console.error(error);
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
       } else if (!resp.data || !resp.data.matchingUsers) {
         console.error("Error: the response does not contain the expected fields");
       } else {
         setMatchingUsers(resp.data.matchingUsers);
       }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleFriendPressed = async (item, index) => {
+    try {
+      navigation.navigate('FriendHistoryScreen', { item: item });
     } catch (err) {
       console.error(err);
     }
@@ -67,13 +81,13 @@ export default function HomeFriendsScreen({ navigation }) {
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
           data={matchingUsers}
           numColumns={3}
-          renderItem={({ item }) =>
+          renderItem={({ item, index }) =>
             <View>
-              <TouchableOpacity style={styles.friendCircle} onPress={() => handleNextPressed(item)} title={JSON.stringify(item.username)}>
-                <Text style={styles.friendMidText}>{(JSON.stringify(item.name)).replace(/["]/g, '')[0]}</Text>
+              <TouchableOpacity style={styles.friendCircle} onPress={() => handleFriendPressed(item, index)} title={item.username}>
+                <Text style={styles.friendMidText}>{item.name.replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
               <Text style={{ textAlign: 'center', fontSize: 12 }}>
-                {(truncate((JSON.stringify(item.username)).replace(/["]/g, ''), 10))}
+                {truncate(item.username.replace(/["]/g, ''), 10)}
               </Text>
             </View>
           }
@@ -106,7 +120,7 @@ export default function HomeFriendsScreen({ navigation }) {
           {renderMatches()}
         </View>
         <View style={styles.line}/>
-        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" ></ButtonBlue>
+        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue>
       </View>
     </SafeAreaView>
   );
