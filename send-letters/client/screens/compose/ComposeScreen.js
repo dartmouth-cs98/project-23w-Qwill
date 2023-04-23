@@ -15,6 +15,7 @@ import ComposeToolbar from './ComposeToolbar';
 import ButtonBlue from '../../components/ButtonBlue.components';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import COLORS from '../../styles/colors';
+import { ButtonGroup } from '@rneui/themed';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -92,14 +93,14 @@ function ComposeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        {/* Button Icons based on https://docs.expo.dev/guides/icons/ 
-            Find more icons here: https://icons.expo.fyi/*/}
-        <FontAwesome.Button name="user" backgroundColor={COLORS.blue400}></FontAwesome.Button>
-        <FontAwesome.Button name="font" backgroundColor={COLORS.blue400}></FontAwesome.Button>
-        <FontAwesome.Button name="star" backgroundColor={COLORS.blue400}></FontAwesome.Button>
-        <FontAwesome.Button name="smile-o" backgroundColor={COLORS.blue400}></FontAwesome.Button>
-      </View>
+      <ButtonGroup
+      buttons={['SIMPLE', 'BUTTON', 'GROUP']}
+      //selectedIndex={selectedIndex}
+      // onPress={(value) => {
+      //   setSelectedIndex(value);
+      // }}
+      containerStyle={{ marginBottom: 20 }}
+    />
       <Text style={styles.titleText}>Write your Letter!</Text>
       <ImageBackground
         resizeMode={'cover'}
@@ -146,5 +147,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10
   },
-
+  
+    subHeader: {
+      backgroundColor : "#2089dc",
+      color : "white",
+      textAlign : "center",
+      paddingVertical : 5,
+      marginBottom : 10
+    }
+    
 });
