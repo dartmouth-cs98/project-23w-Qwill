@@ -20,6 +20,11 @@ export default function ChangeRecipientScreen({ navigation }) {
     const [snackIsVisible, setSnackIsVisible] = useState(false);
     const onDismissSnack = () => setSnackIsVisible(false);
 
+    const handleNextPressed = (item) => {
+        setLetterInfo({ ...letterInfo, recipientID: item._id, recipientUsername: item.username });
+        navigation.goBack(null);
+    };
+
     const handleChangeText = async (text) => {
         const newText = text.toLowerCase();
         const senderID = userInfo.user._id;
@@ -54,7 +59,7 @@ export default function ChangeRecipientScreen({ navigation }) {
         handleChangeText("");
     }, []);
 
-    // Return contacts
+    // this function renders the users that match the text in the input component
     function renderMatches() {
         if (matchingUsers.length == 0) {
             return <Text style={{ textAlign: 'center' }}>No users found</Text>
@@ -66,7 +71,7 @@ export default function ChangeRecipientScreen({ navigation }) {
                     contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
                     data={matchingUsers}
                     numColumns={3}
-                    renderItem={({ item }) => <SelectRecipientButton userInfo={item} onPress={() => { this.visibleModal(false) }} />}
+                    renderItem={({ item }) => <SelectRecipientButton userInfo={item} onPress={() => handleNextPressed(item)} />}
                     keyExtractor={item => item.username}
                 />
             </View>

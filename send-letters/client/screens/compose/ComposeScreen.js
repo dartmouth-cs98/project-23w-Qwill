@@ -9,21 +9,16 @@ import images from '../../assets/imageIndex';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { Toolbar, ToolbarBackAction, ToolbarContent, ToolbarAction } from 'react-native-paper';
-import { ChangeRecipientScreen } from './ChangeRecipientScreen';
-import ComposeToolbar from './ComposeToolbar';
-import ButtonBlue from '../../components/ButtonBlue.components';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import COLORS from '../../styles/colors';
 import { ButtonGroup } from '@rneui/themed';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
-
+  
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
@@ -37,6 +32,13 @@ function ComposeScreen({ navigation, route }) {
     updateBackend(reqBody);
   };
 
+  const handlePress = (value) => {
+    setSelectedIndex(value);
+    if (value == 0) {navigation.navigate('ChangeRecipientScreen');}
+    if (value == 1) {navigation.navigate('ChangeFontScreen');}
+    if (value == 2) {navigation.navigate('ChangeThemeScreen');}
+    if (value == 3) {navigation.navigate('ChangeStickerScreen');}
+  }
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
@@ -94,11 +96,10 @@ function ComposeScreen({ navigation, route }) {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ButtonGroup
-      buttons={['SIMPLE', 'BUTTON', 'GROUP']}
-      //selectedIndex={selectedIndex}
-      // onPress={(value) => {
-      //   setSelectedIndex(value);
-      // }}
+      buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+      onPress={(value) => {
+        handlePress(value);
+      }}
       containerStyle={{ marginBottom: 20 }}
     />
       <Text style={styles.titleText}>Write your Letter!</Text>
@@ -122,7 +123,7 @@ function ComposeScreen({ navigation, route }) {
       </ImageBackground>
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
         {/* <View style={{flexDirection: 'row'}}> */}
-        <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()} />
+        {/* <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()} /> */}
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()} />
         {/* </View> */}
       </KeyboardAvoidingView>
