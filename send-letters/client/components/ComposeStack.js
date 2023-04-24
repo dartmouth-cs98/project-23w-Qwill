@@ -8,7 +8,10 @@ import PreviewScreen from '../screens/compose/PreviewScreen';
 import SelectFontScreen from '../screens/compose/SelectFontScreen';
 import SelectThemeScreen from '../screens/compose/SelectThemeScreen';
 import { ComposeContextProvider } from '../context/ComposeStackContext';
-
+import ChangeRecipientScreen from '../screens/compose/ChangeRecipientScreen';
+import ChangeFontScreen from '../screens/compose/ChangeFontScreen';
+import ChangeStickerScreen from '../screens/compose/ChangeStickerScreen';
+import ChangeThemeScreen from '../screens/compose/ChangeThemeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,13 +59,12 @@ const ComposeStack = ({ navigation }) => {
         <Stack.Screen name="SelectFont" component={SelectFontScreen} />
         <Stack.Screen name="SelectTheme" component={SelectThemeScreen} />
 
-        {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
-          <Stack.Screen name='ChangeRecipient' component={CameraScreen} /> 
-          {/* todo replace CameraScreen 
-          <Stack.Screen name='ChangeFont' component={CameraScreen} />
-          <Stack.Screen name='ChangeTheme' component={CameraScreen} />
-          <Stack.Screen name='ChangeSticker' component={CameraScreen} />
-        </Stack.Group> */}
+        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen name='ChangeRecipientScreen' component={ChangeRecipientScreen} /> 
+          <Stack.Screen name='ChangeFontScreen' component={ChangeFontScreen} />
+          <Stack.Screen name='ChangeThemeScreen' component={ChangeThemeScreen} />
+          <Stack.Screen name='ChangeStickerScreen' component={ChangeStickerScreen} /> 
+        </Stack.Group>
 
       </Stack.Navigator>
     </ComposeContextProvider>

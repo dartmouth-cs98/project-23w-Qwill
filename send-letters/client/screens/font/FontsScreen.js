@@ -3,7 +3,6 @@ import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
-import ButtonPrimary from '../../components/ButtonPrimary';
 import fontData from '../../assets/fontData';
 
 const windowWidth = Dimensions.get('window').width;
@@ -31,17 +30,6 @@ const FontsScreen = ({navigation}) => {
         </View>
         <View style={styles.noCustom}>
           <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-          {/* <Text style={{ textAlign: "center", textDecorationLine: 'underline', marginTop: 20 }}>Add a custom font</Text> */}
-          {/* <ButtonPrimary
-            selected={false}
-            title={"Add Font By Camera"}
-            onPress={() =>{navigation.navigate("CameraScreen")}}
-          />
-          <ButtonPrimary
-            selected={false}
-            title={"Add Font By Image..."}
-            onPress={() =>{navigation.navigate("ImagePickerScreen")}}
-          /> */}
           <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("CameraScreen")}}>Add Custom Font</Text>
         </View>
         <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
