@@ -9,9 +9,11 @@ import images from '../../assets/imageIndex';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
+import { ButtonGroup } from '@rneui/themed';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
@@ -22,23 +24,30 @@ function ComposeScreen({ navigation, route }) {
 
   // function that updates the letter context and also saves the letter as a draft on the server
   const handleTextChange = (text) => {
-    setLetterInfo({...letterInfo, text: text, status: "draft"});
-  
+    setLetterInfo({ ...letterInfo, text: text, status: "draft" });
+
     reqBody = letterInfo;
     reqBody["text"] = text;  // have to update text since context not yet updated
     reqBody["status"] = "draft";
     updateBackend(reqBody);
   };
- 
+
+  const handlePress = (value) => {
+    setSelectedIndex(value);
+    if (value == 0) {navigation.navigate('ChangeRecipientScreen');}
+    if (value == 1) {navigation.navigate('ChangeFontScreen');}
+    if (value == 2) {navigation.navigate('ChangeThemeScreen');}
+    if (value == 3) {navigation.navigate('ChangeStickerScreen');}
+  }
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
       if (letterInfo.letterID == "") {
         // letter hasn't been made in DB (never saved as a draft); make new letter with status draft
-        resp = await axios.post(findIP()+"/api/makeLetter", reqBody);
+        resp = await axios.post(findIP() + "/api/makeLetter", reqBody);
       } else {
         // letter exists in DB as a draft; update new info
-        resp = await axios.post(findIP()+"/api/updateLetterInfo", reqBody);
+        resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
       }
 
       if (!resp) {  // could not connect to backend
@@ -49,67 +58,50 @@ function ComposeScreen({ navigation, route }) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
-        setLetterInfo({...letterInfo, letterID: resp.data.letterID});
+        setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
       }
     } catch (err) {
       console.error(err);
     }
   }
 
-  const handleGoBackPressed = () => {
-    // have to reset letterInfo if coming from drafts since previous screen (draftsScreen) is part of home stack
-    // also have to replace compose navigation with select recipient screen and go back one additional time 
-    //    so that compose stack is reset when clicking on compose icon from navBar
-    if (route.params && route.params.fromDrafts && route.params.fromDrafts) {
-      setLetterInfo({
-        ...letterInfo,
-        letterID: "",
-        text: "",
-        recipientID: "",
-        themeID: "",
-        recipientUsername: "",
-        fontID: ""
-      });
-      navigation.replace("SelectRecipient");
-      composeStackGoBack(navigation, composeHomeGoBack);
-    } 
-    composeStackGoBack(navigation, composeHomeGoBack);
-  };
-
-  const composeHomeGoBack = () => {
-    navigation.navigate('Home');
-  };
-
-  const handleNextPressed = () => {    
+  const handleNextPressed = () => {
     navigation.push('Preview');
   };
 
-  return ( 
+  return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ButtonGroup
+      buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+      onPress={(value) => {
+        handlePress(value);
+      }}
+      containerStyle={{ marginBottom: 20 }}
+    />
       <Text style={styles.titleText}>Write your Letter!</Text>
-      <ImageBackground 
+      <ImageBackground
         resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%'}} 
-        source={images.themes[letterInfo.themeID]}> 
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={{flex: 1}}>
-              <Input
-                style={{fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22}} 
-                placeholder={"Start writing your letter!"}
-                inputContainerStyle={{borderBottomWidth:0}}
-                onChangeText={(text) => {hasTyped = true; handleTextChange(text);}}
-                multiline={true}
-                defaultValue={defaultText}
-                autoCapitalize='none'
-              />
-            </View>
-          </TouchableWithoutFeedback>
+        style={{ flex: 1, width: '100%', height: '95%' }}
+        source={images.themes[letterInfo.themeID]}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View style={{ flex: 1 }}>
+            <Input
+              style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22 }}
+              placeholder={"Start writing your letter!"}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              onChangeText={(text) => { hasTyped = true; handleTextChange(text); }}
+              multiline={true}
+              defaultValue={defaultText}
+              autoCapitalize='none'
+            />
+          </View>
+        </TouchableWithoutFeedback>
       </ImageBackground>
-      <KeyboardAvoidingView style={{flexDirection: 'row'}}>
-      {/* <View style={{flexDirection: 'row'}}> */}
-        <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()}/>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()}/>
-      {/* </View> */}
+      <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
+        {/* <View style={{flexDirection: 'row'}}> */}
+        {/* <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()} /> */}
+        <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()} />
+        {/* </View> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -119,18 +111,26 @@ export default ComposeScreen;
 
 const styles = StyleSheet.create({
   inputContainer: {
-      
+
   },
   button: {
-      width: 200, 
-      marginTop: 10,
+    width: 200,
+    marginTop: 10,
   },
   titleText: {
-    fontSize: 20, 
+    fontSize: 20,
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     textAlign: "center",
     marginBottom: 10
   },
-
+  
+    subHeader: {
+      backgroundColor : "#2089dc",
+      color : "white",
+      textAlign : "center",
+      paddingVertical : 5,
+      marginBottom : 10
+    }
+    
 });

@@ -3,7 +3,6 @@ import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
-import ButtonPrimary from '../../components/ButtonPrimary';
 import fontData from '../../assets/fontData';
 
 const windowWidth = Dimensions.get('window').width;
