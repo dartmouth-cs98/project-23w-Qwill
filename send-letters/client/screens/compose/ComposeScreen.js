@@ -65,30 +65,6 @@ function ComposeScreen({ navigation, route }) {
     }
   }
 
-  const handleGoBackPressed = () => {
-    // have to reset letterInfo if coming from drafts since previous screen (draftsScreen) is part of home stack
-    // also have to replace compose navigation with select recipient screen and go back one additional time 
-    //    so that compose stack is reset when clicking on compose icon from navBar
-    if (route.params && route.params.fromDrafts && route.params.fromDrafts) {
-      setLetterInfo({
-        ...letterInfo,
-        letterID: "",
-        text: "",
-        recipientID: "",
-        themeID: "",
-        recipientUsername: "",
-        fontID: ""
-      });
-      navigation.replace("SelectRecipient");
-      composeStackGoBack(navigation, composeHomeGoBack);
-    }
-    composeStackGoBack(navigation, composeHomeGoBack);
-  };
-
-  const composeHomeGoBack = () => {
-    navigation.navigate('Home');
-  };
-
   const handleNextPressed = () => {
     navigation.push('Preview');
   };
