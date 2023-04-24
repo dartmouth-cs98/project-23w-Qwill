@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, ScrollView, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ScrollView, ImageBackground, SafeAreaView } from 'react-native';
 import React from 'react';
 import images from '../assets/imageIndex';
 

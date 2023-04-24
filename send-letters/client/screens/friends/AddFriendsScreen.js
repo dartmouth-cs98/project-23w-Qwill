@@ -224,44 +224,55 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'left', marginTop: 20 }}>
-      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
+    <SafeAreaView style={{ flex: 1}}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name={"arrow-back"} size={normalize(40)} />
+          <Ionicons style={{paddingLeft: windowWidth*.015}} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
         <Text style={styles.titleText}>Add Friends</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Input
-          placeholder="enter name or username"
-          autoCapitalize="none"
-          onChangeText={handleChangeText}
-          inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-          leftIcon={{type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
-        />
+      <View style={{alignItems: 'center', marginBottom: windowHeight*.07}}>
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder="enter name or username"
+            autoCapitalize="none"
+            onChangeText={handleChangeText}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
+            leftIcon={{type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
+          />
+        </View>
+      </View>
+      <View>
         <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
         { 
           pendingFriends.length == 0 ? (
-            <View style={{flex: 2, padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
               <Text style={styles.noMatchingUsers}>
                 You don't have any incoming friend requests.
               </Text>
             </View> 
           ) : (  // at least one pending friend request
-            <View style={{flex: 1, alignItems: 'center'}}>
+            <View style={{alignItems: 'center'}}>
               {renderPendingFriends()}
             </View>
           )
         }
+      </View>
+      <View style={{flex: 2}}>
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
-        <View styles={{flex: 1}}>
+        <View styles={{flex: 2}}>
           {renderAddFriends()}
         </View> 
         <View style={styles.line}></View>
-        <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
-        <View style={styles.line}></View>
-        <Text style={styles.subtitleText}>Copy Qwill Link</Text>
+        <TouchableOpacity  style={{flexDirection: "row", marginVertical: "1%"}}>
+          <Ionicons style={styles.icon} name={'share-outline'} size={normalize(24)}></Ionicons>
+          <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
+        </TouchableOpacity >
+        <TouchableOpacity style={{flexDirection: "row", marginVertical: "1%"}}>
+          <Ionicons style={styles.icon} name={'link-outline'} size={normalize(24)}></Ionicons>
+          <Text style={styles.subtitleText}>Copy Qwill Link</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -274,26 +285,25 @@ const styles = StyleSheet.create({
     fontFamily: 'JosefinSansBold',
     fontSize: 40,
     fontWeight: 'bold',
-    textAlign: 'left',
+    // textAlign: 'left',
     flex: 1,
-    marginLeft: 30,
+    // marginLeft: 30,
     marginTop: 5
   },
   subtitleText: {
     fontFamily: 'JosefinSans',
-    fontSize: 20,
+    fontSize: normalize(20),
     textAlign: 'left',
-    flex: 1,
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: windowHeight*.02,
+    marginLeft: windowWidth*.04
   },
   inputContainer: {
-    flexDirection: 'column', 
-    flex: 15,
     width: 350,
-    marginLeft: 45,
-    marginTop: 10,
-    justifyContent: 'center'
+    height: 585,
+    borderRadius: 20,
+    marginTop: 20,
+    flex: 1,
   },
   suggestionsContainer: {
     width: "100%",
@@ -304,18 +314,24 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: "90%",
+    alignSelf: 'center'
   },
   noMatchingUsers: {
     fontFamily: 'JosefinSansBold',
-    width: 150,
+    width: windowWidth*.8,
     fontStyle: "normal",
     fontWeight: "700",
     fontSize: 20,
     lineHeight: 20,
     display: "flex",
-    alignItems: "center",
     textAlign: "center",
     letterSpacing: 0.3,
     color: COLORS.black
   },
+  icon: {
+    display: "flex",
+    alignItems: "center",
+    color: COLORS.black,
+    marginLeft: "5%"
+  }
 })
