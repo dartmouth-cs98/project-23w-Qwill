@@ -18,7 +18,7 @@ function ComposeScreen({ navigation, route }) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
-  
+
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
@@ -34,10 +34,10 @@ function ComposeScreen({ navigation, route }) {
 
   const handlePress = (value) => {
     setSelectedIndex(value);
-    if (value == 0) {navigation.navigate('ChangeRecipientScreen');}
-    if (value == 1) {navigation.navigate('ChangeFontScreen');}
-    if (value == 2) {navigation.navigate('ChangeThemeScreen');}
-    if (value == 3) {navigation.navigate('ChangeStickerScreen');}
+    if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
+    if (value == 1) { navigation.navigate('ChangeFontScreen'); }
+    if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
+    if (value == 3) { navigation.navigate('ChangeStickerScreen'); }
   }
   const updateBackend = async (reqBody) => {
     try {
@@ -72,12 +72,10 @@ function ComposeScreen({ navigation, route }) {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ButtonGroup
-      buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-      onPress={(value) => {
-        handlePress(value);
-      }}
-      containerStyle={{ marginBottom: 20 }}
-    />
+        buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+        onPress={(value) => { handlePress(value); }}
+        containerStyle={{ marginBottom: 20 }}
+      />
       <Text style={styles.titleText}>Write your Letter!</Text>
       <ImageBackground
         resizeMode={'cover'}
@@ -98,10 +96,7 @@ function ComposeScreen({ navigation, route }) {
         </TouchableWithoutFeedback>
       </ImageBackground>
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        {/* <View style={{flexDirection: 'row'}}> */}
-        {/* <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()} /> */}
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()} />
-        {/* </View> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -110,9 +105,6 @@ function ComposeScreen({ navigation, route }) {
 export default ComposeScreen;
 
 const styles = StyleSheet.create({
-  inputContainer: {
-
-  },
   button: {
     width: 200,
     marginTop: 10,
@@ -124,13 +116,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10
   },
-  
-    subHeader: {
-      backgroundColor : "#2089dc",
-      color : "white",
-      textAlign : "center",
-      paddingVertical : 5,
-      marginBottom : 10
-    }
-    
+
+  subHeader: {
+    backgroundColor: "#2089dc",
+    color: "white",
+    textAlign: "center",
+    paddingVertical: 5,
+    marginBottom: 10
+  }
+
 });

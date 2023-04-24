@@ -5,7 +5,6 @@ import ThemePreview from '../../components/ThemePreview';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
-import { CommonActions } from '@react-navigation/native';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import images from '../../assets/imageIndex';
 
@@ -53,16 +52,11 @@ const ChangeStickerScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
-          <Ionicons name={"arrow-back"} size={40}/>
-        </TouchableOpacity>
-      </View>
       <View style={{ flexDirection: 'row'}}>
-        <Text style={styles.titleText}>Compose</Text>
+        <Text style={styles.titleText}>Stickers</Text>
       </View>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
+        <Text style={styles.selectTitleText}>Select a sticker</Text>
         <ScrollView 
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
