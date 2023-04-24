@@ -98,24 +98,24 @@ export default function HomeFriendsScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
+    <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
           <Ionicons name="person-add-outline" size={normalize(40)} ></Ionicons>
         </TouchableOpacity>
       </View>
-      <View style={styles.recipientsContainer}>
-        <View style={styles.inputContainer}>
-          <Input
-            placeholder=" enter name or username"
-            autoCompleteType="email"
-            autoCapitalize="none"
-            onChangeText={handleChangeText}
-            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: normalize(32), width: normalize(330), borderRadius: 5 }}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
-          />
-        </View>
+        <View style={styles.recipientsContainer}>
+          <View style={styles.inputContainer}>
+            <Input
+              placeholder=" enter name or username"
+              autoCompleteType="email"
+              autoCapitalize="none"
+              onChangeText={handleChangeText}
+              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: normalize(32), width: normalize(330), borderRadius: 5 }}
+              leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
+            />
+          </View>
         <View>
           {renderMatches()}
         </View>
@@ -133,30 +133,15 @@ const styles = StyleSheet.create({
   input: { borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: normalize(45),
+    fontSize: normalize(50),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: normalize(20),
-    marginTop: normalize(5)
+    marginLeft: windowWidth *.04,
+    marginTop: windowHeight *.008
   },
   btn: {
     width: "18%",
-    // alignItems: 'left',
-    // justifyContent: 'left',
-  },
-  // container: {
-  //   height: 94,
-  //   width: 312,
-  //   backgroundColor: "#97ACE2",
-  //   borderRadius: 20,
-  //   marginBottom: 15
-  // },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
   },
   profilePicture: {
     height: normalize(56),
@@ -209,14 +194,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 5,
-    // borderWidth: 1,
-    // borderColor: 'black'
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
   selectTitleText: {
     fontSize: 35,
@@ -224,7 +201,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: 'center',
     marginTop: 15,
-    // textDecorationLine: 'underline'
   },
   inputContainer: {
     // width: 350,

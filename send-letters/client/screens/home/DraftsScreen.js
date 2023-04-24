@@ -8,6 +8,7 @@ import findIP from '../../helpers/findIP';
 import { Snackbar } from 'react-native-paper';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { useIsFocused } from '@react-navigation/native';
+import SwipeableLetter from '../../components/SwipeableLetter';
 
 
 function DraftsScreen({ navigation }) {
@@ -71,6 +72,10 @@ function DraftsScreen({ navigation }) {
     });
   };
 
+  const handlePress = () => {
+    console.log('Button pressed');
+  };
+
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
 
@@ -82,14 +87,12 @@ function DraftsScreen({ navigation }) {
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
           data={drafts}
           numColumns={1}
           renderItem={({item}) => 
-            <View>
-              <TouchableOpacity onPress={() => handleDraftPressed(item)} title={JSON.stringify(item)}>
-                <Text>{(JSON.stringify(item))}</Text>
-              </TouchableOpacity>
+            <View style={{marginVertical: 10}}>
+                <SwipeableLetter onPress={handlePress} />
             </View>
             }
           keyExtractor={item => item._id}

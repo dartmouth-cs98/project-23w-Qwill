@@ -33,7 +33,8 @@ const CustomComposeButton = ({children, onPress}) => (
             width: 70, 
             height: 70,
             borderRadius: 35,
-            backgroundColor: "#ACC3FF",
+            // backgroundColor: "#ACC3FF",
+            backgroundColor: "#BDCCF2",
             shadowColor: 'rgba(0,0,0, .4)',
             shadowOffset: { height: 1, width: 1 },
             shadowOpacity: 1,
@@ -68,7 +69,7 @@ function NavBar() {
               } else if (route.name === 'Compose') {
                 // For this letter create button, we'll use a special icon
                 // https://icons.expo.fyi/Feather/pen-tool
-                return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
+                return <Feather name="pen-tool" size={size * 1.6} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
                 if (focused) {
                   return (
