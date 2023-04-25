@@ -1,30 +1,30 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import { useContext, useState, useEffect } from 'react';
-import React from 'react';
-import ThemePreview from '../../components/ThemePreview';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
-import { CommonActions } from '@react-navigation/native';
-import { ComposeContext } from '../../context/ComposeStackContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
+import React from 'react';
+import styles from '../../styles/Profile.component.style';
+import ThemePreview from '../../components/ThemePreview';
 
 const screenWidth = Dimensions.get('window').width;
 
-const ChangeThemeScreen = ({navigation, route}) => {
+const ChangeThemeScreen = ({ navigation, route }) => {
 
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   useEffect(() => {
     if (route.params) {
       const { recipientID, recipientUsername } = route.params;
-      setLetterInfo({...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername});
+      setLetterInfo({ ...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername });
     }
   }, [route.params]);
 
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.
-    setLetterInfo({...letterInfo, themeID: selectedTheme});
+    setLetterInfo({ ...letterInfo, themeID: selectedTheme });
     navigation.goBack(null);
   };
 
@@ -36,7 +36,7 @@ const ChangeThemeScreen = ({navigation, route}) => {
         recipientID: "",
         recipientUsername: "",
         themeID: "",
-        fontID: "" 
+        fontID: ""
       });
     }
     // navigation.replace('NavBar', {
@@ -52,27 +52,18 @@ const ChangeThemeScreen = ({navigation, route}) => {
   const themesList = Object.keys(images.themes);
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
-          <Ionicons name={"arrow-back"} size={40}/>
-        </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row'}}>
-        <Text style={styles.titleText}>Compose</Text>
-      </View>
+    <SafeAreaView style={styles.safeview}>
       <View style={styles.themeContainer}>
         <Text style={styles.selectTitleText}>Select a theme</Text>
-        <ScrollView 
+        <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
         >
-            {themesList.map((theme) => {
+          {themesList.map((theme) => {
             return (
-              <ThemePreview key={theme} themeName={theme} imageSource={images.themes[theme]} onPress={() => handleNextPressed(theme)}/>
+              <ThemePreview key={theme} themeName={theme} imageSource={images.themes[theme]} onPress={() => handleNextPressed(theme)} />
             );
           })}
-          {/* <ThemePreview themeName="Stars" imageSource={} onPress={handleNextPressed}></ThemePreview> */}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -80,42 +71,3 @@ const ChangeThemeScreen = ({navigation, route}) => {
 };
 
 export default ChangeThemeScreen;
-
-const styles = StyleSheet.create({
-  themeContainer: {
-    // width: 500,
-    // height: 585,
-    // backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop:20,
-    flex: 1,
-    alignItems: 'center'
-  },
-  titleText: {
-    fontSize: 50, 
-    fontFamily: 'JosefinSansBold',
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: "center",
-    // marginLeft: -60
-  },
-  selectTitleText: {
-    fontSize: 35,
-    fontWeight: "400",
-    justifyContent: "center",
-    textAlign: 'center', 
-    marginTop: 15
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  }, 
-  scrollView: {
-    width: screenWidth
-  },
-  scrollViewContainer: {
-    alignItems: "center"
-  }
-});

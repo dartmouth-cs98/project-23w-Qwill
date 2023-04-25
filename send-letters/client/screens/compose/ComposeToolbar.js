@@ -1,6 +1,5 @@
+import { Toolbar, ToolbarAction } from 'react-native-paper';
 import * as React from 'react';
-import { Toolbar, ToolbarBackAction, ToolbarContent, ToolbarAction } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ComposeToolbar = props => {
     return (

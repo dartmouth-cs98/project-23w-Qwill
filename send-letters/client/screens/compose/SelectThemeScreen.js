@@ -1,13 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import { useContext, useState, useEffect } from 'react';
-import React from 'react';
-import ThemePreview from '../../components/ThemePreview';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
-import { CommonActions } from '@react-navigation/native';
-import { ComposeContext } from '../../context/ComposeStackContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
+import React from 'react';
+import ThemePreview from '../../components/ThemePreview';
 
 const screenWidth = Dimensions.get('window').width;
 

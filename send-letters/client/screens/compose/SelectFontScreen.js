@@ -1,12 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useContext, useState } from 'react';
-import ButtonPrimary from '../../components/ButtonPrimary';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import FontPreview from '../../components/FontPreview';
+import { composeStackGoBack } from '../../helpers/composeStackGoBack';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import fontData from '../../assets/fontData';
+import FontPreview from '../../components/FontPreview';
+import React, { useContext, useState } from 'react';
 
 const SelectFontScreen = ({navigation}) => {
 

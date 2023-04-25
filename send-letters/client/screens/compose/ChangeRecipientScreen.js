@@ -1,15 +1,15 @@
-import axios from 'axios';
-import React, { useState, useContext, useEffect } from 'react'
-import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
+import { AuthContext } from '../../context/AuthContext';
+import { ComposeContext } from '../../context/ComposeStackContext';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
+import { Text, View, FlatList, } from 'react-native';
+import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { ComposeContext } from '../../context/ComposeStackContext';
-import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import styles from '../../styles/Profile.component.style';
+import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
+import styles from '../../styles/Profile.component.style';
+
 
 export default function ChangeRecipientScreen({ navigation }) {
     const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -79,12 +79,9 @@ export default function ChangeRecipientScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-            <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.titleText}>Compose</Text>
-            </View>
+        <SafeAreaView style={styles.safeview}>
+            <Text style={styles.selectTitleText}>Select a recipient</Text>
             <View style={[styles.recipientsContainer]}>
-                <Text style={styles.selectTitleText}>Select a recipient</Text>
                 <View style={styles.inputContainer}>
                     <Input
                         placeholder="enter name or username"

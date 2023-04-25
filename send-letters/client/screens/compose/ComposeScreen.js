@@ -1,15 +1,14 @@
-import { Snackbar } from 'react-native-paper';
-import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
-import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
-import { Button, Input, Image } from 'react-native-elements';
-import ButtonPrimary from '../../components/ButtonPrimary';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
-import { ComposeContext } from '../../context/ComposeStackContext';
-import images from '../../assets/imageIndex';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
 import { ButtonGroup } from '@rneui/themed';
+import { ComposeContext } from '../../context/ComposeStackContext';
+import { Input } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Snackbar } from 'react-native-paper';
+import { Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import axios from 'axios';
+import ButtonPrimary from '../../components/ButtonPrimary';
+import findIP from '../../helpers/findIP';
+import images from '../../assets/imageIndex';
+import React, { useState, useContext } from 'react'
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);

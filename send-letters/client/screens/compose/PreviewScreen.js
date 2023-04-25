@@ -1,14 +1,14 @@
-import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
-import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Snackbar } from 'react-native-paper';
+import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
 import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import { AuthContext } from '../../context/AuthContext';
 import ButtonPrimary from '../../components/ButtonPrimary';
+import findIP from '../../helpers/findIP';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
-import { ComposeContext } from '../../context/ComposeStackContext';
+import React, { useState, useContext } from 'react';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
