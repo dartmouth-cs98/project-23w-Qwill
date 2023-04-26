@@ -3,9 +3,20 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 // Separating styles from component code src: https://www.reactnative.guide/8-styling/8.3-separating-styles-from-component.html
 
 export default StyleSheet.create({
+  backbutton: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    marginLeft: wp('3%'),
+    justifyContent: 'center',
+  },
   button: {
-    width: 200,
-    marginTop: 10,
+    width: wp('46.5%'),
+    marginTop: hp('1.07%'),
+  },
+  composeContainer: {
+    position: 'absolute',
+    left: '20%',
+    top: '50%',
   },
   container: {
     height: hp('10.08%'), // (94/932) * 100% ≈ 10.08% of screen height
@@ -73,6 +84,7 @@ export default StyleSheet.create({
     shadowRadius: 3,
   },
   titleText: {
+    marginTop: 7,
     fontSize: wp('10%'),
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
@@ -85,4 +97,5 @@ export default StyleSheet.create({
     top: hp('8%'), // (72/932) * 100% ≈ 7.73% of screen height
     left: wp('4%'), // (18/430) * 100% ≈ 4.19% of screen width
   },
+
 });
