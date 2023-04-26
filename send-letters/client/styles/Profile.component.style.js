@@ -72,10 +72,11 @@ export default StyleSheet.create({
   },
   selectTitleText: {
     marginBottom: hp('4%'),
-    fontSize: wp('8%'),
-    fontWeight: '400',
+    fontSize: wp('9%'),
+    fontWeight: 'bold',
     justifyContent: 'center',
     textAlign: 'center',
+    marginLeft: wp('3%')
   },
   shadow: {
     shadowColor: '#171717',
@@ -97,5 +98,7 @@ export default StyleSheet.create({
     top: hp('8%'), // (72/932) * 100% ≈ 7.73% of screen height
     left: wp('4%'), // (18/430) * 100% ≈ 4.19% of screen width
   },
-
+  backIcon: {
+    marginTop: wp('.0%')
+  },
 });

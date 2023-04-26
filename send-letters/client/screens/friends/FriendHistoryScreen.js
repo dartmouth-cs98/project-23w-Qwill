@@ -56,7 +56,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
 
   const renderItem = (item) => {
     
-    const alignDirection = (item.sender == userInfo.user._id) ? "flex-start" : "flex-end";
+    const alignDirection = (item.sender == userInfo.user._id) ? "flex-end" : "flex-start";
 
     return (
       // <Text 
@@ -65,13 +65,14 @@ export default function FriendHistoryScreen({ route, navigation }) {
       //   {item.text + "\n\n\n\n"}
       // </Text>
       <View style={{alignSelf: alignDirection, marginLeft: windowWidth*.1, marginRight: windowWidth*.1}}>
-        <LetterHistoryPreview></LetterHistoryPreview>
+        <LetterHistoryPreview sender={item.sender} recipient={item.recipient}></LetterHistoryPreview>
       </View>
     );
   }
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, marginTop: 20 }}>
+      
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity style={{marginLeft: "5%"}}onPress={() => { navigation.goBack() }}>
           <Ionicons name="arrow-back" size={40} />
@@ -84,6 +85,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
       </View>
       <Text style={styles.username}>{item.username}</Text>
       <View style={styles.line}></View>
+      <View style={styles.verticalLine}></View>
       {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ height: '100%', width: 1, backgroundColor: 'black' }} />
         <View style={{ height: '100%', width: 10, backgroundColor: 'black' }} />
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     borderBottomColor: COLORS.blue400,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth*2,
     width: "90%",
     alignSelf: 'center'
   },
@@ -129,5 +131,14 @@ const styles = StyleSheet.create({
     fontFamily: 'JosefinSansBold',
     fontStyle: "normal",
     textAlign: "center"
+  },
+  verticalLine: {
+    position: "absolute",
+    top: windowHeight*.2,
+    width: StyleSheet.hairlineWidth*2,
+    height: windowHeight*.8,
+    alignSelf: "center",
+    backgroundColor: COLORS.blue400,
+    // borderBottomWidth: StyleSheet.hairlineWidth,
   }
 })
