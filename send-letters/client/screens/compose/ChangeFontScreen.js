@@ -1,88 +1,38 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useContext, useState } from 'react';
-import ButtonPrimary from '../../components/ButtonPrimary';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import FontPreview from '../../components/FontPreview';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, FlatList } from 'react-native';
 import fontData from '../../assets/fontData';
+import FontPreview from '../../components/FontPreview';
+import React, { useContext } from 'react';
+import styles from '../../styles/Profile.component.style';
 
-const ChangeFontScreen = ({navigation}) => {
+const ChangeFontScreen = ({ navigation }) => {
 
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const handleNextPressed = (selectedFont) => {
-      setLetterInfo({...letterInfo, fontID: selectedFont});
-      navigation.goBack(null);
+    setLetterInfo({ ...letterInfo, fontID: selectedFont });
+    navigation.goBack(null);
   };
-
-  // const selectFontGoBack = () => {
-  //   navigation.navigate('SelectTheme');
-  // }
-
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-    {/* <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-      <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectFontGoBack)}>
-        <Ionicons name={"arrow-back"} size={40}/>
-      </TouchableOpacity>
-      {/* <Text style={styles.titleText}>Compose</Text> 
-    </View> 
-    */}
-    <View style={{ flexDirection: 'row'}}>
-      <Text style={styles.titleText}>Compose</Text>
-    </View>
-    <View style={styles.fontsContainer}>
-      <Text style={styles.selectTitleText}>Select a font</Text>
-        <View style={{flexDirection: "row", marginTop: 20}}>
+    <SafeAreaView style={styles.safeview}>
+      <View style={styles.fontsContainer}>
+        <View style={{ flexDirection: "row" }}>
           <FlatList
-            contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
+            ListHeaderComponent={<Text style={styles.selectTitleText}> Select a font </Text>}
+            contentContainerStyle={{ justifyContent: 'center' }}
             data={fontData}
             numColumns={3}
-            renderItem={({item}) => 
-              <View style={{marginLeft: 10, marginRight: 10}}>
+            renderItem={({ item }) =>
+              <View style={{ marginLeft: 5, marginRight: 5 }}>
                 <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title)}></FontPreview>
               </View>}
             keyExtractor={(item) => item.title}
           />
         </View>
-      {/* </ScrollView> */}
-    </View>
-  </SafeAreaView>
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default ChangeFontScreen;
-
-const styles = StyleSheet.create({
-  fontsContainer: {
-    width: 350,
-    height: 585,
-    // backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop:20,
-    flex: 1,
-  },
-  titleText: {
-    fontSize: 50, 
-    fontFamily: 'JosefinSansBold',
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: "center",
-    // marginLeft: -60
-  },
-  selectTitleText: {
-    fontSize: 35,
-    fontWeight: "400",
-    justifyContent: "center",
-    textAlign: 'center', 
-    marginTop: 15
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  }, 
-});

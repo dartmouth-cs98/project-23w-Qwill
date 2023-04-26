@@ -1,16 +1,15 @@
-import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
-import React, { useState, useContext, useEffect } from 'react'
-import { Input } from 'react-native-elements';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import styles from '../../styles/Profile.component.style';
-import { Snackbar } from 'react-native-paper';
+import { Input } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
+import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
+import styles from '../../styles/Profile.component.style';
 
 
 function SelectRecipientScreen({navigation}) {
