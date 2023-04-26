@@ -3,13 +3,12 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { Snackbar } from 'react-native-paper';
 import { Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 
 function ComposeScreen({ navigation, route }) {
@@ -21,7 +20,12 @@ function ComposeScreen({ navigation, route }) {
   const onDismissSnack = () => setSnackIsVisible(false);
   // const handleStickerSelectedId = 'onStickerSelected';
   const [selectedStickerId, setSelectedStickerId] = useState(null);
-const [sticker, setSticker] = useState(null);
+  const [sticker, setSticker] = useState(null);
+
+  useEffect(() => {
+    const stickerid = route.params?.selectedStickerID || 'default_value';
+    // Use the stickerid in your ComposeScreen component
+  }, [route.params]);
 
 
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
@@ -40,16 +44,18 @@ const [sticker, setSticker] = useState(null);
     setSelectedStickerId(id);
     setSticker(sticker);
   }
-  
+
   const handlePress = (value) => {
     setSelectedIndex(value);
     if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
     if (value == 1) { navigation.navigate('ChangeFontScreen'); }
     if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-    if (value == 3) { navigation.navigate('ChangeStickerScreen', { onStickerSelected: handleStickerSelected });
-  }
-
-    // {navigation.navigate('ChangeStickerScreen', { selectedStickerId: sticker, callbackId: handleStickerSelectedId });}
+    if (value == 3) {
+      navigation.navigate('ChangeStickerScreen');
+      // ComposeScreen.js
+      // const stickerid = navigation.getParam(selectedStickerID, 0);
+        // Use the stickerid in your ComposeScreen component
+    }
   }
   const updateBackend = async (reqBody) => {
     try {

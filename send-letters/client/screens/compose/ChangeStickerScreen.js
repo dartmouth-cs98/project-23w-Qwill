@@ -12,24 +12,31 @@ const screenWidth = Dimensions.get('window').width;
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
-  const { selectedStickerId, callbackId } = route.params;
+  // const { selectedStickerId, callbackId } = route.params;
 
-  function getCallbackFunction(callbackId) {
-    switch (callbackId) {
-      case handleStickerSelectedId:
-        return handleStickerSelected;
-      default:
-        return null;
-    }
-  }
+  // function getCallbackFunction(callbackId) {
+  //   switch (callbackId) {
+  //     case handleStickerSelectedId:
+  //       return handleStickerSelected;
+  //     default:
+  //       return null;
+  //   }
+  // }
 
-  const { onStickerSelected } = route.params;
+  // const { onStickerSelected } = route.params;
 
-  function selectSticker(sticker) {
-    // call the onStickerSelected function passed from the parent with the selected sticker ID and sticker object
-    route.params.onStickerSelected(sticker.id, sticker);
-  }  
+  // function selectSticker(sticker) {
+  //   // call the onStickerSelected function passed from the parent with the selected sticker ID and sticker object
+  //   route.params.onStickerSelected(sticker.id, sticker);
+  // }  
   
+
+  // ChangeStickerScreen.js
+  onStickerSelect = (stickerid) => {
+    this.props.navigation.navigate('ComposeScreen', {
+      selectedStickerID: stickerid,
+    });
+  };
 
   useEffect(() => {
     if (route.params) {
@@ -83,17 +90,11 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
         >
-          {/* {stickers.map(sticker => (
-            <TouchableOpacity key={sticker.id} onPress={() => selectSticker(sticker.id)}>
-              <Image source={{ uri: sticker.image }} style={styles.sticker} />
-            </TouchableOpacity>
-          ))} */}
           {stickers.map((sticker) => {
             return (
-              <ThemePreview key={sticker} stickerName={sticker} imageSource={images.stickers[sticker]} onPress={() => selectSticker(sticker)} />
+              <ThemePreview key={sticker} stickerName={sticker} imageSource={images.stickers[sticker]} onPress={() => onStickerSelect(sticker)} />
             );
           })}
-          {/* <ThemePreview themeName="Stars" imageSource={} onPress={handleNextPressed}></ThemePreview> */}
         </ScrollView>
       </View>
     </SafeAreaView>
