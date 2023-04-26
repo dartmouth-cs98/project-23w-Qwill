@@ -162,7 +162,7 @@ export const updateLetterStatus = async (req, res) => {
 export const updateLetterInfo = async (req, res) => {    
     try {
         // get letterID and the new values for the letter
-        const { letterID, text, recipientID, themeID, fontID, senderID, status } = req.body;    
+        const { letterID, text, recipientID, themeID, fontID, senderID, status } = req.body;
 
         // check if our db has a letter with the ID of the recipient
         const letter = await Letter.findOne({

@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeStack from '../components/HomeStack';
-import FontsStack from '../screens/font/FontsStack';
+import FontsStack from '../components/FontsStack';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from './ComposeStack';
@@ -27,23 +27,23 @@ const CustomComposeButton = ({children, onPress}) => (
     }}
     onPress={onPress}
   >
-      <View>
-        <View
-          style={{
-            width: 70, 
-            height: 70,
-            borderRadius: 35,
-            // backgroundColor: "#ACC3FF",
-            backgroundColor: "#BDCCF2",
-            shadowColor: 'rgba(0,0,0, .4)',
-            shadowOffset: { height: 1, width: 1 },
-            shadowOpacity: 1,
-            shadowRadius: 2,
-          }}
-        >
-          {children}
-        </View>
+    <View>
+      <View
+        style={{
+          width: 70, 
+          height: 70,
+          borderRadius: 35,
+          // backgroundColor: "#ACC3FF",
+          backgroundColor: "#BDCCF2",
+          shadowColor: 'rgba(0,0,0, .4)',
+          shadowOffset: { height: 1, width: 1 },
+          shadowOpacity: 1,
+          shadowRadius: 2,
+        }}
+      >
+        {children}
       </View>
+    </View>
   </TouchableOpacity>
 );
 

@@ -100,8 +100,8 @@ function SelectRecipientScreen({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, marginTop: 20 }}>
-      <View style={{flexDirection: 'row'}}>
+    <SafeAreaView style={styles.safeview}>
+      <View style={styles.backbutton}>
         <TouchableOpacity style={styles.backIcon} onPress={()=>handleGoBack()}>
           <Ionicons name={"arrow-back"} size={40}/>
         </TouchableOpacity>

@@ -29,18 +29,7 @@ const FontsScreen = ({navigation}) => {
       </View>
       <View style={styles.noCustom}>
         <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-        {/* <Text style={{ textAlign: "center", textDecorationLine: 'underline', marginTop: 20 }}>Add a custom font</Text> */}
-        {/* <ButtonPrimary
-          selected={false}
-          title={"Add Font By Camera"}
-          onPress={() =>{navigation.navigate("CameraScreen")}}
-        />
-        <ButtonPrimary
-          selected={false}
-          title={"Add Font By Image..."}
-          onPress={() =>{navigation.navigate("ImagePickerScreen")}}
-        /> */}
-        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("InstructionScreen")}}>Add Custom Font</Text>
+        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
         <View style={styles.line}></View>

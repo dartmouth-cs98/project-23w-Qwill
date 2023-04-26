@@ -7,6 +7,7 @@ import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
+import styles from '../../styles/Profile.component.style';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -51,8 +52,8 @@ const SelectThemeScreen = ({navigation, route}) => {
   const themesList = Object.keys(images.themes);
 
   return (
-    <SafeAreaView style={{flex: 1, marginTop: 20 }}>
-      <View style={{flexDirection: 'row'}}>
+    <SafeAreaView style={styles.safeview}>
+      <View style={styles.backbutton}>
         <TouchableOpacity style={styles.backIcon} onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
           <Ionicons name={"arrow-back"} size={40}/>
         </TouchableOpacity>
