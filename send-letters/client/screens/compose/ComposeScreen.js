@@ -1,5 +1,5 @@
 import { Snackbar } from 'react-native-paper';
-import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import React, { useState, useLayoutEffect, useEffect, useContext } from 'react'
 import { Button, Input, Image } from 'react-native-elements';
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { ButtonGroup } from '@rneui/themed';
+import { Ionicons } from '@expo/vector-icons';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -71,14 +72,21 @@ function ComposeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ButtonGroup
-      buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-      onPress={(value) => {
-        handlePress(value);
-      }}
-      containerStyle={{ marginBottom: 20 }}
-    />
-      <Text style={styles.titleText}>Write your Letter!</Text>
+      <View style={{flexDirection: "row", alignSelf: "center"}}>
+        <View style={{alignContent: "flex-start"}}>
+          {/* Wrong function for goBack */}
+          <TouchableOpacity>
+            <Ionicons name={"close-outline"} size={40}/>
+          </TouchableOpacity>
+        </View>
+        <ButtonGroup
+        buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+        onPress={(value) => {
+          handlePress(value);
+        }}
+        containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10}}
+        />
+      </View>
       <ImageBackground
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
@@ -125,12 +133,12 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   
-    subHeader: {
-      backgroundColor : "#2089dc",
-      color : "white",
-      textAlign : "center",
-      paddingVertical : 5,
-      marginBottom : 10
-    }
+  subHeader: {
+    backgroundColor : "#2089dc",
+    color : "white",
+    textAlign : "center",
+    paddingVertical : 5,
+    marginBottom : 10
+  }
     
 });

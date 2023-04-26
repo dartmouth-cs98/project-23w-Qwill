@@ -65,7 +65,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   scrollView: {
-    height: 200,
+    width: "100%"
   },
   titleText: {
     fontFamily: 'JosefinSansBold',
@@ -90,10 +90,11 @@ export default StyleSheet.create({
   },
   selectTitleText: {
     fontSize: 35,
-    fontWeight: "400",
-    justifyContent: "center",
-    textAlign: 'center',
-    marginTop: 15,
+    fontFamily: 'JosefinSansBold',
+    fontWeight: 'bold',
+    textAlign: "center",
+    // justifyContent: "center",
+    marginTop: 8,
     // textDecorationLine: 'underline'
   },
   inputContainer: {
@@ -101,4 +102,29 @@ export default StyleSheet.create({
     marginLeft: 30,
     marginTop: 10
   },
+  themeContainer: {
+    // width: 500,
+    // height: 585,
+    // backgroundColor: "#ACC3FF",
+    borderRadius: 20, 
+    marginTop:20,
+    flex: 1,
+    alignItems: 'center'
+  },
+  scrollViewContainer: {
+    alignItems: "center"
+  },
+  fontsContainer: {
+    alignContent: "center",
+    width: 350,
+    height: 585,
+    // backgroundColor: "#ACC3FF",
+    borderRadius: 20, 
+    marginTop:20,
+    flex: 1,
+  },
+  backIcon: {
+    marginRight: 15,
+    marginLeft: 10
+  }
 });

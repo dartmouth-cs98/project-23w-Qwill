@@ -9,6 +9,7 @@ import { Snackbar } from 'react-native-paper';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { useIsFocused } from '@react-navigation/native';
 import SwipeableLetter from '../../components/SwipeableLetter';
+import { Image } from 'react-native-elements';
 
 
 function DraftsScreen({ navigation }) {
@@ -103,14 +104,24 @@ function DraftsScreen({ navigation }) {
 
 
   return (
-    <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-      <View style={{ flexDirection:"row" }}>
-        <ButtonPrimary 
-        selected={false} 
-        title={"Mailbox"} 
-        onPress={() => navigation.replace('Mailbox')}/>
-        <ButtonPrimary selected={true} title={"Drafts"} />
-      </View>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
+    <Image 
+        style={{
+          height: undefined, 
+          width: '60%',
+          aspectRatio: 4,
+          resizeMode: "contain",
+          marginBottom: 15
+        }}
+        source={require('../../assets/logo.png')}
+      />
+    <View style={{ flexDirection:"row"}}>
+      <ButtonPrimary selected={false} title={"Mailbox"} onPress={() => navigation.navigate('Mailbox')}/>
+      <ButtonPrimary 
+          selected={true} 
+          title={"Drafts"} 
+          onPress={() => navigation.navigate('Drafts')}/>
+    </View>
       <View>
         {renderDrafts()}
       </View>

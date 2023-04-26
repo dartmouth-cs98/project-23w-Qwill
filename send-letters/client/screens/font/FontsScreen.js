@@ -40,7 +40,7 @@ const FontsScreen = ({navigation}) => {
           title={"Add Font By Image..."}
           onPress={() =>{navigation.navigate("ImagePickerScreen")}}
         /> */}
-        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("CameraScreen")}}>Add Custom Font</Text>
+        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("InstructionScreen")}}>Add Custom Font</Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
         <View style={styles.line}></View>
