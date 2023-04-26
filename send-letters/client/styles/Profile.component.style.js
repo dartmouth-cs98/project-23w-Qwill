@@ -8,6 +8,7 @@ export default StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: wp('3%'),
     justifyContent: 'center',
+    marginTop: wp('2%')
   },
   button: {
     width: wp('46.5%'),
