@@ -11,6 +11,7 @@ import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
 import React, { useState, useContext } from 'react'
 
+
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -18,7 +19,11 @@ function ComposeScreen({ navigation, route }) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
-  
+  // const handleStickerSelectedId = 'onStickerSelected';
+  const [selectedStickerId, setSelectedStickerId] = useState(null);
+const [sticker, setSticker] = useState(null);
+
+
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
@@ -31,13 +36,20 @@ function ComposeScreen({ navigation, route }) {
     reqBody["status"] = "draft";
     updateBackend(reqBody);
   };
-
+  function handleStickerSelected(id, sticker) {
+    setSelectedStickerId(id);
+    setSticker(sticker);
+  }
+  
   const handlePress = (value) => {
     setSelectedIndex(value);
-    if (value == 0) {navigation.navigate('ChangeRecipientScreen');}
-    if (value == 1) {navigation.navigate('ChangeFontScreen');}
-    if (value == 2) {navigation.navigate('ChangeThemeScreen');}
-    if (value == 3) {navigation.navigate('ChangeStickerScreen');}
+    if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
+    if (value == 1) { navigation.navigate('ChangeFontScreen'); }
+    if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
+    if (value == 3) { navigation.navigate('ChangeStickerScreen', { onStickerSelected: handleStickerSelected });
+  }
+
+    // {navigation.navigate('ChangeStickerScreen', { selectedStickerId: sticker, callbackId: handleStickerSelectedId });}
   }
   const updateBackend = async (reqBody) => {
     try {
@@ -71,19 +83,19 @@ function ComposeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{flexDirection: "row", alignSelf: "center"}}>
-        <View style={{alignContent: "flex-start"}}>
+      <View style={{ flexDirection: "row", alignSelf: "center" }}>
+        <View style={{ alignContent: "flex-start" }}>
           {/* Wrong function for goBack */}
           <TouchableOpacity>
-            <Ionicons name={"close-outline"} size={40}/>
+            <Ionicons name={"close-outline"} size={40} />
           </TouchableOpacity>
         </View>
         <ButtonGroup
-        buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-        onPress={(value) => {
-          handlePress(value);
-        }}
-        containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10}}
+          buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+          onPress={(value) => {
+            handlePress(value);
+          }}
+          containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
         />
       </View>
       <ImageBackground
@@ -131,13 +143,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10
   },
-  
+
   subHeader: {
-    backgroundColor : "#2089dc",
-    color : "white",
-    textAlign : "center",
-    paddingVertical : 5,
-    marginBottom : 10
+    backgroundColor: "#2089dc",
+    color: "white",
+    textAlign: "center",
+    paddingVertical: 5,
+    marginBottom: 10
   }
-    
+
 });

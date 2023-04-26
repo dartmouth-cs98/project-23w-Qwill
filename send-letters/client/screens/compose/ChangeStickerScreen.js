@@ -10,20 +10,37 @@ import ThemePreview from '../../components/ThemePreview';
 
 const screenWidth = Dimensions.get('window').width;
 
-const ChangeStickerScreen = ({navigation, route}) => {
-
+const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const { selectedStickerId, callbackId } = route.params;
+
+  function getCallbackFunction(callbackId) {
+    switch (callbackId) {
+      case handleStickerSelectedId:
+        return handleStickerSelected;
+      default:
+        return null;
+    }
+  }
+
+  const { onStickerSelected } = route.params;
+
+  function selectSticker(sticker) {
+    // call the onStickerSelected function passed from the parent with the selected sticker ID and sticker object
+    route.params.onStickerSelected(sticker.id, sticker);
+  }  
+  
 
   useEffect(() => {
     if (route.params) {
       const { recipientID, recipientUsername } = route.params;
-      setLetterInfo({...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername});
+      setLetterInfo({ ...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername });
     }
   }, [route.params]);
 
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.
-    setLetterInfo({...letterInfo, themeID: selectedTheme});
+    setLetterInfo({ ...letterInfo, themeID: selectedTheme });
     navigation.goBack(null);
   };
 
@@ -35,7 +52,7 @@ const ChangeStickerScreen = ({navigation, route}) => {
         recipientID: "",
         recipientUsername: "",
         themeID: "",
-        fontID: "" 
+        fontID: ""
       });
     }
     // navigation.replace('NavBar', {
@@ -48,27 +65,32 @@ const ChangeStickerScreen = ({navigation, route}) => {
   };
 
   // Get the list of themes from the images index under assets
-  const themesList = Object.keys(images.themes);
+  const stickers = Object.keys(images.stickers);
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
-          <Ionicons name={"arrow-back"} size={40}/>
+    <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
+      <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
+        <TouchableOpacity onPress={() => composeStackGoBack(navigation, selectThemeGoBack)}>
+          <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
       </View>
-      <View style={{ flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Text style={styles.titleText}>Compose</Text>
       </View>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
-        <ScrollView 
+        <Text style={styles.selectTitleText}>Select a sticker</Text>
+        <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
         >
-            {themesList.map((theme) => {
+          {/* {stickers.map(sticker => (
+            <TouchableOpacity key={sticker.id} onPress={() => selectSticker(sticker.id)}>
+              <Image source={{ uri: sticker.image }} style={styles.sticker} />
+            </TouchableOpacity>
+          ))} */}
+          {stickers.map((sticker) => {
             return (
-              <ThemePreview key={theme} themeName={theme} imageSource={images.themes[theme]} onPress={() => handleNextPressed(theme)}/>
+              <ThemePreview key={sticker} stickerName={sticker} imageSource={images.stickers[sticker]} onPress={() => selectSticker(sticker)} />
             );
           })}
           {/* <ThemePreview themeName="Stars" imageSource={} onPress={handleNextPressed}></ThemePreview> */}
@@ -82,16 +104,13 @@ export default ChangeStickerScreen;
 
 const styles = StyleSheet.create({
   themeContainer: {
-    // width: 500,
-    // height: 585,
-    // backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop:20,
+    borderRadius: 20,
+    marginTop: 20,
     flex: 1,
     alignItems: 'center'
   },
   titleText: {
-    fontSize: 50, 
+    fontSize: 50,
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,
@@ -102,15 +121,15 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "400",
     justifyContent: "center",
-    textAlign: 'center', 
+    textAlign: 'center',
     marginTop: 15
   },
   shadow: {
     shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
+    shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-  }, 
+  },
   scrollView: {
     width: screenWidth
   },

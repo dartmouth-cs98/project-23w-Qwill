@@ -5,20 +5,20 @@ import { Image } from 'react-native-elements';
 
 const screenWidth = Dimensions.get('window').width;
 
-const ThemePreview = props => {
+
+const StickerPreview = props => {
   return (
     <TouchableOpacity
       style={styles.containerTheme}
       onPress={props.onPress}
     >
       <View style={{flexDirection: 'row'}}>
-        {/* <Text style={styles.text}>{props.themeName}</Text> */}
         <Image 
           style={styles.theme}
           source={props.imageSource}
         />
         <View style={styles.titleContainer}>
-          <Text style={styles.themeNameText}>{props.themeName}</Text>
+          <Text style={styles.themeNameText}>{props.stickerName}</Text>
         </View>
         
       </View>
@@ -45,11 +45,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     height: 180,
     width: screenWidth*.5,
-    // justifyContent: "center",
-    // justifyContent: 'center', //Centered horizontally
-    // alignItems: 'center', //Centered vertically
-    // flex:1
-    // textAlignVertical: "center"
   },
   themeNameText: {
     fontSize: 30, 
@@ -57,8 +52,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 1,
     marginTop: 75
-    // textAlign: "center",
   }
 });
-
-export default ThemePreview;
+export default StickerPreview;
