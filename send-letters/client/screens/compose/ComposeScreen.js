@@ -88,7 +88,7 @@ function ComposeScreen({ navigation, route }) {
       </View>
       <ImageBackground
         resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%' }}
+        style={{ flex: 1, width: '100%', height: '95%'}}
         source={images.themes[letterInfo.themeID]}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={{ flex: 1 }}>
