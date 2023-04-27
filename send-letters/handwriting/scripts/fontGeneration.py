@@ -1,6 +1,13 @@
 import fontforge
 import os
 
+"""
+This script generates a .ttf font from a directory of .svg files
+Requirements:
+* the fontforge library installed
+* a directory of .svg files where each file is titles with the name of the unicode value for the character
+* a filler font utilized below to fill in all characters not included in the .svg file directory
+"""
 
 current_dir = "send-letters/handwriting/"
 
