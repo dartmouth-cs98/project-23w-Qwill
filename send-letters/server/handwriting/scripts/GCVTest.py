@@ -59,7 +59,7 @@ def display_texts(texts, image):
 	image.show()
 
 if __name__ == "__main__":
-	texts, image = detect_text("/Users/tommyrogers/Desktop/SendLetters/project-23w-send-letters/send-letters/handwriting/testfullclear2.png")
+	texts, image = detect_text("/Users/tommyrogers/Desktop/SendLetters/project-23w-send-letters/send-letters/server/handwriting/testfullclear2.png")
 	cut_texts(texts, image)
 
 	# display_texts(texts, image)
