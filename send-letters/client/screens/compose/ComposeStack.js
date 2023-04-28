@@ -2,16 +2,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SelectRecipientScreen from '../screens/compose/SelectRecipientScreen';
-import ComposeScreen from '../screens/compose/ComposeScreen';
-import PreviewScreen from '../screens/compose/PreviewScreen';
-import SelectFontScreen from '../screens/compose/SelectFontScreen';
-import SelectThemeScreen from '../screens/compose/SelectThemeScreen';
-import { ComposeContextProvider } from '../context/ComposeStackContext';
-import ChangeRecipientScreen from '../screens/compose/ChangeRecipientScreen';
-import ChangeFontScreen from '../screens/compose/ChangeFontScreen';
-import ChangeStickerScreen from '../screens/compose/ChangeStickerScreen';
-import ChangeThemeScreen from '../screens/compose/ChangeThemeScreen';
+import SelectRecipientScreen from './SelectRecipientScreen';
+import ComposeScreen from './ComposeScreen';
+import PreviewScreen from './PreviewScreen';
+import SelectFontScreen from './SelectFontScreen';
+import SelectThemeScreen from './SelectThemeScreen';
+import { ComposeContextProvider } from '../../context/ComposeStackContext';
+import ChangeRecipientScreen from './ChangeRecipientScreen';
+import ChangeFontScreen from './ChangeFontScreen';
+import ChangeStickerScreen from './ChangeStickerScreen';
+import ChangeThemeScreen from './ChangeThemeScreen';
 
 const Stack = createNativeStackNavigator();
 

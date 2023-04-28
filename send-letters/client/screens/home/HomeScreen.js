@@ -126,6 +126,7 @@ function HomeScreen({ navigation, route}) {
 
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
+        <View style={[styles.header, styles.shadowLight]}></View>
         <Image 
             style={{
               height: undefined, 
@@ -224,6 +225,18 @@ function HomeScreen({ navigation, route}) {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: "28%"
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
   emptyMailboxText: {
     fontFamily: 'JosefinSansBold',
     width: 150,
