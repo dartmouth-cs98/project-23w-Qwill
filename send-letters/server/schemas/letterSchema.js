@@ -28,6 +28,10 @@ const letterSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    stickers: {
+        type: Array,
+        required: true
+    },
     resetCode: "",
 }, {
     timestamps: true

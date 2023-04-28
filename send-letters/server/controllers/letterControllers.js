@@ -4,7 +4,7 @@ import Letter from "../schemas/letterSchema";
 
 export const makeLetter = async (req, res) => {
     try {
-        const { text, recipientID, themeID, fontID, senderID, status } = req.body;        
+        const { text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;        
 
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
@@ -35,6 +35,7 @@ export const makeLetter = async (req, res) => {
                 status: status,
                 theme: themeID,
                 font: fontID,
+                stickers: stickers
             }).save();
 
             return res.json({
@@ -162,7 +163,7 @@ export const updateLetterStatus = async (req, res) => {
 export const updateLetterInfo = async (req, res) => {    
     try {
         // get letterID and the new values for the letter
-        const { letterID, text, recipientID, themeID, fontID, senderID, status } = req.body;
+        const { letterID, text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;
 
         // check if our db has a letter with the ID of the recipient
         const letter = await Letter.findOne({
@@ -173,6 +174,8 @@ export const updateLetterInfo = async (req, res) => {
                 error: "No letter found with letterID",
             });
         }
+
+        console.log(stickers)
 
         // update the status of letter to archive
         try {
@@ -185,6 +188,7 @@ export const updateLetterInfo = async (req, res) => {
                     'recipient': recipientID,
                     'theme': themeID,
                     'font': fontID,
+                    'stickers': stickers
                 }
             );
     
