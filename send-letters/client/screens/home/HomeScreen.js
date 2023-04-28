@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Dimensions, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import React, { useState, useEffect, useContext} from 'react';
-import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
@@ -10,7 +8,6 @@ import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
 import { FlatList } from 'react-native';
-import { Image } from 'react-native-elements';
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -88,7 +85,7 @@ function HomeScreen({ navigation, route}) {
         <View key={index}
               style={{shadowOpacity: .1, 
                       shadowColor: "#000000",
-                      marginBottom: -hp('25%')}}>
+                      marginBottom: -hp('27%')}}>
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}
