@@ -100,30 +100,30 @@ function SelectRecipientScreen({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>handleGoBack()}>
+    <SafeAreaView style={styles.safeview}>
+      <View style={[styles.header, styles.shadowLight]}></View>
+      <View style={styles.backbutton}>
+        <TouchableOpacity style={styles.backIcon} onPress={()=>handleGoBack()}>
           <Ionicons name={"arrow-back"} size={40}/>
         </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row'}}>
-        <Text style={styles.titleText}>Compose</Text>
-      </View>
-      <View style={[styles.recipientsContainer]}>
         <Text style={styles.selectTitleText}>Select a recipient</Text>
-        <View style={styles.inputContainer}>
-          <Input 
-            placeholder="enter name or username"
-            autoCompleteType="email"
-            autoCapitalize="none"
-            onChangeText={handleChangeText}
-            inputContainerStyle={{borderBottomWidth:0, backgroundColor: 'white', height: 32, borderRadius: 5}}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
-          />
+      </View>
+      <View style={{alignSelf: "center"}}>
+        <View style={[styles.recipientsContainer]}>
+          <View style={styles.inputContainer}>
+            <Input 
+              placeholder="enter name or username"
+              autoCompleteType="email"
+              autoCapitalize="none"
+              onChangeText={handleChangeText}
+              inputContainerStyle={{borderBottomWidth:0, backgroundColor: 'white', height: 32, borderRadius: 5}}
+              leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
+            />
+          </View>
+          <View>
+            {renderMatches()}
+          </View>     
         </View>
-        <View>
-          {renderMatches()}
-        </View>     
       </View>
     </SafeAreaView>
   );

@@ -9,18 +9,20 @@ const PendingFriendButton = (props) => {
 
     return (
         <View style={styles.outerView}>
-            <View style={styles.friendCircle} title={item.username}>
-                <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
+            <View style={{flexDirection: "row"}}>
+                <View style={styles.friendCircle} title={item.username}>
+                    <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
+                </View>
+                <View>
+                    <Text style={{textAlign: 'left', fontSize: 11, marginTop: 10, fontWeight: '600'}}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
+                </View>
             </View>
-            <View>
-                <Text style={{textAlign: 'left', fontSize: 12}}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
-            </View>
-            <View>
+            <View style={{flexDirection: "row", position: "relative", top: -45, left: 100}}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onAcceptPressed}>
-                    <Text>Accept</Text>
+                    <Text style={styles.adText}>Accept</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onDeclinePressed}>
-                    <Text>Decline</Text>
+                    <Text style={styles.adText}>Decline</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -35,9 +37,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.friendsButtonBackground,
         marginVertical: '1.5%',
         padding: '3%',
-        flexDirection:'row',
-        borderRadius: '40%',
-        width: screenWidth/1.25,
+        // flexDirection:'row',
+        borderRadius: 20,
+        width: "80%",
+        aspectRatio: 3
     },
     friendCircle: {
         height: 70,
@@ -58,13 +61,19 @@ const styles = StyleSheet.create({
         fontWeight: "600"
     },
     sendInviteButton: {
-        height: 40,
-        width: 70,
-        borderRadius: 5,
+        height: 35,
+        width: 80,
+        borderRadius: 20,
         backgroundColor: COLORS.white,
-        marginTop: 5,
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 8,
+        marginRight: 8,
         marginBottom: 10,
+        justifyContent: "center",
     },
+    adText: {
+        fontSize: 12,
+        fontWeight: "500",
+        color: "#7184B4",
+        textAlign: "center"
+    }
 });

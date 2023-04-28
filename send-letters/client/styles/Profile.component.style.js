@@ -3,11 +3,18 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 // Separating styles from component code src: https://www.reactnative.guide/8-styling/8.3-separating-styles-from-component.html
 
 export default StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: "14%"
+  },
   backbutton: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
     marginLeft: wp('3%'),
     justifyContent: 'center',
+    marginTop: wp('2%'),
   },
   button: {
     width: wp('46.5%'),
@@ -72,16 +79,23 @@ export default StyleSheet.create({
   },
   selectTitleText: {
     marginBottom: hp('4%'),
-    fontSize: wp('8%'),
-    fontWeight: '400',
+    fontSize: wp('9%'),
+    fontWeight: 'bold',
     justifyContent: 'center',
     textAlign: 'center',
+    marginLeft: wp('3%')
   },
   shadow: {
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
   },
   titleText: {
     marginTop: 7,
@@ -97,5 +111,7 @@ export default StyleSheet.create({
     top: hp('8%'), // (72/932) * 100% ≈ 7.73% of screen height
     left: wp('4%'), // (18/430) * 100% ≈ 4.19% of screen width
   },
-
+  backIcon: {
+    marginTop: wp('.0%')
+  },
 });

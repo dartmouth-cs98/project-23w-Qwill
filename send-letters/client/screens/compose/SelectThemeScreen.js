@@ -7,6 +7,7 @@ import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
+import styles from '../../styles/Profile.component.style';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -51,17 +52,15 @@ const SelectThemeScreen = ({navigation, route}) => {
   const themesList = Object.keys(images.themes);
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
+    <SafeAreaView style={styles.safeview}>
+      <View style={[styles.header, styles.shadowLight]}></View>
+      <View style={styles.backbutton}>
+        <TouchableOpacity style={styles.backIcon} onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
           <Ionicons name={"arrow-back"} size={40}/>
         </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row'}}>
-        <Text style={styles.titleText}>Compose</Text>
+        <Text style={styles.selectTitleText}>Select a theme</Text>
       </View>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
         <ScrollView 
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
@@ -79,42 +78,3 @@ const SelectThemeScreen = ({navigation, route}) => {
 };
 
 export default SelectThemeScreen;
-
-const styles = StyleSheet.create({
-  themeContainer: {
-    // width: 500,
-    // height: 585,
-    // backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop:20,
-    flex: 1,
-    alignItems: 'center'
-  },
-  titleText: {
-    fontSize: 50, 
-    fontFamily: 'JosefinSansBold',
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: "center",
-    // marginLeft: -60
-  },
-  selectTitleText: {
-    fontSize: 35,
-    fontWeight: "400",
-    justifyContent: "center",
-    textAlign: 'center', 
-    marginTop: 15
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  }, 
-  scrollView: {
-    width: screenWidth
-  },
-  scrollViewContainer: {
-    alignItems: "center"
-  }
-});

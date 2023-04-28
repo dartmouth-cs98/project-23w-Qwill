@@ -23,23 +23,17 @@ const SelectFontScreen = ({ navigation }) => {
   }
 
   return (
-    //<SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
     <SafeAreaView style={styles.safeview}>
+      <View style={[styles.header, styles.shadowLight]}></View>
       <View style={styles.backbutton}>
         <TouchableOpacity onPress={() => composeStackGoBack(navigation, selectFontGoBack)}>
           <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
-        <View style={styles.composeContainer}>
-          <Text style={styles.titleText}>Compose</Text>
-        </View>
+        <Text style={styles.selectTitleText}>Select a font</Text>
       </View>
-      {/* <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.titleText}>Compose</Text>
-      </View> */}
       <View style={styles.fontsContainer}>
         <View style={{ flexDirection: "row" }}>
           <FlatList
-            ListHeaderComponent={<Text style={styles.selectTitleText}> Select a font </Text>}
             contentContainerStyle={{ justifyContent: 'center' }}
             data={fontData}
             numColumns={3}

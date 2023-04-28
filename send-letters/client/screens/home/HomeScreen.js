@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Dimensions, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import React, { useState, useEffect, useContext} from 'react';
+import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
@@ -8,6 +10,7 @@ import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
 import { FlatList } from 'react-native';
+import { Image } from 'react-native-elements';
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -125,10 +128,20 @@ function HomeScreen({ navigation, route}) {
   }, [isFocused]);
 
     return (
-      <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
+      <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
+        <Image 
+            style={{
+              height: undefined, 
+              width: '60%',
+              aspectRatio: 4,
+              resizeMode: "contain",
+              marginBottom: 15
+            }}
+            source={require('../../assets/logo.png')}
+          />
         <View style={{ flexDirection:"row"}}>
-            <ButtonPrimary selected={true} title={"Mailbox"}/>
-            <ButtonPrimary 
+          <ButtonPrimary selected={true} title={"Mailbox"}/>
+          <ButtonPrimary 
               selected={false} 
               title={"Drafts"} 
               onPress={() => navigation.navigate('Drafts')}/>

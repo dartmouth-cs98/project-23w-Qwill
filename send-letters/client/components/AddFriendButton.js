@@ -23,7 +23,7 @@ const AddFriendButton = (props) => {
                 <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
             </View>
             <View style={{marginLeft: "4%", marginTop: "1%"}}>
-                <Text style={{textAlign: 'left', fontSize: 12, fontWeight: 'bold'}}>{(item.username).replace(/["]/g, '')}</Text>
+                <Text style={{textAlign: 'left', fontSize: 12, fontWeight: '600'}}>{(item.username).replace(/["]/g, '')}</Text>
                 <Text style={{textAlign: 'left', fontSize: 11, color: "#7184B4"}}>{"Already on Qwill"}</Text>
             </View>
             <View style={{marginLeft: "20%"}}>

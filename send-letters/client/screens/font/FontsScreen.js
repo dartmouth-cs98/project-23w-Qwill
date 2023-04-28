@@ -1,9 +1,10 @@
-import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
 import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import fontData from '../../assets/fontData';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -18,29 +19,22 @@ const normalize = (size) => {
 const FontsScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
+      <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <Text style={styles.titleText}>Fonts</Text>
-        <ButtonCircle icon="pencil"></ButtonCircle>
+        {/* <ButtonCircle icon="pencil"></ButtonCircle> */}
+        <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
+          <Ionicons name="pencil-outline" size={normalize(40)} ></Ionicons>
+        </TouchableOpacity>
       </View>
-      <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
+      <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: normalize(12) }}>Custom Fonts</Text>
+        <Text style={{fontSize: normalize(12),}}>Custom Fonts</Text>
         <View style={styles.line}></View>
       </View>
       <View style={styles.noCustom}>
         <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-        {/* <Text style={{ textAlign: "center", textDecorationLine: 'underline', marginTop: 20 }}>Add a custom font</Text> */}
-        {/* <ButtonPrimary
-          selected={false}
-          title={"Add Font By Camera"}
-          onPress={() =>{navigation.navigate("CameraScreen")}}
-        />
-        <ButtonPrimary
-          selected={false}
-          title={"Add Font By Image..."}
-          onPress={() =>{navigation.navigate("ImagePickerScreen")}}
-        /> */}
-        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("CameraScreen")}}>Add Custom Font</Text>
+        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
         <View style={styles.line}></View>
@@ -67,6 +61,18 @@ const FontsScreen = ({navigation}) => {
 export default FontsScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: "20%"
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
   titleText: {
     fontFamily: 'JosefinSansBold',
     fontSize: normalize(50),
@@ -105,6 +111,9 @@ const styles = StyleSheet.create({
     fontSize: normalize(24),
     fontWeight: 'bold',
     color: 'white',
+  },
+  btn: {
+    width: "18%",
   },
 });
 

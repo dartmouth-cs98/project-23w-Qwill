@@ -2,8 +2,9 @@ import { ButtonGroup } from '@rneui/themed';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { Snackbar } from 'react-native-paper';
-import { Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
@@ -70,17 +71,24 @@ function ComposeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ButtonGroup
-      buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-      onPress={(value) => {
-        handlePress(value);
-      }}
-      containerStyle={{ marginBottom: 20 }}
-    />
-      <Text style={styles.titleText}>Write your Letter!</Text>
+      <View style={{flexDirection: "row", alignSelf: "center"}}>
+        <View style={{alignContent: "flex-start"}}>
+          {/* Wrong function for goBack */}
+          <TouchableOpacity>
+            <Ionicons name={"close-outline"} size={40}/>
+          </TouchableOpacity>
+        </View>
+        <ButtonGroup
+        buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+        onPress={(value) => {
+          handlePress(value);
+        }}
+        containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10}}
+        />
+      </View>
       <ImageBackground
         resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%' }}
+        style={{ flex: 1, width: '100%', height: '95%'}}
         source={images.themes[letterInfo.themeID]}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={{ flex: 1 }}>
@@ -124,12 +132,12 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   
-    subHeader: {
-      backgroundColor : "#2089dc",
-      color : "white",
-      textAlign : "center",
-      paddingVertical : 5,
-      marginBottom : 10
-    }
+  subHeader: {
+    backgroundColor : "#2089dc",
+    color : "white",
+    textAlign : "center",
+    paddingVertical : 5,
+    marginBottom : 10
+  }
     
 });
