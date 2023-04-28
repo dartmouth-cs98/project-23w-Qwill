@@ -9,7 +9,7 @@ Requirements:
 * a filler font utilized below to fill in all characters not included in the .svg file directory
 """
 
-current_dir = "send-letters/handwriting/"
+current_dir = "send-letters/server/handwriting/"
 
 # Set output file names
 output_ttf= current_dir + "Qwill-font-test.ttf"

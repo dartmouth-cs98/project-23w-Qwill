@@ -14,7 +14,8 @@ const ComposeContextProvider = ({ children }) => {
         recipientID: "",
         recipientUsername: "",
         themeID: "",
-        fontID: ""
+        fontID: "",
+        stickers: [],
     });
 
     return (

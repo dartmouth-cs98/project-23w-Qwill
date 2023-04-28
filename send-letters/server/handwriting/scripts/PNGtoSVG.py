@@ -8,7 +8,7 @@ It utilizes the subprocess, os, shutil, and potrace libraries to make calls to t
 The general flow requires initial conversion from a .png to a .pnm file and then from a .pnm to a .svg file.
 """
 
-current_dir = "send-letters/handwriting/"
+current_dir = "send-letters/server/handwriting/"
 
 # Create a temporary folder for all the pnm files
 pnm_directory = current_dir + "pnm_files"

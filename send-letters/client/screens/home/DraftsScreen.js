@@ -59,7 +59,8 @@ function DraftsScreen({ navigation }) {
       recipientID: item.recipient,
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
-      fontID: item.font
+      fontID: item.font,
+      stickers: item.stickers
     });
     navigation.navigate('NavBar', {
       screen: 'Compose',

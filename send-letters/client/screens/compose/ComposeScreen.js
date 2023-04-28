@@ -39,7 +39,8 @@ function ComposeScreen({ navigation, route }) {
     if (value == 1) {navigation.navigate('ChangeFontScreen');}
     if (value == 2) {navigation.navigate('ChangeThemeScreen');}
     if (value == 3) {navigation.navigate('ChangeStickerScreen');}
-  }
+  };
+
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
@@ -64,7 +65,7 @@ function ComposeScreen({ navigation, route }) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const handleExitPressed = () => {
     navigation.replace('NavBar', 
