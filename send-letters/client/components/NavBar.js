@@ -7,7 +7,7 @@ import HomeStack from '../components/HomeStack';
 import FontsStack from '../components/FontsStack';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
-import ComposeStack from './ComposeStack';
+import ComposeStack from '../screens/compose/ComposeStack';
 
 import { ComposeContextProvider } from '../context/ComposeStackContext';
 
