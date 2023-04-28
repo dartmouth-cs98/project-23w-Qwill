@@ -27,35 +27,24 @@ function ComposeScreen({ navigation, route }) {
     // Use the stickerid in your ComposeScreen component
   }, [route.params]);
 
-
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
   // function that updates the letter context and also saves the letter as a draft on the server
   const handleTextChange = (text) => {
     setLetterInfo({ ...letterInfo, text: text, status: "draft" });
-
     reqBody = letterInfo;
     reqBody["text"] = text;  // have to update text since context not yet updated
     reqBody["status"] = "draft";
     updateBackend(reqBody);
   };
-  function handleStickerSelected(id, sticker) {
-    setSelectedStickerId(id);
-    setSticker(sticker);
-  }
 
   const handlePress = (value) => {
     setSelectedIndex(value);
     if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
     if (value == 1) { navigation.navigate('ChangeFontScreen'); }
     if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-    if (value == 3) {
-      navigation.navigate('ChangeStickerScreen');
-      // ComposeScreen.js
-      // const stickerid = navigation.getParam(selectedStickerID, 0);
-        // Use the stickerid in your ComposeScreen component
-    }
+    if (value == 3) { navigation.navigate('ChangeStickerScreen'); }
   }
   const updateBackend = async (reqBody) => {
     try {

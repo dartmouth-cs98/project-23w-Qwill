@@ -12,28 +12,10 @@ const screenWidth = Dimensions.get('window').width;
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
-  // const { selectedStickerId, callbackId } = route.params;
-
-  // function getCallbackFunction(callbackId) {
-  //   switch (callbackId) {
-  //     case handleStickerSelectedId:
-  //       return handleStickerSelected;
-  //     default:
-  //       return null;
-  //   }
-  // }
-
-  // const { onStickerSelected } = route.params;
-
-  // function selectSticker(sticker) {
-  //   // call the onStickerSelected function passed from the parent with the selected sticker ID and sticker object
-  //   route.params.onStickerSelected(sticker.id, sticker);
-  // }  
-  
-
+ 
   // ChangeStickerScreen.js
   onStickerSelect = (stickerid) => {
-    this.props.navigation.navigate('ComposeScreen', {
+    navigation.navigate('ComposeScreen', {
       selectedStickerID: stickerid,
     });
   };
