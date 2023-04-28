@@ -36,15 +36,10 @@ const SelectThemeScreen = ({navigation, route}) => {
         recipientID: "",
         recipientUsername: "",
         themeID: "",
-        fontID: "" 
+        fontID: "",
+        stickers: []
       });
     }
-    // navigation.replace('NavBar', {
-    //     screen: 'Compose', 
-    //     params: {
-    //         screen: 'SelectRecipient'
-    //     }
-    // });
     navigation.goBack();
   };
 
