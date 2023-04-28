@@ -24,6 +24,7 @@ const SelectFontScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeview}>
+      <View style={[styles.header, styles.shadowLight]}></View>
       <View style={styles.backbutton}>
         <TouchableOpacity onPress={() => composeStackGoBack(navigation, selectFontGoBack)}>
           <Ionicons name={"arrow-back"} size={40} />

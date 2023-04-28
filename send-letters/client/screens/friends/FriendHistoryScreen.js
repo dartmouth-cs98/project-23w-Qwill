@@ -72,7 +72,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, marginTop: 20 }}>
-      
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity style={{marginLeft: "5%"}}onPress={() => { navigation.goBack() }}>
           <Ionicons name="arrow-back" size={40} />
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     borderBottomColor: COLORS.blue400,
-    borderBottomWidth: StyleSheet.hairlineWidth*2,
+    borderBottomWidth: StyleSheet.hairlineWidth*3,
     width: "90%",
     alignSelf: 'center'
   },
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
   verticalLine: {
     position: "absolute",
     top: windowHeight*.2,
-    width: StyleSheet.hairlineWidth*2,
+    width: StyleSheet.hairlineWidth,
     height: windowHeight*.8,
     alignSelf: "center",
     backgroundColor: COLORS.blue400,

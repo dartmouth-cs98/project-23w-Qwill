@@ -29,8 +29,11 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
 
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.
-    setLetterInfo({ ...letterInfo, themeID: selectedTheme });
-    navigation.goBack(null);
+
+    // setLetterInfo({...letterInfo, themeID: selectedTheme});
+    console.log(theme)
+    navigation.goBack();
+
   };
 
   const selectThemeGoBack = () => {
@@ -41,15 +44,11 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
         recipientID: "",
         recipientUsername: "",
         themeID: "",
-        fontID: ""
+        fontID: "",
+        stickers: []
+
       });
     }
-    // navigation.replace('NavBar', {
-    //     screen: 'Compose', 
-    //     params: {
-    //         screen: 'SelectRecipient'
-    //     }
-    // });
     navigation.goBack();
   };
 

@@ -41,11 +41,11 @@ function ComposeScreen({ navigation, route }) {
 
   const handlePress = (value) => {
     setSelectedIndex(value);
-    if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
-    if (value == 1) { navigation.navigate('ChangeFontScreen'); }
-    if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-    if (value == 3) { navigation.navigate('ChangeStickerScreen'); }
-  }
+    if (value == 0) {navigation.navigate('ChangeRecipientScreen');}
+    if (value == 1) {navigation.navigate('ChangeFontScreen');}
+    if (value == 2) {navigation.navigate('ChangeThemeScreen');}
+    if (value == 3) {navigation.navigate('ChangeStickerScreen');}
+  };
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
@@ -70,7 +70,7 @@ function ComposeScreen({ navigation, route }) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const handleNextPressed = () => {
     navigation.push('Preview');
@@ -95,7 +95,7 @@ function ComposeScreen({ navigation, route }) {
       </View>
       <ImageBackground
         resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%' }}
+        style={{ flex: 1, width: '100%', height: '95%'}}
         source={images.themes[letterInfo.themeID]}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={{ flex: 1 }}>
