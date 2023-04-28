@@ -18,8 +18,6 @@ function PreviewScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
-  console.log(letterInfo);
-
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -54,7 +52,8 @@ function PreviewScreen({ navigation }) {
           recipientID: "",
           themeID: "",
           recipientUsername: "",
-          fontID: ""
+          fontID: "",
+          stickers: []
         });
         navigation.replace('NavBar', 
           { screen: 'Home',
@@ -78,6 +77,7 @@ function PreviewScreen({ navigation }) {
         message:
           'This is Qwill',
       });
+      // keep this for now
       // if (result.action === Share.sharedAction) {
       //   if (result.activityType) {
       //     // shared with activity type of result.activityType

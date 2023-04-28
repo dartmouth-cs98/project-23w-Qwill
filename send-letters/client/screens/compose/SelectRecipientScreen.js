@@ -31,7 +31,8 @@ function SelectRecipientScreen({navigation}) {
       recipientID: "",
       recipientUsername: "",
       themeID: "",
-      fontID: "" 
+      fontID: "",
+      stickers: []
     });
     if (navigation.canGoBack()) {
       navigation.goBack();
