@@ -2,7 +2,7 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions, FlatList} from 'react-native';
 import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
@@ -43,7 +43,6 @@ const SelectThemeScreen = ({navigation, route}) => {
     navigation.goBack();
   };
 
-  // Get the list of themes from the images index under assets
   const themesList = Object.keys(images.themes);
 
   return (
@@ -55,21 +54,25 @@ const SelectThemeScreen = ({navigation, route}) => {
         </TouchableOpacity>
         <Text style={styles.selectTitleText}>Select a theme</Text>
       </View>
-      <View style={styles.themeContainer}>
-        <ScrollView 
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollViewContainer}
-        >
-            {themesList.map((theme) => {
-            return (
-              <ThemePreview key={theme} themeName={theme} imageSource={images.themes[theme]} onPress={() => handleNextPressed(theme)}/>
-            );
-          })}
-          {/* <ThemePreview themeName="Stars" imageSource={} onPress={handleNextPressed}></ThemePreview> */}
-        </ScrollView>
-      </View>
+      <FlatList
+        style={styles.scrollView}
+        contentContainerStyle={{}}
+        data={themesList}
+        numColumns={2}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <View style={{marginBottom: "6%"}}>
+            <ThemePreview
+              key={item}
+              themeName={item}
+              imageSource={images.themes[item]}
+              onPress={() => handleNextPressed(item)}
+            />
+          </View>
+        )}
+      />
     </SafeAreaView>
-  )
+  );
 };
 
 export default SelectThemeScreen;

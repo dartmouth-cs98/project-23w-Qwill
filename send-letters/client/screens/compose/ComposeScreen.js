@@ -10,6 +10,7 @@ import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
 import React, { useState, useContext, useEffect } from 'react'
 
+import ToolBarComponent from '../../components/ToolBarComponent';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -72,25 +73,47 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
+  const handleExitPressed = () => {
+    navigation.replace('NavBar', 
+          { screen: 'Home',
+            params: {
+              screen: 'Mailbox', 
+              params: {
+              }
+            }
+          }
+        );
+  }
+
   const handleNextPressed = () => {
     navigation.push('Preview');
   };
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
-        <View style={{ alignContent: "flex-start" }}>
+      <View style={{flexDirection: "row", alignSelf: "center", marginBottom: 10}}>
+        <View style={{alignContent: "flex-start"}}>
           {/* Wrong function for goBack */}
-          <TouchableOpacity>
-            <Ionicons name={"close-outline"} size={40} />
+          <TouchableOpacity style={{marginTop: 5}}>
+            <Ionicons name={"close-outline"} onPress={handleExitPressed} size={40}/>
           </TouchableOpacity>
         </View>
         <ButtonGroup
-          buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-          onPress={(value) => {
-            handlePress(value);
-          }}
-          containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
+        // buttons={
+        //   ['Recipient', 
+        //   'Font', 
+        //   'Theme', 
+        //   'Sticker']}
+        buttons={[
+          <ToolBarComponent text={"Recipient"} icon={"person-outline"}/>,
+          <ToolBarComponent text={"Font"} icon={"person-outline"}/>,
+          <ToolBarComponent text={"Theme"} icon={"clipboard-outline"}/>,
+          <ToolBarComponent text={"Stickers"} icon={"happy-outline"}/>
+        ]}
+        onPress={(value) => {
+          handlePress(value);
+        }}
+        containerStyle={{backgroundColor: "#E2E8F6", width: "80%", aspectRatio: 8, borderRadius: 10}}
         />
       </View>
       <ImageBackground
