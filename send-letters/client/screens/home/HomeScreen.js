@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Dimensions, Image } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
+import { FlatList } from 'react-native';
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -80,9 +82,13 @@ function HomeScreen({ navigation, route}) {
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
-        <View key={index}>
+        <View key={index}
+              style={{shadowOpacity: .1, 
+                      shadowColor: "#000000",
+                      marginBottom: -hp('25%')}}>
           <LetterForCarousel
             letterStatus={item.status}
+            letterFont={item.font}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={userInfo.user.name}
@@ -132,7 +138,7 @@ function HomeScreen({ navigation, route}) {
 
         <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: windowWidth}} >
           <ImageBackground
-            source={require('../../assets/mailboxempty.png')}
+            source={mail.length < 2 ? require('../../assets/mailbox2.png') : {uri: 'https://commons.wikimedia.org/wiki/File:Empty.png'}}
             style={{
               flex: 1,
               alignContent: 'center',
@@ -160,6 +166,7 @@ function HomeScreen({ navigation, route}) {
                 <View style={{flex: 1, alignItems: 'center'}}>
                   <LetterForCarousel
                     letterStatus={mail[0].status}
+                    letterFont={mail[0].font}
                     sender={mail[0].senderInfo.name}
                     senderAddress={0}
                     recipient={userInfo.user.name}
@@ -171,9 +178,20 @@ function HomeScreen({ navigation, route}) {
               <>
                 <View style={{flex: 0}}/>
                 <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
-                  <LetterCarousel 
+                  <FlatList
                     data={mail}
-                    renderItem={renderItem}/>
+                    renderItem={renderItem}
+                    ListFooterComponent={
+                    <Image 
+                      resizeMode="contain" 
+                      style={{
+                        width: wp('100%'),
+                        marginTop: hp('25%'),
+                        marginBottom: -hp('15%')
+                      }} 
+                      source={require('../../assets/mailbox2.png')}>
+                    </Image>}
+                    ListFooterComponentStyle={{width: wp('100%')}}/>
                 </View>
               </>) 
             }
