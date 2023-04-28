@@ -23,7 +23,7 @@ const FontsScreen = ({navigation}) => {
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <Text style={styles.titleText}>Fonts</Text>
         {/* <ButtonCircle icon="pencil"></ButtonCircle> */}
-        <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
+        <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
           <Ionicons name="pencil-outline" size={normalize(40)} ></Ionicons>
         </TouchableOpacity>
       </View>

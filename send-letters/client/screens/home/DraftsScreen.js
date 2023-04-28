@@ -83,7 +83,6 @@ function DraftsScreen({ navigation }) {
     if (drafts.length == 0) {
       return <Text style={{textAlign:'center'}}>No drafts found</Text>
     }
-
     return (
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <FlatList
@@ -105,28 +104,44 @@ function DraftsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
-    <Image 
-        style={{
-          height: undefined, 
-          width: '60%',
-          aspectRatio: 4,
-          resizeMode: "contain",
-          marginBottom: 15
-        }}
-        source={require('../../assets/logo.png')}
-      />
-    <View style={{ flexDirection:"row"}}>
-      <ButtonPrimary selected={false} title={"Mailbox"} onPress={() => navigation.navigate('Mailbox')}/>
-      <ButtonPrimary 
-          selected={true} 
-          title={"Drafts"} 
-          onPress={() => navigation.navigate('Drafts')}/>
-    </View>
-      <View>
-        {renderDrafts()}
+      <View style={[styles.header, styles.shadowLight]}></View>
+      <Image 
+          style={{
+            height: undefined, 
+            width: '60%',
+            aspectRatio: 4,
+            resizeMode: "contain",
+            marginBottom: 15
+          }}
+          source={require('../../assets/logo.png')}
+        />
+      <View style={{ flexDirection:"row", marginBottom: 30}}>
+        <ButtonPrimary selected={false} title={"Mailbox"} onPress={() => navigation.navigate('Mailbox')}/>
+        <ButtonPrimary 
+            selected={true} 
+            title={"Drafts"} 
+            onPress={() => navigation.navigate('Drafts')}/>
       </View>
+        <View>
+          {renderDrafts()}
+        </View>
     </SafeAreaView>
   );
 };
 
 export default DraftsScreen;
+
+const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: "28%"
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
+})
