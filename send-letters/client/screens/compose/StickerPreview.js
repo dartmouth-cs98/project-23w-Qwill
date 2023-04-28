@@ -5,24 +5,23 @@ import { Image } from 'react-native-elements';
 
 const screenWidth = Dimensions.get('window').width;
 
-const ThemePreview = props => {
+
+const StickerPreview = props => {
   return (
     <TouchableOpacity
-      style={{}}
+      style={styles.containerTheme}
       onPress={props.onPress}
     >
-      {/* <View style={{flexDirection: 'row'}}> */}
-        {/* <Text style={styles.text}>{props.themeName}</Text> */}
+      <View style={{flexDirection: 'row'}}>
         <Image 
           style={styles.theme}
           source={props.imageSource}
         />
-        <Text style={styles.themeNameText}>{props.themeName}</Text>
-        {/* <View style={styles.titleContainer}>
-          <Text style={styles.themeNameText}>{props.themeName}</Text>
-        </View> */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.themeNameText}>{props.stickerName}</Text>
+        </View>
         
-      {/* </View> */}
+      </View>
     </TouchableOpacity>
   );
 };
@@ -41,26 +40,18 @@ const styles = StyleSheet.create({
     height: undefined, 
     width: screenWidth*.45,
     aspectRatio: 1,
-    resizeMode: "contain",
-    // marginBottom: "15%"
+    resizeMode: "contain"
   },
   titleContainer: {
     height: 180,
     width: screenWidth*.5,
-    // justifyContent: "center",
-    // justifyContent: 'center', //Centered horizontally
-    // alignItems: 'center', //Centered vertically
-    // flex:1
-    // textAlignVertical: "center"
   },
   themeNameText: {
-    fontSize: 18, 
+    fontSize: 30, 
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,
-    textAlign: "center",
-    marginTop: "8%"
+    marginTop: 75
   }
 });
-
-export default ThemePreview;
+export default StickerPreview;

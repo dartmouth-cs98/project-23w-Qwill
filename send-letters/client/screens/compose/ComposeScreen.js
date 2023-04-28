@@ -3,13 +3,13 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { Snackbar } from 'react-native-paper';
 import { Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+
 import ToolBarComponent from '../../components/ToolBarComponent';
 
 function ComposeScreen({ navigation, route }) {
@@ -19,14 +19,21 @@ function ComposeScreen({ navigation, route }) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
-  
+  // const handleStickerSelectedId = 'onStickerSelected';
+  const [selectedStickerId, setSelectedStickerId] = useState(null);
+  const [sticker, setSticker] = useState(null);
+
+  useEffect(() => {
+    const stickerid = route.params?.selectedStickerID || 'default_value';
+    // Use the stickerid in your ComposeScreen component
+  }, [route.params]);
+
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
   // function that updates the letter context and also saves the letter as a draft on the server
   const handleTextChange = (text) => {
     setLetterInfo({ ...letterInfo, text: text, status: "draft" });
-
     reqBody = letterInfo;
     reqBody["text"] = text;  // have to update text since context not yet updated
     reqBody["status"] = "draft";
@@ -40,7 +47,6 @@ function ComposeScreen({ navigation, route }) {
     if (value == 2) {navigation.navigate('ChangeThemeScreen');}
     if (value == 3) {navigation.navigate('ChangeStickerScreen');}
   };
-
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
@@ -155,13 +161,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10
   },
-  
+
   subHeader: {
-    backgroundColor : "#2089dc",
-    color : "white",
-    textAlign : "center",
-    paddingVertical : 5,
-    marginBottom : 10
+    backgroundColor: "#2089dc",
+    color: "white",
+    textAlign: "center",
+    paddingVertical: 5,
+    marginBottom: 10
   }
-    
+
 });

@@ -1,8 +1,6 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
-import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { Text, View, ScrollView, Dimensions } from 'react-native';
 import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
