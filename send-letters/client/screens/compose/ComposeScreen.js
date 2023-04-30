@@ -3,7 +3,7 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Image, Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
@@ -13,14 +13,23 @@ import React, { useState, useContext, useEffect } from 'react'
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
-  // const handleStickerSelectedId = 'onStickerSelected';
-  const [selectedStickerId, setSelectedStickerId] = useState(null);
+  const [imageData, setImageData] = useState([]);
   const [sticker, setSticker] = useState(null);
+  const [count, setCount] = useState(0);
+
+  const handleScreenTapped = (event) => {
+    Keyboard.dismiss;
+    setCount(count + 1);
+    console.log("ScreenTapped")
+    const { locationX, locationY } = event.nativeEvent;
+    if (imageData.length < 10) {
+      setImageData([...imageData, { source: images.stickers[sticker], x: locationX, y: locationY }]);
+    }
+    console.log(imageData);
+  };
 
   useEffect(() => {
     const stickerid = route.params?.selectedStickerID || 'default_value';
@@ -40,11 +49,14 @@ function ComposeScreen({ navigation, route }) {
   };
 
   const handlePress = (value) => {
-    setSelectedIndex(value);
     if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
     if (value == 1) { navigation.navigate('ChangeFontScreen'); }
     if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-    if (value == 3) { navigation.navigate('ChangeStickerScreen'); }
+    if (value == 3) {
+      console.log(sticker);
+      navigation.navigate('ChangeStickerScreen', { passedFunction: setSticker });
+      console.log(sticker);
+    }
   }
   const updateBackend = async (reqBody) => {
     try {
@@ -76,11 +88,27 @@ function ComposeScreen({ navigation, route }) {
     navigation.push('Preview');
   };
 
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Ionicons name={"close-outline"} size={40} />
+      </TouchableOpacity>
+    ),
+    headerTitle: () => (
+      <ButtonGroup
+        buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
+        onPress={(value) => {
+          handlePress(value);
+        }}
+        containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
+      />
+    ),
+  });
+
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <View style={{ alignContent: "flex-start" }}>
-          {/* Wrong function for goBack */}
           <TouchableOpacity>
             <Ionicons name={"close-outline"} size={40} />
           </TouchableOpacity>
@@ -93,11 +121,13 @@ function ComposeScreen({ navigation, route }) {
           containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
         />
       </View>
+      <Text style={styles.titleText}>Count: {count}</Text>
+      {/* <TouchableWithoutFeedback onPress={handleScreenTapped} onLongPress={handleScreenTapped}> */}
       <ImageBackground
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
         source={images.themes[letterInfo.themeID]}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
           <View style={{ flex: 1 }}>
             <Input
               style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22 }}
@@ -110,12 +140,17 @@ function ComposeScreen({ navigation, route }) {
             />
           </View>
         </TouchableWithoutFeedback>
+        {imageData.map((data, index) => (
+          <Image
+            key={index}
+            source={data.source}
+            style={{ position: 'absolute', left: data.x, top: data.y }}
+          />
+        ))}
       </ImageBackground>
+      {/* </TouchableWithoutFeedback> */}
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        {/* <View style={{flexDirection: 'row'}}> */}
-        {/* <ButtonPrimary title={"Go back"} selected={true} onPress={() => handleGoBackPressed()} /> */}
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()} />
-        {/* </View> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

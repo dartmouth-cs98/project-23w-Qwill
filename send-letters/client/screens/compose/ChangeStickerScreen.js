@@ -12,20 +12,20 @@ const screenWidth = Dimensions.get('window').width;
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
- 
+  const { passedFunction } = route.params;
+
   // ChangeStickerScreen.js
   onStickerSelect = (stickerid) => {
-    navigation.navigate('ComposeScreen', {
-      selectedStickerID: stickerid,
-    });
+    passedFunction(stickerid);
+    navigation.goBack(null);
   };
 
-  useEffect(() => {
-    if (route.params) {
-      const { recipientID, recipientUsername } = route.params;
-      setLetterInfo({ ...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername });
-    }
-  }, [route.params]);
+  // useEffect(() => {
+  //   if (route.params) {
+  //     const { recipientID, recipientUsername } = route.params;
+  //     setLetterInfo({ ...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername });
+  //   }
+  // }, [route.params]);
 
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.
