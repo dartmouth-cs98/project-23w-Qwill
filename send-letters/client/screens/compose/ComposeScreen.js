@@ -1,15 +1,15 @@
 import { ButtonGroup } from '@rneui/themed';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { Input } from 'react-native-elements';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import { Image, Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Input } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
+import { LogBox } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
 import React, { useState, useContext, useEffect } from 'react'
-import { LogBox } from 'react-native';
 import styles from '../../styles/Profile.component.style';
 
 function ComposeScreen({ navigation, route }) {
@@ -25,7 +25,6 @@ function ComposeScreen({ navigation, route }) {
   const handleScreenTapped = (event) => {
     Keyboard.dismiss;
     setCount(count - 1);
-    console.log("ScreenTapped")
     const { locationX, locationY } = event.nativeEvent;
     if (imageData.length < 10) {
       const imageSource = images.stickers[sticker];
@@ -37,7 +36,6 @@ function ComposeScreen({ navigation, route }) {
     else {
       noMoreStickers = true;
     }
-    console.log(imageData);
   };
 
   // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
@@ -47,14 +45,12 @@ function ComposeScreen({ navigation, route }) {
   ]);
 
   useEffect(() => {
-    const stickerid = route.params?.selectedStickerID || 'default_value';
+    const stickerid = route.params?.selectedStickerID || 'no_sticker';
     // Use the stickerid in your ComposeScreen component
   }, [route.params]);
 
   // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
-
-  // function that updates the letter context and also saves the letter as a draft on the server
   const handleTextChange = (text) => {
     setLetterInfo({ ...letterInfo, text: text, status: "draft" });
     reqBody = letterInfo;
@@ -73,6 +69,7 @@ function ComposeScreen({ navigation, route }) {
       console.log(sticker);
     }
   }
+
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
@@ -83,7 +80,6 @@ function ComposeScreen({ navigation, route }) {
         // letter exists in DB as a draft; update new info
         resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
       }
-
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -98,10 +94,6 @@ function ComposeScreen({ navigation, route }) {
       console.error(err);
     }
   }
-
-  const handleNextPressed = () => {
-    navigation.push('Preview');
-  };
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -148,7 +140,7 @@ function ComposeScreen({ navigation, route }) {
       </ImageBackground>
       {/* </TouchableWithoutFeedback> */}
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => handleNextPressed()} />
+        <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
