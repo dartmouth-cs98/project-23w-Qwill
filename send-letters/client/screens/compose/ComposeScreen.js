@@ -9,7 +9,8 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
 import React, { useState, useContext, useEffect } from 'react'
-
+import { LogBox } from 'react-native';
+import styles from '../../styles/Profile.component.style';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -18,18 +19,32 @@ function ComposeScreen({ navigation, route }) {
   const onDismissSnack = () => setSnackIsVisible(false);
   const [imageData, setImageData] = useState([]);
   const [sticker, setSticker] = useState(null);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(10);
+  const noMoreStickers = false;
 
   const handleScreenTapped = (event) => {
     Keyboard.dismiss;
-    setCount(count + 1);
+    setCount(count - 1);
     console.log("ScreenTapped")
     const { locationX, locationY } = event.nativeEvent;
     if (imageData.length < 10) {
-      setImageData([...imageData, { source: images.stickers[sticker], x: locationX, y: locationY }]);
+      const imageSource = images.stickers[sticker];
+      const imageUri = Image.resolveAssetSource(imageSource).uri;
+      Image.getSize(imageUri, (width, height) => {
+        setImageData([...imageData, { source: imageSource, x: locationX-(width/2), y: locationY-(height/2) }]);
+      });
+    } 
+    else {
+      noMoreStickers = true;
     }
     console.log(imageData);
   };
+
+  // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
+  // has no deep links nor state persistence, which must be handled.
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
 
   useEffect(() => {
     const stickerid = route.params?.selectedStickerID || 'default_value';
@@ -88,23 +103,6 @@ function ComposeScreen({ navigation, route }) {
     navigation.push('Preview');
   };
 
-  navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Ionicons name={"close-outline"} size={40} />
-      </TouchableOpacity>
-    ),
-    headerTitle: () => (
-      <ButtonGroup
-        buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-        onPress={(value) => {
-          handlePress(value);
-        }}
-        containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
-      />
-    ),
-  });
-
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
@@ -121,7 +119,7 @@ function ComposeScreen({ navigation, route }) {
           containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
         />
       </View>
-      <Text style={styles.titleText}>Count: {count}</Text>
+      <Text style={styles.subtitleText}>{noMoreStickers ? 'No more stickers' : `Stickers left: ${count}`}</Text>
       {/* <TouchableWithoutFeedback onPress={handleScreenTapped} onLongPress={handleScreenTapped}> */}
       <ImageBackground
         resizeMode={'cover'}
@@ -157,29 +155,3 @@ function ComposeScreen({ navigation, route }) {
 };
 
 export default ComposeScreen;
-
-const styles = StyleSheet.create({
-  inputContainer: {
-
-  },
-  button: {
-    width: 200,
-    marginTop: 10,
-  },
-  titleText: {
-    fontSize: 20,
-    fontFamily: 'JosefinSansBold',
-    fontWeight: 'bold',
-    textAlign: "center",
-    marginBottom: 10
-  },
-
-  subHeader: {
-    backgroundColor: "#2089dc",
-    color: "white",
-    textAlign: "center",
-    paddingVertical: 5,
-    marginBottom: 10
-  }
-
-});

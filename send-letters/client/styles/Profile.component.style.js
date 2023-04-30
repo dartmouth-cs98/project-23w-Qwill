@@ -85,6 +85,13 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
+  subtitleText: {
+    fontSize: 20,
+    fontFamily: 'JosefinSansBold',
+    fontWeight: 'bold',
+    textAlign: "center",
+    marginBottom: 10
+  },
   titleText: {
     marginTop: 7,
     fontSize: wp('10%'),

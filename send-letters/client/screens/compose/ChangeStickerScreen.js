@@ -7,6 +7,8 @@ import { useContext, useState, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
+import { LogBox } from 'react-native';
+
 
 const screenWidth = Dimensions.get('window').width;
 
