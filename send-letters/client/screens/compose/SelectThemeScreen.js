@@ -36,15 +36,10 @@ const SelectThemeScreen = ({navigation, route}) => {
         recipientID: "",
         recipientUsername: "",
         themeID: "",
-        fontID: "" 
+        fontID: "",
+        stickers: []
       });
     }
-    // navigation.replace('NavBar', {
-    //     screen: 'Compose', 
-    //     params: {
-    //         screen: 'SelectRecipient'
-    //     }
-    // });
     navigation.goBack();
   };
 
@@ -53,6 +48,7 @@ const SelectThemeScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.safeview}>
+      <View style={[styles.header, styles.shadowLight]}></View>
       <View style={styles.backbutton}>
         <TouchableOpacity style={styles.backIcon} onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
           <Ionicons name={"arrow-back"} size={40}/>

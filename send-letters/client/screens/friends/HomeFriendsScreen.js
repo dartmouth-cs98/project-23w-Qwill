@@ -99,6 +99,7 @@ export default function HomeFriendsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+      <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
@@ -127,6 +128,18 @@ export default function HomeFriendsScreen({ navigation }) {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: "25%"
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
   searchIcon: {
     padding: 10,
   },
@@ -181,7 +194,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 585,
     borderRadius: 20,
-    marginTop: 20,
+    marginTop: 10,
     flex: 1,
     alignContent: "center"
   },
@@ -205,7 +218,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     // width: 350,
     marginLeft: 5,
-    marginTop: 10, 
+    // marginTop: 10, 
     // flex: 1, 
     // flex: "row", 
     // alignContent: "center", 

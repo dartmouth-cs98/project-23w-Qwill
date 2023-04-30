@@ -115,7 +115,7 @@ function ComposeScreen({ navigation, route }) {
       {/* <TouchableWithoutFeedback onPress={handleScreenTapped} onLongPress={handleScreenTapped}> */}
       <ImageBackground
         resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%' }}
+        style={{ flex: 1, width: '100%', height: '95%'}}
         source={images.themes[letterInfo.themeID]}>
         <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
           <View style={{ flex: 1 }}>
