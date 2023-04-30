@@ -12,7 +12,7 @@ Requirements:
 current_dir = "send-letters/server/handwriting/"
 
 # Set output file names
-output_ttf= current_dir + "Qwill-font-test.ttf"
+output_ttf = current_dir + "Qwill-font-test.ttf"
 
 # Create a new font object
 font = fontforge.font()

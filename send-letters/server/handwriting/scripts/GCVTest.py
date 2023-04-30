@@ -8,7 +8,7 @@ import io
 from PIL import Image, ImageDraw
 
 # project_id = os.environ.get("GCP_PROJECT")
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/Users/tommyrogers/.config/gcloud/application_default_credentials.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "send-letters/server/handwriting/scripts/application_default_credentials.json"
 
 def detect_text(path):    
 	"""Detects text in the file."""
@@ -59,7 +59,7 @@ def display_texts(texts, image):
 	image.show()
 
 if __name__ == "__main__":
-	texts, image = detect_text("/Users/tommyrogers/Desktop/SendLetters/project-23w-send-letters/send-letters/server/handwriting/testfullclear2.png")
+	texts, image = detect_text("send-letters/server/handwriting/testfullclear2.png")
 	cut_texts(texts, image)
 
 	# display_texts(texts, image)
