@@ -10,16 +10,12 @@ from PIL import Image, ImageDraw
 # project_id = os.environ.get("GCP_PROJECT")
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "send-letters/server/handwriting/scripts/application_default_credentials.json"
 
-def detect_text(path):    
+def detect_text(content):    
 	"""Detects text in the file."""
 	client = vision.ImageAnnotatorClient()
-	with io.open(path, 'rb') as image_file:
-		content = image_file.read()
-		image = Image.open(io.BytesIO(content)).convert('RGBA')
 	response = client.text_detection(image=vision.Image(content=content))
 	texts = response.text_annotations
-
-	return texts, image
+	return texts
 
 def cut_texts(texts, image):
 	for text in texts:
@@ -59,7 +55,13 @@ def display_texts(texts, image):
 	image.show()
 
 if __name__ == "__main__":
-	texts, image = detect_text("send-letters/server/handwriting/testfullclear2.png")
+
+	with io.open("send-letters/server/handwriting/testfullclear2.png", 'rb') as image_file:
+		content = image_file.read()
+		image = Image.open(io.BytesIO(content)).convert('RGBA')
+
+	texts = detect_text(content)
+	print(texts)
 	cut_texts(texts, image)
 
 	# display_texts(texts, image)

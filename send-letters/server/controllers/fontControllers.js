@@ -18,13 +18,19 @@ export const createCustomFont = async (req, res) => {
         }
 
         // Convert the base64 image to a PNG file and store in the temp folder
-        const imageBuffer = Buffer.from(handwritingImage, 'base64');
-        const imagePath = `temp/${user.username}.png`;
-        fs.writeFileSync(imagePath, imageBuffer);
+        // const imageBuffer = Buffer.from(handwritingImage, 'base64');
+        // const imagePath = `temp/${user.username}.png`;
+        // fs.writeFileSync(imagePath, imageBuffer);
 
         // Create a new Python process to generate the ttf file
-        const spawn = require ("child_process").spawn;
-        const pythonProcess = spawn('python', ["../server/handwriting/scripts/main.py", imagePath]);
+        const spawn = require("child_process").spawn;
+        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py"], {
+            stdio: ['pipe', 'pipe', 'pipe']
+        });
+
+        // write base64image to stdin
+        pythonProcess.stdin.write(handwritingImage);
+        pythonProcess.stdin.end();
         
         // Accumulate output and/or error messages from stdout/stderr to log on close
         let output = "";
@@ -44,6 +50,7 @@ export const createCustomFont = async (req, res) => {
         pythonProcess.on('close', (code) => {
             // Check the exit code to see if the process completed successfully
             if (code === 0) {
+                
                 // If the process completed successfully, send the TTF file back to the client
                 // res.setHeader('Content-Type', 'application/octet-stream');
                 // res.setHeader('Content-Disposition', 'attachment; filename=font.ttf');
@@ -51,28 +58,46 @@ export const createCustomFont = async (req, res) => {
 
                 // TODO: add to MongoDB
                 console.log(output);
+                // console.log(res.headersSent);
+                
+                
                 return res.json({
-                    ok: true
+                    message: "Congrats, your font has been made!"
                 });
 
+            // Handle Python exit due to error running Google Cloud Vision text detection 
+            } else if (code == 50) {
+                return res.json({
+                    message: "Unable to connect to Google Cloud Vision. Servers may be down."
+                });
+            
+            // Handle Python exit due to Google Cloud Vision text detection unable to detect any text
+            } else if (code == 51) {
+                return res.json({
+                    message: "Unable to detect handwriting in text. Make sure photo quality is high and to follow the instructions carefully."
+                });
             } else {
                 // If the Python returned an error, send the error message back to the client
-                console.log(`Child process exited with code ${code}`);
-                res.status(500).send(errorMessage || 'An error occurred while processing the image.');
+                console.error(`Child process exited with code ${code}`);
+                console.log(errorMessage);
+                return res.status(500).send(errorMessage || 'An error occurred while processing the image.');
             }
         });
 
         // Handle errors from spawning the Python process
         pythonProcess.on('error', (err) => {
             console.error(err);
-            res.status(500).send('An error occurred while processing the image.');
+            return res.status(500).send('An error occurred while processing the image.');
         });
 
         // Remove the image file
-        fs.unlinkSync(imagePath);
+        // fs.unlinkSync(imagePath);
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send("Error. Try again.");
     }
 };
+
+
+// make a function to delete all files from temp (takes in the directory)
