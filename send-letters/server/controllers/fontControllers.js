@@ -48,6 +48,7 @@ export const createCustomFont = async (req, res) => {
 
         // Handle the end of the Python process
         pythonProcess.on('close', (code) => {
+            console.log(output);
             // Check the exit code to see if the process completed successfully
             if (code === 0) {
                 
@@ -76,8 +77,21 @@ export const createCustomFont = async (req, res) => {
                 return res.json({
                     message: "Unable to detect handwriting in text. Make sure photo quality is high and to follow the instructions carefully."
                 });
+            
+            // Handle Python exit due to issue cutting image into individual png files
+            } else if (code == 52) {
+                return res.json({
+                    message: "Unable to cut image into individual .png images."
+                });
+
+            // Handle Python exit due to issue converting png files to svg format
+            } else if (code == 53) {
+                return res.json({
+                    message: "Unable to convert .png images of each character into the .svg format."
+                });
+            
+            // Handle untracked errors caused during the Python execution
             } else {
-                // If the Python returned an error, send the error message back to the client
                 console.error(`Child process exited with code ${code}`);
                 console.log(errorMessage);
                 return res.status(500).send(errorMessage || 'An error occurred while processing the image.');

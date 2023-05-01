@@ -1,7 +1,12 @@
 import sys
 import os
 import base64
+import io
+from PIL import Image, ImageDraw
+import shutil
 import GoogleCloudVision
+import PNGtoSVG
+
 
 if __name__ == '__main__':
     # Check for correct inputs
@@ -13,27 +18,46 @@ if __name__ == '__main__':
         # Get path to server from args (handwriting/scripts/main.py is 27 characters)
         server_dir = sys.argv[0][:-27]
 
-        # Set path to credentials for Google Cloud Vision
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = server_dir + "handwriting/scripts/application_default_credentials.json"
+        # Clear all files in temp directory and create empty temp folder
+        temp_dir = os.path.join(server_dir, "temp")
+        shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+        os.makedirs(temp_dir)
 
+        # Set path to credentials for Google Cloud Vision
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(server_dir, "handwriting/scripts/application_default_credentials.json")
 
         # Read the base64image from stdin and decode the image into the handwriting sample
         base64_image = sys.stdin.read()
         handwriting_sample_image = base64.b64decode(base64_image)
-        # print("testing print fml")
 
+        # Run the GCV text detection on the handwriting sample
         try:
             texts = GoogleCloudVision.detect_text(handwriting_sample_image)
         except Exception as err:
             sys.stderr.write(str(err))
             sys.exit(50)
         
-        print("detecting text: ")
-        print(texts)
-
+        # Exit with code 51 if no text detected
         if (texts == []):
             sys.exit(51)
+        # print(texts)
+        
+        # Initialize a png directory and cut handwriting image into png files for each character (represented by ascii file name)
+        try:
+            image = Image.open(io.BytesIO(handwriting_sample_image)).convert('RGBA')
+            png_dir = os.path.join(temp_dir, "png_files")
+            os.makedirs(png_dir)
+            GoogleCloudVision.cut_texts(texts, image, png_dir)
+        except Exception as err:
+            sys.stderr.write(str(err))
+            sys.exit(52)
 
+        # Initialize an svg directory and transform all png images into svg format 
+        try:
+            PNGtoSVG.convert_png_dir_to_svg_dir(png_dir)
+        except Exception as err:
+            sys.stderr.write(str(err))
+            sys.exit(53)
 
 
         # Write the generated TTF file to stdout
@@ -41,6 +65,14 @@ if __name__ == '__main__':
         #     ttf_file = f.read()
         # sys.stdout.buffer.write(ttf_file)
 
+
+
+
+
+
+
+        # Clear all files in temp directory
+        # shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
     
     except Exception as err:
         sys.stderr.write(str(err))
@@ -61,15 +93,7 @@ if __name__ == '__main__':
 
 
 
-
 # try:
-#     # Read the base64-encoded image from stdin
-#     # base64_image = sys.stdin.read()
-
-#     # # Decode the image data from base64
-#     # image_data = base64.b64decode(base64_image)
-
-#     print("yay")
 
 #     # Read the input from stdin
 #     # input_bytes = b""

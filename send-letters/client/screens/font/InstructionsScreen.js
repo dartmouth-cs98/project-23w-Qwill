@@ -109,7 +109,7 @@ const FontsScreen = ({navigation}) => {
         // short dismiss duration
         duration={2000}
       >
-        <Text style={styles.snackBarText}>{JSON.stringify(snackMessage)}</Text>
+        <Text style={styles.snackBarText}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );
