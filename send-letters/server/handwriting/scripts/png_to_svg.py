@@ -42,9 +42,9 @@ def convert_png_dir_to_svg_dir(png_dir):
 
 
 if __name__ == "__main__":
-    server_dir = sys.argv[0][:-31]
+    server_dir = sys.argv[0][:-33]
     png_dir = os.path.join(server_dir, "temp/png_files")
     convert_png_dir_to_svg_dir(png_dir)
 
     # Clear all of temp directory
-    shutil.rmtree(os.path.join(server_dir, "temp/"), ignore_errors=True, onerror=None)
+    # shutil.rmtree(os.path.join(server_dir, "temp/"), ignore_errors=True, onerror=None)

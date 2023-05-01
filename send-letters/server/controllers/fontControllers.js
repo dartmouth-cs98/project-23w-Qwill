@@ -7,7 +7,8 @@ const ERROR_DICT = {
     51: "Unable to detect handwriting in text. Make sure photo quality is high and to follow the instructions carefully.",
     52: "Unable to cut image into individual .png images.",
     53: "Unable to convert .png images of each character into the .svg format.",
-    54: "Unable to convert svg files into a .ttf font file"
+    54: "Unable to convert .svg files into a .ttf font file",
+    55: "Error sending generated font file back to server"
 }
 
 export const createCustomFont = async (req, res) => {
@@ -31,7 +32,7 @@ export const createCustomFont = async (req, res) => {
 
         // Create a new Python process to generate the ttf file
         const spawn = require("child_process").spawn;
-        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py", user.username], {
+        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py", user.username, user.numCustomFonts], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
@@ -54,7 +55,7 @@ export const createCustomFont = async (req, res) => {
         });
 
         // Handle the end of the Python process
-        pythonProcess.on('close', (exitCode) => {
+        pythonProcess.on('close', async (exitCode) => {
             console.log(output);
             // Check the exit code to see if the process completed successfully
             if (exitCode === 0) {
@@ -66,7 +67,17 @@ export const createCustomFont = async (req, res) => {
 
                 // TODO: add to MongoDB
                 console.log(output);
+                // const imagePath = `${user.username}.ttf`;
+                // fs.writeFileSync(imagePath, output);
+                // console.log("wrote ttf file to: " + imagePath);
+
                 // console.log(res.headersSent);
+
+                // Update number of custom fonts for the user
+                await User.updateOne(
+                    { 'username': user.username}, 
+                    { 'numCustomFonts': user.numCustomFonts+1 }
+                );
                 
                 return res.json({
                     message: "Congrats, your font has been made!"

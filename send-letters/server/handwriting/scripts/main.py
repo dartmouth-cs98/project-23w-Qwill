@@ -12,16 +12,27 @@ import png_to_svg
 import font_generation
 
 
+"""
+This function handles errors by outputting them to stderr, deleting the temp directory and all contained
+    files, and exiting with the given exit code
+"""
+def handle_error(err, temp_dir, exit_code):
+    sys.stderr.write(str(err))
+    shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+    sys.exit(exit_code)
+
+
 if __name__ == '__main__':
     # Check for correct inputs
-    if len(sys.argv) != 2:
-        print('Usage: python main.py [user username]')
+    if len(sys.argv) != 3:
+        print('Usage: python main.py [user username] [user numCustomFonts]')
         sys.exit(1)
 
     try:
         # Get path to server (handwriting/scripts/main.py is 27 characters) and username from args 
         server_dir = sys.argv[0][:-27]
         username = sys.argv[1]
+        numCustomFonts = sys.argv[2]
 
         # Clear all files in temp directory and create empty temp folder for user
         temp_dir = os.path.join(server_dir, "temp_" + username)
@@ -39,12 +50,11 @@ if __name__ == '__main__':
         try:
             texts = google_cloud_vision.detect_text(handwriting_sample_image)
         except Exception as err:
-            sys.stderr.write(str(err))
-            sys.exit(50)
+            handle_error(err, temp_dir, 50)
         
         # Exit with code 51 if no text detected
         if (texts == []):
-            sys.exit(51)
+            handle_error("", temp_dir, 51)
         # print(texts)
         
         # Initialize a png directory and cut handwriting image into png files for each character (represented by ascii file name)
@@ -54,84 +64,34 @@ if __name__ == '__main__':
             os.makedirs(png_dir)
             google_cloud_vision.cut_texts(texts, image, png_dir)
         except Exception as err:
-            sys.stderr.write(str(err))
-            sys.exit(52)
+            handle_error(err, temp_dir, 52)
 
         # Initialize an svg directory and transform all png images into svg format 
         try:
             png_to_svg.convert_png_dir_to_svg_dir(png_dir)
         except Exception as err:
-            sys.stderr.write(str(err))
-            sys.exit(53)
+            handle_error(err, temp_dir, 53)
 
         # Generate font file using svg directory
         try:
             svg_dir = os.path.join(temp_dir, "svg_files")
-            print(svg_dir)
+            font_name = str(username) + "-font-" + str(int(numCustomFonts)+1)
+            default_font_path = os.path.join(server_dir, "handwriting/LibreBaskerville-Regular.ttf")
+            font_generation.generate_font(svg_dir, default_font_path, font_name)
         except Exception as err:
-            sys.stderr.write(str(err))
-            sys.exit(54)
-
+            handle_error(err, temp_dir, 54)
 
         # Write the generated TTF file to stdout
-        # with open(server_dir + "handwriting/Qwill-font-test.ttf", 'rb') as f:
-        #     ttf_file = f.read()
-        # sys.stdout.buffer.write(ttf_file)
-
-
-
-
-
-
+        try:
+            output_ttf = os.path.join(os.path.dirname(svg_dir), font_name + ".ttf")
+            with open(output_ttf, 'rb') as ttf_file:
+                ttf_file_content = ttf_file.read()
+            sys.stdout.buffer.write(ttf_file_content)
+        except Exception as err:
+            handle_error(err, temp_dir, 55)
 
         # Clear all files in temp directory
         # shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
     
     except Exception as err:
         sys.stderr.write(str(err))
-
-
-
-
-
-    # # Generate the .ttf file and save it to some path
-    # # ttf_path = current_dir + "/path/to/generated.ttf"
-
-    # # Print the path to stdout
-    # # print(ttf_path)
-    # print(image_path)
-
-    # # Make sure to flush the stdout buffer to ensure the message is sent immediately
-    # sys.stdout.flush()
-
-
-
-# try:
-
-#     # Read the input from stdin
-#     # input_bytes = b""
-#     # while True:
-#     #     chunk = sys.stdin.buffer.read(1024)
-#     #     if not chunk:
-#     #         break
-#     #     input_bytes += chunk
-
-#     # # Decode the base64-encoded image data and create a PIL Image object
-#     # input_io = io.BytesIO(input_bytes)
-#     # image = Image.open(input_io).convert('RGBA')
-
-
-
-#     # # Do some processing on the image data...
-
-#     # # Write the generated TTF file to stdout
-#     # with open("send-letters/server/handwriting/Qwill-font-test.ttf", 'rb') as f:
-#     #     ttf_file = f.read()
-#     # sys.stdout.buffer.write(ttf_file)
-
-# except Exception as err:
-#     # Write the error message to stderr
-#     sys.stderr.write(str(err))
-
-# # delete all generated files
-# # ...

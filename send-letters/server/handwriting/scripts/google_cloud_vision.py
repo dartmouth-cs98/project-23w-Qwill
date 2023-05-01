@@ -12,6 +12,7 @@ import shutil
 # project_id = os.environ.get("GCP_PROJECT")
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "send-letters/server/handwriting/scripts/application_default_credentials.json"
 
+
 """
 This function detects text in a png image using Google Cloud Vision image annotator.
 It returns a list of identified text characters and the vertices of their bounding polygon.
@@ -79,7 +80,7 @@ def display_texts(texts, image):
 
 
 if __name__ == "__main__":
-	server_dir = sys.argv[0][:-40]
+	server_dir = sys.argv[0][:-43]
 	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
 
 	# Open handwriting test file
