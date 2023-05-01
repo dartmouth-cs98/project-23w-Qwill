@@ -20,24 +20,22 @@ function ComposeScreen({ navigation, route }) {
   const [imageData, setImageData] = useState([]);
   const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
-  const noMoreStickers = false;
 
   const handleScreenTapped = (event) => {
     Keyboard.dismiss;
-    setCount(count - 1);
-    const { locationX, locationY } = event.nativeEvent;
-    if (imageData.length < 10) {
+    if (sticker != null && imageData.length < 10) {
+      const { locationX, locationY } = event.nativeEvent;
+      setCount(count - 1);
       const imageSource = images.stickers[sticker];
       const imageUri = Image.resolveAssetSource(imageSource).uri;
       Image.getSize(imageUri, (width, height) => {
         setImageData([...imageData, { source: imageSource, x: locationX-(width/2), y: locationY-(height/2) }]);
       });
+      setSticker(null);
     } 
-    else {
-      noMoreStickers = true;
-    }
   };
 
+  
   // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
   // has no deep links nor state persistence, which must be handled.
   LogBox.ignoreLogs([
@@ -94,7 +92,6 @@ function ComposeScreen({ navigation, route }) {
       console.error(err);
     }
   }
-
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
@@ -111,7 +108,7 @@ function ComposeScreen({ navigation, route }) {
           containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
         />
       </View>
-      <Text style={styles.subtitleText}>{noMoreStickers ? 'No more stickers' : `Stickers left: ${count}`}</Text>
+      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
       {/* <TouchableWithoutFeedback onPress={handleScreenTapped} onLongPress={handleScreenTapped}> */}
       <ImageBackground
         resizeMode={'cover'}
@@ -120,7 +117,7 @@ function ComposeScreen({ navigation, route }) {
         <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
           <View style={{ flex: 1 }}>
             <Input
-              style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22 }}
+              style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22, height: 610, width: '90%', marginLeft:5, marginRight: 5 }}
               placeholder={"Start writing your letter!"}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onChangeText={(text) => { hasTyped = true; handleTextChange(text); }}
@@ -138,7 +135,6 @@ function ComposeScreen({ navigation, route }) {
           />
         ))}
       </ImageBackground>
-      {/* </TouchableWithoutFeedback> */}
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
         <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
       </KeyboardAvoidingView>
