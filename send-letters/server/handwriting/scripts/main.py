@@ -91,7 +91,7 @@ if __name__ == '__main__':
             handle_error(err, temp_dir, 55)
 
         # Clear all files in temp directory
-        # shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+        shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
     
     except Exception as err:
         sys.stderr.write(str(err))
