@@ -2,6 +2,13 @@ import User from "../schemas/userSchema";
 import Font from "../schemas/fontSchema";
 import fs from 'fs';
 
+const ERROR_DICT = {
+    50: "Unable to connect to Google Cloud Vision. Servers may be down.",
+    51: "Unable to detect handwriting in text. Make sure photo quality is high and to follow the instructions carefully.",
+    52: "Unable to cut image into individual .png images.",
+    53: "Unable to convert .png images of each character into the .svg format.",
+    54: "Unable to convert svg files into a .ttf font file"
+}
 
 export const createCustomFont = async (req, res) => {
     try {
@@ -24,7 +31,7 @@ export const createCustomFont = async (req, res) => {
 
         // Create a new Python process to generate the ttf file
         const spawn = require("child_process").spawn;
-        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py"], {
+        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py", user.username], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
@@ -47,10 +54,10 @@ export const createCustomFont = async (req, res) => {
         });
 
         // Handle the end of the Python process
-        pythonProcess.on('close', (code) => {
+        pythonProcess.on('close', (exitCode) => {
             console.log(output);
             // Check the exit code to see if the process completed successfully
-            if (code === 0) {
+            if (exitCode === 0) {
                 
                 // If the process completed successfully, send the TTF file back to the client
                 // res.setHeader('Content-Type', 'application/octet-stream');
@@ -61,38 +68,19 @@ export const createCustomFont = async (req, res) => {
                 console.log(output);
                 // console.log(res.headersSent);
                 
-                
                 return res.json({
                     message: "Congrats, your font has been made!"
                 });
 
-            // Handle Python exit due to error running Google Cloud Vision text detection 
-            } else if (code == 50) {
+            // Handle tracked exit errors from Python process defined in ERROR_DICT and return corresponding message
+            } else if (exitCode in ERROR_DICT) {
                 return res.json({
-                    message: "Unable to connect to Google Cloud Vision. Servers may be down."
-                });
-            
-            // Handle Python exit due to Google Cloud Vision text detection unable to detect any text
-            } else if (code == 51) {
-                return res.json({
-                    message: "Unable to detect handwriting in text. Make sure photo quality is high and to follow the instructions carefully."
-                });
-            
-            // Handle Python exit due to issue cutting image into individual png files
-            } else if (code == 52) {
-                return res.json({
-                    message: "Unable to cut image into individual .png images."
-                });
-
-            // Handle Python exit due to issue converting png files to svg format
-            } else if (code == 53) {
-                return res.json({
-                    message: "Unable to convert .png images of each character into the .svg format."
-                });
+                    message: ERROR_DICT[exitCode]
+                });            
             
             // Handle untracked errors caused during the Python execution
             } else {
-                console.error(`Child process exited with code ${code}`);
+                console.error(`Child process exited with code ${exitCode}`);
                 console.log(errorMessage);
                 return res.status(500).send(errorMessage || 'An error occurred while processing the image.');
             }

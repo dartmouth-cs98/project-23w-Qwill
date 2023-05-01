@@ -1,25 +1,30 @@
+# import helper libraries
 import sys
 import os
 import base64
 import io
 from PIL import Image, ImageDraw
 import shutil
-import GoogleCloudVision
-import PNGtoSVG
+
+# import helper functions
+import google_cloud_vision
+import png_to_svg
+import font_generation
 
 
 if __name__ == '__main__':
     # Check for correct inputs
-    if len(sys.argv) != 1:
-        print('Usage: python main.py')
+    if len(sys.argv) != 2:
+        print('Usage: python main.py [user username]')
         sys.exit(1)
 
-    try: 
-        # Get path to server from args (handwriting/scripts/main.py is 27 characters)
+    try:
+        # Get path to server (handwriting/scripts/main.py is 27 characters) and username from args 
         server_dir = sys.argv[0][:-27]
+        username = sys.argv[1]
 
-        # Clear all files in temp directory and create empty temp folder
-        temp_dir = os.path.join(server_dir, "temp")
+        # Clear all files in temp directory and create empty temp folder for user
+        temp_dir = os.path.join(server_dir, "temp_" + username)
         shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
         os.makedirs(temp_dir)
 
@@ -32,7 +37,7 @@ if __name__ == '__main__':
 
         # Run the GCV text detection on the handwriting sample
         try:
-            texts = GoogleCloudVision.detect_text(handwriting_sample_image)
+            texts = google_cloud_vision.detect_text(handwriting_sample_image)
         except Exception as err:
             sys.stderr.write(str(err))
             sys.exit(50)
@@ -47,17 +52,25 @@ if __name__ == '__main__':
             image = Image.open(io.BytesIO(handwriting_sample_image)).convert('RGBA')
             png_dir = os.path.join(temp_dir, "png_files")
             os.makedirs(png_dir)
-            GoogleCloudVision.cut_texts(texts, image, png_dir)
+            google_cloud_vision.cut_texts(texts, image, png_dir)
         except Exception as err:
             sys.stderr.write(str(err))
             sys.exit(52)
 
         # Initialize an svg directory and transform all png images into svg format 
         try:
-            PNGtoSVG.convert_png_dir_to_svg_dir(png_dir)
+            png_to_svg.convert_png_dir_to_svg_dir(png_dir)
         except Exception as err:
             sys.stderr.write(str(err))
             sys.exit(53)
+
+        # Generate font file using svg directory
+        try:
+            svg_dir = os.path.join(temp_dir, "svg_files")
+            print(svg_dir)
+        except Exception as err:
+            sys.stderr.write(str(err))
+            sys.exit(54)
 
 
         # Write the generated TTF file to stdout
