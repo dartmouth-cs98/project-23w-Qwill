@@ -86,7 +86,10 @@ if __name__ == '__main__':
             output_ttf = os.path.join(os.path.dirname(svg_dir), font_name + ".ttf")
             with open(output_ttf, 'rb') as ttf_file:
                 ttf_file_content = ttf_file.read()
-            sys.stdout.buffer.write(ttf_file_content)
+                ttf_base64 = base64.b64encode(ttf_file_content)
+
+            sys.stdout.buffer.write(ttf_base64)
+
         except Exception as err:
             handle_error(err, temp_dir, 55)
 

@@ -10,7 +10,7 @@ const fontSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    ttfFile: {
+    fileContent: {
         // buffer type in Mongoose automatically maps file to "BSON Binary" type stored in MongoDB
         type: mongoose.Schema.Types.Buffer,
         required: true
