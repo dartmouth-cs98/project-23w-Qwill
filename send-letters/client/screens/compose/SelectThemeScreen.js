@@ -65,7 +65,6 @@ const SelectThemeScreen = ({navigation, route}) => {
               <ThemePreview key={theme} themeName={theme} imageSource={images.themes[theme]} onPress={() => handleNextPressed(theme)}/>
             );
           })}
-          {/* <ThemePreview themeName="Stars" imageSource={} onPress={handleNextPressed}></ThemePreview> */}
         </ScrollView>
       </View>
     </SafeAreaView>

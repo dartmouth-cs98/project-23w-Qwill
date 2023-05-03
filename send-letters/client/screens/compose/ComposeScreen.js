@@ -1,16 +1,16 @@
-import { ButtonGroup } from '@rneui/themed';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { Image, Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Image, Text, View, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { Input } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
-import { LogBox } from 'react-native';
+import { LogBox, PanResponder } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import styles from '../../styles/Profile.component.style';
+import Toolbar from './Toolbar';
+import ThreeButtonAlert from './ThreeButtonAlert';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -21,6 +21,7 @@ function ComposeScreen({ navigation, route }) {
   const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
 
+  // Passed into child screen ChangeStickerScreen and called from there
   const stickerSelected = (sticker) => {
     if (sticker != null && imageData.length < 10) {
       setCount(count - 1);
@@ -35,10 +36,27 @@ function ComposeScreen({ navigation, route }) {
     }
   }
 
-  const handleCloseOutlinePress = () => {
-    // would you like to save or discard popup
-    // discard deletes it from drafts: backend request
-  }
+  // Enables moving of the sticker
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gestureState) => {
+      if (selectedStickerIndex !== null) {
+        const updatedImageData = [...imageData];
+        updatedImageData[selectedStickerIndex] = {
+          ...updatedImageData[selectedStickerIndex],
+          x: initialStickerPosition.x + gestureState.dx,
+          y: initialStickerPosition.y + gestureState.dy,
+        };
+        setImageData(updatedImageData);
+      }
+    },
+    onPanResponderRelease: () => {
+      if (selectedStickerIndex !== null) {
+        setInitialStickerPosition(null);
+        setSelectedStickerIndex(null);
+      }
+    },
+  });
 
   const handleScreenTapped = (event) => {
     Keyboard.dismiss;
@@ -58,7 +76,6 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
-
   // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
   // has no deep links nor state persistence, which must be handled.
   LogBox.ignoreLogs([
@@ -74,13 +91,6 @@ function ComposeScreen({ navigation, route }) {
     reqBody["status"] = "draft";
     updateBackend(reqBody);
   };
-
-  const handlePress = (value) => {
-    if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
-    if (value == 1) { navigation.navigate('ChangeFontScreen'); }
-    if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-    if (value == 3) { navigation.navigate('ChangeStickerScreen', { passedFunction: stickerSelected }); }
-  }
 
   const updateBackend = async (reqBody) => {
     try {
@@ -110,19 +120,9 @@ function ComposeScreen({ navigation, route }) {
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <View style={{ alignContent: "flex-start" }}>
-          <TouchableOpacity onPress={(value) => {
-            handleCloseOutlinePress(value);
-          }}>
-            <Ionicons name={"close-outline"} size={40} />
-          </TouchableOpacity>
+          <ThreeButtonAlert navigation={navigation} ></ThreeButtonAlert>
         </View>
-        <ButtonGroup
-          buttons={['Recipient', 'Font', 'Theme', 'Sticker']}
-          onPress={(value) => {
-            handlePress(value);
-          }}
-          containerStyle={{ marginBottom: 20, backgroundColor: "#F9F9FA", width: "80%", borderRadius: 10 }}
-        />
+        <Toolbar navigation={navigation} passedStickerSelected = {stickerSelected} />
       </View>
       <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
       <ImageBackground
