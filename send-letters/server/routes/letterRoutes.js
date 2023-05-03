@@ -5,6 +5,7 @@ const router = express.Router();
 // get controllers 
 const {
     makeLetter,
+    deleteLetter,
     fetchLetters,
     updateLetterStatus,
     updateLetterInfo,
@@ -19,6 +20,7 @@ router.get("/", (req, res) => {
 
 // post routes
 router.post("/makeLetter", makeLetter);
+router.post("/deleteLetter", deleteLetter);
 router.post("/fetchLetters", fetchLetters);
 router.post("/updateLetterStatus", updateLetterStatus);
 router.post("/updateLetterInfo", updateLetterInfo);

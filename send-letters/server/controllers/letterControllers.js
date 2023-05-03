@@ -1,10 +1,9 @@
 import User from "../schemas/userSchema";
 import Letter from "../schemas/letterSchema";
 
-
 export const makeLetter = async (req, res) => {
     try {
-        const { text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;        
+        const { text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;
 
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
@@ -51,6 +50,21 @@ export const makeLetter = async (req, res) => {
     }
 };
 
+// tofinish amanda sun
+export const deleteLetter = async (req, res) => {
+    try {
+        // check if our db has a letter with the ID of the recipient
+        const deletedLetter = await Letter.findByIdAndRemove(id);
+        // check if the letter was found and deleted successfully
+        if (!deletedLetter) {
+            return res.status(404).json({ error: "Letter not found" });
+        }
+        return res.status(200).json({ message: "Letter deleted successfully" });
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
 
 export const fetchLetters = async (req, res) => {
     var mongoose = require('mongoose');
@@ -71,7 +85,7 @@ export const fetchLetters = async (req, res) => {
         // build the list of statuses to match in the DB query
         const letterStatusMatch = [];
         for (const status of possibleLetterStatuses) {
-            letterStatusMatch.push({'status': status});
+            letterStatusMatch.push({ 'status': status });
         }
 
         // userInfoNeeded will be the opposite of the user status since the user info is already stored in context on the frontend
@@ -89,21 +103,21 @@ export const fetchLetters = async (req, res) => {
         // define query (lookup is equivalent of a left join)
         const query = [
             {
-               $match: {
-                    [userStatus]: new mongoose.Types.ObjectId(user._id), 
+                $match: {
+                    [userStatus]: new mongoose.Types.ObjectId(user._id),
                     '$or': letterStatusMatch
                 }
             },
             {
                 $lookup: {
-                    from: "users", 
+                    from: "users",
                     localField: userInfoNeeded,
                     foreignField: "_id",
-                    as: userInfoNeeded+"Info"
+                    as: userInfoNeeded + "Info"
                 }
             },
-            { 
-                $unwind: "$"+userInfoNeeded+"Info"
+            {
+                $unwind: "$" + userInfoNeeded + "Info"
             },
         ];
         const cursor = Letter.aggregate(query);
@@ -125,7 +139,7 @@ export const fetchLetters = async (req, res) => {
 };
 
 
-export const updateLetterStatus = async (req, res) => {  
+export const updateLetterStatus = async (req, res) => {
     try {
         const { letterID, newStatus } = req.body;
 
@@ -142,10 +156,10 @@ export const updateLetterStatus = async (req, res) => {
         // update the status of letter to archive
         try {
             const resp = await Letter.updateOne(
-                {'_id': letterID},
-                {'status': newStatus}
+                { '_id': letterID },
+                { 'status': newStatus }
             );
-    
+
             return res.json({
                 ok: true
             });
@@ -160,7 +174,7 @@ export const updateLetterStatus = async (req, res) => {
 };
 
 
-export const updateLetterInfo = async (req, res) => {    
+export const updateLetterInfo = async (req, res) => {
     try {
         // get letterID and the new values for the letter
         const { letterID, text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;
@@ -175,12 +189,12 @@ export const updateLetterInfo = async (req, res) => {
             });
         }
 
-        console.log(stickers)
+        //console.log(stickers)
 
         // update the status of letter to archive
         try {
             const resp = await Letter.updateOne(
-                {'_id': letterID},
+                { '_id': letterID },
                 {
                     'status': status,
                     'text': text,
@@ -191,7 +205,7 @@ export const updateLetterInfo = async (req, res) => {
                     'stickers': stickers
                 }
             );
-    
+
             return res.json({
                 letterID: letterID
             });
@@ -235,8 +249,8 @@ export const fetchLetterHistory = async (req, res) => {
         // define query
         const query = [
             {
-               $match: {
-                    'status': { $ne: "draft" }, 
+                $match: {
+                    'status': { $ne: "draft" },
                     $or: [
                         {
                             'sender': new mongoose.Types.ObjectId(user._id),
