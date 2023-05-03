@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema({
         min: 6,
         max: 64,
     },
+    numCustomFonts: {
+        type: Number,
+        required: true,
+        min: 0
+    },
     resetCode: "",
 }, {
     timestamps: true

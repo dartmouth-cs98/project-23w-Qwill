@@ -115,7 +115,24 @@ function ComposeScreen({ navigation, route }) {
     } catch (err) {
       console.error(err);
     }
+
+
+  const handleExitPressed = () => {
+    navigation.replace('NavBar', 
+          { screen: 'Home',
+            params: {
+              screen: 'Mailbox', 
+              params: {
+              }
+            }
+          }
+        );
   }
+
+  const handleNextPressed = () => {
+    navigation.push('Preview');
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
