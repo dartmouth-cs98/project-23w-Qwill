@@ -8,20 +8,21 @@ const screenWidth = Dimensions.get('window').width;
 const ThemePreview = props => {
   return (
     <TouchableOpacity
-      style={styles.containerTheme}
+      style={{}}
       onPress={props.onPress}
     >
-      <View style={{flexDirection: 'row'}}>
+      {/* <View style={{flexDirection: 'row'}}> */}
         {/* <Text style={styles.text}>{props.themeName}</Text> */}
         <Image 
           style={styles.theme}
           source={props.imageSource}
         />
-        <View style={styles.titleContainer}>
+        <Text style={styles.themeNameText}>{props.themeName}</Text>
+        {/* <View style={styles.titleContainer}>
           <Text style={styles.themeNameText}>{props.themeName}</Text>
-        </View>
+        </View> */}
         
-      </View>
+      {/* </View> */}
     </TouchableOpacity>
   );
 };
@@ -40,7 +41,8 @@ const styles = StyleSheet.create({
     height: undefined, 
     width: screenWidth*.45,
     aspectRatio: 1,
-    resizeMode: "contain"
+    resizeMode: "contain",
+    // marginBottom: "15%"
   },
   titleContainer: {
     height: 180,
@@ -52,12 +54,12 @@ const styles = StyleSheet.create({
     // textAlignVertical: "center"
   },
   themeNameText: {
-    fontSize: 30, 
+    fontSize: 18, 
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,
-    marginTop: 75
-    // textAlign: "center",
+    textAlign: "center",
+    marginTop: "8%"
   }
 });
 
