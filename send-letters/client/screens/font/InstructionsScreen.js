@@ -1,10 +1,8 @@
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Image } from 'react-native';
-import React from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import COLORS from '../../styles/colors';
 import ButtonBlue from '../../components/ButtonBlue.components';
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Button, Image } from 'react-native';
 import React, { useState, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
@@ -119,35 +117,20 @@ const FontsScreen = ({navigation}) => {
                 onPress={() =>{navigation.navigate("ImagePickerScreen")}}
             />
         </View> */}
-        <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={() =>{navigation.navigate("ImagePickerScreen")}}></ButtonBlue>
+        <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={handlePickImagePressed}></ButtonBlue>
+        <Snackbar
+          style={styles.snackbar}
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={() => {setSnackIsVisible(false)}}
+          // short dismiss duration
+          duration={2000}
+        >
+        <Text style={styles.snackBarText}>{snackMessage}</Text>
+      </Snackbar>
     </SafeAreaView>
   );
 };
-
-// <View style={styles.line}></View>
-// <Text style={styles.centeredText}>Your sample should look something like this:</Text>
-// <Image 
-//     style={{
-//       height: undefined,
-//       width: '80%',
-//       aspectRatio: 2,
-//       resizeMode: "contain",
-//     }}
-//     source={require('../../assets/exampleSample.png')}
-// />
-//   <View style={{flexDirection: "row"}}>
-//       <ButtonPrimary
-//           selected={false}
-//           title={"Add Font By Camera"}
-//           onPress={() =>{navigation.navigate("CameraScreen")}}
-//       />
-//       <ButtonPrimary
-//           selected={false}
-//           title={"Add Font By Image..."}
-//           onPress={() =>{navigation.navigate("ImagePickerScreen")}}
-//       />
-//   </View>
-//   <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={() =>{navigation.navigate("ImagePickerScreen")}}></ButtonBlue>
 
 export default FontsScreen;
 
