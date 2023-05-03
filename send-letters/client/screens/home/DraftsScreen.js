@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
@@ -10,7 +10,10 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import { useIsFocused } from '@react-navigation/native';
 import SwipeableLetter from '../../components/SwipeableLetter';
 import { Image } from 'react-native-elements';
+import LetterDetail from '../../components/LetterDetail';
 
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 function DraftsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -81,24 +84,27 @@ function DraftsScreen({ navigation }) {
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
 
-    if (drafts.length == 0) {
+    if (drafts || drafts.length == 0) {
       return <Text style={{textAlign:'center'}}>No drafts found</Text>
     }
     return (
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
+          contentContainerStyle={{justifyContent: 'center'}}
           data={drafts}
           numColumns={1}
           renderItem={({item}) => 
             <View style={{marginVertical: 10}}>
-                <SwipeableLetter onPress={handlePress} />
+              <LetterDetail 
+                text={item.text} 
+                themeID={item.themeID} 
+                fontID={item.fontID} 
+                width={item * .65} 
+                height={screenHeight * .46}/>
             </View>
             }
           keyExtractor={item => item._id}
         />
-      </View>
     );
   };
 

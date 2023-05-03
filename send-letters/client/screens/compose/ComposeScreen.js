@@ -98,23 +98,25 @@ function ComposeScreen({ navigation, route }) {
             <Ionicons name={"close-outline"} onPress={handleExitPressed} size={40}/>
           </TouchableOpacity>
         </View>
-        <ButtonGroup
-        // buttons={
-        //   ['Recipient', 
-        //   'Font', 
-        //   'Theme', 
-        //   'Sticker']}
-        buttons={[
-          <ToolBarComponent text={"Recipient"} icon={"person-outline"}/>,
-          <ToolBarComponent text={"Font"} icon={"person-outline"}/>,
-          <ToolBarComponent text={"Theme"} icon={"clipboard-outline"}/>,
-          <ToolBarComponent text={"Stickers"} icon={"happy-outline"}/>
-        ]}
-        onPress={(value) => {
-          handlePress(value);
-        }}
-        containerStyle={{backgroundColor: "#E2E8F6", width: "80%", aspectRatio: 8, borderRadius: 10}}
-        />
+        <View style={styles.shadow}>
+          <ButtonGroup
+          // buttons={
+          //   ['Recipient', 
+          //   'Font', 
+          //   'Theme', 
+          //   'Sticker']}
+          buttons={[
+            <ToolBarComponent text={"Recipient"} icon={"person-outline"}/>,
+            <ToolBarComponent text={"Font"}/>,
+            <ToolBarComponent text={"Theme"} icon={"clipboard-outline"}/>,
+            <ToolBarComponent text={"Stickers"} icon={"happy-outline"}/>
+          ]}
+          onPress={(value) => {
+            handlePress(value);
+          }}
+          containerStyle={{backgroundColor: "#E2E8F6", width: "80%", aspectRatio: 8, borderRadius: 10}}
+          />
+        </View>
       </View>
       <ImageBackground
         resizeMode={'cover'}
@@ -168,6 +170,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 5,
     marginBottom: 10
-  }
-
+  },
+  shadow: {
+    shadowColor: '#171717',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+}
 });
