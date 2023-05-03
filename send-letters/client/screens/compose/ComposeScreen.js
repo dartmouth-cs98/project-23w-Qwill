@@ -25,12 +25,12 @@ function ComposeScreen({ navigation, route }) {
   const stickerSelected = (sticker) => {
     if (sticker != null && imageData.length < 10) {
       setCount(count - 1);
-      
+
       const imageSource = images.stickers[sticker];
       const imageUri = Image.resolveAssetSource(imageSource).uri;
       Image.getSize(imageUri, (width, height) => {
         console.log(sticker, width, height);
-        setImageData([...imageData, { source: imageSource, x: 425-(width)-(width/4), y: (height/4) }]);
+        setImageData([...imageData, { source: imageSource, x: 425 - (width) - (width / 4), y: (height / 4) }]);
       });
       setSticker(null);
     }
@@ -117,61 +117,62 @@ function ComposeScreen({ navigation, route }) {
     }
 
 
-  const handleExitPressed = () => {
-    navigation.replace('NavBar', 
-          { screen: 'Home',
+    const handleExitPressed = () => {
+      navigation.replace('NavBar',
+        {
+          screen: 'Home',
+          params: {
+            screen: 'Mailbox',
             params: {
-              screen: 'Mailbox', 
-              params: {
-              }
             }
           }
-        );
-  }
+        }
+      );
+    }
 
-  const handleNextPressed = () => {
-    navigation.push('Preview');
+    const handleNextPressed = () => {
+      navigation.push('Preview');
+    };
+
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flexDirection: "row", alignSelf: "center" }}>
+          <View style={{ alignContent: "flex-start" }}>
+            <ThreeButtonAlert navigation={navigation} ></ThreeButtonAlert>
+          </View>
+          <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
+        </View>
+        <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
+        <ImageBackground
+          resizeMode={'cover'}
+          style={{ flex: 1, width: '100%', height: '95%' }}
+          source={images.themes[letterInfo.themeID]}>
+          <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
+            <View style={{ flex: 1 }}>
+              <Input
+                style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22, height: 610, width: '90%', marginLeft: 5, marginRight: 5 }}
+                placeholder={"Start writing your letter!"}
+                inputContainerStyle={{ borderBottomWidth: 0 }}
+                onChangeText={(text) => { hasTyped = true; handleTextChange(text); }}
+                multiline={true}
+                defaultValue={defaultText}
+                autoCapitalize='none'
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          {imageData.map((data, index) => (
+            <Image
+              key={index}
+              source={data.source}
+              style={{ position: 'absolute', left: data.x, top: data.y }}
+            />
+          ))}
+        </ImageBackground>
+        <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
+          <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    );
   };
-
-  return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
-        <View style={{ alignContent: "flex-start" }}>
-          <ThreeButtonAlert navigation={navigation} ></ThreeButtonAlert>
-        </View>
-        <Toolbar navigation={navigation} passedStickerSelected = {stickerSelected} />
-      </View>
-      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
-      <ImageBackground
-        resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%' }}
-        source={images.themes[letterInfo.themeID]}>
-        <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
-        <View style={{ flex: 1 }}>
-          <Input
-            style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22, height: 610, width: '90%', marginLeft: 5, marginRight: 5 }}
-            placeholder={"Start writing your letter!"}
-            inputContainerStyle={{ borderBottomWidth: 0 }}
-            onChangeText={(text) => { hasTyped = true; handleTextChange(text); }}
-            multiline={true}
-            defaultValue={defaultText}
-            autoCapitalize='none'
-          />
-        </View>
-        </TouchableWithoutFeedback>
-        {imageData.map((data, index) => (
-          <Image
-            key={index}
-            source={data.source}
-            style={{ position: 'absolute', left: data.x, top: data.y }}
-          />
-        ))}
-      </ImageBackground>
-      <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
-};
-
+}
 export default ComposeScreen;
