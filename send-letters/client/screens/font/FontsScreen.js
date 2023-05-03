@@ -1,10 +1,15 @@
 import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
-import React from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import fontData from '../../assets/fontData';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
+import { useIsFocused } from '@react-navigation/native';
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,6 +22,43 @@ const normalize = (size) => {
 };
 
 const FontsScreen = ({navigation}) => {
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const [customFonts, setCustomFonts] = useState("");
+
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+  const isFocused = useIsFocused();
+
+  // fetch the users custom fonts from the server
+  useEffect(() => {
+    
+    async function fetchCustomFonts() {
+      try {
+        const resp = await axios.post(findIP()+"/api/fetchCustomFonts", { userID: userInfo.user._id });
+        
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
+          setSnackMessage(resp.data.error);
+          setSnackIsVisible(true);
+        } else if (!resp.data || !resp.data.createdFonts) {
+          console.error("Error: the response does not contain the expected fields");
+        } else {
+          setCustomFonts(resp.data.createdFonts);
+          console.log(resp.data.createdFonts);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchCustomFonts();
+  }, [isFocused]);
+
+
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={[styles.header, styles.shadowLight]}></View>

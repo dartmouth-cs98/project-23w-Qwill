@@ -239,8 +239,8 @@ export const acceptFriendRequest = async (req, res) => {
 
         try {
             const resp = await Friend.updateOne(
-                {'_id': friendReqID},
-                {'status': "friends"}
+                { '_id': friendReqID },
+                { 'status': "friends" }
             );
 
             return res.json({

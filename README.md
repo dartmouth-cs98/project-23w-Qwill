@@ -150,6 +150,8 @@ npm install cors
 npm install dotenv
 npm install esm
 npm install node-cron
+pip install google-cloud
+pip install google-cloud-vision
 ```
 
 ## Troubleshooting for Development
