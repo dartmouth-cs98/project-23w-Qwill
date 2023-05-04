@@ -152,6 +152,7 @@ npm install esm
 npm install node-cron
 pip install google-cloud
 pip install google-cloud-vision
+npm install dropbox
 ```
 
 ## Troubleshooting for Development

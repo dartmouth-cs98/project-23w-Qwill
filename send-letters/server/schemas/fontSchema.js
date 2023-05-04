@@ -10,9 +10,8 @@ const fontSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    fileContent: {
-        // buffer type in Mongoose automatically maps file to "BSON Binary" type stored in MongoDB
-        type: mongoose.Schema.Types.Buffer,
+    downloadLink: {
+        type: mongoose.Schema.Types.String,
         required: true
     },
     resetCode: "",
