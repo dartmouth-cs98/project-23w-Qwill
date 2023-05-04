@@ -11,7 +11,7 @@ export const createCustomFont = async (req, res) => {
         53: "Unable to convert .png images of each character into the .svg format.",
         54: "Unable to convert .svg files into a .ttf font file",
         55: "Error sending generated font file back to server"
-    }
+    };
 
     try {
         const { userID, handwritingImage } = req.body;        
@@ -29,6 +29,7 @@ export const createCustomFont = async (req, res) => {
         // Convert the base64 image to a PNG file and store in the temp folder
         // const imageBuffer = Buffer.from(handwritingImage, 'base64');
         // const imagePath = `temp/${user.username}.png`;
+        // const fs = require('fs');
         // fs.writeFileSync(imagePath, imageBuffer);
 
         // Create a new Python process to generate the ttf file
@@ -70,27 +71,64 @@ export const createCustomFont = async (req, res) => {
                 //     console.log('The file has been saved!');
                 // });
 
-                try {
-                    // Add font to db
-                    const letter = await new Font({
-                        creator: userID,
-                        name: fontName,
-                        fileContent: buffer,
-                    }).save();
+                // Create a new Dropbox instance with the Qwill access token
+                const Dropbox = require('dropbox').Dropbox;
+                const dbx = new Dropbox({ accessToken: 'sl.BdtR7ATU5k8f0ksemrjysqs3eUoVc7Smr-lRUy5ABHz7p-7Bve2tTT7QK1N0nRZBy5Wb0RX79OH1rnMXl4k0bzScY8kXsBj0vtNZjDEBBoAbu1oRG2wE3o6AVZC-9YLktvzbOq4K' });
 
-                    // Update number of custom fonts for the user
-                    await User.updateOne(
-                        { 'username': user.username}, 
-                        { 'numCustomFonts': user.numCustomFonts+1 }
-                    );
-                    
-                    return res.json({
-                        message: "Congrats, your font has been made!"
+                // Upload the font file to Dropbox
+                dbx.filesUpload({
+                    path: '/' + user.username + '/' + fontName + ".ttf",
+                    contents: Buffer.from(output, 'base64'),
+                })
+                    .then(response => {
+                        // Get the direct download link for the uploaded file
+                        dbx.sharingCreateSharedLinkWithSettings({
+                            path: response.result.path_display,
+                            settings: {
+                                access: "viewer",
+                                allow_download: true,
+                                audience: "public",
+                                requested_visibility: "public"
+                            }
+                        })
+                            .then(async (linkResponse) => {
+                                // Convert the link URL to a direct download link (change the link from dl=0 to dl=1 for instant download)
+                                let sharedUrl = linkResponse.result.url;
+                                sharedUrl = sharedUrl.slice(0, -1) + "1";
+                                console.log(sharedUrl);
+                        
+                                try {
+                                    // Add font to db
+                                    const letter = await new Font({
+                                        creator: userID,
+                                        name: fontName,
+                                        // fileContentBase64: output,
+                                        downloadLink: sharedUrl,
+                                    }).save();
+                
+                                    // Update number of custom fonts for the user
+                                    await User.updateOne(
+                                        { 'username': user.username }, 
+                                        { 'numCustomFonts': user.numCustomFonts+1 }
+                                    );
+                                    
+                                    return res.json({
+                                        message: "Congrats, your font has been made!"
+                                    });
+                
+                                } catch (err) {
+                                    console.log(err);
+                                }
+
+
+                            })
+                            .catch(error => {
+                                console.error('Error creating shared link:', error);
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Error uploading file:', error);
                     });
-
-                } catch (err) {
-                    console.log(err);
-                }
 
             // Handle tracked exit errors from Python process defined in ERROR_DICT and return corresponding message
             } else if (exitCode in ERROR_DICT) {
@@ -149,7 +187,17 @@ export const fetchCustomFonts = async (req, res) => {
         // build the list of created fonts
         var createdFonts = [];
         for await (const doc of cursor) {
-            console.log(doc)
+
+
+            const fs = require('fs');
+            const imagePath = `${user.username}.ttf`;
+            // const buffer = Buffer.from(doc['fileContent'], 'binary');  // create buffer from binary representation
+            // const buffer = Buffer.from(doc['fileContentBase64'], 'base64');
+            // fs.writeFile(imagePath, buffer, (err) => {
+            //     if (err) throw err;
+            //     console.log('The file has been saved!');
+            // });
+
             createdFonts.push(doc);
         }
 

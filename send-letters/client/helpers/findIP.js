@@ -1,4 +1,3 @@
-
 // this helper functions finds and returns the correct hosting address for the given user
 export default function findIP() {
     const status = "dev"; // dep (deployed) or dev (developing)
