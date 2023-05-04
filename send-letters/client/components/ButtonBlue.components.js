@@ -7,7 +7,7 @@ const ButtonBlue = props => {
   const marginTop = props.marginTop ? props.marginTop : 0;
   return (
     <TouchableOpacity
-      style={[styles.btn, styles.unselectedBtn, { marginTop: marginTop }]}
+      style={[styles.btn, styles.unselectedBtn, { marginTop: marginTop }, props.style]}
       onPress={props.onPress}
     >
       <Text style={[styles.unselectedText]}>{props.title}</Text>

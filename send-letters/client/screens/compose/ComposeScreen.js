@@ -7,7 +7,7 @@ import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
@@ -115,6 +115,7 @@ function ComposeScreen({ navigation, route }) {
     } catch (err) {
       console.error(err);
     }
+  };
 
 
     const handleExitPressed = () => {
