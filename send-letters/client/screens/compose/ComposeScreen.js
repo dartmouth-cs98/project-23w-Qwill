@@ -1,19 +1,16 @@
-import { ButtonGroup } from '@rneui/themed';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { Image, Text, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Image, Text, View, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { Input } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
-import { LogBox } from 'react-native';
+import { LogBox, PanResponder } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import images from '../../assets/imageIndex';
 import React, { useState, useContext, useEffect } from 'react';
-
 import styles from '../../styles/Profile.component.style';
-import ToolBarComponent from '../../components/ToolBarComponent';
-
+import Toolbar from './Toolbar';
+import ThreeButtonAlert from './ThreeButtonAlert';
 
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -24,33 +21,68 @@ function ComposeScreen({ navigation, route }) {
   const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
 
+  // Passed into child screen ChangeStickerScreen and called from there
+  const stickerSelected = (sticker) => {
+    if (sticker != null && imageData.length < 10) {
+      setCount(count - 1);
+
+      const imageSource = images.stickers[sticker];
+      const imageUri = Image.resolveAssetSource(imageSource).uri;
+      Image.getSize(imageUri, (width, height) => {
+        console.log(sticker, width, height);
+        setImageData([...imageData, { source: imageSource, x: 425 - (width) - (width / 4), y: (height / 4) }]);
+      });
+      setSticker(null);
+    }
+  }
+
+  // Enables moving of the sticker
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gestureState) => {
+      if (selectedStickerIndex !== null) {
+        const updatedImageData = [...imageData];
+        updatedImageData[selectedStickerIndex] = {
+          ...updatedImageData[selectedStickerIndex],
+          x: initialStickerPosition.x + gestureState.dx,
+          y: initialStickerPosition.y + gestureState.dy,
+        };
+        setImageData(updatedImageData);
+      }
+    },
+    onPanResponderRelease: () => {
+      if (selectedStickerIndex !== null) {
+        setInitialStickerPosition(null);
+        setSelectedStickerIndex(null);
+      }
+    },
+  });
+
   const handleScreenTapped = (event) => {
     Keyboard.dismiss;
+    const { locationX, locationY } = event.nativeEvent;
+    console.log(locationX, locationY);
     if (sticker != null && imageData.length < 10) {
+      console.log("clicked")
       const { locationX, locationY } = event.nativeEvent;
+      console.log(locationX, locationY);
       setCount(count - 1);
       const imageSource = images.stickers[sticker];
       const imageUri = Image.resolveAssetSource(imageSource).uri;
       Image.getSize(imageUri, (width, height) => {
-        setImageData([...imageData, { source: imageSource, x: locationX-(width/2), y: locationY-(height/2) }]);
+        setImageData([...imageData, { source: imageSource, x: locationX - (width / 2), y: locationY - (height / 2) }]);
       });
       setSticker(null);
-    } 
+    }
   };
 
-  
   // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
   // has no deep links nor state persistence, which must be handled.
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
   ]);
 
-  useEffect(() => {
-    const stickerid = route.params?.selectedStickerID || 'no_sticker';
-    // Use the stickerid in your ComposeScreen component
-  }, [route.params]);
-
-  // don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const handleTextChange = (text) => {
     setLetterInfo({ ...letterInfo, text: text, status: "draft" });
@@ -59,17 +91,6 @@ function ComposeScreen({ navigation, route }) {
     reqBody["status"] = "draft";
     updateBackend(reqBody);
   };
-
-  const handlePress = (value) => {
-    if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
-    if (value == 1) { navigation.navigate('ChangeFontScreen'); }
-    if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-    if (value == 3) {
-      console.log(sticker);
-      navigation.navigate('ChangeStickerScreen', { passedFunction: setSticker });
-      console.log(sticker);
-    }
-  }
 
   const updateBackend = async (reqBody) => {
     try {
@@ -97,81 +118,62 @@ function ComposeScreen({ navigation, route }) {
   };
 
 
-  const handleExitPressed = () => {
-    navigation.replace('NavBar', 
-          { screen: 'Home',
+    const handleExitPressed = () => {
+      navigation.replace('NavBar',
+        {
+          screen: 'Home',
+          params: {
+            screen: 'Mailbox',
             params: {
-              screen: 'Mailbox', 
-              params: {
-              }
             }
           }
-        );
-  }
+        }
+      );
+    }
 
-  const handleNextPressed = () => {
-    navigation.push('Preview');
-  };
+    const handleNextPressed = () => {
+      navigation.push('Preview');
+    };
 
-  return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{flexDirection: "row", alignSelf: "center", marginBottom: 10}}>
-        <View style={{alignContent: "flex-start"}}>
-          {/* Wrong function for goBack */}
-          <TouchableOpacity style={{marginTop: 5}}>
-            <Ionicons name={"close-outline"} onPress={handleExitPressed} size={40}/>
-          </TouchableOpacity>
-        </View>
-        <ButtonGroup
-        // buttons={
-        //   ['Recipient', 
-        //   'Font', 
-        //   'Theme', 
-        //   'Sticker']}
-        buttons={[
-          <ToolBarComponent text={"Recipient"} icon={"person-outline"}/>,
-          <ToolBarComponent text={"Font"} icon={"person-outline"}/>,
-          <ToolBarComponent text={"Theme"} icon={"clipboard-outline"}/>,
-          <ToolBarComponent text={"Stickers"} icon={"happy-outline"}/>
-        ]}
-        onPress={(value) => {
-          handlePress(value);
-        }}
-        containerStyle={{backgroundColor: "#E2E8F6", width: "80%", aspectRatio: 8, borderRadius: 10}}
-        />
-      </View>
-      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
-      {/* <TouchableWithoutFeedback onPress={handleScreenTapped} onLongPress={handleScreenTapped}> */}
-      <ImageBackground
-        resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%'}}
-        source={images.themes[letterInfo.themeID]}>
-        <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
-          <View style={{ flex: 1 }}>
-            <Input
-              style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22, height: 610, width: '90%', marginLeft:5, marginRight: 5 }}
-              placeholder={"Start writing your letter!"}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(text) => { hasTyped = true; handleTextChange(text); }}
-              multiline={true}
-              defaultValue={defaultText}
-              autoCapitalize='none'
-            />
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flexDirection: "row", alignSelf: "center" }}>
+          <View style={{ alignContent: "flex-start" }}>
+            <ThreeButtonAlert navigation={navigation} ></ThreeButtonAlert>
           </View>
-        </TouchableWithoutFeedback>
-        {imageData.map((data, index) => (
-          <Image
-            key={index}
-            source={data.source}
-            style={{ position: 'absolute', left: data.x, top: data.y }}
-          />
-        ))}
-      </ImageBackground>
-      <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
-};
-
+          <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
+        </View>
+        <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
+        <ImageBackground
+          resizeMode={'cover'}
+          style={{ flex: 1, width: '100%', height: '95%' }}
+          source={images.themes[letterInfo.themeID]}>
+          <TouchableWithoutFeedback onPress={handleScreenTapped} accessible={false}>
+            <View style={{ flex: 1 }}>
+              <Input
+                style={{ fontFamily: letterInfo.fontID, marginTop: 20, fontSize: 22, height: 610, width: '90%', marginLeft: 5, marginRight: 5 }}
+                placeholder={"Start writing your letter!"}
+                inputContainerStyle={{ borderBottomWidth: 0 }}
+                onChangeText={(text) => { hasTyped = true; handleTextChange(text); }}
+                multiline={true}
+                defaultValue={defaultText}
+                autoCapitalize='none'
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          {imageData.map((data, index) => (
+            <Image
+              key={index}
+              source={data.source}
+              style={{ position: 'absolute', left: data.x, top: data.y }}
+            />
+          ))}
+        </ImageBackground>
+        <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
+          <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    );
+  };
+}
 export default ComposeScreen;
