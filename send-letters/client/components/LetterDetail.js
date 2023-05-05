@@ -11,7 +11,7 @@ const LetterDetail = props => {
   const propsHeight = height ? height: screenHeight * .64;
 
   // we'll render the default system font unless a fontID is specified
-  const textStyle = fontID.length === 0 ? {} : {
+  const textStyle = fontID == "" ? {} : {
     fontFamily: fontID
   };
 

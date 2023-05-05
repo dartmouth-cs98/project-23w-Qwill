@@ -9,6 +9,7 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { AuthContext } from '../../context/AuthContext';
 import { Snackbar } from 'react-native-paper';
+import * as Font from 'expo-font';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -28,7 +29,6 @@ const FontsScreen = ({navigation}) => {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
-
 
   const handlePickImagePressed = async () => {
     // No permissions request is necessary for launching the image library
@@ -55,20 +55,23 @@ const FontsScreen = ({navigation}) => {
         } else if (resp.data.error) {  // backend error
           setSnackMessage(resp.data.error);
           setSnackIsVisible(true);
-        } else if (!resp.data || !resp.data.message) {
+        } else if (!resp.data || !resp.data.message || !resp.data.font) {
           console.error("Error: the response does not contain the expected fields");
         } else {
           console.log(resp.data);
           setSnackMessage(resp.data.message);
           setSnackIsVisible(true);
+          // load the font
+          const customFont = resp.data.font;
+          if (!Font.isLoaded(customFont.name)) {
+            await Font.loadAsync({ [customFont.name]: customFont.dropboxDownloadLink });
+          }
         }
       } catch (err) {
         console.error(err);
       }
-
     }
   };
-
 
 
   return (
@@ -110,11 +113,6 @@ const FontsScreen = ({navigation}) => {
                 selected={false}
                 title={"Add Font By Camera"}
                 onPress={() =>{navigation.navigate("CameraScreen")}}
-            />
-            <ButtonPrimary
-                selected={false}
-                title={"Add Font By Image..."}
-                onPress={() =>{navigation.navigate("ImagePickerScreen")}}
             />
         </View> */}
         <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={handlePickImagePressed}></ButtonBlue>
