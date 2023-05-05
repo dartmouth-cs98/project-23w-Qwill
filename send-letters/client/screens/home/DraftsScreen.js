@@ -84,7 +84,12 @@ function DraftsScreen({ navigation }) {
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
 
-    if (drafts || drafts.length == 0) {
+    console.log(drafts.length)
+    // if (drafts.length == 0) {
+    //   return <Text style={{textAlign:'center'}}>No drafts found</Text>
+    // }
+
+    if (drafts && drafts.length == 0) {
       return <Text style={{textAlign:'center'}}>No drafts found</Text>
     }
     return (
@@ -107,7 +112,6 @@ function DraftsScreen({ navigation }) {
         />
     );
   };
-
 
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>

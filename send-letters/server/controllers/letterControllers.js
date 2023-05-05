@@ -105,6 +105,9 @@ export const fetchLetters = async (req, res) => {
             { 
                 $unwind: "$"+userInfoNeeded+"Info"
             },
+            {
+                $sort: { createdAt: -1 }
+            }
         ];
         const cursor = Letter.aggregate(query);
 
@@ -175,9 +178,7 @@ export const updateLetterInfo = async (req, res) => {
             });
         }
 
-        console.log(stickers)
-
-        // update the status of letter to archive
+        // update the status of letter
         try {
             const resp = await Letter.updateOne(
                 {'_id': letterID},
@@ -197,6 +198,42 @@ export const updateLetterInfo = async (req, res) => {
             });
         } catch (err) {
             console.log(err);
+            return res.status(300).send("Error updating letter in db. Try again.");
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+export const deleteLetter = async (req, res) => {  
+    try {
+        const { letterID } = req.body;
+
+        // check if our db has a letter with the ID of the recipient
+        const letter = await Letter.findOne({
+            "_id": letterID
+        });
+        if (!letter) {
+            return res.json({
+                error: "No letter found with letterID",
+            });
+        }
+
+        // delete the letter from the db
+        try {
+            const resp = await Letter.deleteOne(
+                {'_id': letterID}
+            );
+    
+            return res.json({
+                ok: true
+            });
+        } catch (err) {
+            console.log(err);
+            return res.status(300).send("Error deleting letter from db. Try again.");
         }
 
     } catch (err) {
