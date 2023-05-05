@@ -6,8 +6,8 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions, FlatL
 import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
-import ThemePreview from '../../components/ThemePreview';
 import styles from '../../styles/Profile.component.style';
+import ThemePreview from '../../components/ThemePreview';
 
 const screenWidth = Dimensions.get('window').width;
 

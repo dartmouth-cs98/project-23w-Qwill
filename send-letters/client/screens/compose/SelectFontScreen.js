@@ -8,7 +8,6 @@ import FontPreview from '../../components/FontPreview';
 import React, { useContext, useState } from 'react';
 import styles from '../../styles/Profile.component.style';
 
-
 const SelectFontScreen = ({ navigation }) => {
 
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);

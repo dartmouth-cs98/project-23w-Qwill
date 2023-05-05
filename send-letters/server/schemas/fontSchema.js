@@ -10,8 +10,8 @@ const fontSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    file: {
-        type: mongoose.Schema.Types.BSON,
+    downloadLink: {
+        type: mongoose.Schema.Types.String,
         required: true
     },
     resetCode: "",

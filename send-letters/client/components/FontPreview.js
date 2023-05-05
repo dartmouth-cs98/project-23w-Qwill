@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     },
     font: {
         textAlign: "center",
-        fontSize: normalize(20)
+        fontSize: normalize(20),
+        // letterSpacing: -5,
     },
     title: {
         textAlign: "center",

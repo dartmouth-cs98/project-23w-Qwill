@@ -91,6 +91,13 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
+  subtitleText: {
+    fontSize: 20,
+    fontFamily: 'JosefinSansBold',
+    fontWeight: 'bold',
+    textAlign: "center",
+    marginBottom: 10
+  },
   shadowLight: {
     shadowColor: '#171717',
     shadowOffset: {height: 4 },

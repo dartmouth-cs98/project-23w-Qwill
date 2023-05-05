@@ -3,7 +3,7 @@ import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import { useContext, useState, useEffect } from 'react';
+import { useContext} from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
@@ -12,44 +12,11 @@ const screenWidth = Dimensions.get('window').width;
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
- 
-  // ChangeStickerScreen.js
+  const { passedFunction } = route.params;
+
   onStickerSelect = (stickerid) => {
-    navigation.navigate('ComposeScreen', {
-      selectedStickerID: stickerid,
-    });
-  };
-
-  useEffect(() => {
-    if (route.params) {
-      const { recipientID, recipientUsername } = route.params;
-      setLetterInfo({ ...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername });
-    }
-  }, [route.params]);
-
-  const handleNextPressed = (selectedTheme) => {
-    // We'll change the letter info context for the whole compose stack only when we push next.
-
-    // setLetterInfo({...letterInfo, themeID: selectedTheme});
-    console.log(theme)
-    navigation.goBack();
-
-  };
-
-  const selectThemeGoBack = () => {
-    if (route.params) {
-      setLetterInfo({
-        letterID: "",
-        text: "",
-        recipientID: "",
-        recipientUsername: "",
-        themeID: "",
-        fontID: "",
-        stickers: []
-
-      });
-    }
-    navigation.goBack();
+    passedFunction(stickerid);
+    navigation.goBack(null);
   };
 
   // Get the list of themes from the images index under assets
@@ -57,14 +24,6 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
-        <TouchableOpacity onPress={() => composeStackGoBack(navigation, selectThemeGoBack)}>
-          <Ionicons name={"arrow-back"} size={40} />
-        </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.titleText}>Compose</Text>
-      </View>
       <View style={styles.themeContainer}>
         <Text style={styles.selectTitleText}>Select a sticker</Text>
         <ScrollView
@@ -97,7 +56,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 1,
     textAlign: "center",
-    // marginLeft: -60
   },
   selectTitleText: {
     fontSize: 35,
@@ -105,15 +63,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: 'center',
     marginTop: 15
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  scrollView: {
-    width: screenWidth
   },
   scrollViewContainer: {
     alignItems: "center"

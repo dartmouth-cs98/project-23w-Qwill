@@ -57,6 +57,7 @@ export const signUp = async (req, res) => {
                 email,
                 username,
                 password: hashedPassword,
+                numCustomFonts: 0,
             }).save();
             if (phone != "") {
                 const resp = await User.updateOne(

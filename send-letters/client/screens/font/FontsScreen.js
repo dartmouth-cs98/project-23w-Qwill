@@ -1,10 +1,17 @@
 import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
-import React from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import fontData from '../../assets/fontData';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
+import { useIsFocused } from '@react-navigation/native';
+import loadCustomFont from '../../helpers/loadCustomFont';
+import * as Font from 'expo-font';
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,6 +24,49 @@ const normalize = (size) => {
 };
 
 const FontsScreen = ({navigation}) => {
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const [customFonts, setCustomFonts] = useState("");
+
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+  const isFocused = useIsFocused();
+
+  // fetch the users custom fonts from the server
+  useEffect(() => {
+    
+    async function fetchCustomFonts() {
+      try {
+        const resp = await axios.post(findIP()+"/api/fetchCustomFonts", { userID: userInfo.user._id });
+        
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
+          setSnackMessage(resp.data.error);
+          setSnackIsVisible(true);
+        } else if (!resp.data || !resp.data.createdFonts) {
+          console.error("Error: the response does not contain the expected fields");
+        } else {
+          // console.log(resp.data.createdFonts);
+          for (const customFont of resp.data.createdFonts) {
+            if (!Font.isLoaded(customFont.name)) {
+              await Font.loadAsync({ [customFont.name]: customFont.downloadLink });
+            }
+          }
+          setCustomFonts(resp.data.createdFonts);
+
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchCustomFonts();
+  }, [isFocused]);
+
+
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={[styles.header, styles.shadowLight]}></View>
@@ -32,10 +82,30 @@ const FontsScreen = ({navigation}) => {
         <Text style={{fontSize: normalize(12),}}>Custom Fonts</Text>
         <View style={styles.line}></View>
       </View>
-      <View style={styles.noCustom}>
-        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-        <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
-      </View>
+      
+      {
+        customFonts.length == 0 ? ( 
+          <View style={styles.noCustom}>
+            <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
+            <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
+          </View>
+        ) : (
+          <View style={styles.custom}>
+            <FlatList
+              contentContainerStyle={{ justifyContent: 'space-between'}}
+              data={customFonts}
+              numColumns={3}
+              renderItem={({ item }) =>
+                <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                  <FontPreview style={{fontFamily: item.name}} title={item.name}></FontPreview>
+                </View>
+              }
+              keyExtractor={(item) => item.title}
+            />
+          </View>
+        )
+      }
+      
       <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
         <View style={styles.line}></View>
         <Text style={{fontSize: normalize(12) }}>Default Fonts</Text>
@@ -48,9 +118,9 @@ const FontsScreen = ({navigation}) => {
           numColumns={3}
           renderItem={({ item }) =>
             <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
-            {/* <View> */}
               <FontPreview style={item.style} title={item.title}></FontPreview>
-            </View>}
+            </View>
+          }
           keyExtractor={(item) => item.title}
         />
       </View>
@@ -98,6 +168,12 @@ const styles = StyleSheet.create({
     // height: "30%",
     borderRadius: 20,
     backgroundColor: "#E2E8F6",
+    marginTop: windowHeight *.02,
+  },
+  custom: {
+    width: "88%",
+    marginLeft: windowWidth *.06, 
+    marginRight: windowWidth *.06,
     marginTop: windowHeight *.02,
   },
   container: {

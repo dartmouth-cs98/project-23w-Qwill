@@ -14,10 +14,10 @@ const images = {
         CatDog: require('./themes/dog-cat-theme.png'),
     },
     stickers: {
-        Bear: require('./stickers/bear-sticker.png'),
-        Cat: require('./stickers/cat-sticker.png'),
-        Chicken: require('./stickers/chicken-sticker.png'),
-        Squirtle: require('./stickers/squirtle-sticker.png'),
+        Bear: require('./stickers/bear-sticker-smaller.png'),
+        Cat: require('./stickers/cat-sticker-smaller.png'),
+        Chicken: require('./stickers/chicken-sticker-smaller.png'),
+        Squirtle: require('./stickers/squirtle-sticker-smaller.png'),
     }
 };
 
