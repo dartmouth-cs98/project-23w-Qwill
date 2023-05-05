@@ -175,5 +175,5 @@ function ComposeScreen({ navigation, route }) {
       </SafeAreaView>
     );
   };
-}
+
 export default ComposeScreen;
