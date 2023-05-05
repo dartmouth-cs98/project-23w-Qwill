@@ -1,9 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ImageBackground, Image, TouchableWithoutFeedback } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 // Shadow Citation: https://blog.logrocket.com/applying-box-shadows-in-react-native/
+
+// 390 is the logical width of the largest iPhones before pro max sizes
+// https://www.ios-resolution.com/
+const IS_BIG_PHONE = wp(100) > 390;
 
 const ITEM_WIDTH = wp('90%');
 const SMALL_FONT_SIZE = wp('4%');
@@ -26,16 +30,19 @@ const LetterForCarousel = props => {
   };
 
   return (
-    <View style={{margin: 0, flex: 1}}>
+    <View style={{margin: 0, flex: 1, zIndex: props.senderAddress}}>
       <ImageBackground 
         style={styles.imageBackground}
         source={letterStatus === "read" ? require('../assets/openedLetter.png') : require('../assets/letter.png')}>
           <TouchableOpacity 
           style={styles.item}
           onPress={props.onPress}>
-            <View style={{position: 'absolute', flex: 1,
-      left: 0, 
-      bottom: 0, width: ITEM_WIDTH, height: ITEM_WIDTH * .7}}>
+            <View style={{position: 'absolute', 
+                          flex: 1,
+                          left: 0, 
+                          bottom: 0, 
+                          width: ITEM_WIDTH, 
+                          height: ITEM_WIDTH * .7}}>
               <Image style={styles.dateStamp} source={require('../assets/date_stamp.png')}/>
               <View style={styles.stampTextView}>
                 <Text style={styles.monthYear}>{date[0].toUpperCase()}</Text>
@@ -56,13 +63,13 @@ const styles = StyleSheet.create({
       width: ITEM_WIDTH * .5,
       resizeMode: 'contain',
       position: 'absolute',
-      bottom: '37%',  // 37
+      bottom: IS_BIG_PHONE ? '40%' : '37%',  // 37
       left: '34%'
     },
     stampTextView: {
       position: 'absolute',
-      bottom: '63%',
-      left: '66%',
+      bottom: '64%',
+      left: '65.5%',
       flex: 1, 
       flexDirection: 'column', 
       alignItems: 'center'
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
     imageBackground: {
       alignSelf: 'center',
       width: ITEM_WIDTH * 1.03,
-      height: ITEM_WIDTH * 1.03,  // do not change, this is the aspect ratio of the letter png
+      height: ITEM_WIDTH * 0.89,  // do not change, this is the aspect ratio of the letter png
     },
     item : {
       flex: 1, 
