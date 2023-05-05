@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext} from 'react';
-import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { Text, View, StyleSheet, ImageBackground, Dimensions, Image } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
-import { Image } from 'react-native-elements';
+import { FlatList } from 'react-native';
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -19,14 +20,6 @@ import { COLORS } from '../../styles/colors';
 // The react Button component renders the native button on each platform it uses. Because of this, 
 // it does not respond to the style prop. It has its own set of props.
 
-// calculate dimensions for the mailbox image
-const dimensions = Dimensions.get('window');
-const windowWidth = dimensions.width;
-const imageHeight = dimensions.height * (.7);
-const imageWidth = Math.round(imageHeight * .626);
-
-// widths for the slider carousel
-const SLIDER_WIDTH = windowWidth;
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -81,9 +74,14 @@ function HomeScreen({ navigation, route}) {
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
-        <View key={index}>
+        <View key={index}
+              style={{shadowOpacity: .1, 
+                      shadowColor: "#000000",
+                      marginBottom: -hp('20%')}}>
           <LetterForCarousel
             letterStatus={item.status}
+            letterFont={item.font}
+            letterDate={item.createdAt}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={userInfo.user.name}
@@ -140,22 +138,20 @@ function HomeScreen({ navigation, route}) {
               onPress={() => navigation.navigate('Drafts')}/>
         </View>
 
-        <View style={{flex: 1}}></View>
+        <View style={{flex: 0.8}}></View>
 
-        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: windowWidth}} >
-          <ImageBackground
-            source={require('../../assets/mailboxempty.png')}
-            style={{
-              flex: 1,
-              alignContent: 'center',
-              alignItems: 'center',
-              height: imageHeight,
-              width: imageWidth
-            }}
-          >
+        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: wp('100%'), marginBottom: 0}} >
+         
             { mail.length === 0 ? (
+               <ImageBackground
+               source={require('../../assets/mailbox1.png')}
+               imageStyle={{position: 'absolute', bottom: '-50%', left: 0, resizeMode: 'contain' }}
+               style={{
+                 flex: 1
+               }}
+             >
                 <View>
-                  <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flex: 2, padding: '25%', justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={styles.emptyMailboxText}>
                       You don't have any letters in your mailbox.
                     </Text>
@@ -168,28 +164,32 @@ function HomeScreen({ navigation, route}) {
                     />
                   </View>
                 </View>
-              ) : mail.length === 1 ? (
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <LetterForCarousel
-                    letterStatus={mail[0].status}
-                    sender={mail[0].senderInfo.name}
-                    senderAddress={0}
-                    recipient={userInfo.user.name}
-                    recipientAddress={0}
-                    onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
-                  />
-                </View>
-              ): (
+                </ImageBackground>
+              ) : (
               <>
                 <View style={{flex: 0}}/>
-                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
-                  <LetterCarousel 
+                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%'}}>
+                  <FlatList
+                    contentContainerStyle={{marginBottom: 0}}
                     data={mail}
-                    renderItem={renderItem}/>
+                    CellRendererComponent={this.renderItem}
+                    renderItem={renderItem}
+                    bounces={false}
+                    ListFooterComponent={
+                    <Image 
+                      resizeMode="contain" 
+                      style={{
+                        width: wp('100%'),
+                        marginTop: hp('10%'),
+                        marginBottom: -hp('15%')
+                      }} 
+                      source={require('../../assets/mailbox2.png')}>
+                    </Image>}
+                    ListFooterComponentStyle={{width: wp('100%')}}/>
                 </View>
               </>) 
             }
-          </ImageBackground>
+          
         </View>
         <Snackbar
           style={styles.snackbar}
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   },
   emptyMailboxText: {
     fontFamily: 'JosefinSansBold',
-    width: 150,
+    width: wp('50%'),
     fontStyle: "normal",
     fontWeight: "700",
     fontSize: 20,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     letterSpacing: 0.3,
-    color: COLORS.white
+    color: COLORS.black
   },
   snackBarText: {
     color: COLORS.white,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   snackbar: {
     opacity: 0.7,
     alignSelf: 'center',
-    width: windowWidth * .7,
+    width: wp('70%'),
     bottom: 10,
     fontSize: 30,
     borderRadius: 20,
