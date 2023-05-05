@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
       width: ITEM_WIDTH * .5,
       resizeMode: 'contain',
       position: 'absolute',
-      bottom: IS_BIG_PHONE ? '40%' : '37%',  // 37
+      bottom: IS_BIG_PHONE ? '41%' : '37%',  // 37
       left: '34%'
     },
     stampTextView: {
