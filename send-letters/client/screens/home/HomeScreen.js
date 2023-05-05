@@ -89,6 +89,7 @@ function HomeScreen({ navigation, route}) {
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}
+            letterDate={item.createdAt}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={userInfo.user.name}
@@ -145,7 +146,7 @@ function HomeScreen({ navigation, route}) {
               onPress={() => navigation.navigate('Drafts')}/>
         </View>
 
-        <View style={{flex: 1}}></View>
+        <View style={{flex: 0.8}}></View>
 
         <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: windowWidth}} >
           <ImageBackground
@@ -178,6 +179,7 @@ function HomeScreen({ navigation, route}) {
                   <LetterForCarousel
                     letterStatus={mail[0].status}
                     letterFont={mail[0].font}
+                    letterDate={mail[0].createdAt}
                     sender={mail[0].senderInfo.name}
                     senderAddress={0}
                     recipient={userInfo.user.name}
@@ -190,14 +192,16 @@ function HomeScreen({ navigation, route}) {
                 <View style={{flex: 0}}/>
                 <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
                   <FlatList
+                    contentContainerStyle={{marginTop: -hp('7%'), marginBottom: 0}}
                     data={mail}
                     renderItem={renderItem}
+                    bounces={false}
                     ListFooterComponent={
                     <Image 
                       resizeMode="contain" 
                       style={{
                         width: wp('100%'),
-                        marginTop: hp('25%'),
+                        marginTop: hp('15%'),
                         marginBottom: -hp('15%')
                       }} 
                       source={require('../../assets/mailbox2.png')}>
