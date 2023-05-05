@@ -83,12 +83,7 @@ function DraftsScreen({ navigation }) {
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
-
-    console.log(drafts.length)
-    // if (drafts.length == 0) {
-    //   return <Text style={{textAlign:'center'}}>No drafts found</Text>
-    // }
-
+    
     if (drafts && drafts.length == 0) {
       return <Text style={{textAlign:'center'}}>No drafts found</Text>
     }

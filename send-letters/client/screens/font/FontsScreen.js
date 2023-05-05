@@ -4,13 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FontPreview from '../../components/FontPreview';
 import ButtonCircle from '../../components/ButtonCircle';
 import fontData from '../../assets/fontData';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { useIsFocused } from '@react-navigation/native';
 import loadCustomFont from '../../helpers/loadCustomFont';
 import * as Font from 'expo-font';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -35,37 +35,58 @@ const FontsScreen = ({navigation}) => {
 
   // fetch the users custom fonts from the server
   useEffect(() => {
-    
-    async function fetchCustomFonts() {
-      try {
-        const resp = await axios.post(findIP()+"/api/fetchCustomFonts", { userID: userInfo.user._id });
-        
-        if (!resp) {  // could not connect to backend
-          console.log("ERROR: Could not establish server connection with axios");
-          setSnackMessage("Could not establish connection to the server");
-          setSnackIsVisible(true);
-        } else if (resp.data.error) {  // backend error
-          setSnackMessage(resp.data.error);
-          setSnackIsVisible(true);
-        } else if (!resp.data || !resp.data.createdFonts) {
-          console.error("Error: the response does not contain the expected fields");
-        } else {
-          // console.log(resp.data.createdFonts);
-          for (const customFont of resp.data.createdFonts) {
-            if (!Font.isLoaded(customFont.name)) {
-              await Font.loadAsync({ [customFont.name]: customFont.downloadLink });
-            }
-          }
-          setCustomFonts(resp.data.createdFonts);
-
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
     fetchCustomFonts();
   }, [isFocused]);
 
+  const fetchCustomFonts = async () => {
+    try {
+      const resp = await axios.post(findIP()+"/api/fetchCustomFonts", { userID: userInfo.user._id });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.createdFonts) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        // console.log(resp.data.createdFonts);
+        for (const customFont of resp.data.createdFonts) {
+          if (!Font.isLoaded(customFont.name)) {
+            await Font.loadAsync({ [customFont.name]: customFont.dropboxDownloadLink });
+          }
+        }
+        setCustomFonts(resp.data.createdFonts);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteFontPressed = async (item) => {
+    try {
+      const resp = await axios.post(findIP()+"/api/deleteFont", { fontID: item._id });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.ok) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        setSnackMessage("Font " + item.name + " successfully deleted");
+        setSnackIsVisible(true);
+        fetchCustomFonts();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
@@ -98,6 +119,9 @@ const FontsScreen = ({navigation}) => {
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
                   <FontPreview style={{fontFamily: item.name}} title={item.name}></FontPreview>
+                  <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
+                    <Ionicons name="remove-circle" size={20} color="#FF0000"/>
+                  </TouchableOpacity>
                 </View>
               }
               keyExtractor={(item) => item.title}
@@ -191,5 +215,11 @@ const styles = StyleSheet.create({
   btn: {
     width: "18%",
   },
+  removeButton: {
+    position: 'absolute',
+    bottom: -10,
+    right: 0,
+    // zIndex: 1,
+  }
 });
 
