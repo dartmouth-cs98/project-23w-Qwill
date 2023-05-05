@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     title: {
         textAlign: "center",
         fontSize: normalize(10)
-    }
+    },
 });
 
 export default FontPreview;
