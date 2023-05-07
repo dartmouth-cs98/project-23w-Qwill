@@ -1,7 +1,6 @@
 import User from "../schemas/userSchema";
 import Font from "../schemas/fontSchema";
 require("dotenv").config();
-const Dropbox = require('dropbox').Dropbox;
 
 
 export const createCustomFont = async (req, res) => {
