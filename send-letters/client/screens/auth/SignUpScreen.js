@@ -1,7 +1,8 @@
 import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Input, Image } from 'react-native-elements';
+import { TextInput } from 'react-native';
+import { Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,6 +11,8 @@ import findIP from '../../helpers/findIP';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../styles/colors';
+
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -114,24 +117,21 @@ const SignUpScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"/>
-      <View style={{width: "60%"}}>
-        <Image 
-          style={{
-            height: undefined, 
-            width: '100%',
-            aspectRatio: 1,
-            resizeMode: "contain"}}
-          source={require('../../assets/logo.png')}
-        />
+      <View style={{alignContent: 'center'}}>
+        <Text style={styles.signUpHeader}> 
+          Sign Up
+        </Text>
       </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
-        <Input 
+        <TextInput 
+          style={styles.inputField}
           placeholder="Name"
           onChangeText={text => setName(text)}
           autoCorrect={false} 
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Email"
           autofocus
           type="email"
@@ -140,12 +140,14 @@ const SignUpScreen = ({navigation}) => {
           autoCapitalize="none"
           onChangeText={text => setEmail(text.toLowerCase())} 
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Username"
           autoCapitalize="none"
           onChangeText={text => setUsername(text)}
           autoCorrect={false} />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Password"
           secureTextEntry={true}
           type="password"
@@ -199,11 +201,23 @@ const SignUpScreen = ({navigation}) => {
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
+    signUpHeader: {
+      fontSize: wp('18%'),
+      fontFamily: 'JosefinSansBold',
+      marginBottom: hp('4%')
+    },
+    inputField: {
+      backgroundColor: '#E2E8F6',
+      borderRadius: hp('3.2%'),
+      padding: hp('2%'),
+      margin: hp('0.8%'),
+      fontSize: hp('2%')
+    },
     inputContainer: {
-        width: 300,
+        width: wp('73%'),
     },
     button: {
-        width: 200,
+        width: wp('60%'),
         marginTop: 10,
     },
     container: {
@@ -211,7 +225,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: '#F0F4FF',
     },
     imageWithShadow: {
         width: 200, 
@@ -265,6 +279,7 @@ const styles = StyleSheet.create({
     },
     underLineText: {
       fontSize: 17,
+      fontFamily: 'JosefinSansBold',
       textDecorationLine: 'underline',
       color: '#737B7D',
       fontWeight: '600',
