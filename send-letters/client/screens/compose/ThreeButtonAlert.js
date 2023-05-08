@@ -10,7 +10,7 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 const ThreeButtonAlert = ({navigation}) => {
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
-    const handleDiscard = async () => {
+    const handleDiscard = async () => {        
         if (letterInfo.letterID == "") {
             // letter was never saved in db
             navigation.dispatch(
@@ -19,6 +19,7 @@ const ThreeButtonAlert = ({navigation}) => {
                     routes: [{ name: 'Home' }],
                 })
             );
+            return;
         }
 
         const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: letterInfo.letterID });

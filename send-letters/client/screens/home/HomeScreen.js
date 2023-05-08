@@ -8,6 +8,8 @@ import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
 import { FlatList } from 'react-native';
+import * as Font from 'expo-font';
+
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -108,6 +110,11 @@ function HomeScreen({ navigation, route}) {
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {
+          for (letter of resp.data.receivedLetters) {
+            if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+              await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+            }
+          }
           setMail(resp.data.receivedLetters);
         }
       } catch (err) {
