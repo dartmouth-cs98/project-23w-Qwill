@@ -12,7 +12,13 @@ const ThreeButtonAlert = ({navigation}) => {
 
     const handleDiscard = async () => {
         if (letterInfo.letterID == "") {
-            return;  // letter was never saved in db
+            // letter was never saved in db
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                })
+            );
         }
 
         const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: letterInfo.letterID });

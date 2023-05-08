@@ -1,7 +1,6 @@
 import User from "../schemas/userSchema";
 import Font from "../schemas/fontSchema";
 require("dotenv").config();
-const Dropbox = require('dropbox').Dropbox;
 
 
 export const createCustomFont = async (req, res) => {
@@ -59,63 +58,63 @@ export const createCustomFont = async (req, res) => {
                 // Convert base64 file content to a buffer
                 const fileContent = Buffer.from(output, 'base64')
                 const fontName = user.username + "-font-" + (user.numCustomFonts+1).toString();
+                const filePath = user.username + '/' + fontName + ".ttf";
 
-                // Create a new Dropbox instance with the Qwill access token
-                const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN });
+                var admin = require("firebase-admin");
+                const firebaseConfig = require('../qwill-f4d12-firebase-adminsdk-ui2xj-586a2fbd91.json');
 
-                // Upload the font file to Dropbox
-                dbx.filesUpload({
-                    path: '/' + user.username + '/' + fontName + ".ttf",
-                    contents: fileContent,
-                })
-                    .then(uploadResponse => {
-                        // Get the direct download link for the uploaded file
-                        dbx.sharingCreateSharedLinkWithSettings({
-                            path: uploadResponse.result.path_display,
-                            settings: {
-                                access: "viewer",
-                                allow_download: true,
-                                audience: "public",
-                                requested_visibility: "public"
-                            }
-                        })
-                            .then(async (linkResponse) => {
-                                // Convert the link URL to a direct download link (change the link from dl=0 to dl=1 for instant download)
-                                let sharedUrl = linkResponse.result.url;
-                                sharedUrl = sharedUrl.slice(0, -1) + "1";
-                        
-                                try {
-                                    // Add font to db
-                                    const font = await new Font({
-                                        creator: userID,
-                                        name: fontName,
-                                        dropboxDownloadLink: sharedUrl,
-                                        dropboxFilePath: uploadResponse.result.path_display
-                                    }).save();
-                
-                                    // Update number of custom fonts for the user
-                                    await User.updateOne(
-                                        { 'username': user.username }, 
-                                        { 'numCustomFonts': user.numCustomFonts+1 }
-                                    );
-                                    
-                                    return res.json({
-                                        message: "Congrats, your font has been made!",
-                                        font: font
-                                    });
-                
-                                } catch (err) {
-                                    console.log(err);
-                                }
-
-                            })
-                            .catch(error => {
-                                console.error('Error creating shared link:', error);
-                            });
-                    })
-                    .catch(error => {
-                        console.error('Error uploading file:', error);
+                if (!admin.apps.length) {
+                    admin.initializeApp({
+                        credential: admin.credential.cert(firebaseConfig, "Qwill backend"),
+                        storageBucket: "qwill-f4d12.appspot.com"
                     });
+                } 
+
+                // Get a reference to the file in the Firebase Storage service
+                var storage = admin.storage();
+                var fileRef = storage.bucket().file(filePath);
+                  
+                // Upload the file to Firebase Storage
+                fileRef.save(fileContent, {
+                    metadata: {
+                        contentType: "font/ttf"
+                    }
+                }).then(function() {                  
+                    // Generate a download URL for the uploaded file
+                    fileRef.getSignedUrl({
+                        action: "read",
+                        expires: "03-17-2035"
+                    }).then(async function(downloadURL) {
+                        try {
+                            // Add font to db
+                            const font = await new Font({
+                                creator: userID,
+                                name: fontName,
+                                firebaseDownloadLink: downloadURL[0],
+                                firebaseFilePath: filePath
+                            }).save();
+        
+                            // Update number of custom fonts for the user
+                            await User.updateOne(
+                                { 'username': user.username }, 
+                                { 'numCustomFonts': user.numCustomFonts+1 }
+                            );
+                            
+                            return res.json({
+                                message: "Congrats, your font has been made!",
+                                font: font
+                            });
+        
+                        } catch (err) {
+                            console.log(err);
+                        }
+
+                    }).catch(function(error) {
+                        console.log("Error generating download URL:", error);
+                    });
+                }).catch(function(error) {
+                    console.log("Error uploading file:", error);
+                });
 
             // Handle tracked exit errors from Python process defined in ERROR_DICT and return corresponding message
             } else if (exitCode in ERROR_DICT) {
@@ -205,23 +204,38 @@ export const deleteFont = async (req, res) => {
 
         // delete the font from the backend
         try {
-            // delete from dropbox first
-            try {
-                const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN });
-                await dbx.filesDeleteV2({ path: font.dropboxFilePath });
-            } catch (err) {
-                console.error('Error deleting file:', err);
-                return res.status(350).send("Error deleting font from dropbox. Try again.");
-            }
 
-            // delete from MongoDB
-            const resp = await Font.deleteOne(
-                {'_id': fontID}
-            );
+            var admin = require("firebase-admin");
+            const firebaseConfig = require('../qwill-f4d12-firebase-adminsdk-ui2xj-586a2fbd91.json');
 
-            return res.json({
-                ok: true
+            if (!admin.apps.length) {
+                admin.initializeApp({
+                    credential: admin.credential.cert(firebaseConfig, "Qwill backend"),
+                    storageBucket: "qwill-f4d12.appspot.com"
+                });
+            } 
+
+            // Get a reference to the file in the Firebase Storage service
+            var storage = admin.storage();
+            var fileRef = storage.bucket().file(font.firebaseFilePath);
+
+            // Delete the file from Firebase Storage
+            fileRef.delete().then(async function() {
+                console.log("File deleted successfully.");
+
+                // delete from MongoDB
+                const resp = await Font.deleteOne(
+                    {'_id': fontID}
+                );
+
+                return res.json({
+                    ok: true
+                });
+
+            }).catch(function(error) {
+                console.log("Error deleting file:", error);
             });
+
         } catch (err) {
             console.log(err);
             return res.status(300).send("Error deleting font from db. Try again.");

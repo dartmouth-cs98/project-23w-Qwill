@@ -287,14 +287,41 @@ export const fetchLetterHistory = async (req, res) => {
                 }
             },
             {
-                $sort: { 'createdAt': 1 }
+                $lookup: {
+                    from: 'users', 
+                    localField: 'sender',
+                    foreignField: '_id',
+                    as: 'senderInfo'
+                }
             },
+            { $unwind: '$senderInfo' },
             {
-                $project: { '__v': 0 }
+                $lookup: {
+                    from: 'users', 
+                    localField: 'recipient',
+                    foreignField: '_id',
+                    as: 'recipientInfo'
+                }
             },
+            { $unwind: '$recipientInfo' },
+            { $sort: { 'createdAt': 1 } },
             {
-                $limit: 100
-            }
+                $project: { 
+                    '_id': 1,
+                    'sender': 1,
+                    'recipient': 1,
+                    'text': 1,
+                    'status': 1,
+                    'theme': 1,
+                    'font': 1,
+                    'createdAt': 1,
+                    'senderInfo.name': 1,
+                    'senderInfo.username': 1,
+                    'recipientInfo.name': 1,
+                    'recipientInfo.username': 1
+                }
+            },
+            { $limit: 100 }
         ];
         const cursor = Letter.aggregate(query);
 
