@@ -8,14 +8,19 @@ import findIP from '../../helpers/findIP';
 import { Snackbar } from 'react-native-paper';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import { useIsFocused } from '@react-navigation/native';
-import SwipeableLetter from '../../components/SwipeableLetter';
 import { Image } from 'react-native-elements';
 import LetterDetail from '../../components/LetterDetail';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as Font from 'expo-font';
+
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function DraftsScreen({ navigation }) {
+
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const userID = userInfo.user._id;
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -26,6 +31,8 @@ function DraftsScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
+
+  
 
   // fetch the drafts from the server
   useEffect(() => {
@@ -44,6 +51,11 @@ function DraftsScreen({ navigation }) {
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {
+          for (letter of resp.data.receivedLetters) {
+            if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+              await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+            }
+          }
           setDrafts(resp.data.receivedLetters);
         }
       } catch (err) {
@@ -63,6 +75,7 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
+      customFont: item.customFont,
       stickers: item.stickers
     });
     navigation.navigate('NavBar', {
@@ -77,10 +90,6 @@ function DraftsScreen({ navigation }) {
     });
   };
 
-  const handlePress = () => {
-    console.log('Button pressed');
-  };
-
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
     
@@ -90,18 +99,27 @@ function DraftsScreen({ navigation }) {
     return (
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{justifyContent: 'center'}}
+          contentContainerStyle={{}}
           data={drafts}
           numColumns={1}
           renderItem={({item}) => 
+          <View style={{justifyContent: 'center', alignItems: 'center', width: wp("100%")}}>
+            <TouchableOpacity style={styles.btn}>
+              <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)}></Ionicons>
+              <View style={styles.xBackground}></View>
+            </TouchableOpacity>
             <View style={{marginVertical: 10}}>
               <LetterDetail 
                 text={item.text} 
-                themeID={item.themeID} 
-                fontID={item.fontID} 
-                width={item * .65} 
-                height={screenHeight * .46}/>
+                themeID={item.theme} 
+                fontID={item.font} 
+                width={wp('90%')*.8} 
+                height={hp('64%')*.8}
+                touchable={true}
+                onPress={() => handleDraftPressed(item)}
+              />
             </View>
+          </View>
             }
           keyExtractor={item => item._id}
         />
@@ -150,4 +168,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.5,
   },
+  icon: {
+    color: 'red',
+    zIndex: 2,
+  }, 
+  btn: {
+    zIndex: 1,
+    position: 'absolute',
+    top: wp(-.5),
+    left: wp('90%')*.92,
+  }, 
+  xBackground: {
+    backgroundColor: 'white',
+    width: wp(3),
+    height: wp(3),
+    position: 'absolute',
+    top: wp(2),
+    left: wp(2),
+  }
 })

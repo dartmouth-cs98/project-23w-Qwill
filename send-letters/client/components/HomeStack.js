@@ -12,7 +12,7 @@ const HomeStack = () => {
     <Stack.Navigator initialRouteName="Mailbox" screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
       <Stack.Screen name='Mailbox' component={HomeScreen}/>
       <Stack.Screen name='Drafts' component={DraftsScreen}/> 
-      <Stack.Screen name='LetterDetail' component={LetterDetailScreen}/> 
+      <Stack.Screen name='LetterDetail' component={LetterDetailScreen}/>  
     </Stack.Navigator>
   );
 }

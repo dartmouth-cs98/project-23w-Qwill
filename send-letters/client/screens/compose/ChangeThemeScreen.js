@@ -35,6 +35,8 @@ const ChangeThemeScreen = ({ navigation, route }) => {
         recipientUsername: "",
         themeID: "",
         fontID: "",
+        fontName: "",
+        customFont: false,
         stickers: []
       });
     }

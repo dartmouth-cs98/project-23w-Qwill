@@ -4,7 +4,7 @@ import Letter from "../schemas/letterSchema";
 
 export const makeLetter = async (req, res) => {
     try {
-        const { text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;        
+        const { text, recipientID, themeID, fontID, customFont, senderID, stickers, status } = req.body;        
 
         // check if our db has user with the ID of the sender
         const sender = await User.findOne({
@@ -35,6 +35,7 @@ export const makeLetter = async (req, res) => {
                 status: status,
                 theme: themeID,
                 font: fontID,
+                customFont: customFont,
                 stickers: stickers
             }).save();
 
@@ -88,12 +89,15 @@ export const fetchLetters = async (req, res) => {
 
         // define query (lookup is equivalent of a left join)
         const query = [
+            // Match all letters with the user as either the receiver/sender (based on userStatus)
+            //   and with the status being in the array of possible statuses
             {
                $match: {
                     [userStatus]: new mongoose.Types.ObjectId(user._id), 
                     '$or': letterStatusMatch
                 }
             },
+            // Add information on the other involved person involved in the letter to send back to user
             {
                 $lookup: {
                     from: "users", 
@@ -105,8 +109,35 @@ export const fetchLetters = async (req, res) => {
             { 
                 $unwind: "$"+userInfoNeeded+"Info"
             },
+            // Add 3 part query defined at bottom of script to add the font info to letters made with a custom font
+            addFontInfo[0],  // Add the field `fontObjectId` for letters sent with a custom font (`addFields`)
+            addFontInfo[1],  // Add necessary information about custom fonts from `fonts` collection in `customFont` field (`lookup)
+            addFontInfo[2],  // Add the field `fontInfo` containing the relevant information from the `customFont` field (`addFields`)
+            // Hide unecessary fields and sort by creation date
+            {
+                $project: {
+                    fontObjectId: 0,
+                    customFontInfo: 0,
+                    updatedAt: 0,
+                    __v: 0,
+                    [userInfoNeeded+"Info.__v"]: 0,
+                    [userInfoNeeded+"Info.numCustomFonts"]: 0,
+                    [userInfoNeeded+"Info.email"]: 0,
+                    [userInfoNeeded+"Info.password"]: 0,
+                    [userInfoNeeded+"Info.createdAt"]: 0,
+                    [userInfoNeeded+"Info.updatedAt"]: 0,
+                    ["fontInfo.__v"]: 0,
+                    ["fontInfo.createdAt"]: 0,
+                    ["fontInfo.updatedAt"]: 0,
+                    ["fontInfo.creator"]: 0,
+                    ["fontInfo.firebaseFilePath"]: 0,
+                }
+            },
             {
                 $sort: { createdAt: -1 }
+            },
+            { 
+                $limit: 100 
             }
         ];
         const cursor = Letter.aggregate(query);
@@ -166,7 +197,7 @@ export const updateLetterStatus = async (req, res) => {
 export const updateLetterInfo = async (req, res) => {    
     try {
         // get letterID and the new values for the letter
-        const { letterID, text, recipientID, themeID, fontID, senderID, stickers, status } = req.body;
+        const { letterID, text, recipientID, themeID, fontID, customFont, senderID, stickers, status } = req.body;
 
         // check if our db has a letter with the ID of the recipient
         const letter = await Letter.findOne({
@@ -189,6 +220,7 @@ export const updateLetterInfo = async (req, res) => {
                     'recipient': recipientID,
                     'theme': themeID,
                     'font': fontID,
+                    'customFont': customFont,
                     'stickers': stickers
                 }
             );
@@ -304,7 +336,10 @@ export const fetchLetterHistory = async (req, res) => {
                 }
             },
             { $unwind: '$recipientInfo' },
-            { $sort: { 'createdAt': 1 } },
+            // Add 3 part query defined at bottom of script to add the font info to letters made with a custom font
+            addFontInfo[0],  // Add the field `fontObjectId` for letters sent with a custom font (`addFields`)
+            addFontInfo[1],  // Add necessary information about custom fonts from `fonts` collection in `customFont` field (`lookup)
+            addFontInfo[2],  // Add the field `fontInfo` containing the relevant information from the `customFont` field (`addFields`)
             {
                 $project: { 
                     '_id': 1,
@@ -321,7 +356,12 @@ export const fetchLetterHistory = async (req, res) => {
                     'recipientInfo.username': 1
                 }
             },
-            { $limit: 100 }
+            {
+                $sort: { createdAt: -1 }
+            },
+            { 
+                $limit: 100 
+            }
         ];
         const cursor = Letter.aggregate(query);
 
@@ -340,3 +380,38 @@ export const fetchLetterHistory = async (req, res) => {
         return res.status(400).send("Error. Try again.");
     }
 };
+
+const addFontInfo = [
+    // Add the field `fontObjectId` for letters sent with a custom font
+    {
+        $addFields: {
+            fontObjectId: {
+                $cond: {
+                    if: { $eq: ["$customFont", true] },
+                    then: { $toObjectId: "$font" },
+                    else: null
+                }
+            }
+        }
+    },
+    // Add necessary information about custom fonts from `fonts` collection
+    {
+        $lookup: {
+            from: "fonts",
+            localField: "fontObjectId",
+            foreignField: "_id",
+            as: "customFontInfo"
+        }
+    },
+    {
+        $addFields: {
+            fontInfo: {
+                $cond: {
+                    if: { $eq: ["$customFont", true] },
+                    then: { $arrayElemAt: ["$customFontInfo", 0] },
+                    else: null
+                }
+            }
+        }
+    },
+];

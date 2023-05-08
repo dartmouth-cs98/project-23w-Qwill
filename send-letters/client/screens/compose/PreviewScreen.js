@@ -53,6 +53,8 @@ function PreviewScreen({ navigation }) {
           themeID: "",
           recipientUsername: "",
           fontID: "",
+          fontName: "",
+          customFont: false,
           stickers: []
         });
         navigation.replace('NavBar', 
@@ -107,8 +109,8 @@ function PreviewScreen({ navigation }) {
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
           <PreviewEditRow text={letterInfo.recipientUsername} category={"Recipient"}/>
-          <PreviewEditRow text={letterInfo.themeID === "" ? "None" : letterInfo.themeID} category={"Theme"}/>
-          <PreviewEditRow text={letterInfo.fontID === "" ? "Default": letterInfo.fontID} category={"Font"}/>
+          <PreviewEditRow text={letterInfo.themeID} category={"Theme"}/>
+          <PreviewEditRow text={letterInfo.fontName} category={"Font"}/>
         </View>
       </View>
       <View style={{flex: .7, justifyContent: 'space-between'}}>
@@ -128,12 +130,12 @@ function PreviewScreen({ navigation }) {
           onPress={() => handleSendPressed()}
         />
       </View>
-      <ButtonPrimary
+      {/* <ButtonPrimary
           textWidth={115}
           title={"share it!!!"}
           selected={true}
           onPress={() => handleSharePressed()}
-        />
+      /> */}
       <Snackbar
           //SnackBar visibility control
           visible={snackIsVisible}

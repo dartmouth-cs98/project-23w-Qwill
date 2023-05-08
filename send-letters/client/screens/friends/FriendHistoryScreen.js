@@ -5,7 +5,7 @@ import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import LetterHistoryPreview from '../../components/LetterHistoryPreview';
-
+import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
@@ -36,7 +36,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
   const updateLetterHistory = async () => {
     try {
       const resp = await axios.post(findIP()+"/api/fetchLetterHistory", { userID: userInfo.user._id, friendID: item._id });
-
+      console.log(resp.data);
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -47,11 +47,28 @@ export default function FriendHistoryScreen({ route, navigation }) {
       } else if (!resp.data || !resp.data.letterHistory) {
         console.error("Error: the response does not contain the expected fields");
       } else {
+        for (letter of resp.data.letterHistory) {
+          if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+            await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+          }
+        }
         setLetterHistory(resp.data.letterHistory);
       }
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+    navigation.navigate('LetterHistoryDetail', {
+      letterText: letterText,
+      letterID: letterID,
+      letterStatus: letterStatus,
+      senderID: senderID,
+      senderUsername: senderUsername,
+      themeID: themeID,
+      fontID: fontID
+    });
   };
 
   const renderItem = (item) => {
@@ -65,7 +82,17 @@ export default function FriendHistoryScreen({ route, navigation }) {
       //   {item.text + "\n\n\n\n"}
       // </Text>
       <View style={{alignSelf: alignDirection, marginLeft: windowWidth*.1, marginRight: windowWidth*.1}}>
-        <LetterHistoryPreview sender={item.sender} recipient={item.recipient}></LetterHistoryPreview>
+        {/* <LetterHistoryPreview item={item} onPress={handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}></LetterHistoryPreview> */}
+        <LetterHistoryPreview 
+            letterStatus={item.status}
+            letterFont={item.font}
+            letterDate={item.createdAt}
+            sender={item.senderInfo.name}
+            // senderAddress={index}
+            recipient={item.recipientInfo.name}
+            // recipientAddress={index}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
+        ></LetterHistoryPreview>
       </View>
     );
   }

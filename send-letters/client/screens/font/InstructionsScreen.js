@@ -63,8 +63,8 @@ const FontsScreen = ({navigation}) => {
           setSnackIsVisible(true);
           // load the font
           const customFont = resp.data.font;
-          if (!Font.isLoaded(customFont.name)) {
-            await Font.loadAsync({ [customFont.name]: customFont.firebaseDownloadLink });
+          if (!Font.isLoaded(customFont._id)) {
+            await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
           }
         }
       } catch (err) {

@@ -11,12 +11,13 @@ const ChangeFontScreen = ({ navigation }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const handleNextPressed = (selectedFont) => {
-    setLetterInfo({ ...letterInfo, fontID: selectedFont });
+    setLetterInfo({ ...letterInfo, fontID: selectedFont, fontName: selectedFont });
     navigation.goBack(null);
   };
+  
   return (
     <SafeAreaView style={styles.safeview}>
-      <View style={styles.fontsContainer}>
+      <View style={styles.defaultFontsContainer}>
         <View style={{ flexDirection: "row" }}>
           <FlatList
             ListHeaderComponent={<Text style={styles.selectTitleText}> Select a font </Text>}

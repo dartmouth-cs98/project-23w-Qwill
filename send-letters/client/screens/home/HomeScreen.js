@@ -8,6 +8,8 @@ import findIP from '../../helpers/findIP';
 import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
 import { FlatList } from 'react-native';
+import * as Font from 'expo-font';
+
 
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -57,7 +59,7 @@ function HomeScreen({ navigation, route}) {
 
     try {
       const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
-
+      
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
       setSnackMessage("Could not establish connection to the server");
@@ -97,7 +99,7 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
-        
+        console.log(resp.data)
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
           setSnackMessage("Could not establish connection to the server");
@@ -108,6 +110,11 @@ function HomeScreen({ navigation, route}) {
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {
+          for (letter of resp.data.receivedLetters) {
+            if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+              await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+            }
+          }
           setMail(resp.data.receivedLetters);
         }
       } catch (err) {
