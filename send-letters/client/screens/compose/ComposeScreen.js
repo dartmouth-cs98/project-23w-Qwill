@@ -38,11 +38,21 @@ function ComposeScreen({ navigation, route }) {
       const imageUri = Image.resolveAssetSource(imageSource).uri;
       Image.getSize(imageUri, (width, height) => {
         console.log(sticker, width, height);
-        setImageData([...imageData, { source: imageSource, x: 425 - (width) - (width / 4), y: (height / 4) }]);
+        setImageData([
+          ...imageData,
+          {
+            source: imageSource,
+            x: 425 - width - width / 4,
+            y: height / 4,
+            initialX: 425 - width - width / 4,
+            initialY: height / 4,
+          },
+        ]);
       });
       setSticker(null);
     }
-  }
+  };
+
 
   // Enables moving of the sticker
   const panResponder = PanResponder.create({
@@ -141,9 +151,9 @@ function ComposeScreen({ navigation, route }) {
 
   const handleNextPressed = () => {
     setNextButtonDisabled(true);
-    setTimeout(()=>{
+    setTimeout(() => {
       setNextButtonDisabled(false);
-   }, 1000);
+    }, 1000);
     navigation.push('Preview');
   };
 
@@ -161,40 +171,67 @@ function ComposeScreen({ navigation, route }) {
         style={{ flex: 1, width: '100%', height: '95%' }}
         source={images.themes[letterInfo.themeID]}>
         <View
-          onStartShouldSetResponder={() => true}
-          {...panResponder.panHandlers}
           style={{ flex: 1 }}
         >
-          <Input
-            style={{
-              fontFamily: letterInfo.fontID,
-              marginTop: 20,
-              fontSize: 22,
-              height: 610,
-              width: "90%",
-              marginLeft: 5,
-              marginRight: 5,
-            }}
-            placeholder={"Start writing your letter!"}
-            inputContainerStyle={{ borderBottomWidth: 0 }}
-            onChangeText={(text) => {
-              hasTyped = true;
-              handleTextChange(text);
-            }}
-            multiline={true}
-            defaultValue={defaultText}
-            autoCapitalize="none"
-          />
+          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
+            <Input
+              style={{
+                fontFamily: letterInfo.fontID,
+                marginTop: 20,
+                fontSize: 22,
+                height: 610,
+                width: "90%",
+                marginLeft: 5,
+                marginRight: 5,
+              }}
+              placeholder={"Start writing your letter!"}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              onChangeText={(text) => {
+                hasTyped = true;
+                handleTextChange(text);
+              }}
+              multiline={true}
+              defaultValue={defaultText}
+              autoCapitalize="none"
+            />
+          </TouchableOpacity>
         </View>
 
-        {imageData.map((data, index) => (
-          <Image
-            key={index}
-            source={data.source}
-            style={{ position: 'absolute', left: data.x, top: data.y }}
-            {...(index === selectedStickerIndex ? panResponder.panHandlers : {})}
-          />
-        ))}
+        {imageData.map((data, index) => {
+          const stickerPanResponder = PanResponder.create({
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: () => {
+              setSelectedStickerIndex(index);
+              setInitialStickerPosition({ x: data.x, y: data.y });
+            },
+            onPanResponderMove: (event, gestureState) => {
+              if (selectedStickerIndex === index) {
+                const updatedImageData = [...imageData];
+                updatedImageData[selectedStickerIndex] = {
+                  ...updatedImageData[selectedStickerIndex],
+                  x: initialStickerPosition.x + gestureState.dx,
+                  y: initialStickerPosition.y + gestureState.dy,
+                };
+                setImageData(updatedImageData);
+              }
+            },
+            onPanResponderRelease: () => {
+              if (selectedStickerIndex === index) {
+                setInitialStickerPosition(null);
+                setSelectedStickerIndex(null);
+              }
+            },
+          });
+
+          return (
+            <Image
+              key={index}
+              source={data.source}
+              style={{ position: 'absolute', left: data.x, top: data.y }}
+              {...stickerPanResponder.panHandlers}
+            />
+          );
+        })}
 
       </ImageBackground>
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
