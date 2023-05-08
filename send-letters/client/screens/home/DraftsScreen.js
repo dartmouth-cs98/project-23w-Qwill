@@ -11,6 +11,8 @@ import { useIsFocused } from '@react-navigation/native';
 import SwipeableLetter from '../../components/SwipeableLetter';
 import { Image } from 'react-native-elements';
 import LetterDetail from '../../components/LetterDetail';
+import * as Font from 'expo-font';
+
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -44,6 +46,11 @@ function DraftsScreen({ navigation }) {
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {
+          for (letter of resp.data.receivedLetters) {
+            if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+              await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+            }
+          }
           setDrafts(resp.data.receivedLetters);
         }
       } catch (err) {
@@ -63,6 +70,7 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
+      customFont: item.customFont,
       stickers: item.stickers
     });
     navigation.navigate('NavBar', {
