@@ -10,11 +10,11 @@ const fontSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    dropboxDownloadLink: {
+    firebaseDownloadLink: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    dropboxFilePath: {
+    firebaseFilePath: {
         type: mongoose.Schema.Types.String,
         required: true
     },
