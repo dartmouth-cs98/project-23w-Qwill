@@ -9,7 +9,6 @@ import { useIsFocused } from '@react-navigation/native';
 import { FlatList } from 'react-native';
 import * as Font from 'expo-font';
 
-
 // component imports
 import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
@@ -124,26 +123,6 @@ function HomeScreen({ navigation, route}) {
 
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
-        <View style={[styles.header, styles.shadowLight]}></View>
-        <Image 
-            style={{
-              height: undefined, 
-              width: '60%',
-              aspectRatio: 4,
-              resizeMode: "contain",
-              marginBottom: 15
-            }}
-            source={require('../../assets/logo.png')}
-          />
-        <View style={{ flexDirection:"row"}}>
-          <ButtonPrimary selected={true} title={"Mailbox"}/>
-          <ButtonPrimary 
-              selected={false} 
-              title={"Drafts"} 
-              onPress={() => navigation.navigate('Drafts')}/>
-        </View>
-
-        <View style={{flex: 0.8}}></View>
 
         <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: wp('100%'), marginBottom: 0}} >
          
@@ -176,6 +155,7 @@ function HomeScreen({ navigation, route}) {
                 <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%'}}>
                   <FlatList
                     contentContainerStyle={{marginBottom: 0}}
+                    shouldComponentUpdate={() => {return false;}}
                     data={mail}
                     CellRendererComponent={this.renderItem}
                     renderItem={renderItem}
