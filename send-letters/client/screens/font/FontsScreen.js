@@ -8,7 +8,6 @@ import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { useIsFocused } from '@react-navigation/native';
-import loadCustomFont from '../../helpers/loadCustomFont';
 import * as Font from 'expo-font';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -54,8 +53,8 @@ const FontsScreen = ({navigation}) => {
       } else {
         // console.log(resp.data.createdFonts);
         for (const customFont of resp.data.createdFonts) {
-          if (!Font.isLoaded(customFont.name)) {
-            await Font.loadAsync({ [customFont.name]: customFont.firebaseDownloadLink });
+          if (!Font.isLoaded(customFont._id)) {
+            await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
           }
         }
         setCustomFonts(resp.data.createdFonts);
@@ -118,7 +117,7 @@ const FontsScreen = ({navigation}) => {
               numColumns={3}
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
-                  <FontPreview style={{fontFamily: item.name}} title={item.name}></FontPreview>
+                  <FontPreview style={{fontFamily: item._id}} title={item.name}></FontPreview>
                   <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
                     <Ionicons name="remove-circle" size={20} color="#FF0000"/>
                   </TouchableOpacity>

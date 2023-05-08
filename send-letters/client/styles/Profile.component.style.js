@@ -32,7 +32,13 @@ export default StyleSheet.create({
     borderRadius: 20,
     marginBottom: hp('1.61%'), // (15/932) * 100% ≈ 1.61% of screen height
   },
-  fontsContainer: {
+  customFontsContainer: {
+    width: wp('88%'),
+    marginLeft: wp('6%'), 
+    marginRight: wp('6%'),
+    marginTop: hp('2%'),
+  },
+  defaultFontsContainer: {
     width: wp('82%'),
     height: hp('80%'),
     borderRadius: 20,

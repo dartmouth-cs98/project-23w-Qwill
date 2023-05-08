@@ -63,6 +63,7 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
+      customFont: item.customFont,
       stickers: item.stickers
     });
     navigation.navigate('NavBar', {
