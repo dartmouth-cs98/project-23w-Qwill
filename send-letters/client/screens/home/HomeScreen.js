@@ -157,6 +157,7 @@ function HomeScreen({ navigation, route}) {
                 <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%'}}>
                   <FlatList
                     contentContainerStyle={{marginBottom: 0}}
+                    shouldComponentUpdate={() => {return false;}}
                     data={mail}
                     CellRendererComponent={this.renderItem}
                     renderItem={renderItem}

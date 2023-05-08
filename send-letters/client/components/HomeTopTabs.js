@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import HomeScreen from '../screens/home/HomeScreen';
 import DraftsScreen from '../screens/home/DraftsScreen';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
 import React from 'react';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -13,7 +13,7 @@ const HomeTopTabs = () => {
         flex: 1,
         backgroundColor: '#bdccf2',
         flexDirection: 'column',
-        paddingTop: 50, 
+        paddingTop: hp('5%'), 
       }}>
       <Image 
             style={{
@@ -21,13 +21,17 @@ const HomeTopTabs = () => {
               width: '60%',
               aspectRatio: 4,
               alignSelf: 'center',
-              resizeMode: "contain"
+              resizeMode: "contain",
             }}
             source={require('../assets/logo.png')}
           />
       <Tab.Navigator
       initialRouteName={'Mailbox'}
       screenOptions={{
+        tabBarLabelStyle: {
+          fontSize: hp('2%'),
+          textTransform: 'none'
+        },
         tabBarStyle: styles.shadowLight,
       }}>
         <Tab.Screen name='Mailbox' component={HomeScreen} />
