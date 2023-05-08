@@ -2,14 +2,12 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import fontData from '../../assets/fontData';
 import FontPreview from '../../components/FontPreview';
 import React, { useContext, useState } from 'react';
-import styles from '../../styles/Profile.component.style';
 
 const SelectFontScreen = ({ navigation }) => {
-
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const handleNextPressed = (selectedFont) => {

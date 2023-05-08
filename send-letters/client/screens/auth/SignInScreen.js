@@ -1,13 +1,14 @@
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
-import React, { useState, useContext } from 'react'
-import { StatusBar } from 'expo-status-bar';
+import { AuthContext } from '../../context/AuthContext';
 import { Input, Image } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
-import ButtonPrimary from '../../components/ButtonPrimary';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import ButtonPrimary from '../../components/ButtonPrimary';
+import findIP from '../../helpers/findIP';
+import React, { useState, useContext } from 'react'
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -117,28 +118,27 @@ const SignInScreen = ({ navigation }) => {
 };
 
 export default SignInScreen;
-
 const styles = StyleSheet.create({
   inputContainer: {
-    width: 300,
+    width: wp('80%'),
   },
   button: {
-    width: 200,
-    marginTop: 10,
+    width: wp('40%'),
+    marginTop: hp('2%'),
   },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+    padding: wp('4%'),
     backgroundColor: 'white',
   },
   imageWithShadow: {
-    width: 200,
-    height: 200,
+    width: wp('50%'),
+    height: wp('50%'),
     shadowColor: '#171717',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: hp('0.1%') },
     shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowRadius: wp('0.5%'),
   },
 });
