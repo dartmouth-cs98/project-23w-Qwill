@@ -12,7 +12,6 @@ import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
 
-
 function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [snackMessage, setSnackMessage] = useState("");
@@ -21,6 +20,8 @@ function ComposeScreen({ navigation, route }) {
   const [imageData, setImageData] = useState([]);
   const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
   // Passed into child screen ChangeStickerScreen and called from there
   const stickerSelected = (sticker) => {
@@ -133,6 +134,10 @@ function ComposeScreen({ navigation, route }) {
   }
 
   const handleNextPressed = () => {
+    setNextButtonDisabled(true);
+    setTimeout(()=>{
+      setNextButtonDisabled(false);
+   }, 1000);
     navigation.push('Preview');
   };
 
@@ -171,7 +176,7 @@ function ComposeScreen({ navigation, route }) {
         ))}
       </ImageBackground>
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
+        <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
