@@ -20,7 +20,7 @@ const letterHistoryPreview = props => {
     <TouchableOpacity 
       style={[styles.item, styles.shadow]}
       onPress={props.onPress}>
-      <Text style={{...styles.letterTextHeader, fontFamily: props.item.font}}>{props.item.senderInfo}{"\n"}</Text>
+      <Text style={{...styles.letterTextHeader, fontFamily: props.item.font}}>{props.item.sender}{"\n"}</Text>
       <Text style={{...styles.letterTextCenter, fontFamily: props.item.font}}>{props.item.recipient}{"\n"}</Text>
     </TouchableOpacity>
   )

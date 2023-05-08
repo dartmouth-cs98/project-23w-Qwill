@@ -36,7 +36,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
   const updateLetterHistory = async () => {
     try {
       const resp = await axios.post(findIP()+"/api/fetchLetterHistory", { userID: userInfo.user._id, friendID: item._id });
-
+      console.log(resp.data);
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");

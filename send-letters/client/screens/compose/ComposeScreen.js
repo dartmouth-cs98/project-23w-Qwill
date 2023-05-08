@@ -136,8 +136,6 @@ function ComposeScreen({ navigation, route }) {
     navigation.push('Preview');
   };
 
-<<<<<<< HEAD
-=======
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
@@ -179,5 +177,4 @@ function ComposeScreen({ navigation, route }) {
   );
 };
 
->>>>>>> 0714ecb8cc66858e70627d2e857d72fd803d7e53
 export default ComposeScreen;

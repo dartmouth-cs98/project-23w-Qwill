@@ -57,7 +57,7 @@ function HomeScreen({ navigation, route}) {
 
     try {
       const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
-
+      
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
       setSnackMessage("Could not establish connection to the server");
@@ -97,7 +97,7 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
-        
+        console.log(resp.data)
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
           setSnackMessage("Could not establish connection to the server");
