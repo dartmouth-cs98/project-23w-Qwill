@@ -11,14 +11,6 @@ import HomeTopTabs from './HomeTopTabs';
 
 const Stack = createNativeStackNavigator();
 
-
-{/* <Stack.Screen name='Mailbox' component={HomeScreen}/>
-      <Stack.Screen name='Drafts' component={DraftsScreen}/>  */}
-
-       {/* <Stack.Screen name='HomeTopTabs' component={HomeTopTabs} /> */}
-
-
-
 const HomeStack = () => {
   return (
     <Stack.Navigator initialRouteName="Mailbox" screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F0F4FF' }}}>
