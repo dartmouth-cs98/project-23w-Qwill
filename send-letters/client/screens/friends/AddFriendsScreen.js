@@ -1,20 +1,19 @@
-import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio } from 'react-native';
-import React, { useState, useContext, useEffect } from 'react'
-import { useIsFocused } from '@react-navigation/native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Input } from 'react-native-elements'
-import { AuthContext } from '../../context/AuthContext';
-//import styles from '../../styles/Profile.component.style.js';
-import COLORS from '../../styles/colors';
-import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import AddFriendButton from '../../components/AddFriendButton';
-import PendingFriendButton from '../../components/PendingFriendButton';
-
-const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
+import { AuthContext } from '../../context/AuthContext';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
+import { Input } from 'react-native-elements'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import AddFriendButton from '../../components/AddFriendButton';
+import axios from 'axios';
+import COLORS from '../../styles/colors';
+import findIP from '../../helpers/findIP';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import PendingFriendButton from '../../components/PendingFriendButton';
+import React, { useState, useContext, useEffect } from 'react'
 
 const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
 
@@ -247,7 +246,7 @@ const AddFriendsScreen = ({ navigation }) => {
         { 
           pendingFriends.length == 0 ? (
             <View style={{padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={styles.noMatchingUsers}>
+              <Text style={{ textAlign: 'center' }}>
                 You don't have any incoming friend requests.
               </Text>
             </View> 
@@ -283,46 +282,46 @@ export default AddFriendsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 40,
+    fontSize: hp('4%'),
     fontWeight: 'bold',
     // textAlign: 'left',
     flex: 1,
     // marginLeft: 30,
-    marginTop: 5
+    marginTop: hp('1%')
   },
   subtitleText: {
     fontFamily: 'JosefinSans',
     fontSize: normalize(20),
     textAlign: 'left',
-    marginTop: 5,
-    marginBottom: windowHeight*.02,
-    marginLeft: windowWidth*.04
+    marginTop: hp('1%'),
+    marginBottom: hp('2%'),
+    marginLeft: wp('4%')
   },
   inputContainer: {
-    width: 350,
-    height: 585,
-    borderRadius: 20,
-    marginTop: 20,
+    width: wp('90%'),
+    height: hp('78%'),
+    borderRadius: hp('2%'),
+    marginTop: hp('2%'),
     flex: 1,
   },
   suggestionsContainer: {
     width: "100%",
   },
   line: {
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: hp('1.5%'),
+    marginBottom: hp('1.5%'),
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: "90%",
     alignSelf: 'center'
   },
   noMatchingUsers: {
-    fontFamily: 'JosefinSansBold',
-    width: windowWidth*.8,
+    fontFamily: 'JosefinSans',
+    width: wp('80%'),
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: 20,
-    lineHeight: 20,
+    fontWeight: "200",
+    fontSize: hp('2.5%'),
+    lineHeight: hp('2.5%'),
     display: "flex",
     textAlign: "center",
     letterSpacing: 0.3,
@@ -332,6 +331,6 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     color: COLORS.black,
-    marginLeft: "5%"
+    marginLeft: wp('2%')
   }
-})
+});
