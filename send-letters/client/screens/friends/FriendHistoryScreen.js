@@ -5,7 +5,7 @@ import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import LetterHistoryPreview from '../../components/LetterHistoryPreview';
-
+import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
@@ -47,6 +47,11 @@ export default function FriendHistoryScreen({ route, navigation }) {
       } else if (!resp.data || !resp.data.letterHistory) {
         console.error("Error: the response does not contain the expected fields");
       } else {
+        for (letter of resp.data.letterHistory) {
+          if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+            await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+          }
+        }
         setLetterHistory(resp.data.letterHistory);
       }
     } catch (err) {

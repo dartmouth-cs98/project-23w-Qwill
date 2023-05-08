@@ -109,38 +109,10 @@ export const fetchLetters = async (req, res) => {
             { 
                 $unwind: "$"+userInfoNeeded+"Info"
             },
-            // Add the field `fontObjectId` for letters sent with a custom font
-            {
-                $addFields: {
-                    fontObjectId: {
-                        $cond: {
-                            if: { $eq: ["$customFont", true] },
-                            then: { $toObjectId: "$font" },
-                            else: null
-                        }
-                    }
-                }
-            },
-            // Add necessary information about custom fonts from `fonts` collection
-            {
-                $lookup: {
-                    from: "fonts",
-                    localField: "fontObjectId",
-                    foreignField: "_id",
-                    as: "customFontInfo"
-                }
-            },
-            {
-                $addFields: {
-                    fontInfo: {
-                        $cond: {
-                            if: { $eq: ["$customFont", true] },
-                            then: { $arrayElemAt: ["$customFontInfo", 0] },
-                            else: null
-                        }
-                    }
-                }
-            },
+            // Add 3 part query defined at bottom of script to add the font info to letters made with a custom font
+            addFontInfo[0],  // Add the field `fontObjectId` for letters sent with a custom font (`addFields`)
+            addFontInfo[1],  // Add necessary information about custom fonts from `fonts` collection in `customFont` field (`lookup)
+            addFontInfo[2],  // Add the field `fontInfo` containing the relevant information from the `customFont` field (`addFields`)
             // Hide unecessary fields and sort by creation date
             {
                 $project: {
@@ -163,6 +135,9 @@ export const fetchLetters = async (req, res) => {
             },
             {
                 $sort: { createdAt: -1 }
+            },
+            { 
+                $limit: 100 
             }
         ];
         const cursor = Letter.aggregate(query);
@@ -170,7 +145,6 @@ export const fetchLetters = async (req, res) => {
         // build the list of received letters
         var receivedLetters = [];
         for await (const doc of cursor) {
-            console.log(doc)
             receivedLetters.push(doc);
         }
 
@@ -362,7 +336,10 @@ export const fetchLetterHistory = async (req, res) => {
                 }
             },
             { $unwind: '$recipientInfo' },
-            { $sort: { 'createdAt': 1 } },
+            // Add 3 part query defined at bottom of script to add the font info to letters made with a custom font
+            addFontInfo[0],  // Add the field `fontObjectId` for letters sent with a custom font (`addFields`)
+            addFontInfo[1],  // Add necessary information about custom fonts from `fonts` collection in `customFont` field (`lookup)
+            addFontInfo[2],  // Add the field `fontInfo` containing the relevant information from the `customFont` field (`addFields`)
             {
                 $project: { 
                     '_id': 1,
@@ -379,7 +356,12 @@ export const fetchLetterHistory = async (req, res) => {
                     'recipientInfo.username': 1
                 }
             },
-            { $limit: 100 }
+            {
+                $sort: { createdAt: -1 }
+            },
+            { 
+                $limit: 100 
+            }
         ];
         const cursor = Letter.aggregate(query);
 
@@ -398,3 +380,38 @@ export const fetchLetterHistory = async (req, res) => {
         return res.status(400).send("Error. Try again.");
     }
 };
+
+const addFontInfo = [
+    // Add the field `fontObjectId` for letters sent with a custom font
+    {
+        $addFields: {
+            fontObjectId: {
+                $cond: {
+                    if: { $eq: ["$customFont", true] },
+                    then: { $toObjectId: "$font" },
+                    else: null
+                }
+            }
+        }
+    },
+    // Add necessary information about custom fonts from `fonts` collection
+    {
+        $lookup: {
+            from: "fonts",
+            localField: "fontObjectId",
+            foreignField: "_id",
+            as: "customFontInfo"
+        }
+    },
+    {
+        $addFields: {
+            fontInfo: {
+                $cond: {
+                    if: { $eq: ["$customFont", true] },
+                    then: { $arrayElemAt: ["$customFontInfo", 0] },
+                    else: null
+                }
+            }
+        }
+    },
+];
