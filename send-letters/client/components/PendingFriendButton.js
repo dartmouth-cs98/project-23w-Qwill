@@ -15,7 +15,7 @@ const PendingFriendButton = (props) => {
                     <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginTop: hp('2%'), fontWeight: '600' }}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
                 </View>
             </View>
-            <View style={{ flexDirection: "row", position: "relative", top: -hp('5%'), left: wp('23%') }}>
+            <View style={{ flexDirection: "row", position: "relative", top: -hp('5%'), left: wp('18%') }}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onAcceptPressed}>
                     <Text style={styles.adText}>Accept</Text>
                 </TouchableOpacity>
