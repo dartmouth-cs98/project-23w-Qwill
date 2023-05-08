@@ -9,6 +9,7 @@ import findIP from '../../helpers/findIP';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
 import React, { useState, useContext } from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -118,13 +119,13 @@ function PreviewScreen({ navigation }) {
       </View>
       <View style={{flexDirection: 'row', marginBottom: 15}}>
         <ButtonPrimary
-          textWidth={115}
+          textWidth={wp('26.8%')}
           title={"No, edit it."}
           selected={true}
           onPress={() => navigation.goBack()}
         />
         <ButtonPrimary
-          textWidth={115}
+          textWidth={wp('30%')}
           title={"Yes, send it!"}
           selected={true}
           onPress={() => handleSendPressed()}

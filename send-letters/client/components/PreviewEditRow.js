@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const PreviewEditRow = props => {
   return (
@@ -17,20 +17,20 @@ const PreviewEditRow = props => {
 export default PreviewEditRow;
 
 const styles = StyleSheet.create({
-    textContainer: {
-      flexDirection: 'row', 
-      flexGrow: 1, 
-      justifyContent: 'space-between', 
-    //   marginRight: 15
-    },
-    categoryText: {
-      fontFamily:'JosefinSansBold',
-      fontSize: 18,
-      lineHeight: 18
-    },
-    descriptionText: {
-      fontFamily: 'JosefinSans',
-      fontSize: 18,
-      lineHeight: 18
-    }
+  textContainer: {
+    flexDirection: 'row', 
+    flexGrow: 1, 
+    justifyContent: 'space-between', 
+    // marginRight: 15
+  },
+  categoryText: {
+    fontFamily: 'JosefinSansBold',
+    fontSize: wp('4.5%'),
+    lineHeight: wp('5%')
+  },
+  descriptionText: {
+    fontFamily: 'JosefinSans',
+    fontSize: wp('4.5%'),
+    lineHeight: wp('5%')
+  }
 });
