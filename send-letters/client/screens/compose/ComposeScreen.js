@@ -21,9 +21,13 @@ function ComposeScreen({ navigation, route }) {
   const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
 
+
   // to move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
+
 
   // Passed into child screen ChangeStickerScreen and called from there
   const stickerSelected = (sticker) => {
@@ -136,6 +140,10 @@ function ComposeScreen({ navigation, route }) {
   }
 
   const handleNextPressed = () => {
+    setNextButtonDisabled(true);
+    setTimeout(()=>{
+      setNextButtonDisabled(false);
+   }, 1000);
     navigation.push('Preview');
   };
 
@@ -190,7 +198,7 @@ function ComposeScreen({ navigation, route }) {
 
       </ImageBackground>
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
-        <ButtonPrimary title={"Next!"} selected={true} onPress={() => navigation.push('Preview')} />
+        <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

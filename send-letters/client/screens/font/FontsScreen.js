@@ -55,7 +55,7 @@ const FontsScreen = ({navigation}) => {
         // console.log(resp.data.createdFonts);
         for (const customFont of resp.data.createdFonts) {
           if (!Font.isLoaded(customFont.name)) {
-            await Font.loadAsync({ [customFont.name]: customFont.dropboxDownloadLink }); 
+            await Font.loadAsync({ [customFont.name]: customFont.firebaseDownloadLink });
           }
         }
         setCustomFonts(resp.data.createdFonts);

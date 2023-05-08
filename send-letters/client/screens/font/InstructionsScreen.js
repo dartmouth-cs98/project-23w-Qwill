@@ -64,7 +64,7 @@ const FontsScreen = ({navigation}) => {
           // load the font
           const customFont = resp.data.font;
           if (!Font.isLoaded(customFont.name)) {
-            await Font.loadAsync({ [customFont.name]: customFont.dropboxDownloadLink });
+            await Font.loadAsync({ [customFont.name]: customFont.firebaseDownloadLink });
           }
         }
       } catch (err) {

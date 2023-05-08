@@ -5,6 +5,7 @@ import { COLORS } from '../styles/colors';
 
 const ButtonPrimary = (props) => {
   const selected = props.selected;
+  const disabled = props.disabled;
 
   // If the button's text is longer, we can make the button a bit wider
   const textWidth = props.textWidth ? props.textWidth : 95;
@@ -17,6 +18,7 @@ const ButtonPrimary = (props) => {
         <TouchableOpacity
           style={[styles.btn, styles.selectedBtn, {marginTop: marginTop}]}
           onPress={props.onPress}
+          disabled={disabled}
         >
           <Text style={[styles.text, styles.selectedText, {width: textWidth}]}>{props.title}</Text>
         </TouchableOpacity>
@@ -26,6 +28,7 @@ const ButtonPrimary = (props) => {
         <TouchableOpacity
           style={[styles.btn, styles.unselectedBtn, {marginTop: marginTop}]}
           onPress={props.onPress}
+          disabled={disabled}
         >
           <Text style={[styles.text, styles.unselectedText, {width: textWidth}]}>{props.title}</Text>
         </TouchableOpacity>
