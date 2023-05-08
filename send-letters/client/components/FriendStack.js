@@ -6,6 +6,7 @@ import HomeFriendsScreen from '../screens/friends/HomeFriendsScreen';
 import FriendHistoryScreen from '../screens/friends/FriendHistoryScreen';
 import AddFriendsScreen from '../screens/friends/AddFriendsScreen';
 import PendingFriendsScreen from '../screens/friends/PendingFriendsScreen';
+import LetterHistoryDetailScreen from '../screens/friends/LetterHistoryDetailScreen';
 
 // Contains the mailbox and the drafts page
 const Stack = createNativeStackNavigator();
@@ -50,6 +51,12 @@ export default function FriendStack() {
           name='PendingFriendsScreen' 
           component={PendingFriendsScreen}
         />
+        <Stack.Screen 
+          options={{title: "LetterHistoryDetail",}}
+          name='LetterHistoryDetail' 
+          component={LetterHistoryDetailScreen}
+        />
+        
       </Stack.Group>
     </Stack.Navigator>
   );

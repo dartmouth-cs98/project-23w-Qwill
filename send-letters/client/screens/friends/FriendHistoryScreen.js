@@ -55,7 +55,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
   };
 
   const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
-    navigation.navigate('LetterDetail', {
+    navigation.navigate('LetterHistoryDetail', {
       letterText: letterText,
       letterID: letterID,
       letterStatus: letterStatus,
@@ -78,7 +78,16 @@ export default function FriendHistoryScreen({ route, navigation }) {
       // </Text>
       <View style={{alignSelf: alignDirection, marginLeft: windowWidth*.1, marginRight: windowWidth*.1}}>
         {/* <LetterHistoryPreview item={item} onPress={handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}></LetterHistoryPreview> */}
-        <LetterHistoryPreview item={item}></LetterHistoryPreview>
+        <LetterHistoryPreview 
+            letterStatus={item.status}
+            letterFont={item.font}
+            letterDate={item.createdAt}
+            sender={item.senderInfo.name}
+            // senderAddress={index}
+            recipient={item.recipientInfo.name}
+            // recipientAddress={index}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
+        ></LetterHistoryPreview>
       </View>
     );
   }
