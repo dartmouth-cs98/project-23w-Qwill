@@ -78,17 +78,22 @@ function DraftsScreen({ navigation }) {
       customFont: item.customFont,
       stickers: item.stickers
     });
-    navigation.navigate('NavBar', {
-      screen: 'Compose',
-      params: {
-        screen: 'ComposeHome',
-        params: {
-          text: item.text,
-          fromDrafts: true
-        }
-      }
-    });
   };
+  useEffect(() => {
+    if (letterInfo.text != "") {
+      navigation.navigate('NavBar', {
+        screen: 'Compose',
+        params: {
+          screen: 'ComposeHome',
+          params: {
+            text: letterInfo.text,
+            fromDrafts: true
+          }
+        }
+      });
+    }
+  }, [letterInfo]);
+
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
@@ -128,24 +133,6 @@ function DraftsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
-      <View style={[styles.header, styles.shadowLight]}></View>
-      <Image 
-          style={{
-            height: undefined, 
-            width: '60%',
-            aspectRatio: 4,
-            resizeMode: "contain",
-            marginBottom: 15
-          }}
-          source={require('../../assets/logo.png')}
-        />
-      <View style={{ flexDirection:"row", marginBottom: 30}}>
-        <ButtonPrimary selected={false} title={"Mailbox"} onPress={() => navigation.navigate('Mailbox')}/>
-        <ButtonPrimary 
-            selected={true} 
-            title={"Drafts"} 
-            onPress={() => navigation.navigate('Drafts')}/>
-      </View>
         <View>
           {renderDrafts()}
         </View>
