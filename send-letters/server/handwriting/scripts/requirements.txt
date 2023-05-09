@@ -1,0 +1,10 @@
+Pillow
+image
+sys
+os
+base64
+io
+shutil
+google-cloud
+google-cloud-vision
+subprocess
