@@ -1,7 +1,4 @@
 Pillow
 image
-base64
-shutil
 google-cloud
 google-cloud-vision
-subprocess
