@@ -2,8 +2,6 @@ import { StyleSheet, View, Text, TouchableOpacity, ImageBackground } from 'react
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Feather } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
-
 import HomeStack from '../components/HomeStack';
 import FontsStack from '../components/FontsStack';
 import ProfileScreen from '../screens/ProfileScreen';
