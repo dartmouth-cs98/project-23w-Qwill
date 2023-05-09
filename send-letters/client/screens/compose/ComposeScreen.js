@@ -21,7 +21,6 @@ function ComposeScreen({ navigation, route }) {
   const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
 
-
   // to move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);

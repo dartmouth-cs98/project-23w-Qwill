@@ -78,17 +78,22 @@ function DraftsScreen({ navigation }) {
       customFont: item.customFont,
       stickers: item.stickers
     });
-    navigation.navigate('NavBar', {
-      screen: 'Compose',
-      params: {
-        screen: 'ComposeHome',
-        params: {
-          text: item.text,
-          fromDrafts: true
-        }
-      }
-    });
   };
+  useEffect(() => {
+    if (letterInfo.text != "") {
+      navigation.navigate('NavBar', {
+        screen: 'Compose',
+        params: {
+          screen: 'ComposeHome',
+          params: {
+            text: letterInfo.text,
+            fromDrafts: true
+          }
+        }
+      });
+    }
+  }, [letterInfo]);
+
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
