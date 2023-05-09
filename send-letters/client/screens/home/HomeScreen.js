@@ -77,9 +77,7 @@ function HomeScreen({ navigation, route}) {
   const renderItem = ({item, index}) => {
     return (
         <View key={index}
-              style={{shadowOpacity: .1, 
-                      shadowColor: "#000000",
-                      marginBottom: -hp('20%')}}>
+              style={{marginBottom: -hp('20%')}}>
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}
@@ -99,7 +97,6 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
-        console.log(resp.data)
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
           setSnackMessage("Could not establish connection to the server");

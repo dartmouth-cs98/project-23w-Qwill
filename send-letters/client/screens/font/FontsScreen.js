@@ -186,9 +186,6 @@ const styles = StyleSheet.create({
   },
   noCustom: {
     width: "80%",
-    // height: windowHeight *.12,
-    // aspectRatio: 4,
-    // height: "30%",
     borderRadius: 20,
     backgroundColor: "#E2E8F6",
     marginTop: windowHeight *.02,
