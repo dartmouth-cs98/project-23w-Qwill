@@ -28,14 +28,21 @@ export const createCustomFont = async (req, res) => {
         }
 
         // Create a new Python process to generate the ttf file
+        console.log("before spawning");
+
         const spawn = require("child_process").spawn;
         const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py", user.username, user.numCustomFonts], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
+        console.log("just spawned, haven't piped in the image");
+
+
         // write base64image to stdin
         pythonProcess.stdin.write(handwritingImage);
         pythonProcess.stdin.end();
+
+        console.log("after piped in the image");
         
         // Accumulate output and/or error messages from stdout/stderr to log on close
         let output = "";
