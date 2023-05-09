@@ -7,6 +7,7 @@ import FontsStack from '../components/FontsStack';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
 import ComposeStack from '../screens/compose/ComposeStack';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { ComposeContextProvider } from '../context/ComposeStackContext';
 
@@ -112,36 +113,36 @@ function NavBar() {
     );
   }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-  fontIcon: {
-    height: 24, 
-    width: 24,
-    borderRadius: 5,
-    borderWidth: 2,
-    alignItems: 'center'
-  },
-  fontIconSelected: {
-    borderColor: 'black',
-    backgroundColor: 'black'
-  },
-  fontIconUnselected: {
-    borderColor: 'grey'
-  },
-  fontIconTextSelected: {
-    fontWeight: "700",
-    color: "#E2E8F6",
-    marginTop: 1
-  },
-  fontIconTextUnselected: {
-    fontWeight: "400",
-    color: 'grey',
-    marginTop: 1
-  }
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      justifyContent: 'center',
+    },
+    fontIcon: {
+      height: hp('2.6%'), 
+      width: hp('2.6%'),
+      borderRadius: wp('1.2%'),
+      borderWidth: wp('0.3%'),
+      alignItems: 'center'
+    },
+    fontIconSelected: {
+      borderColor: 'black',
+      backgroundColor: 'black'
+    },
+    fontIconUnselected: {
+      borderColor: 'grey'
+    },
+    fontIconTextSelected: {
+      fontWeight: "700",
+      color: "#E2E8F6",
+      marginTop: hp('0.1%')
+    },
+    fontIconTextUnselected: {
+      fontWeight: "400",
+      color: 'grey',
+      marginTop: hp('0.1%')
+    }
+  });
 
 export default NavBar;

@@ -1,11 +1,11 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Dimensions, PixelRatio} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-// import buttons from '../styles/Styles';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 import COLORS from '../styles/colors'
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
 
@@ -37,13 +37,13 @@ const buttons = StyleSheet.create({
     color: COLORS.white,
   },
   containerBtn: {
-    width: normalize(48),
-    height: normalize(48),
-    borderRadius: normalize(24),
+    width: wp('13%'),
+    height: wp('13%'),
+    borderRadius: wp('6.5%'),
     backgroundColor: COLORS.blue700,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: normalize(15)
+    marginRight: wp('4%')
   }
 });
 
