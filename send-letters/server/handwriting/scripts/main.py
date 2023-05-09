@@ -98,7 +98,7 @@ if __name__ == '__main__':
                 ttf_file_content = ttf_file.read()
                 ttf_base64 = base64.b64encode(ttf_file_content)
 
-            sys.stdout.buffer.write(ttf_base64)
+            # sys.stdout.buffer.write(ttf_base64) # UNCOMMENT TATE
 
         except Exception as err:
             handle_error(err, temp_dir, 55)

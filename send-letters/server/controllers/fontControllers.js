@@ -46,11 +46,15 @@ export const createCustomFont = async (req, res) => {
         // Handle output from the running of the Python process
         pythonProcess.stdout.on('data', (data) => {
             output += data.toString();
+            console.log(data.toString());
+            console.log("output above");
         });
 
         // Handle errors from the running of the Python process
         pythonProcess.stderr.on('data', (data) => {
             errorMessage = data.toString('utf-8').trim();
+            console.log(errorMessage);
+            console.log("error above");
         });
 
         // Handle the end of the Python process
@@ -58,6 +62,19 @@ export const createCustomFont = async (req, res) => {
             // Check the exit code to see if the process completed successfully
             if (exitCode === 0) {
                 // Convert base64 file content to a buffer
+                
+                
+                
+                if (1==1) {
+                    return res.json({
+                        message: "Congrats, your font has been made!",
+                        font: ""
+                    });
+                }
+
+
+
+
                 const fileContent = Buffer.from(output, 'base64')
                 const fontName = user.username + "-font-" + (user.numCustomFonts+1).toString();
                 const filePath = user.username + '/' + fontName + ".ttf";
