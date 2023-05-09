@@ -1,6 +1,5 @@
 Pillow
 image
-sys
 os
 base64
 io
