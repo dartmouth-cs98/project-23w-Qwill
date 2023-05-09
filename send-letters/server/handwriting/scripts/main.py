@@ -28,6 +28,8 @@ if __name__ == '__main__':
         print('Usage: python main.py [user username] [user numCustomFonts]')
         sys.exit(1)
 
+    print("Python: past arg checking")
+
     try:
         # Get path to server (handwriting/scripts/main.py is 27 characters) and username from args 
         server_dir = sys.argv[0][:-27]
@@ -39,12 +41,20 @@ if __name__ == '__main__':
         shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
         os.makedirs(temp_dir)
 
+        print("Python: past arg checking")
+
         # Set path to credentials for Google Cloud Vision
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(server_dir, "handwriting/scripts/application_default_credentials.json")
+
+        print("Python: load in credential")
+
 
         # Read the base64image from stdin and decode the image into the handwriting sample
         base64_image = sys.stdin.read()
         handwriting_sample_image = base64.b64decode(base64_image)
+
+        print("Python: read in image")
+
 
         # Run the GCV text detection on the handwriting sample
         try:
