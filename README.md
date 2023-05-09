@@ -15,13 +15,14 @@
 ![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
 
 Qwill is a mobile app to customize your handwriting into digital letters. <br>
+![home view one letter](https://user-images.githubusercontent.com/45802767/237006121-9b272f9d-b535-4429-838b-de9132b2760b.png)
+![home view many letters](https://user-images.githubusercontent.com/45802767/237006108-11963a8a-6db4-47a7-8417-19fc61002df5.png)
+![draft view](https://user-images.githubusercontent.com/45802767/237006109-df318fd1-3d2e-4f51-98d9-0235737e97e9.png)
+![friends view](https://user-images.githubusercontent.com/45802767/237006115-ba216ce3-5891-4f81-b8ce-c8a358d44b8e.png)
+![fonts view](https://user-images.githubusercontent.com/45802767/237006117-ed66ccda-783e-4487-aaca-0d6e10f7ff4a.png)
+![select theme view](https://user-images.githubusercontent.com/45802767/237006118-2ff17012-9341-4938-81a0-1b0bec58fbe4.png)
+![letter preview](https://user-images.githubusercontent.com/45802767/237006119-19f8924c-f224-4d31-8bf6-c7fba9ab0e68.png)
 
-![home](https://user-images.githubusercontent.com/45802767/224577360-9e8f7cb8-d32a-4695-a91d-8652d030394f.png)
-![letter_view](https://user-images.githubusercontent.com/45802767/224577362-741c9135-bd42-423a-baff![Simulator Screen Shot - iPhone 11 Pro - 2023-03-12 at 18 22 36](https://user-images.githubusercontent.com/45802767/224577369-bb3a8911-2486-49a3-80b6-599857a9d9c7.png)
--dc7fd675a241.png)
-![friends](https://user-images.githubusercontent.com/45802767/224577422-80c84e11-b014-4a02-86e0-1d6f460138d8.png)
-
-![font](https://user-images.githubusercontent.com/45802767/224577364-eb829670-523f-49d8-a893-488c538c1b1a.png)
 
 ## Architecture
 
