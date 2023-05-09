@@ -204,7 +204,8 @@ const styles = StyleSheet.create({
     signUpHeader: {
       fontSize: wp('18%'),
       fontFamily: 'JosefinSansBold',
-      marginBottom: hp('4%')
+      marginBottom: hp('4%'), 
+      marginTop: hp('10%')
     },
     inputField: {
       backgroundColor: '#E2E8F6',
@@ -242,10 +243,10 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      paddingTop: 16,
-      paddingRight: 18,
-      paddingBottom: 16,
-      paddingLeft: 18,
+      paddingTop: wp('3%'),
+      paddingRight: wp('3%'),
+      paddingBottom: wp('3%'),
+      paddingLeft: wp('3%'),
       borderTopLeftRadius: 25,
       borderTopRightRadius: 25,
       borderBottomRightRadius: 25,
@@ -255,11 +256,12 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       flex: 1,
-      height: 18,
+      height: wp('4.5%'),
       fontStyle: "normal",
       fontWeight: "500",
-      fontSize: 18,
-      lineHeight: 18,
+      fontFamily: 'JosefinSans',
+      fontSize: wp('4.5%'),
+      lineHeight: wp('4.5%'),
       display: "flex",
       alignItems: "center",
       textAlign: "center",
@@ -278,7 +280,7 @@ const styles = StyleSheet.create({
       color: '#737B7D',
     },
     underLineText: {
-      fontSize: 17,
+      fontSize: wp('4.5%'),
       fontFamily: 'JosefinSansBold',
       textDecorationLine: 'underline',
       color: '#737B7D',
@@ -286,8 +288,8 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     orContainer: {
-      width: 0.9 * WINDOW_WIDTH,
-      height: 60,
+      width: wp('90%'),
+      height: hp('10%'),
       flexDirection: "row",
       justifyContent: 'space-between', 
       alignItems: 'center',
