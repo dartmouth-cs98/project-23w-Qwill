@@ -1,14 +1,11 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
-import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { useContext} from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
-
-const screenWidth = Dimensions.get('window').width;
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -43,26 +40,27 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
 
 export default ChangeStickerScreen;
 
+
 const styles = StyleSheet.create({
   themeContainer: {
-    borderRadius: 20,
-    marginTop: 20,
+    borderRadius: wp('5.33%'),
+    marginTop: hp('2.7%'),
     flex: 1,
     alignItems: 'center'
   },
   titleText: {
-    fontSize: 50,
+    fontSize: hp('6.76%'),
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,
     textAlign: "center",
   },
   selectTitleText: {
-    fontSize: 35,
+    fontSize: hp('4.73%'),
     fontWeight: "400",
     justifyContent: "center",
     textAlign: 'center',
-    marginTop: 15
+    marginTop: hp('2.03%')
   },
   scrollViewContainer: {
     alignItems: "center"

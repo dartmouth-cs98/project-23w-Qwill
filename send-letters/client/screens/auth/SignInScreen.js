@@ -1,5 +1,6 @@
 import { AuthContext } from '../../context/AuthContext';
-import { Input, Image } from 'react-native-elements';
+import { TextInput } from 'react-native';
+import { Input, Image, Text } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
@@ -63,26 +64,30 @@ const SignInScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light" />
-      <View style={{ width: "60%" }}>
+      <View style={{ width: "70%",  alignSelf: 'center' }}>
         <Image
           style={{
             height: undefined,
             width: '100%',
             aspectRatio: 1,
-            resizeMode: "contain"
+            resizeMode: "contain",
           }}
           source={require('../../assets/logo.png')}
         />
+        <Text style={styles.text}> Send Letters.</Text>
       </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Email/Username"
+          autoCorrect={false}
           // autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={text => setEmailUsername(text.toLowerCase())}
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Password"
           secureTextEntry={true}
           type="password"
@@ -92,7 +97,7 @@ const SignInScreen = ({ navigation }) => {
         />
       </View>
 
-      <View>
+      <View style={{marginTop: hp('3%')}}>
         <ButtonPrimary selected={true} onPress={() => handleSignInPressed()} title="Log in" />
         <ButtonPrimary selected={false} onPress={() => handleSignUpPressed()} type="outline" title="Sign up" marginTop={5} />
       </View>
@@ -119,8 +124,22 @@ const SignInScreen = ({ navigation }) => {
 
 export default SignInScreen;
 const styles = StyleSheet.create({
+  inputField: {
+    backgroundColor: '#E2E8F6',
+    borderRadius: hp('3.2%'),
+    padding: hp('2%'),
+    margin: hp('0.8%'),
+    fontSize: hp('2%')
+  },
   inputContainer: {
-    width: wp('80%'),
+    width: wp('70%')
+  },
+  text: {
+    fontFamily: 'JosefinSans',
+    fontSize: hp('3.5%'),
+    textAlign: 'center',
+    marginBottom: hp('1%'),
+    marginTop: 0
   },
   button: {
     width: wp('40%'),
@@ -131,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: wp('4%'),
-    backgroundColor: 'white',
+    backgroundColor: '#F0F4FF',
   },
   imageWithShadow: {
     width: wp('50%'),
