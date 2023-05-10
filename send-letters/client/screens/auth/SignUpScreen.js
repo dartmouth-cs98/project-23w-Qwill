@@ -1,7 +1,7 @@
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Image } from 'react-native-elements';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native';
 import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { TextInput } from 'react-native';
@@ -13,8 +13,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -118,15 +116,6 @@ const SignUpScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"/>
-      <View style={{width: wp('60%')}}>
-        <Image 
-          style={{
-            height: undefined, 
-            width: '100%',
-            aspectRatio: 1,
-            resizeMode: "contain"}}
-          source={require('../../assets/logo.png')}
-        />
       <View style={{alignContent: 'center'}}>
         <Text style={styles.signUpHeader}> 
           Sign Up
@@ -199,8 +188,8 @@ const SignUpScreen = ({navigation}) => {
             },
           }}
         >
-          {snackMessage}
-        </Snackbar>
+        {snackMessage}
+      </Snackbar>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: heightPercentageToDP('10.8')}}/>

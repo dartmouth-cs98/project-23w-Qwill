@@ -32,7 +32,7 @@ const LetterForCarousel = props => {
   return (
     <View style={{margin: 0, flex: 1, zIndex: props.senderAddress}}>
       <ImageBackground 
-        style={styles.imageBackground}
+        style={[styles.imageBackground, styles.shadow2]}
         source={letterStatus === "read" ? require('../assets/openedLetter.png') : require('../assets/letter.png')}>
           <TouchableOpacity 
           style={styles.item}
@@ -42,12 +42,13 @@ const LetterForCarousel = props => {
                           left: 0, 
                           bottom: 0, 
                           width: ITEM_WIDTH, 
-                          height: ITEM_WIDTH * .7}}>
+                          height: ITEM_WIDTH * .7,
+                          }}>
               <Image style={styles.dateStamp} source={require('../assets/date_stamp.png')}/>
               <View style={styles.stampTextView}>
-                <Text style={styles.monthYear}>{date[0].toUpperCase()}</Text>
-                <Text style={styles.date}>{date[1]}</Text>
-               <Text style={styles.monthYear}>{date[2]}</Text>
+                <Text style={[styles.monthYear, styles.shadow]}>{date[0].toUpperCase()}</Text>
+                <Text style={[styles.date, styles.shadow]}>{date[1]}</Text>
+                <Text style={[styles.monthYear, styles.shadow]}>{date[2]}</Text>
               </View>
             </View>
             <Text style={[styles.letterTextHeader, textStyle]}>{props.sender}{"\n"}{props.senderAddress}</Text>
@@ -78,24 +79,29 @@ const styles = StyleSheet.create({
       fontSize: SMALL_FONT_SIZE,
       fontFamily: 'LibreBaskerville',
       color: "#074063",
+    },
+    shadow: {
       shadowOpacity: 1, 
       shadowColor: '#074063', 
       shadowOffset: { width: 0, height: 0}, 
       shadowRadius: 0.6, 
+    },
+    shadow2: {
+      shadowOpacity: .1, 
+      shadowColor: "#000000",
+      backgroundColor: 'transparent'
     },
     date: {
       fontSize: BIG_FONT_SIZE,
       fontFamily: 'LibreBaskerville',
       color:"#074063",
-      shadowOpacity: 1, 
-      shadowColor: '#074063', 
-      shadowOffset: { width: 0, height: 0}, 
-      shadowRadius: 0.6, 
     },
     imageBackground: {
       alignSelf: 'center',
       width: ITEM_WIDTH * 1.03,
       height: ITEM_WIDTH * 0.89,  // do not change, this is the aspect ratio of the letter png
+      // shadowOpacity: .1, 
+      // shadowColor: "#000000"
     },
     item : {
       flex: 1, 

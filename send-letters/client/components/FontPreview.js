@@ -6,7 +6,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+// Title hidding code by GPT4
+
 const FontPreview = props => {
+
   return (
     <View>
       <TouchableOpacity
@@ -15,7 +18,11 @@ const FontPreview = props => {
       >
         <Text style={[styles.font, props.style]}>AaBbCc</Text>
       </TouchableOpacity>
-      <Text style={[styles.title, props.style]}>{props.title}</Text>
+      <View style={styles.titleContainer} >
+        <Text style={[styles.title, props.style]} numberOfLines={1}>
+          {props.title}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -37,8 +44,12 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: wp('2%')
+    fontSize: wp('2.5%')
   },
+  titleContainer: {
+    width: wp('25%'),
+    overflow: 'hidden',
+  }
 });
 
 export default FontPreview;

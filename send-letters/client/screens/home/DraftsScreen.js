@@ -62,9 +62,9 @@ function DraftsScreen({ navigation }) {
     fetchDrafts();
   }, [isFocused]);
 
-  const handleDraftPressed = (item) => {
+  const handleDraftPressed = async (item) => {
     // clicking on draft button will update the current letter info
-    setLetterInfo({
+    await setLetterInfo({
       senderID: userID,
       letterID: item._id,
       text: item.text,

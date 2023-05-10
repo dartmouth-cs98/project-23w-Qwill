@@ -116,9 +116,9 @@ const FontsScreen = ({navigation}) => {
               numColumns={3}
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                  <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
                   <FontPreview style={{fontFamily: item._id}} title={item.name}></FontPreview>
                   <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
-                    <Ionicons name="remove-circle" size={20} color="#FF0000"/>
                   </TouchableOpacity>
                 </View>
               }
@@ -214,5 +214,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -hp('1%'),
     right: 0,
+  }, 
+  removeIcon: {
+    position: 'absolute',
+    left: wp('22%'),
+    top: -hp('.2%'),
+    zIndex: 1,
   }
 });
