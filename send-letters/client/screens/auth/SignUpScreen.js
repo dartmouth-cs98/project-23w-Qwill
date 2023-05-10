@@ -1,15 +1,12 @@
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Input, Image } from 'react-native-elements';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState, useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { TextInput } from 'react-native';
 import { Snackbar } from 'react-native-paper';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
@@ -119,7 +116,7 @@ const SignUpScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"/>
-      <View style={{width: wp('60%')}}>
+      {/* <View style={{width: wp('60%')}}>
         <Image 
           style={{
             height: undefined, 
@@ -127,7 +124,7 @@ const SignUpScreen = ({navigation}) => {
             aspectRatio: 1,
             resizeMode: "contain"}}
           source={require('../../assets/logo.png')}
-        />
+        /> */}
       <View style={{alignContent: 'center'}}>
         <Text style={styles.signUpHeader}> 
           Sign Up
