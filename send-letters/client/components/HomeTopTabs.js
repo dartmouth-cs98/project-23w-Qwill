@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import HomeScreen from '../screens/home/HomeScreen';
 import DraftsScreen from '../screens/home/DraftsScreen';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -29,10 +29,14 @@ const HomeTopTabs = () => {
       initialRouteName={'Mailbox'}
       screenOptions={{
         tabBarLabelStyle: {
-          fontSize: hp('2%'),
-          textTransform: 'none'
+          fontSize: hp('2.25%'),
+          textTransform: 'none',
+          fontWeight: 'bold',
         },
         tabBarStyle: styles.shadowLight,
+        tabBarActiveTintColor: '#46589C', // set the color of the active tab
+        tabBarInactiveTintColor: '#7184B4', // set the color of the inactive tabs
+        tabBarIndicatorStyle: { backgroundColor: '#46589C' },
       }}>
         <Tab.Screen name='Mailbox' component={HomeScreen} />
         <Tab.Screen name='Drafts' component={DraftsScreen} />
