@@ -74,9 +74,7 @@ function HomeScreen({ navigation, route}) {
   const renderItem = ({item, index}) => {
     return (
         <View key={index}
-              style={{shadowOpacity: .1, 
-                      shadowColor: "#000000",
-                      marginBottom: -hp('20%')}}>
+              style={{marginBottom: -hp('20%')}}>
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}

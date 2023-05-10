@@ -84,7 +84,11 @@ const SelectFontScreen = ({ navigation }) => {
           <></>
         ) : (
           <View style={styles.customFontsContainer}>
-            <Text>Custom Fonts</Text>
+            <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
+              <View style={styles.line}></View>
+              <Text style={{fontSize: 12}}>Custom Fonts</Text>
+              <View style={styles.line}></View>
+            </View>
             <FlatList
               contentContainerStyle={{ justifyContent: 'space-between'}}
               data={customFonts}
@@ -101,7 +105,11 @@ const SelectFontScreen = ({ navigation }) => {
       }
 
       <View style={styles.defaultFontsContainer}>
-        <Text>Default Fonts</Text>
+        <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
+              <View style={styles.line}></View>
+              <Text style={{fontSize: 12}}>Default Fonts</Text>
+              <View style={styles.line}></View>
+        </View>
         <View style={{ flexDirection: "row" }}>
           <FlatList
             contentContainerStyle={{ justifyContent: 'center' }}
@@ -119,6 +127,7 @@ const SelectFontScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 
 export default SelectFontScreen;
 
