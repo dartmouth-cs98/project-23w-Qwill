@@ -10,7 +10,6 @@ import { FlatList } from 'react-native';
 import * as Font from 'expo-font';
 
 // component imports
-import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
@@ -19,6 +18,13 @@ import { COLORS } from '../../styles/colors';
 // https://stackoverflow.com/questions/41754471/change-button-color-react-native 
 // The react Button component renders the native button on each platform it uses. Because of this, 
 // it does not respond to the style prop. It has its own set of props.
+
+// 390 is the logical width of the largest iPhones before pro max sizes
+// https://www.ios-resolution.com/
+const IS_BIG_PHONE = wp(100) > 390;
+
+const flatListMarginTop = IS_BIG_PHONE ? -hp('4%') : -hp('2%');
+const marginMailboxTop = IS_BIG_PHONE ? hp('15%') : hp('10%');
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -74,7 +80,9 @@ function HomeScreen({ navigation, route}) {
   const renderItem = ({item, index}) => {
     return (
         <View key={index}
-              style={{marginBottom: -hp('20%')}}>
+              style={{shadowOpacity: .1, 
+                      shadowColor: "#000000",
+                      marginBottom: -hp('20%')}}>
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}
@@ -150,7 +158,7 @@ function HomeScreen({ navigation, route}) {
               ) : (
               <>
                 <View style={{flex: 0}}/>
-                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%'}}>
+                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%', marginTop: flatListMarginTop}}>
                   <FlatList
                     contentContainerStyle={{marginBottom: 0}}
                     shouldComponentUpdate={() => {return false;}}
@@ -163,7 +171,7 @@ function HomeScreen({ navigation, route}) {
                       resizeMode="contain" 
                       style={{
                         width: wp('100%'),
-                        marginTop: hp('10%'),
+                        marginTop: marginMailboxTop,
                         marginBottom: -hp('15%')
                       }} 
                       source={require('../../assets/mailbox2.png')}>
