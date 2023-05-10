@@ -189,7 +189,7 @@ const SignUpScreen = ({navigation}) => {
       </Snackbar>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
-      <View style={{height: heightPercentageToDP('10.8')}}/>
+      <View style={{height: hp('10.8')}}/>
     </KeyboardAvoidingView>
   );
 };
