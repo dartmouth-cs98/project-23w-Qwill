@@ -5,10 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { Snackbar } from 'react-native-paper';
-import ButtonPrimary from '../../components/ButtonPrimary';
 import { useIsFocused } from '@react-navigation/native';
-import { Image } from 'react-native-elements';
 import LetterDetail from '../../components/LetterDetail';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
