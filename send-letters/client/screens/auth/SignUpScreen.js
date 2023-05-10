@@ -1,7 +1,10 @@
-
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Input, Image } from 'react-native-elements';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
+import React, { useState, useContext } from 'react'
+import { StatusBar } from 'expo-status-bar';
+import { TextInput } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
@@ -11,7 +14,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useState, useContext } from 'react'
+
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -121,15 +128,21 @@ const SignUpScreen = ({navigation}) => {
             resizeMode: "contain"}}
           source={require('../../assets/logo.png')}
         />
+      <View style={{alignContent: 'center'}}>
+        <Text style={styles.signUpHeader}> 
+          Sign Up
+        </Text>
       </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
-        <Input 
+        <TextInput 
+          style={styles.inputField}
           placeholder="Name"
           onChangeText={text => setName(text)}
           autoCorrect={false} 
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Email"
           autofocus
           type="email"
@@ -138,12 +151,14 @@ const SignUpScreen = ({navigation}) => {
           autoCapitalize="none"
           onChangeText={text => setEmail(text.toLowerCase())} 
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Username"
           autoCapitalize="none"
           onChangeText={text => setUsername(text)}
           autoCorrect={false} />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Password"
           secureTextEntry={true}
           type="password"
@@ -198,11 +213,24 @@ export default SignUpScreen;
 
 
 const styles = StyleSheet.create({
+    signUpHeader: {
+      fontSize: wp('18%'),
+      fontFamily: 'JosefinSansBold',
+      marginBottom: hp('4%'), 
+      marginTop: hp('10%')
+    },
+    inputField: {
+      backgroundColor: '#E2E8F6',
+      borderRadius: hp('3.2%'),
+      padding: hp('2%'),
+      margin: hp('0.8%'),
+      fontSize: hp('2%')
+    },
     inputContainer: {
-        width: wp('80%'),
+        width: wp('73%'),
     },
     button: {
-        width: wp('53.33%'),
+        width: wp('60%'),
         marginTop: hp('1.35%'),
     },
     container: {
@@ -210,7 +238,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: wp('2.67%'),
-        backgroundColor: 'white',
+        backgroundColor: '#F0F4FF',
+
     },
     imageWithShadow: {
         width: wp('53.33%'), 
@@ -227,24 +256,25 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      paddingTop: hp('2.16%'),
-      paddingRight: wp('4.8%'),
-      paddingBottom: hp('2.16%'),
-      paddingLeft: wp('4.8%'),
-      borderTopLeftRadius: wp('6.67%'),
-      borderTopRightRadius: wp('6.67%'),
-      borderBottomRightRadius: wp('6.67%'),
-      borderBottomLeftRadius: wp('6.67%'),
-      marginRight: wp('4%'),
-      marginLeft: wp('4%'),
+      paddingTop: wp('3%'),
+      paddingRight: wp('3%'),
+      paddingBottom: wp('3%'),
+      paddingLeft: wp('3%'),
+      borderTopLeftRadius: 25,
+      borderTopRightRadius: 25,
+      borderBottomRightRadius: 25,
+      borderBottomLeftRadius: 25,
+      marginRight: 0.15 * WINDOW_WIDTH,
+      marginLeft: 0.15 * WINDOW_WIDTH,
     },
     buttonText: {
       flex: 1,
-      height: hp('2.43%'),
+      height: wp('4.5%'),
       fontStyle: "normal",
       fontWeight: "500",
-      fontSize: hp('2.43%'),
-      lineHeight: hp('2.43%'),
+      fontFamily: 'JosefinSans',
+      fontSize: wp('4.5%'),
+      lineHeight: wp('4.5%'),
       display: "flex",
       alignItems: "center",
       textAlign: "center",
@@ -263,15 +293,16 @@ const styles = StyleSheet.create({
       color: '#737B7D',
     },
     underLineText: {
-      fontSize: hp('2.3%'),
+      fontSize: wp('4.5%'),
+      fontFamily: 'JosefinSansBold',
       textDecorationLine: 'underline',
       color: '#737B7D',
       fontWeight: '600',
       textAlign: 'center',
     },
     orContainer: {
-      width: wp('24%'),
-      height: hp('8.11%'),
+      width: wp('90%'),
+      height: hp('10%'),
       flexDirection: "row",
       justifyContent: 'space-between', 
       alignItems: 'center',
