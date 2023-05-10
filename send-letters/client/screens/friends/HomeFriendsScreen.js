@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.5,
   },
   searchIcon: {
-    padding: 10,
+    padding: wp('2%'),
   },
   input: { borderBottomWidth: 0, backgroundColor: 'white', height: hp('2.5%'), borderRadius: 5 },
   titleText: {
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     alignContent: "center"
   },
   friendCircle: {
-    height: 70,
-    width: 70,
+    height: wp('16%'),
+    width: wp('16%'),
     borderRadius: hp('5%'),
     backgroundColor: COLORS.profilebackground,
     marginTop: hp('1.92%'),

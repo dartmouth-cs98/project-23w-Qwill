@@ -1,9 +1,9 @@
 import { AuthContext } from '../../context/AuthContext';
-import { TextInput } from 'react-native';
-import { Input, Image, Text } from 'react-native-elements';
+import { Image, Text } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
+import { TextInput } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
