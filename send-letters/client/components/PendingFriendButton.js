@@ -12,10 +12,10 @@ const PendingFriendButton = (props) => {
                     <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
                 </View>
                 <View>
-                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginTop: hp('2%'), fontWeight: '600' }}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
+                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('6%'),marginTop: hp('2%'), fontWeight: '600' }}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
                 </View>
             </View>
-            <View style={{ flexDirection: "row", position: "relative", top: -hp('5%'), left: wp('18%') }}>
+            <View style={{ flexDirection: "row", position: "relative", top: -hp('2%'), left: wp('18%') }}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onAcceptPressed}>
                     <Text style={styles.adText}>Accept</Text>
                 </TouchableOpacity>
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.friendsButtonBackground,
         marginVertical: hp('1.5%'),
         padding: wp('3%'),
-        // flexDirection:'row',
         borderRadius: 20,
         width: wp('80%'),
         aspectRatio: 3
@@ -51,10 +50,10 @@ const styles = StyleSheet.create({
     },
     friendMidText: {
         textAlign: "center",
-        fontSize: wp('6%'),
+        fontSize: wp('4.5%'),
         color: "#1E4693",
         opacity: 1,
-        marginTop: hp('2.5%'),
+        marginTop: hp('2%'),
         fontWeight: "600"
     },
     sendInviteButton: {

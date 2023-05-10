@@ -127,13 +127,13 @@ function HomeScreen({ navigation, route}) {
             { mail.length === 0 ? (
                <ImageBackground
                source={require('../../assets/mailbox1.png')}
-               imageStyle={{position: 'absolute', bottom: '-50%', left: 0, resizeMode: 'contain' }}
+               imageStyle={{position: 'absolute', bottom: hp('-80%'), left: 0, resizeMode: 'contain' }}
                style={{
                  flex: 1
                }}
              >
                 <View>
-                  <View style={{flex: 2, padding: '25%', justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={styles.emptyMailboxText}>
                       You don't have any letters in your mailbox.
                     </Text>

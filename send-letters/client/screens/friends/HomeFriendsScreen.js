@@ -104,13 +104,13 @@ export default function HomeFriendsScreen({ navigation }) {
         </TouchableOpacity>
       </View>
         <View style={styles.recipientsContainer}>
-          <View style={styles.inputContainer}>
+          <View style={styles.inputContainer }>
             <Input
               placeholder=" enter name or username"
               autoCompleteType="email"
               autoCapitalize="none"
               onChangeText={handleChangeText}
-              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: normalize(32), width: normalize(330), borderRadius: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('6%'), width: wp('85%'), borderRadius: 5 }}
               leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
             />
           </View>
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     alignContent: "center"
   },
   friendCircle: {
-    height: wp('16%'),
-    width: wp('16%'),
+    height: wp('13%'),
+    width: wp('13%'),
     borderRadius: hp('5%'),
     backgroundColor: COLORS.profilebackground,
     marginTop: hp('1.92%'),
@@ -216,6 +216,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginLeft: wp('1.28%'),
+    justifyContent: 'center', 
+    alignItems: "center"
   },
   friendMidText: {
     textAlign: "center",

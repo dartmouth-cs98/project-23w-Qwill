@@ -8,7 +8,6 @@ const ComposeToolbar = props => {
             <ToolbarAction icon="text_fields" />
             <ToolbarAction icon="filter_b_and_w" />
             <ToolbarAction icon="sentiment_satisfied" />
-            {/* onPress={navigation.push('ChangeRecipientScreen')}  */}
         </Toolbar>
     );
 
