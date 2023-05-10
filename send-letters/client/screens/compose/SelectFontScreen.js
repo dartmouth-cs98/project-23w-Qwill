@@ -12,6 +12,7 @@ import { useIsFocused } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
+import { Snackbar } from 'react-native-paper';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -19,6 +20,8 @@ const windowHeight = Dimensions.get('window').height;
 
 const SelectFontScreen = ({ navigation }) => {
 
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [customFonts, setCustomFonts] = useState("");
