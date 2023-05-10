@@ -10,7 +10,6 @@ import { FlatList } from 'react-native';
 import * as Font from 'expo-font';
 
 // component imports
-import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
@@ -24,8 +23,8 @@ import { COLORS } from '../../styles/colors';
 // https://www.ios-resolution.com/
 const IS_BIG_PHONE = wp(100) > 390;
 
-const flatListMarginTop = wp(100) > 390 ? -hp('4%') : -hp('2%');
-const marginMailboxTop = wp(100) > 390 ? hp('15%') : hp('10%');
+const flatListMarginTop = IS_BIG_PHONE ? -hp('4%') : -hp('2%');
+const marginMailboxTop = IS_BIG_PHONE ? hp('15%') : hp('10%');
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
