@@ -155,30 +155,29 @@ function PreviewScreen({ navigation }) {
 };
 
 export default PreviewScreen;
-
 const styles = StyleSheet.create({
   inputContainer: {
-      width: 300,
+      width: wp('80%'),
   },
   button: {
-      width: 200, 
-      marginTop: 10,
+      width: wp('53.33%'), 
+      marginTop: hp('1.35%'),
   },
   container: {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      padding: 10,
+      padding: wp('2.67%'),
       backgroundColor: 'white',
   },
   editContainer: {
-    width: screenWidth * .85,
-    height: screenHeight * .4,
+    width: wp('85%'),
+    height: hp('40%'),
     backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 20,
+    borderRadius: wp('5.33%'), 
+    marginTop: hp('2.7%'),
+    marginBottom: hp('2.7%'),
+    padding: wp('5.33%'),
     flex: 1,
   }
 });

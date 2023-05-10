@@ -1,9 +1,7 @@
 import React, { useRef } from 'react';
-import { Animated, PanResponder, StyleSheet, Text, View, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
+import { Animated, PanResponder, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const handleDraftPress = () => {
   console.log("Yup")
@@ -21,9 +19,9 @@ const SwipeableLetter = () => {
         })(event, gestureState);
       },
       onPanResponderRelease: () => {
-        if (animatedValue._value > windowWidth*.5) {
+        if (animatedValue._value > wp('50%')) {
           Animated.timing(animatedValue, {
-            toValue: windowWidth,
+            toValue: wp('100%'),
             duration: 300,
             useNativeDriver: false,
           }).start();
@@ -38,15 +36,9 @@ const SwipeableLetter = () => {
     })
   ).current;
 
-  // const deleteOpacity = animatedValue.interpolate({
-  //   inputRange: [0, windowWidth * 0.8],
-  //   outputRange: [0, 1],
-  //   extrapolate: 'clamp',
-  // });
-
   return (
     <View style={styles.swipeableLetterContainer} onRelease={handleDraftPress()}>
-    <Ionicons name="trash-outline" size={60} color="white" style={{marginLeft: "10%"}}/>
+      <Ionicons name="trash-outline" size={wp('14%')} color="white" style={{marginLeft: wp('10%')}}/>
       <Animated.View
         style={[
           styles.swipeableLetter,
@@ -66,7 +58,7 @@ const styles = StyleSheet.create({
   },
   swipeableLetterContainer: {
     position: 'relative',
-    width: windowWidth * 0.8,
+    width: wp('80%'),
     aspectRatio: 0.8,
     backgroundColor: 'red',
     overflow: 'hidden',
@@ -76,21 +68,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: windowWidth * 1.6,
+    width: wp('160%'),
     aspectRatio: 0.8,
     backgroundColor: '#FDFEF1',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    fontSize: 18,
+    fontSize: wp('4.2%'), // Assuming font size is 4.2% of screen width
   },
   delete: {
     position: 'absolute',
     top: 0,
     right: 0,
     height: '100%',
-    width: windowWidth * 0.2,
+    width: wp('20%'),
     backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',

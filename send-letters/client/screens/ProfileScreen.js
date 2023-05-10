@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-const WINDOW_WIDTH = Dimensions.get('window').width;
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 function ProfileScreen({navigation}) {
 
@@ -24,10 +23,10 @@ function ProfileScreen({navigation}) {
         </View>
         <View style={{alignItems: 'center'}}>
           <View style={styles.profilePhotoBack}></View>
-          <Text style={{marginTop: 10, fontWeight: "bold", fontSize: 18}}>
+          <Text style={{marginTop: hp('1.08%'), fontWeight: "bold", fontSize: hp('1.94%')}}>
             {state.user.username}
           </Text>
-          <Text style={{marginTop: 10, fontWeight: "300", fontSize: 18}}>
+          <Text style={{marginTop: hp('1.08%'), fontWeight: "300", fontSize: hp('1.94%')}}>
             Joined Qwill in {state.user.createdAt.substring(0,4)}
           </Text>
           <View style={styles.lineLong}></View>
@@ -37,60 +36,60 @@ function ProfileScreen({navigation}) {
             <Text style={styles.settingsText}>Settings</Text>
           </View>
         </View>
-        <View style={{flex: 1, marginBottom: 250}}>
+        <View style={{flex: 1, marginBottom: hp('27.03%')}}>
           <TouchableOpacity style={styles.settingContainer}>
             <Ionicons
-            style={{marginLeft: 20}}
+            style={{marginLeft: wp('4.67%')}}
             name={"settings-outline"}
-            size={24}>
+            size={hp('2.59%')}>
             </Ionicons>
             <Text style={styles.text}>Your account</Text>
             <Ionicons
-            style={{marginRight: 20}}
+            style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
-            size={24}>
+            size={hp('2.59%')}>
             </Ionicons>
           </TouchableOpacity>
           <View style={styles.lineShort}></View>
           <TouchableOpacity style={styles.settingContainer}>
             <Ionicons
-            style={{marginLeft: 20}}
+            style={{marginLeft: wp('4.67%')}}
             name={"notifications-outline"}
-            size={24}>
+            size={hp('2.59%')}>
             </Ionicons>
             <Text style={styles.text}>Notifications</Text>
             <Ionicons
-            style={{marginRight: 20}}
+            style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
-            size={24}>
+            size={hp('2.59%')}>
             </Ionicons>
           </TouchableOpacity>
           <View style={styles.lineShort}></View>
           <TouchableOpacity style={styles.settingContainer}>
             <Ionicons
-            style={{marginLeft: 20}}
+            style={{marginLeft: wp('4.67%')}}
             name={"eye-outline"}
-            size={24}>
+            size={hp('2.59%')}>
             </Ionicons>
             <Text style={styles.text}>Display</Text>
             <Ionicons
-            style={{marginRight: 20}}
+            style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
-            size={24}>
+            size={hp('2.59')}>
             </Ionicons>
           </TouchableOpacity>
           <View style={styles.lineShort}></View>
           <TouchableOpacity style={styles.settingContainer}>
             <Ionicons
-            style={{marginLeft: 20}}
+            style={{marginLeft: wp('4.67%')}}
             name={"help-circle-outline"}
-            size={24}>
+            size={hp('2.59')}>
             </Ionicons>
             <Text style={styles.text}>Help</Text>
             <Ionicons
-            style={{marginRight: 20}}
+            style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
-            size={24}>
+            size={hp('2.59')}>
             </Ionicons>
           </TouchableOpacity>
         </View>
@@ -106,55 +105,55 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 12,
-    paddingRight: 18,
-    paddingBottom: 12,
-    paddingLeft: 18,
-    borderRadius: 10,
-    borderWidth: 1,
+    paddingTop: hp('1.3%'),
+    paddingRight: wp('4.2%'),
+    paddingBottom: hp('1.3%'),
+    paddingLeft: wp('4.2%'),
+    borderRadius: wp('2.3%'),
+    borderWidth: wp('0.23%'),
     borderColor: "#737B7D",
     borderStyle: "solid",
-    marginRight: 20,
-    marginTop: 10
+    marginRight: wp('4.67%'),
+    marginTop: hp('1.08%')
   },
   btnText: {},
   profilePhotoBack: {
-    height: 120,
-    width: 120,
-    borderRadius: 60,
+    height: hp('12.96%'),
+    width: wp('28.04%'),
+    borderRadius: wp('14.02%'),
     backgroundColor: 'black',
   },
   lineLong: {
-    width: 318,
+    width: wp('74.3%'),
     height: 0,
-    borderWidth: 1,
+    borderWidth: wp('0.23%'),
     borderColor: "#737B7D",
-    marginTop: 30
+    marginTop: hp('3.24%')
   },
   settingsText: {
-    fontSize: 40, 
+    fontSize: wp('9.35%'), 
     fontWeight: '200',
     textAlign: 'right',
-    marginLeft: 30,
-    marginTop: 25
+    marginLeft: wp('7%'),
+    marginTop: hp('2.7%')
   },
   settingContainer: {
-    width: WINDOW_WIDTH,
-    height: 60,
+    width: wp('100%'),
+    height: hp('6.48%'),
     flexDirection: "row",
     justifyContent: 'space-between', 
     alignItems: 'center'
   },
   text: {
-    fontSize: 15,
+    fontSize: wp('3.5%'),
     fontWeight: "300", 
-    marginTop: 5
+    marginTop: hp('0.54%')
   },
   lineShort: {
-    width: 0.75 * WINDOW_WIDTH,
+    width: wp('75%'),
     height: 0,
-    borderWidth: 1,
+    borderWidth: wp('0.23%'),
     borderColor: "#737B7D",
-    marginLeft: 0.125 * WINDOW_WIDTH,
+    marginLeft: wp('12.5%'),
   },
 });
