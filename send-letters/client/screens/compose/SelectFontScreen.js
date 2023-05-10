@@ -13,6 +13,8 @@ import * as Font from 'expo-font';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -87,11 +89,11 @@ const SelectFontScreen = ({ navigation }) => {
               <View style={styles.line}></View>
             </View>
             <FlatList
-              contentContainerStyle={{ justifyContent: 'space-between'}}
+              contentContainerStyle={{ justifyContent: 'center'}}
               data={customFonts}
               numColumns={3}
               renderItem={({ item }) =>
-                <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+              <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
                   <FontPreview style={{fontFamily: item._id}} title={item.name} onPress={() => handleNextPressed(item._id, item.name, true)}></FontPreview>
                 </View>
               }
@@ -102,23 +104,23 @@ const SelectFontScreen = ({ navigation }) => {
       }
 
       <View style={styles.defaultFontsContainer}>
-        <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
+        <View style={{flexDirection: "row", justifyContent: "center", marginVertical: 10}}>
               <View style={styles.line}></View>
               <Text style={{fontSize: 12}}>Default Fonts</Text>
               <View style={styles.line}></View>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        {/* <View style={{ flexDirection: "row" }}> */}
           <FlatList
             contentContainerStyle={{ justifyContent: 'center' }}
             data={fontData}
             numColumns={3}
             renderItem={({ item }) =>
-              <View style={{ marginLeft: 5, marginRight: 5 }}>
+            <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
                 <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title, item.title, false)}></FontPreview>
               </View>}
             keyExtractor={(item) => item.title}
           />
-        </View>
+        {/* </View> */}
       </View>
 
     </SafeAreaView>
