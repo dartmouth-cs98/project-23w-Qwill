@@ -1,10 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Dimensions, PixelRatio} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import COLORS from '../styles/colors'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const ToolBarComponent = props => {
     if (props.text == "Font") {
@@ -14,7 +12,6 @@ const ToolBarComponent = props => {
                 <View style={[styles.fontIcon, styles.fontIconUnselected]}>
                     <Text style={styles.fontIconTextUnselected}>Aa</Text>
                 </View>
-            {/* <Text style={styles.text}>{props.text}</Text> */}
             </View>
         );
     } else {
@@ -27,7 +24,6 @@ const ToolBarComponent = props => {
                 size={20}
                 >
                 </Ionicons>
-            {/* <Text style={styles.text}>{props.text}</Text> */}
             </View>
         );
     }
@@ -43,14 +39,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontSize: 10,
+    fontSize: wp('2.34%'),
     color: "#888989"
   }, 
   fontIcon: {
-    height: 20, 
-    width: 20,
-    borderRadius: 5,
-    borderWidth: 1.2,
+    height: hp('2.16%'), 
+    width: wp('4.67%'),
+    borderRadius: wp('1.17%'),
+    borderWidth: wp('0.28%'),
     alignItems: 'center'
   },
   fontIconUnselected: {
@@ -59,8 +55,8 @@ const styles = StyleSheet.create({
   fontIconTextUnselected: {
     fontWeight: "400",
     color: "#888989",
-    marginTop: 1,
-    fontSize: 12
+    marginTop: hp('0.11%'),
+    fontSize: wp('2.8%')
   }
 });
 

@@ -1,17 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Text, View, FlatList, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import { AuthContext } from '../../context/AuthContext';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/AuthContext';
-
-import Ionicons from '@expo/vector-icons/Ionicons';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import { hasRestrictedChar } from '../../helpers/stringValidation';
-import COLORS from '../../styles/colors';
-import ButtonBlue from '../../components/ButtonBlue.components';
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
 import { truncate } from '../../helpers/stringValidation';
+import { useIsFocused } from '@react-navigation/native';
+import axios from 'axios';
+import ButtonBlue from '../../components/ButtonBlue.components';
+import COLORS from '../../styles/colors';
+import findIP from '../../helpers/findIP';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState, useContext, useEffect } from 'react'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -216,22 +215,16 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   inputContainer: {
-    // width: 350,
     marginLeft: 5,
-    // marginTop: 10, 
-    // flex: 1, 
-    // flex: "row", 
-    // alignContent: "center", 
   },
   friendMidText: {
     textAlign: "center",
-    // textAlignVertical: "center",
+    
     fontSize: 20,
     color: "#1E4693",
     opacity: 1,
     marginTop: 21,
     fontWeight: "600"
-    // backgroundColor: "rgba(0,0,0,1)" 
   },
   line: {
     marginTop: 10,

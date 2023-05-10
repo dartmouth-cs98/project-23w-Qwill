@@ -1,6 +1,7 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    margin: 64,
+    margin: wp('17.33%'),
   },
   button: {
     flex: 1,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 24,
+    fontSize: hp('3.24%'),
     fontWeight: 'bold',
     color: 'white',
   },

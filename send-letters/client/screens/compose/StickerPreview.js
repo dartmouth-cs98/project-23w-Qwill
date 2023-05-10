@@ -2,9 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, Dimensions, View } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Image } from 'react-native-elements';
-
-const screenWidth = Dimensions.get('window').width;
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const StickerPreview = props => {
   return (
@@ -26,32 +24,33 @@ const StickerPreview = props => {
   );
 };
 
+
 const styles = StyleSheet.create({
   containerTheme: {
-    width: screenWidth*.9,
-    height: 200,
+    width: wp('90%'),
+    height: hp('27%'),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: '#E2E8F6',
-    borderRadius: 20,
-    marginTop: 10
+    borderRadius: wp('5.33%'),
+    marginTop: hp('1.35%')
   },
   theme: {
     height: undefined, 
-    width: screenWidth*.45,
+    width: wp('45%'),
     aspectRatio: 1,
     resizeMode: "contain"
   },
   titleContainer: {
-    height: 180,
-    width: screenWidth*.5,
+    height: hp('24.32%'),
+    width: wp('50%'),
   },
   themeNameText: {
-    fontSize: 30, 
+    fontSize: hp('4.05%'), 
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,
-    marginTop: 75
+    marginTop: hp('10.14%')
   }
 });
 export default StickerPreview;
