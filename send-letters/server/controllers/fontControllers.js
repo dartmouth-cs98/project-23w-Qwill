@@ -29,15 +29,13 @@ export const createCustomFont = async (req, res) => {
 
         // Create a new Python process to generate the ttf file
         const spawn = require("child_process").spawn;
-        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py", user.username, user.numCustomFonts], {
+        const pythonProcess = spawn('python3', ["./handwriting/scripts/main.py", user.username, user.numCustomFonts], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
         // write base64image to stdin
         pythonProcess.stdin.write(handwritingImage);
         pythonProcess.stdin.end();
-
-        console.log("after piped in the image");
         
         // Accumulate output and/or error messages from stdout/stderr to log on close
         let output = "";
@@ -46,15 +44,12 @@ export const createCustomFont = async (req, res) => {
         // Handle output from the running of the Python process
         pythonProcess.stdout.on('data', (data) => {
             output += data.toString();
-            console.log(data.toString());
-            console.log("output above");
         });
 
         // Handle errors from the running of the Python process
         pythonProcess.stderr.on('data', (data) => {
             errorMessage = data.toString('utf-8').trim();
             console.log(errorMessage);
-            console.log("error above");
         });
 
         // Handle the end of the Python process
@@ -62,19 +57,6 @@ export const createCustomFont = async (req, res) => {
             // Check the exit code to see if the process completed successfully
             if (exitCode === 0) {
                 // Convert base64 file content to a buffer
-                
-                
-                
-                if (1==1) {
-                    return res.json({
-                        message: "Congrats, your font has been made!",
-                        font: ""
-                    });
-                }
-
-
-
-
                 const fileContent = Buffer.from(output, 'base64')
                 const fontName = user.username + "-font-" + (user.numCustomFonts+1).toString();
                 const filePath = user.username + '/' + fontName + ".ttf";
@@ -240,8 +222,6 @@ export const deleteFont = async (req, res) => {
 
             // Delete the file from Firebase Storage
             fileRef.delete().then(async function() {
-                console.log("File deleted successfully.");
-
                 // delete from MongoDB
                 const resp = await Font.deleteOne(
                     {'_id': fontID}

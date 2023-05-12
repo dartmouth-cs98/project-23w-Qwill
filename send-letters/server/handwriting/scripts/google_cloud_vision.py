@@ -103,4 +103,4 @@ if __name__ == "__main__":
 	display_texts(texts, image)
 
 	# Clear all of temp directory
-	# shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+	shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
