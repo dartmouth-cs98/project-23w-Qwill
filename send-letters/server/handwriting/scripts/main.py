@@ -40,7 +40,7 @@ if __name__ == '__main__':
         os.makedirs(temp_dir)
 
         # Set path to credentials for Google Cloud Vision
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(server_dir, "handwriting/scripts/application_default_credentials.json")
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(server_dir, "application_default_credentials.json")
 
         # Read the base64image from stdin and decode the image into the handwriting sample
         base64_image = sys.stdin.read()

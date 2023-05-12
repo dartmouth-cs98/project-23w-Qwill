@@ -29,7 +29,7 @@ export const createCustomFont = async (req, res) => {
 
         // Create a new Python process to generate the ttf file
         const spawn = require("child_process").spawn;
-        const pythonProcess = spawn('python3', ["../server/handwriting/scripts/main.py", user.username, user.numCustomFonts], {
+        const pythonProcess = spawn('python3', ["./handwriting/scripts/main.py", user.username, user.numCustomFonts], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
@@ -49,6 +49,7 @@ export const createCustomFont = async (req, res) => {
         // Handle errors from the running of the Python process
         pythonProcess.stderr.on('data', (data) => {
             errorMessage = data.toString('utf-8').trim();
+            console.log(errorMessage);
         });
 
         // Handle the end of the Python process
@@ -221,8 +222,6 @@ export const deleteFont = async (req, res) => {
 
             // Delete the file from Firebase Storage
             fileRef.delete().then(async function() {
-                console.log("File deleted successfully.");
-
                 // delete from MongoDB
                 const resp = await Font.deleteOne(
                     {'_id': fontID}
