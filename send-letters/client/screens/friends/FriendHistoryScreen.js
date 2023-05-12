@@ -127,7 +127,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   friendCircle: {
-    width: wp('20%'),
+    width: wp('18%'),
     aspectRatio: 1,
     borderRadius: wp('100%'),
     backgroundColor: "rgba(30,70,147,0.2)",

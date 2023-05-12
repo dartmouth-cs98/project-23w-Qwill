@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, FlatList, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
 import { truncate } from '../../helpers/stringValidation';
 import { useIsFocused } from '@react-navigation/native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import axios from 'axios';
 import ButtonBlue from '../../components/ButtonBlue.components';
 import COLORS from '../../styles/colors';
@@ -12,10 +13,7 @@ import findIP from '../../helpers/findIP';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState, useContext, useEffect } from 'react'
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
-const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
+const scale = wp('100%') / 390; // Scale factor for font size on 390 width screen
 
 const normalize = (size) => {
   const newSize = size * scale;
@@ -99,20 +97,20 @@ export default function HomeFriendsScreen({ navigation }) {
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <View style={[styles.header, styles.shadowLight]}></View>
-      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: hp('100%') *.02 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
           <Ionicons name="person-add-outline" size={normalize(40)} ></Ionicons>
         </TouchableOpacity>
       </View>
         <View style={styles.recipientsContainer}>
-          <View style={styles.inputContainer}>
+          <View style={styles.inputContainer }>
             <Input
               placeholder=" enter name or username"
               autoCompleteType="email"
               autoCapitalize="none"
               onChangeText={handleChangeText}
-              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: normalize(32), width: normalize(330), borderRadius: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('6%'), width: wp('85%'), borderRadius: 5 }}
               leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
             />
           </View>
@@ -126,12 +124,13 @@ export default function HomeFriendsScreen({ navigation }) {
   );
 };
 
+
 const styles = StyleSheet.create({
   header: {
     position: "absolute",
     backgroundColor: "#BDCCF2",
     width: "100%",
-    height: "25%"
+    height: hp('21%')
   },
   shadowLight: {
     shadowColor: '#171717',
@@ -140,20 +139,20 @@ const styles = StyleSheet.create({
     shadowRadius: 1.5,
   },
   searchIcon: {
-    padding: 10,
+    padding: wp('2%'),
   },
-  input: { borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 },
+  input: { borderBottomWidth: 0, backgroundColor: 'white', height: hp('2.5%'), borderRadius: 5 },
   titleText: {
     fontFamily: 'JosefinSansBold',
     fontSize: normalize(50),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: windowWidth *.04,
-    marginTop: windowHeight *.008
+    marginLeft: wp('4%'),
+    marginTop: hp('0.8%')
   },
   btn: {
-    width: "18%",
+    width: wp('18%'),
   },
   profilePicture: {
     height: normalize(56),
@@ -161,23 +160,23 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: "#000000",
     position: "absolute",
-    left: 18,
-    top: 11
+    left: wp('4.62%'),
+    top: hp('1.1%')
   },
   username: {
     fontSize: normalize(11),
     position: "absolute",
-    top: 72,
-    left: 18
+    top: hp('7.2%'),
+    left: wp('4.62%')
   },
   letterContainer: {
     position: "absolute",
-    left: 100,
+    left: wp('25.64%'),
     top: 0
   },
   button: {
-    width: 200,
-    marginTop: 10,
+    width: wp('51.28%'),
+    marginTop: hp('1.25%'),
   },
   container: {
     flex: 1,
@@ -187,47 +186,50 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   scrollView: {
-    height: 200,
+    height: hp('20%'),
   },
   recipientsContainer: {
-    width: 350,
-    height: 585,
+    width: wp('89.74%'),
+    height: hp('63.46%'),
     borderRadius: 20,
-    marginTop: 10,
+    marginTop: hp('1.25%'),
     flex: 1,
     alignContent: "center"
   },
   friendCircle: {
-    height: 70,
-    width: 70,
-    borderRadius: 50,
+    height: wp('18%'),
+    width: wp('18%'),
+    borderRadius: wp('18%'),
     backgroundColor: COLORS.profilebackground,
-    marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 5,
+    marginTop: hp('1.92%'),
+    marginLeft: wp('3.85%'),
+    marginRight: wp('3.85%'),
+    marginBottom: hp('0.64%'),
+    
   },
   selectTitleText: {
-    fontSize: 35,
+    fontSize: normalize(35),
     fontWeight: "400",
     justifyContent: "center",
     textAlign: 'center',
-    marginTop: 15,
+    marginTop: hp('1.25%'),
   },
   inputContainer: {
-    marginLeft: 5,
+    marginLeft: wp('1.28%'),
+    justifyContent: 'center', 
+    alignItems: "center"
   },
   friendMidText: {
     textAlign: "center",
-    
-    fontSize: 20,
+    fontSize: normalize(20),
     color: "#1E4693",
     opacity: 1,
-    marginTop: 21,
+    marginTop: hp('2.8%'),
     fontWeight: "600"
   },
   line: {
-    marginTop: 10,
+    marginTop: hp('1.25%'),
+    borderBottomColor: COLORS.blue400,
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },

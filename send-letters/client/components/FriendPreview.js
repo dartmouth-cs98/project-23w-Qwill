@@ -18,7 +18,7 @@ const FriendPreview = props => {
 const styles = StyleSheet.create({
     container: {
         height: hp('12%'),
-        width: wp('80%'),
+        width: hp('12%'),
         backgroundColor: "#97ACE2",
         borderRadius: 20,
         marginBottom: hp('2%')

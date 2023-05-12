@@ -9,8 +9,7 @@ const ButtonEmptyMailbox = props => {
     return (
         <TouchableOpacity
             style={[styles.btn, styles.unselectedBtn]}
-            onPress={props.onPress}
-        >
+            onPress={props.onPress}>
             <Text style={[styles.text, styles.unselectedText]}>{props.title}</Text>
         </TouchableOpacity>
     );
@@ -20,11 +19,11 @@ const styles = StyleSheet.create({
     text: {
       fontFamily: 'JosefinSansBold',
       width: wp('30%'),
-      height: hp('2.4%'),
+      height: hp('2.8%'),
       fontStyle: "normal",
       fontWeight: "700",
       fontSize: wp('4%'),
-      lineHeight: hp('2.4%'),
+      lineHeight: hp('2.8%'),
       display: "flex",
       alignItems: "center",
       textAlign: "center",
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      paddingTop: hp('1.3%'),
+      paddingTop: hp('2%'),
       paddingRight: wp('3.6%'),
       paddingBottom: hp('1.3%'),
       paddingLeft: wp('3.6%'),

@@ -57,8 +57,11 @@ export default StyleSheet.create({
     marginLeft: wp('2%')
   },
   inputContainer: {
-    width: 285,
-    marginLeft: 30,
+    // marginLeft: wp('1.28%'),
+    justifyContent: 'center', 
+    alignItems: "center",
+    justifyContent: "center",
+    // marginLeft: wp('10%'),
   },
   noMatchingUsers: {
     fontFamily: 'JosefinSansBold',
@@ -90,16 +93,27 @@ export default StyleSheet.create({
     top: hp('1.18%'), // (11/932) * 100% ≈ 1.18% of screen height
   },
   recipientsContainer: {
-    width: 350,
-    height: 585,
+    // width: wp('90%'),
+    // height: hp('70%'),
+    // borderRadius: 20,
+    // // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    width: wp('89.74%'),
+    height: hp('63.46%'),
     borderRadius: 20,
+    marginTop: hp('1.25%'),
     flex: 1,
+    alignContent: "center",
+    
   },
   safeview: {
-    flexDirection: 'column', flex: 1, alignItems: 'center'
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
   },
   scrollView: {
-    height: 200,
+    height: hp('15%'),
   },
   selectTitleText: {
     marginBottom: hp('4%'),

@@ -10,7 +10,7 @@ import findIP from '../../helpers/findIP';
 import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 function SelectRecipientScreen({navigation}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -111,22 +111,20 @@ function SelectRecipientScreen({navigation}) {
         </TouchableOpacity>
         <Text style={styles.selectTitleText}>Select a recipient</Text>
       </View>
-      <View style={{alignSelf: "center"}}>
-        <View style={[styles.recipientsContainer]}>
-          <View style={styles.inputContainer}>
-            <Input 
-              placeholder="enter name or username"
-              autoCompleteType="email"
-              autoCapitalize="none"
-              onChangeText={handleChangeText}
-              inputContainerStyle={{borderBottomWidth:0, backgroundColor: 'white', height: 32, borderRadius: 5}}
-              leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
-            />
-          </View>
-          <View>
-            {renderMatches()}
-          </View>     
+      <View style={[styles.recipientsContainer]}>
+        <View style={styles.inputContainer}>
+          <Input 
+            placeholder="enter name or username"
+            autoCompleteType="email"
+            autoCapitalize="none"
+            onChangeText={handleChangeText}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%')}}
+          />
         </View>
+        <View>
+          {renderMatches()}
+        </View>     
       </View>
     </SafeAreaView>
   );
