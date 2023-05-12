@@ -10,7 +10,7 @@ import sys
 import shutil
 
 # project_id = os.environ.get("GCP_PROJECT")
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "send-letters/server/handwriting/scripts/application_default_credentials.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "send-letters/server/application_default_credentials.json"
 
 
 """
