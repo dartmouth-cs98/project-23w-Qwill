@@ -6,6 +6,8 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { ComposeContext } from '../../context/ComposeStackContext';
 
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 const ThreeButtonAlert = ({navigation}) => {
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -70,7 +72,7 @@ const ThreeButtonAlert = ({navigation}) => {
         <TouchableOpacity onPress={() => {
             threeButtonAlert();
         }}>
-            <Ionicons name={"close-outline"} size={40} />
+            <Ionicons name={"close-outline"} size={40} style={{marginTop: hp(".9%")}}/>
         </TouchableOpacity>
     );
 }

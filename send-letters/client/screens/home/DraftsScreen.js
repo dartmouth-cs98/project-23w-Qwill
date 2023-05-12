@@ -33,34 +33,34 @@ function DraftsScreen({ navigation }) {
 
   // fetch the drafts from the server
   useEffect(() => {
-    
-    async function fetchDrafts() {
-      try {
-        const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
-        
-        if (!resp) {  // could not connect to backend
-          console.log("ERROR: Could not establish server connection with axios");
-          setSnackMessage("Could not establish connection to the server");
-          setSnackIsVisible(true);
-        } else if (resp.data.error) {  // backend error
-          setSnackMessage(resp.data.error);
-          setSnackIsVisible(true);
-        } else if (!resp.data || !resp.data.receivedLetters) {
-          console.error("Error: the response does not contain the expected fields");
-        } else {
-          for (letter of resp.data.receivedLetters) {
-            if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
-              await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
-            }
-          }
-          setDrafts(resp.data.receivedLetters);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
     fetchDrafts();
   }, [isFocused]);
+
+  async function fetchDrafts() {
+    try {
+      const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.receivedLetters) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        for (letter of resp.data.receivedLetters) {
+          if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+            await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+          }
+        }
+        setDrafts(resp.data.receivedLetters);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const handleDraftPressed = async (item) => {
     // clicking on draft button will update the current letter info
@@ -91,6 +91,27 @@ function DraftsScreen({ navigation }) {
     }
   }, [letterInfo]);
 
+  const handleDeleteDraft = async (item) => {
+    try {
+      const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: item._id });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.ok) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        fetchDrafts();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
@@ -106,8 +127,8 @@ function DraftsScreen({ navigation }) {
           numColumns={1}
           renderItem={({item}) => 
           <View style={{justifyContent: 'center', alignItems: 'center', width: wp("100%")}}>
-            <TouchableOpacity style={styles.btn}>
-              <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)}></Ionicons>
+            <TouchableOpacity style={styles.btn} onPress={() => handleDeleteDraft(item)}>
+              <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)} ></Ionicons>
               <View style={styles.xBackground}></View>
             </TouchableOpacity>
             <View style={{marginVertical: 10}}>

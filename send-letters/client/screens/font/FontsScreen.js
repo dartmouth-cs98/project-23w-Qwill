@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: wp('8%'),
+    fontSize: wp('12%'),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,

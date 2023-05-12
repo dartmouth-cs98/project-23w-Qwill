@@ -89,8 +89,8 @@ export default function ChangeRecipientScreen({ navigation }) {
                         autoCompleteType="email"
                         autoCapitalize="none"
                         onChangeText={handleChangeText}
-                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('14%'), borderRadius: 5 }}
-                        leftIcon={{ type: 'font-awesome', name: 'search', size: wp('15%'), marginLeft: wp('3%') }}
+                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
+                        leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('3%') }}
                     />
                 </View>
                 <View>
