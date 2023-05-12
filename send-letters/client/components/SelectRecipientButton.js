@@ -19,8 +19,8 @@ export default SelectRecipientButton;
 
 const styles = StyleSheet.create({
   friendCircle: {
-    height: 70, 
-    width: 70, 
+    height: wp('13%'),
+    width: wp('13%'),
     borderRadius: wp('8%'), 
     backgroundColor: "rgba(30,70,147,0.2)",
     marginTop: hp('0.5%'),

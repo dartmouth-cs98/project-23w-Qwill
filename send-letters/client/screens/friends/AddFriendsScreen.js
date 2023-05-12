@@ -199,7 +199,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderAddFriends() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center' }}>No users found</Text>
+      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%') }}>No users found</Text>
     }
     return (
       <View style={styles.suggestionsContainer}>
@@ -226,18 +226,18 @@ const AddFriendsScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1}}>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons style={{paddingLeft: windowWidth*.015}} name={"arrow-back"} size={normalize(40)} />
+          <Ionicons style={{paddingLeft: wp('3%')}} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
         <Text style={styles.titleText}>Add Friends</Text>
       </View>
       <View style={{alignItems: 'center', marginBottom: windowHeight*.07}}>
         <View style={styles.inputContainer}>
           <Input
-            placeholder="enter name or username"
+            placeholder=" enter name or username"
             autoCapitalize="none"
             onChangeText={handleChangeText}
-            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-            leftIcon={{type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5 }}
+            leftIcon={{type: 'font-awesome', name: 'search', size: hp('1.7%'), marginLeft: hp('1.7%')}}
           />
         </View>
       </View>
@@ -282,12 +282,10 @@ export default AddFriendsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: hp('4%'),
+    fontSize: wp('8%'),
     fontWeight: 'bold',
-    // textAlign: 'left',
     flex: 1,
-    // marginLeft: 30,
-    marginTop: hp('1%')
+    marginTop: hp('1.8%')
   },
   subtitleText: {
     fontFamily: 'JosefinSans',

@@ -57,8 +57,9 @@ export default StyleSheet.create({
     marginLeft: wp('2%')
   },
   inputContainer: {
-    width: 285,
-    marginLeft: 30,
+    width: wp('40%'),
+    height: wp('30'),
+    // marginLeft: wp('10%'),
   },
   noMatchingUsers: {
     fontFamily: 'JosefinSansBold',
@@ -90,16 +91,19 @@ export default StyleSheet.create({
     top: hp('1.18%'), // (11/932) * 100% ≈ 1.18% of screen height
   },
   recipientsContainer: {
-    width: 350,
-    height: 585,
+    width: wp('90%'),
+    height: hp('70%'),
     borderRadius: 20,
     flex: 1,
+    alignItems: 'center',
   },
   safeview: {
-    flexDirection: 'column', flex: 1, alignItems: 'center'
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
   },
   scrollView: {
-    height: 200,
+    height: hp('15%'),
   },
   selectTitleText: {
     marginBottom: hp('4%'),
