@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, Dimensions, View } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler'
+import { StyleSheet, Text } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
-
-const screenWidth = Dimensions.get('window').width;
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const ThemePreview = props => {
   return (
@@ -11,26 +10,21 @@ const ThemePreview = props => {
       style={{}}
       onPress={props.onPress}
     >
-      {/* <View style={{flexDirection: 'row'}}> */}
-        {/* <Text style={styles.text}>{props.themeName}</Text> */}
+      
         <Image 
           style={styles.theme}
           source={props.imageSource}
         />
         <Text style={styles.themeNameText}>{props.themeName}</Text>
-        {/* <View style={styles.titleContainer}>
-          <Text style={styles.themeNameText}>{props.themeName}</Text>
-        </View> */}
         
-      {/* </View> */}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   containerTheme: {
-    width: screenWidth*.9,
-    height: 200,
+    width: wp('90%'),
+    height: hp('21.6%'),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: '#E2E8F6',
@@ -39,22 +33,16 @@ const styles = StyleSheet.create({
   },
   theme: {
     height: undefined, 
-    width: screenWidth*.45,
+    width: wp('45%'),
     aspectRatio: 1,
     resizeMode: "contain",
-    // marginBottom: "15%"
   },
   titleContainer: {
-    height: 180,
-    width: screenWidth*.5,
-    // justifyContent: "center",
-    // justifyContent: 'center', //Centered horizontally
-    // alignItems: 'center', //Centered vertically
-    // flex:1
-    // textAlignVertical: "center"
+    height: hp('19.44%'),
+    width: wp('50%'),
   },
   themeNameText: {
-    fontSize: 18, 
+    fontSize: hp('1.94%'), 
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,

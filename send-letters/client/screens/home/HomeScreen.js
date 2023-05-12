@@ -5,14 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
 import { FlatList } from 'react-native';
 import * as Font from 'expo-font';
 
-
 // component imports
-import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
@@ -22,6 +19,12 @@ import { COLORS } from '../../styles/colors';
 // The react Button component renders the native button on each platform it uses. Because of this, 
 // it does not respond to the style prop. It has its own set of props.
 
+// 390 is the logical width of the largest iPhones before pro max sizes
+// https://www.ios-resolution.com/
+const IS_BIG_PHONE = wp(100) > 390;
+
+const flatListMarginTop = IS_BIG_PHONE ? -hp('4%') : -hp('2%');
+const marginMailboxTop = IS_BIG_PHONE ? hp('15%') : hp('10%');
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -99,7 +102,7 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
-        console.log(resp.data)
+        // console.log(resp.data)
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
           setSnackMessage("Could not establish connection to the server");
@@ -126,26 +129,6 @@ function HomeScreen({ navigation, route}) {
 
     return (
       <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
-        <View style={[styles.header, styles.shadowLight]}></View>
-        <Image 
-            style={{
-              height: undefined, 
-              width: '60%',
-              aspectRatio: 4,
-              resizeMode: "contain",
-              marginBottom: 15
-            }}
-            source={require('../../assets/logo.png')}
-          />
-        <View style={{ flexDirection:"row"}}>
-          <ButtonPrimary selected={true} title={"Mailbox"}/>
-          <ButtonPrimary 
-              selected={false} 
-              title={"Drafts"} 
-              onPress={() => navigation.navigate('Drafts')}/>
-        </View>
-
-        <View style={{flex: 0.8}}></View>
 
         <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: wp('100%'), marginBottom: 0}} >
          
@@ -175,9 +158,10 @@ function HomeScreen({ navigation, route}) {
               ) : (
               <>
                 <View style={{flex: 0}}/>
-                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%'}}>
+                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%', marginTop: flatListMarginTop}}>
                   <FlatList
                     contentContainerStyle={{marginBottom: 0}}
+                    shouldComponentUpdate={() => {return false;}}
                     data={mail}
                     CellRendererComponent={this.renderItem}
                     renderItem={renderItem}
@@ -187,7 +171,7 @@ function HomeScreen({ navigation, route}) {
                       resizeMode="contain" 
                       style={{
                         width: wp('100%'),
-                        marginTop: hp('10%'),
+                        marginTop: marginMailboxTop,
                         marginBottom: -hp('15%')
                       }} 
                       source={require('../../assets/mailbox2.png')}>
@@ -218,26 +202,26 @@ const styles = StyleSheet.create({
   header: {
     position: "absolute",
     backgroundColor: "#BDCCF2",
-    width: "100%",
-    height: "28%"
+    width: wp('100%'),
+    height: hp('28%')
   },
   shadowLight: {
     shadowColor: '#171717',
-    shadowOffset: {height: 4 },
+    shadowOffset: { height: hp('0.4%') },
     shadowOpacity: 0.2,
-    shadowRadius: 1.5,
+    shadowRadius: wp('0.4%'),
   },
   emptyMailboxText: {
     fontFamily: 'JosefinSansBold',
     width: wp('50%'),
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 20,
-    lineHeight: 20,
+    fontSize: wp('4.8%'),
+    lineHeight: wp('5.6%'),
     display: "flex",
     alignItems: "center",
     textAlign: "center",
-    letterSpacing: 0.3,
+    letterSpacing: wp('0.3%'),
     color: COLORS.black
   },
   snackBarText: {
@@ -248,8 +232,8 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     alignSelf: 'center',
     width: wp('70%'),
-    bottom: 10,
-    fontSize: 30,
-    borderRadius: 20,
+    bottom: hp('1.3%'),
+    fontSize: wp('4%'),
+    borderRadius: wp('4%'),
   }
 });

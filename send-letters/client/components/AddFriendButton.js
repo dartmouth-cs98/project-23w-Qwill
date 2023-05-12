@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Dimensions, PixelRatio } from 'react-native';
 import { COLORS } from '../styles/colors';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Text, View, TouchableOpacity, StyleSheet, Dimensions, PixelRatio } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import React from 'react';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -12,7 +12,6 @@ const normalize = (size) => {
   const newSize = size * scale;
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 };
-
 
 const AddFriendButton = (props) => {
     const item = props.userInfo;
@@ -48,44 +47,44 @@ export default AddFriendButton;
 const styles = StyleSheet.create({
     outerView: { 
         backgroundColor: COLORS.friendsButtonBackground,
-        marginVertical: '1.5%',
-        padding: '3%',
+        marginVertical: hp('1.5%'),
+        padding: wp('3%'),
         flexDirection:'row',
-        borderRadius: 10,
-        width: "80%",
+        borderRadius: wp('3%'),
+        width: wp('80%'),
         aspectRatio: 5,
     },
     friendCircle: {
-        width: "15%",
+        width: wp('15%'),
         aspectRatio: 1,
-        borderRadius: "100%",
+        borderRadius: wp('100%'),
         backgroundColor: "rgba(30,70,147,0.2)",
     },
     friendMidText: {
         textAlign: "center",
-        fontSize: 15,
+        fontSize: wp('3.5%'),
         color: "#1E4693",
         opacity: 1,
-        marginTop: "28%",
+        marginTop: hp('28%'),
         fontWeight: "600",
     },
     sendInviteButton: {
-        width: "60%",
+        width: wp('60%'),
         aspectRatio: 3,
-        borderRadius: "20%",
+        borderRadius: wp('20%'),
         backgroundColor: COLORS.white,
-        marginTop: "4%"
+        marginTop: hp('4%')
     },
     sendInviteText: {
-        fontSize: 10,
+        fontSize: wp('2.5%'),
         color: "#7184B4",
         textAlign: 'center',
-        marginTop: "9%"
+        marginTop: hp('9%')
     },
     icon: {
         display: "flex",
         alignItems: "center",
         color: "#1E4693",
-        marginTop: "6%",
+        marginTop: hp('6%'),
       }
 });

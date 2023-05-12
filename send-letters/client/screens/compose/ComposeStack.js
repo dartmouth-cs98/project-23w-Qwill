@@ -35,7 +35,6 @@ const ComposeStack = ({ navigation }) => {
    * */
 
   return (
-    <ComposeContextProvider>
       <Stack.Navigator
         initialRouteName="SelectRecipient"
         screenOptions={{
@@ -67,7 +66,6 @@ const ComposeStack = ({ navigation }) => {
         </Stack.Group>
 
       </Stack.Navigator>
-    </ComposeContextProvider>
   );
 };
 

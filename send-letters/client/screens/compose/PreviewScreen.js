@@ -9,6 +9,7 @@ import findIP from '../../helpers/findIP';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
 import React, { useState, useContext } from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -118,13 +119,13 @@ function PreviewScreen({ navigation }) {
       </View>
       <View style={{flexDirection: 'row', marginBottom: 15}}>
         <ButtonPrimary
-          textWidth={115}
+          textWidth={wp('26.8%')}
           title={"No, edit it."}
           selected={true}
           onPress={() => navigation.goBack()}
         />
         <ButtonPrimary
-          textWidth={115}
+          textWidth={wp('30%')}
           title={"Yes, send it!"}
           selected={true}
           onPress={() => handleSendPressed()}
@@ -154,30 +155,29 @@ function PreviewScreen({ navigation }) {
 };
 
 export default PreviewScreen;
-
 const styles = StyleSheet.create({
   inputContainer: {
-      width: 300,
+      width: wp('80%'),
   },
   button: {
-      width: 200, 
-      marginTop: 10,
+      width: wp('53.33%'), 
+      marginTop: hp('1.35%'),
   },
   container: {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      padding: 10,
+      padding: wp('2.67%'),
       backgroundColor: 'white',
   },
   editContainer: {
-    width: screenWidth * .85,
-    height: screenHeight * .4,
+    width: wp('85%'),
+    height: hp('40%'),
     backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 20,
+    borderRadius: wp('5.33%'), 
+    marginTop: hp('2.7%'),
+    marginBottom: hp('2.7%'),
+    padding: wp('5.33%'),
     flex: 1,
   }
 });

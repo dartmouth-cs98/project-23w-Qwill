@@ -1,19 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react'
+import { AuthContext } from '../../context/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, FlatList, StyleSheet, TouchableOpacity, ScrollView, Dimensions, PixelRatio } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { Input } from 'react-native-elements'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/AuthContext';
-import LetterHistoryPreview from '../../components/LetterHistoryPreview';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Font from 'expo-font';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
-import findIP from '../../helpers/findIP';
 import COLORS from '../../styles/colors';
+import findIP from '../../helpers/findIP';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import LetterHistoryPreview from '../../components/LetterHistoryPreview';
+import React, { useState, useContext, useEffect } from 'react';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
 
 const normalize = (size) => {
@@ -129,42 +127,41 @@ export default function FriendHistoryScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   friendCircle: {
-    width: "20%",
+    width: wp('20%'),
     aspectRatio: 1,
-    borderRadius: "100%",
+    borderRadius: wp('100%'),
     backgroundColor: "rgba(30,70,147,0.2)",
     alignContent: "center", 
-    marginLeft: "-18%"
+    marginLeft: wp('-18%')
   },
   friendMidText: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: hp('2.5%'),
     color: "#1E4693",
     opacity: 1,
-    marginTop: "32%",
+    marginTop: hp('10%'),
     fontWeight: "600",
   },
   line: {
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: hp('1.5%'),
+    marginBottom: hp('1.5%'),
     borderBottomColor: COLORS.blue400,
-    borderBottomWidth: StyleSheet.hairlineWidth*3,
-    width: "90%",
+    borderBottomWidth: StyleSheet.hairlineWidth * 3,
+    width: wp('90%'),
     alignSelf: 'center'
   },
   username: {
-    marginVertical: "1.5%",
+    marginVertical: hp('1.5%'),
     fontFamily: 'JosefinSansBold',
     fontStyle: "normal",
     textAlign: "center"
   },
   verticalLine: {
     position: "absolute",
-    top: windowHeight*.2,
+    top: hp('20%'),
     width: StyleSheet.hairlineWidth,
-    height: windowHeight*.8,
+    height: hp('80%'),
     alignSelf: "center",
     backgroundColor: COLORS.blue400,
-    // borderBottomWidth: StyleSheet.hairlineWidth,
   }
-})
+});

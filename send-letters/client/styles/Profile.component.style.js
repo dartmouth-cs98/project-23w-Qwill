@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import COLORS from './colors.js';
 // Separating styles from component code src: https://www.reactnative.guide/8-styling/8.3-separating-styles-from-component.html
 
 export default StyleSheet.create({
@@ -33,10 +34,10 @@ export default StyleSheet.create({
     marginBottom: hp('1.61%'), // (15/932) * 100% ≈ 1.61% of screen height
   },
   customFontsContainer: {
-    width: wp('88%'),
+    width: wp('82%'),
     marginLeft: wp('6%'), 
     marginRight: wp('6%'),
-    marginTop: hp('2%'),
+    // marginTop: hp('2%'),
   },
   defaultFontsContainer: {
     width: wp('82%'),
@@ -49,9 +50,26 @@ export default StyleSheet.create({
     left: wp('23%'), // (100/430) * 100% ≈ 23.26% of screen width
     top: 0,
   },
+  icon: {
+    display: "flex",
+    alignItems: "center",
+    color: COLORS.black,
+    marginLeft: wp('2%')
+  },
   inputContainer: {
     width: 285,
     marginLeft: 30,
+  },
+  noMatchingUsers: {
+    fontFamily: 'JosefinSansBold',
+    width: wp('80%'),
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: wp('5%'),
+    display: "flex",
+    textAlign: "center",
+    letterSpacing: 0.3,
+    color: COLORS.black
   },
   line: {
     width: wp('25.58%'), // (110/430) * 100% ≈ 25.58% of screen width

@@ -10,7 +10,7 @@ import findIP from '../../helpers/findIP';
 import { AuthContext } from '../../context/AuthContext';
 import { Snackbar } from 'react-native-paper';
 import * as Font from 'expo-font';
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -22,7 +22,7 @@ const normalize = (size) => {
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 };
 
-const FontsScreen = ({navigation}) => {
+const FontsScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [userInfo, setUserInfo] = useContext(AuthContext);
 
@@ -46,8 +46,8 @@ const FontsScreen = ({navigation}) => {
 
       // make server request
       try {
-        const resp = await axios.post(findIP()+"/api/createCustomFont", { userID: userInfo.user._id, handwritingImage: base64image });
-        
+        const resp = await axios.post(findIP() + "/api/createCustomFont", { userID: userInfo.user._id, handwritingImage: base64image });
+
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios or image is larger than 16mb");
           setSnackMessage("Could not establish connection to the server or image is larger than 16mb");
@@ -76,9 +76,9 @@ const FontsScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
-      <View style={{ flexDirection: "row"}}>
+      <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons style={{paddingLeft: windowWidth*.015}} name={"arrow-back"} size={normalize(40)} />
+          <Ionicons style={{ paddingLeft: windowWidth * .015 }} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
         <Text style={styles.titleText}>Create Custom Font</Text>
       </View>
@@ -88,42 +88,42 @@ const FontsScreen = ({navigation}) => {
       <View style={styles.line}></View>
       <View style={styles.listContainer}>
         <Text ordered={true} style={styles.listItem}>
-            1. On a plain white sheet of paper and a black pen, write out the alphabet in uppercase letters. Make sure their is enough space between the characters and that they are large enough.
+          1. On a plain white sheet of paper and a black pen, write out the alphabet in uppercase letters. Make sure their is enough space between the characters and that they are large enough.
         </Text>
         <Text ordered={true} style={styles.listItem}>
-            2. On another line, write the alphabet in lowercase.
+          2. On another line, write the alphabet in lowercase.
         </Text>
         <Text ordered={true} style={styles.listItem}>
-            3. Either take a photo of your writing or scan the document and select from camera roll.
+          3. Either take a photo of your writing or scan the document and select from camera roll.
         </Text>
       </View>
       <View style={styles.line}></View>
       <Text style={styles.centeredText}>Your sample should look something like this:</Text>
-      <Image 
-          style={{
-            height: undefined,
-            width: '80%',
-            aspectRatio: 2,
-            resizeMode: "contain",
-          }}
-          source={require('../../assets/exampleSample.png')}
+      <Image
+        style={{
+          height: undefined,
+          width: '80%',
+          aspectRatio: 2,
+          resizeMode: "contain",
+        }}
+        source={require('../../assets/exampleSample.png')}
       />
-        {/* <View style={{flexDirection: "row"}}>
+      {/* <View style={{flexDirection: "row"}}>
             <ButtonPrimary
                 selected={false}
                 title={"Add Font By Camera"}
                 onPress={() =>{navigation.navigate("CameraScreen")}}
             />
         </View> */}
-        <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={handlePickImagePressed}></ButtonBlue>
-        <Snackbar
-          style={styles.snackbar}
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={() => {setSnackIsVisible(false)}}
-          // short dismiss duration
-          duration={2000}
-        >
+      <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={handlePickImagePressed}></ButtonBlue>
+      <Snackbar
+        style={styles.snackbar}
+        //SnackBar visibility control
+        visible={snackIsVisible}
+        onDismiss={() => { setSnackIsVisible(false) }}
+        // short dismiss duration
+        duration={2000}
+      >
         <Text style={styles.snackBarText}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
@@ -135,16 +135,16 @@ export default FontsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 30,
+    fontSize: wp('6%'),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: windowWidth *.03,
-    marginTop: windowHeight *.012
+    marginLeft: wp('3%'),
+    marginTop: hp('1.2%')
   },
   line: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: hp('1.2%'),
+    marginBottom: hp('1.2%'),
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: "90%",
@@ -158,45 +158,43 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-    listContainer: {
-        width: "80%",
-        // marginBottom: 20
-    },
-    listItem: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginVertical: 8,
-        fontFamily: 'JosefinSansBold',
-    },
-    centeredText: {
-      fontFamily: 'JosefinSansBold',
-      fontSize: 16,
-      textAlign: 'center',
-      paddingHorizontal: 15,
-      marginTop: 10,
-      marginBottom: 10
-    },
-    btn: {
-      width: "80%",
-    },
-    shadow: {
-      shadowColor: '#171717',
-      shadowOffset: {width: -2, height: 4},
-      shadowOpacity: 0.3,
-      shadowRadius: 3,
+  listContainer: {
+    width: wp('80%'),
+    // marginBottom: hp('2.6%')
   },
-      
-    snackBarText: {
-      color: COLORS.white,
-      textAlign: 'center'
-    },
-    snackbar: {
-      opacity: 0.7,
-      alignSelf: 'center',
-      width: windowWidth * .7,
-      bottom: 10,
-      fontSize: 30,
-      borderRadius: 20,
-    }
+  listItem: {
+    fontSize: hp('1.8%'),
+    fontWeight: 'bold',
+    marginVertical: hp('0.8%'),
+    fontFamily: 'JosefinSansBold',
+  },
+  centeredText: {
+    fontFamily: 'JosefinSansBold',
+    fontSize: wp('4.3%'),
+    textAlign: 'center',
+    paddingHorizontal: wp('3.8%'),
+    marginTop: hp('1.2%'),
+    marginBottom: hp('1.2%')
+  },
+  btn: {
+    width: wp('80%'),
+  },
+  shadow: {
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  snackBarText: {
+    color: COLORS.white,
+    textAlign: 'center'
+  },
+  snackbar: {
+    opacity: 0.7,
+    alignSelf: 'center',
+    width: wp('70%'),
+    bottom: hp('0.8%'),
+    fontSize: wp('8%'),
+    borderRadius: 20,
+  }
 });
-

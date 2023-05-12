@@ -1,16 +1,15 @@
-import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import FontPreview from '../../components/FontPreview';
-import ButtonCircle from '../../components/ButtonCircle';
-import fontData from '../../assets/fontData';
 import { AuthContext } from '../../context/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as Font from 'expo-font';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import { useIsFocused } from '@react-navigation/native';
-import * as Font from 'expo-font';
+import fontData from '../../assets/fontData';
+import FontPreview from '../../components/FontPreview';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import React, { useState, useEffect, useContext } from 'react';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -117,9 +116,9 @@ const FontsScreen = ({navigation}) => {
               numColumns={3}
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                  <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
                   <FontPreview style={{fontFamily: item._id}} title={item.name}></FontPreview>
                   <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
-                    <Ionicons name="remove-circle" size={20} color="#FF0000"/>
                   </TouchableOpacity>
                 </View>
               }
@@ -158,46 +157,43 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#BDCCF2",
     width: "100%",
-    height: "20%"
+    height: hp('13.5%')
   },
   shadowLight: {
     shadowColor: '#171717',
-    shadowOffset: {height: 4 },
+    shadowOffset: { height: hp(0.4) },
     shadowOpacity: 0.2,
-    shadowRadius: 1.5,
+    shadowRadius: hp(0.15),
   },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: normalize(50),
+    fontSize: wp('8%'),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: windowWidth *.04,
-    marginTop: windowHeight *.008
+    marginLeft: wp('4%'),
+    marginTop: hp('0.8%')
   },
   line: {
-    width: windowWidth * .3,
+    width: wp('30%'),
     height: 0,
     borderWidth: 1,
     borderColor: "#737B7D",
-    marginLeft: windowWidth *.02,
-    marginRight: windowWidth *.02,
-    marginTop: normalize(7)
+    marginLeft: wp('2%'),
+    marginRight: wp('2%'),
+    marginTop: hp('0.5%')
   },
   noCustom: {
-    width: "80%",
-    // height: windowHeight *.12,
-    // aspectRatio: 4,
-    // height: "30%",
-    borderRadius: 20,
+    width: wp('80%'),
+    borderRadius: wp('10%'),
     backgroundColor: "#E2E8F6",
-    marginTop: windowHeight *.02,
+    marginTop: hp('2%'),
   },
   custom: {
-    width: "88%",
-    marginLeft: windowWidth *.06, 
-    marginRight: windowWidth *.06,
-    marginTop: windowHeight *.02,
+    width: wp('88%'),
+    marginLeft: wp('6%'), 
+    marginRight: wp('6%'),
+    marginTop: hp('2%'),
   },
   container: {
     flex: 1,
@@ -207,18 +203,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: normalize(24),
+    fontSize: wp('5%'),
     fontWeight: 'bold',
     color: 'white',
   },
   btn: {
-    width: "18%",
+    width: wp('18%'),
   },
   removeButton: {
     position: 'absolute',
-    bottom: -10,
+    bottom: -hp('1%'),
     right: 0,
-    // zIndex: 1,
+  }, 
+  removeIcon: {
+    position: 'absolute',
+    left: wp('22%'),
+    top: -hp('.2%'),
+    zIndex: 1,
   }
 });
-

@@ -1,6 +1,6 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, View, ScrollView, Dimensions } from 'react-native';
+import { Text, View, FlatList, Dimensions } from 'react-native';
 import { useContext, useEffect } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
@@ -50,7 +50,7 @@ const ChangeThemeScreen = ({ navigation, route }) => {
     <SafeAreaView style={styles.safeview}>
       <View style={styles.themeContainer}>
         <Text style={styles.selectTitleText}>Select a theme</Text>
-        <ScrollView
+        {/* <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
         >
@@ -59,7 +59,24 @@ const ChangeThemeScreen = ({ navigation, route }) => {
               <ThemePreview key={theme} themeName={theme} imageSource={images.themes[theme]} onPress={() => handleNextPressed(theme)} />
             );
           })}
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList
+        style={styles.scrollView}
+        contentContainerStyle={{}}
+        data={themesList}
+        numColumns={2}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <View style={{marginBottom: "6%"}}>
+            <ThemePreview
+              key={item}
+              themeName={item}
+              imageSource={images.themes[item]}
+              onPress={() => handleNextPressed(item)}
+            />
+          </View>
+        )}
+      />
       </View>
     </SafeAreaView>
   )

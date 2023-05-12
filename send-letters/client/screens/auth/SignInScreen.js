@@ -1,13 +1,15 @@
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
-import React, { useState, useContext } from 'react'
-import { StatusBar } from 'expo-status-bar';
-import { Input, Image } from 'react-native-elements';
-import { Snackbar } from 'react-native-paper';
-import ButtonPrimary from '../../components/ButtonPrimary';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../../context/AuthContext';
+import { TextInput } from 'react-native';
+import { Input, Image, Text } from 'react-native-elements';
+import { Snackbar } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
+import ButtonPrimary from '../../components/ButtonPrimary';
+import findIP from '../../helpers/findIP';
+import React, { useState, useContext } from 'react'
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -62,26 +64,30 @@ const SignInScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light" />
-      <View style={{ width: "60%" }}>
+      <View style={{ width: "70%",  alignSelf: 'center' }}>
         <Image
           style={{
             height: undefined,
             width: '100%',
             aspectRatio: 1,
-            resizeMode: "contain"
+            resizeMode: "contain",
           }}
           source={require('../../assets/logo.png')}
         />
+        <Text style={styles.text}> Send Letters.</Text>
       </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Email/Username"
+          autoCorrect={false}
           // autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={text => setEmailUsername(text.toLowerCase())}
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Password"
           secureTextEntry={true}
           type="password"
@@ -91,7 +97,7 @@ const SignInScreen = ({ navigation }) => {
         />
       </View>
 
-      <View>
+      <View style={{marginTop: hp('3%')}}>
         <ButtonPrimary selected={true} onPress={() => handleSignInPressed()} title="Log in" />
         <ButtonPrimary selected={false} onPress={() => handleSignUpPressed()} type="outline" title="Sign up" marginTop={5} />
       </View>
@@ -117,28 +123,41 @@ const SignInScreen = ({ navigation }) => {
 };
 
 export default SignInScreen;
-
 const styles = StyleSheet.create({
+  inputField: {
+    backgroundColor: '#E2E8F6',
+    borderRadius: hp('3.2%'),
+    padding: hp('2%'),
+    margin: hp('0.8%'),
+    fontSize: hp('2%')
+  },
   inputContainer: {
-    width: 300,
+    width: wp('70%')
+  },
+  text: {
+    fontFamily: 'JosefinSans',
+    fontSize: hp('3.5%'),
+    textAlign: 'center',
+    marginBottom: hp('1%'),
+    marginTop: 0
   },
   button: {
-    width: 200,
-    marginTop: 10,
+    width: wp('40%'),
+    marginTop: hp('2%'),
   },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
-    backgroundColor: 'white',
+    padding: wp('4%'),
+    backgroundColor: '#F0F4FF',
   },
   imageWithShadow: {
-    width: 200,
-    height: 200,
+    width: wp('50%'),
+    height: wp('50%'),
     shadowColor: '#171717',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: hp('0.1%') },
     shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowRadius: wp('0.5%'),
   },
 });

@@ -1,6 +1,7 @@
-import React from 'react';
+import { COLORS } from '../styles/colors';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {COLORS} from '../styles/colors';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import React from 'react';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 
@@ -18,16 +19,16 @@ const ButtonEmptyMailbox = props => {
 const styles = StyleSheet.create({
     text: {
       fontFamily: 'JosefinSansBold',
-      width: 115,
-      height: 18,
+      width: wp('30%'),
+      height: hp('2.4%'),
       fontStyle: "normal",
       fontWeight: "700",
-      fontSize: 18,
-      lineHeight: 18,
+      fontSize: wp('4%'),
+      lineHeight: hp('2.4%'),
       display: "flex",
       alignItems: "center",
       textAlign: "center",
-      letterSpacing: 0.3,
+      letterSpacing: wp('0.3%'),
       color: COLORS.white,
     }, 
     unselectedText: {
@@ -38,16 +39,16 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      paddingTop: 16,
-      paddingRight: 18,
-      paddingBottom: 16,
-      paddingLeft: 18,
-      borderTopLeftRadius: 25,
-      borderTopRightRadius: 25,
-      borderBottomRightRadius: 25,
-      borderBottomLeftRadius: 25,
-      marginRight: 10,
-      marginLeft: 10
+      paddingTop: hp('1.3%'),
+      paddingRight: wp('3.6%'),
+      paddingBottom: hp('1.3%'),
+      paddingLeft: wp('3.6%'),
+      borderTopLeftRadius: wp('12.8%'),
+      borderTopRightRadius: wp('12.8%'),
+      borderBottomRightRadius: wp('12.8%'),
+      borderBottomLeftRadius: wp('12.8%'),
+      marginRight: wp('2.7%'),
+      marginLeft: wp('2.7%')
   },
     unselectedBtn: {
         backgroundColor: COLORS.white,
