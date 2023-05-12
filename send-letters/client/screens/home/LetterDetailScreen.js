@@ -80,5 +80,3 @@ const LetterDetailScreen = ({route, navigation}) => {
 };
 
 export default LetterDetailScreen;
-
-const styles = StyleSheet.create({});

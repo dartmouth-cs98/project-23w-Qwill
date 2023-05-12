@@ -9,6 +9,7 @@ import findIP from '../../helpers/findIP';
 import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
 export default function ChangeRecipientScreen({ navigation }) {
@@ -88,8 +89,8 @@ export default function ChangeRecipientScreen({ navigation }) {
                         autoCompleteType="email"
                         autoCapitalize="none"
                         onChangeText={handleChangeText}
-                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-                        leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10 }}
+                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('14%'), borderRadius: 5 }}
+                        leftIcon={{ type: 'font-awesome', name: 'search', size: wp('15%'), marginLeft: wp('3%') }}
                     />
                 </View>
                 <View>
