@@ -197,9 +197,15 @@ const styles = StyleSheet.create({
     alignContent: "center"
   },
   friendCircle: {
+<<<<<<< HEAD
     height: wp('18%'),
     width: wp('18%'),
     borderRadius: wp('18%'),
+=======
+    height: wp('13%'),
+    width: wp('13%'),
+    borderRadius: hp('5%'),
+>>>>>>> 2e8e2ae1dc838e9e80c34e7b7686951295861972
     backgroundColor: COLORS.profilebackground,
     marginTop: hp('1.92%'),
     marginLeft: wp('3.85%'),
@@ -224,7 +230,11 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
     color: "#1E4693",
     opacity: 1,
+<<<<<<< HEAD
     marginTop: hp('2.8%'),
+=======
+    marginTop: hp('2.1%'),
+>>>>>>> 2e8e2ae1dc838e9e80c34e7b7686951295861972
     fontWeight: "600"
   },
   line: {
