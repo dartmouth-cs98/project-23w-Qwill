@@ -1,7 +1,17 @@
+// Imports
 import { ComposeContext } from '../../context/ComposeStackContext';
-import { Image, Text, View, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  LogBox,
+  PanResponder
+} from 'react-native';
 import { Input } from 'react-native-elements';
-import { LogBox, PanResponder } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
@@ -11,25 +21,29 @@ import React, { useState, useContext, useEffect } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 function ComposeScreen({ navigation, route }) {
-  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
-  const [snackMessage, setSnackMessage] = useState("");
-  const [snackIsVisible, setSnackIsVisible] = useState(false);
-  const onDismissSnack = () => setSnackIsVisible(false);
-  const [imageData, setImageData] = useState([]);
-  const [sticker, setSticker] = useState(null);
   const [count, setCount] = useState(10);
-
-  // to move stickers
+  const [imageData, setImageData] = useState([]);
+  const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
+  const [sticker, setSticker] = useState(null);
+  // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
 
+  // Dismiss snack message
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+  // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
 
-  // Passed into child screen ChangeStickerScreen and called from there
+  // A function that handles the sticker selection, updating state and fetching sticker details
   const stickerSelected = (sticker) => {
+    // The function is only called if a sticker is selected and the total number of stickers is less than 10
     if (sticker != null && imageData.length < 10) {
       setCount(count - 1);
 
@@ -109,21 +123,20 @@ function ComposeScreen({ navigation, route }) {
     updateBackend(reqBody);
   };
 
+  // Automatically saves to the backend as the user types.
   const updateBackend = async (reqBody) => {
     try {
       resp = null;
-      if (letterInfo.letterID == "") {
-        // letter hasn't been made in DB (never saved as a draft); make new letter with status draft
+      if (letterInfo.letterID == "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
         resp = await axios.post(findIP() + "/api/makeLetter", reqBody);
-      } else {
-        // letter exists in DB as a draft; update new info
+      } else { // The letter exists in DB as a draft; update new info
         resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
       }
-      if (!resp) {  // could not connect to backend
+      if (!resp) {  // Could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
         setSnackIsVisible(true);
-      } else if (resp.data.error) {  // backend error
+      } else if (resp.data.error) {  // Another backend error
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
@@ -134,21 +147,7 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
-
-  const handleExitPressed = () => {
-    navigation.replace('NavBar',
-      {
-        screen: 'Home',
-        params: {
-          screen: 'Mailbox',
-          params: {
-          }
-        }
-      }
-    );
-  }
-
-  const handleNextPressed = () => {
+  const handleNextPressed = () => { // Navigates to the next screen, Preview
     setNextButtonDisabled(true);
     setTimeout(() => {
       setNextButtonDisabled(false);
@@ -176,12 +175,12 @@ function ComposeScreen({ navigation, route }) {
             <Input
               style={{
                 fontFamily: letterInfo.fontID,
-                marginTop: 20,
-                fontSize: 22,
-                height: 610,
-                width: "90%",
-                marginLeft: 5,
-                marginRight: 5,
+                marginTop: hp('2.16%'), // 20/926 = 0.0216
+                fontSize: hp('2.38%'), // 22/926 = 0.0237
+                height: hp('65.88%'), // 610/926 = 0.6588
+                width: wp('90%'), // 90% of screen width
+                marginLeft: wp('1.17%'), // 5/428 = 0.0117
+                marginRight: wp('1.17%'), // 5/428 = 0.0117
               }}
               placeholder={"Start writing your letter!"}
               inputContainerStyle={{ borderBottomWidth: 0 }}
@@ -195,8 +194,8 @@ function ComposeScreen({ navigation, route }) {
             />
           </TouchableOpacity>
         </View>
-
-        {imageData.map((data, index) => {
+        
+        {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
           const stickerPanResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true,
             onPanResponderGrant: () => {
