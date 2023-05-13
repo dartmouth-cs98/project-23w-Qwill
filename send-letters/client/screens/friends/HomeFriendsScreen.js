@@ -118,7 +118,7 @@ export default function HomeFriendsScreen({ navigation }) {
           {renderMatches()}
         </View>
         <View style={styles.line}/>
-        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue>
+        {/* <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue> */}
       </View>
     </SafeAreaView>
   );
@@ -197,9 +197,9 @@ const styles = StyleSheet.create({
     alignContent: "center"
   },
   friendCircle: {
-    height: wp('13%'),
-    width: wp('13%'),
-    borderRadius: hp('5%'),
+    height: wp('18%'),
+    width: wp('18%'),
+    borderRadius: wp('18%'),
     backgroundColor: COLORS.profilebackground,
     marginTop: hp('1.92%'),
     marginLeft: wp('3.85%'),
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
     color: "#1E4693",
     opacity: 1,
-    marginTop: hp('2.1%'),
+    marginTop: hp('2.8%'),
     fontWeight: "600"
   },
   line: {

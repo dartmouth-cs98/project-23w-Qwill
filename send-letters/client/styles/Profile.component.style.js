@@ -57,8 +57,10 @@ export default StyleSheet.create({
     marginLeft: wp('2%')
   },
   inputContainer: {
-    width: wp('40%'),
-    height: wp('30'),
+    // marginLeft: wp('1.28%'),
+    justifyContent: 'center', 
+    alignItems: "center",
+    justifyContent: "center",
     // marginLeft: wp('10%'),
   },
   noMatchingUsers: {
@@ -91,11 +93,19 @@ export default StyleSheet.create({
     top: hp('1.18%'), // (11/932) * 100% ≈ 1.18% of screen height
   },
   recipientsContainer: {
-    width: wp('90%'),
-    height: hp('70%'),
+    // width: wp('90%'),
+    // height: hp('70%'),
+    // borderRadius: 20,
+    // // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    width: wp('89.74%'),
+    height: hp('63.46%'),
     borderRadius: 20,
+    marginTop: hp('1.25%'),
     flex: 1,
-    alignItems: 'center',
+    alignContent: "center",
+    
   },
   safeview: {
     flexDirection: 'column',

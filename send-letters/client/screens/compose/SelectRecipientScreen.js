@@ -111,22 +111,20 @@ function SelectRecipientScreen({navigation}) {
         </TouchableOpacity>
         <Text style={styles.selectTitleText}>Select a recipient</Text>
       </View>
-      <View style={{alignSelf: "center"}}>
-        <View style={[styles.recipientsContainer]}>
-          <View style={styles.inputContainer}>
-            <Input 
-              placeholder="enter name or username"
-              autoCompleteType="email"
-              autoCapitalize="none"
-              onChangeText={handleChangeText}
-              inputContainerStyle={{borderBottomWidth: 0, backgroundColor: 'white', width:wp('40%'),height: wp('5%'), borderRadius: 5}}
-              leftIcon={{ type: 'font-awesome', name: 'search', size: wp('2%'), marginLeft: wp('2%')}}
-            />
-          </View>
-          <View>
-            {renderMatches()}
-          </View>     
+      <View style={[styles.recipientsContainer]}>
+        <View style={styles.inputContainer}>
+          <Input 
+            placeholder="enter name or username"
+            autoCompleteType="email"
+            autoCapitalize="none"
+            onChangeText={handleChangeText}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%')}}
+          />
         </View>
+        <View>
+          {renderMatches()}
+        </View>     
       </View>
     </SafeAreaView>
   );

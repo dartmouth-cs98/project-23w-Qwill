@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { truncate } from '../helpers/stringValidation';
 
 const SelectRecipientButton = (props) => {
     const item = props.userInfo;
@@ -10,7 +11,7 @@ const SelectRecipientButton = (props) => {
         <TouchableOpacity style={styles.friendCircle} onPress={props.onPress} title={item.username}>
           <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
         </TouchableOpacity>
-          <Text style={{textAlign: 'center', fontSize: 12}}>{(item.username).replace(/["]/g, '')}</Text>
+          <Text style={{textAlign: 'center', fontSize: 12}}>{truncate(item.username.replace(/["]/g, ''), 10)}</Text>
       </View>
     );
 };
@@ -19,9 +20,9 @@ export default SelectRecipientButton;
 
 const styles = StyleSheet.create({
   friendCircle: {
-    height: wp('13%'),
-    width: wp('13%'),
-    borderRadius: wp('8%'), 
+    height: wp('18%'),
+    width: wp('18%'),
+    borderRadius: wp('18%'), 
     backgroundColor: "rgba(30,70,147,0.2)",
     marginTop: hp('0.5%'),
     marginLeft: wp('2.5%'),
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: wp('5%'), 
     color: "#1E4693",
     opacity: 1,
-    marginTop: hp('2.2%'), 
+    marginTop: hp('2.8%'), 
     fontWeight: "600"
   }
 });
