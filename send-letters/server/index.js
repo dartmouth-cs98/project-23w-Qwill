@@ -6,6 +6,8 @@ import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import letterRoutes from "./routes/letterRoutes";
 import fontRoutes from "./routes/fontRoutes";
+import scheduledRoutes from "./helpers/scheduledFunctions";
+
 
 // const port = process.env.PORT || 8000;
 const port = 8000;
@@ -20,10 +22,6 @@ mongoose
     .then(() => console.log("DB connected"))
     .catch((err) => console.log("DB CONNECTION ERROR: ", err));
 
-// set up timer to ping Render.com server every 10 minutes so it doesn't go into sleep mode
-const scheduledFunctions = require('./helpers/scheduledFunctions');
-scheduledFunctions.initScheduledJobs(); 
-
 // middlewares
 app.use(express.json({limit: '32mb'}));
 app.use(express.urlencoded({limit: '32mb', extended: true}));
@@ -35,5 +33,7 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", letterRoutes);
 app.use("/api", fontRoutes);
+app.use("/api", scheduledRoutes);
+
 
 app.listen(port, () => console.log("Server running on port " + port));

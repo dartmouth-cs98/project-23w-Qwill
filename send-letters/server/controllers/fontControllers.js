@@ -92,7 +92,8 @@ export const createCustomFont = async (req, res) => {
                                 creator: userID,
                                 name: fontName,
                                 firebaseDownloadLink: downloadURL[0],
-                                firebaseFilePath: filePath
+                                firebaseFilePath: filePath,
+                                isDeleted: false,
                             }).save();
         
                             // Update number of custom fonts for the user
@@ -166,6 +167,7 @@ export const fetchCustomFonts = async (req, res) => {
             {
                $match: {
                     creator: new mongoose.Types.ObjectId(user._id), 
+                    isDeleted: false,
                 }
             },
         ];
@@ -189,7 +191,45 @@ export const fetchCustomFonts = async (req, res) => {
 };
 
 
+// this "deletes" a font by making it hidden to all users when fetching fonts
+// font is not fully deleted from db and firebase because it could still be in use in old letters
 export const deleteFont = async (req, res) => {  
+    try {
+        const { fontID } = req.body;
+
+        // check if our db has a font with the ID of the recipient
+        const font = await Font.findOne({
+            "_id": fontID
+        });
+        if (!font) {
+            return res.json({
+                error: "No font found with fontID",
+            });
+        }
+
+        // update the isDeleted boolean of font to true
+        try {
+            const resp = await Font.updateOne(
+                {'_id': fontID},
+                {'isDeleted': true}
+            );
+    
+            return res.json({
+                ok: true
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+
+export const deleteFontBackend = async (req, res) => {  
     try {
         const { fontID } = req.body;
 

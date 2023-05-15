@@ -11,12 +11,16 @@ const fontSchema = new mongoose.Schema({
         required: true
     },
     firebaseDownloadLink: {
-        type: mongoose.Schema.Types.String,
+        type: String,
         required: true
     },
     firebaseFilePath: {
-        type: mongoose.Schema.Types.String,
+        type: String,
         required: true
+    },
+    isDeleted: {
+        type: Boolean,
+        required: true,
     },
     resetCode: "",
 }, {

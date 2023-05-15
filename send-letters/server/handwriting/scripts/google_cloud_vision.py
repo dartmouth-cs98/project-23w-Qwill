@@ -81,7 +81,7 @@ def display_texts(texts, image):
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/amanda_handwriting.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
