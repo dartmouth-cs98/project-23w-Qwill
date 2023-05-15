@@ -1,12 +1,10 @@
 // Imports
 import { ComposeContext } from '../../context/ComposeStackContext';
 import {
-  Animated,
   Image,
   Text,
   View,
   ImageBackground,
-  Keyboard,
   KeyboardAvoidingView,
   TouchableOpacity,
   LogBox,
@@ -67,7 +65,8 @@ function ComposeScreen({ navigation, route }) {
           },
         ]);
       });
-      setSticker(null);
+
+      updateBackendStickers();
     }
   };
 
@@ -94,6 +93,31 @@ function ComposeScreen({ navigation, route }) {
       if (letterInfo.letterID == "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
         resp = await axios.post(findIP() + "/api/makeLetter", reqBody);
       } else { // The letter exists in DB as a draft; update new info
+        resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
+      }
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateBackendStickers = async () => {
+    setLetterInfo({ ...letterInfo, stickers: imageData, status: "draft" }); // updates letter information
+    reqBody = letterInfo;
+    reqBody["stickers"] = imageData;  // have to update text since context not yet updated
+    reqBody["status"] = "draft";
+    try {
+      resp = null;
+      if (letterInfo.letterID != "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
         resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
       }
       if (!resp) {  // Could not connect to backend
@@ -208,7 +232,10 @@ function ComposeScreen({ navigation, route }) {
                 setImageData(updatedImageData);
                 setInitialStickerPosition(null);
                 setSelectedStickerIndex(null);
+
+                updateBackendStickers(); //updates the backend, storing stickers
               }
+              
             },
 
           });
