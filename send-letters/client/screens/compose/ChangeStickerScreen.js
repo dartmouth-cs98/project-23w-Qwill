@@ -1,21 +1,11 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ComposeContext } from '../../context/ComposeStackContext';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import { useContext} from 'react';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import images from '../../assets/imageIndex';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useContext} from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
-import { Ionicons } from '@expo/vector-icons';
-import { ComposeContext } from '../../context/ComposeStackContext';
-import images from '../../assets/imageIndex';
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
