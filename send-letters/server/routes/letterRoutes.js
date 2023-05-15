@@ -8,6 +8,7 @@ const {
     fetchLetters,
     updateLetterStatus,
     updateLetterInfo,
+    deleteLetter,
     fetchLetterHistory
 } = require("../controllers/letterControllers");
 
@@ -22,6 +23,7 @@ router.post("/makeLetter", makeLetter);
 router.post("/fetchLetters", fetchLetters);
 router.post("/updateLetterStatus", updateLetterStatus);
 router.post("/updateLetterInfo", updateLetterInfo);
+router.post("/deleteLetter", deleteLetter);
 router.post("/fetchLetterHistory", fetchLetterHistory);
 
 export default router; 

@@ -1,13 +1,13 @@
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Feather } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
 import HomeStack from '../components/HomeStack';
-import FontsStack from '../screens/font/FontsStack';
+import FontsStack from '../components/FontsStack';
 import ProfileScreen from '../screens/ProfileScreen';
 import FriendStack from './FriendStack';
-import ComposeStack from './ComposeStack';
+import ComposeStack from '../screens/compose/ComposeStack';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { ComposeContextProvider } from '../context/ComposeStackContext';
 
@@ -27,22 +27,23 @@ const CustomComposeButton = ({children, onPress}) => (
     }}
     onPress={onPress}
   >
-      <View>
-        <View
-          style={{
-            width: 70, 
-            height: 70,
-            borderRadius: 35,
-            backgroundColor: "#ACC3FF",
-            shadowColor: 'rgba(0,0,0, .4)',
-            shadowOffset: { height: 1, width: 1 },
-            shadowOpacity: 1,
-            shadowRadius: 2,
-          }}
-        >
-          {children}
-        </View>
+    <View>
+      <View
+        style={{
+          width: 70, 
+          height: 70,
+          borderRadius: 35,
+          // backgroundColor: "#ACC3FF",
+          backgroundColor: "#BDCCF2",
+          shadowColor: 'rgba(0,0,0, .4)',
+          shadowOffset: { height: 1, width: 1 },
+          shadowOpacity: 1,
+          shadowRadius: 2,
+        }}
+      >
+        {children}
       </View>
+    </View>
   </TouchableOpacity>
 );
 
@@ -68,7 +69,7 @@ function NavBar() {
               } else if (route.name === 'Compose') {
                 // For this letter create button, we'll use a special icon
                 // https://icons.expo.fyi/Feather/pen-tool
-                return <Feather name="pen-tool" size={size * 1.4} color="#373F41"/>;
+                return <Feather name="pen-tool" size={size * 1.6} color="#373F41"/>;
               } else if (route.name === 'Fonts') {
                 if (focused) {
                   return (
@@ -112,36 +113,36 @@ function NavBar() {
     );
   }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-  fontIcon: {
-    height: 24, 
-    width: 24,
-    borderRadius: 5,
-    borderWidth: 2,
-    alignItems: 'center'
-  },
-  fontIconSelected: {
-    borderColor: 'black',
-    backgroundColor: 'black'
-  },
-  fontIconUnselected: {
-    borderColor: 'grey'
-  },
-  fontIconTextSelected: {
-    fontWeight: "700",
-    color: "#E2E8F6",
-    marginTop: 1
-  },
-  fontIconTextUnselected: {
-    fontWeight: "400",
-    color: 'grey',
-    marginTop: 1
-  }
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      justifyContent: 'center',
+    },
+    fontIcon: {
+      height: hp('2.6%'), 
+      width: hp('2.6%'),
+      borderRadius: wp('1.2%'),
+      borderWidth: wp('0.3%'),
+      alignItems: 'center'
+    },
+    fontIconSelected: {
+      borderColor: 'black',
+      backgroundColor: 'black'
+    },
+    fontIconUnselected: {
+      borderColor: 'grey'
+    },
+    fontIconTextSelected: {
+      fontWeight: "700",
+      color: "#E2E8F6",
+      marginTop: hp('0.1%')
+    },
+    fontIconTextUnselected: {
+      fontWeight: "400",
+      color: 'grey',
+      marginTop: hp('0.1%')
+    }
+  });
 
 export default NavBar;

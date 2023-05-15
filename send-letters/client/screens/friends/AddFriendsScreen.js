@@ -1,20 +1,19 @@
-import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio } from 'react-native';
-import React, { useState, useContext, useEffect } from 'react'
-import { useIsFocused } from '@react-navigation/native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Input } from 'react-native-elements'
-import { AuthContext } from '../../context/AuthContext';
-//import styles from '../../styles/Profile.component.style.js';
-import COLORS from '../../styles/colors';
-import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import AddFriendButton from '../../components/AddFriendButton';
-import PendingFriendButton from '../../components/PendingFriendButton';
-
-const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
+import { AuthContext } from '../../context/AuthContext';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
+import { Input } from 'react-native-elements'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import AddFriendButton from '../../components/AddFriendButton';
+import axios from 'axios';
+import COLORS from '../../styles/colors';
+import findIP from '../../helpers/findIP';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import PendingFriendButton from '../../components/PendingFriendButton';
+import React, { useState, useContext, useEffect } from 'react'
 
 const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
 
@@ -200,7 +199,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderAddFriends() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center' }}>No users found</Text>
+      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%') }}>No users found</Text>
     }
     return (
       <View style={styles.suggestionsContainer}>
@@ -224,44 +223,55 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'left', marginTop: 20 }}>
-      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
+    <SafeAreaView style={{ flex: 1}}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name={"arrow-back"} size={normalize(40)} />
+          <Ionicons style={{paddingLeft: wp('3%')}} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
         <Text style={styles.titleText}>Add Friends</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Input
-          placeholder="enter name or username"
-          autoCapitalize="none"
-          onChangeText={handleChangeText}
-          inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 }}
-          leftIcon={{type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
-        />
+      <View style={{alignItems: 'center', marginBottom: windowHeight*.07}}>
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder=" enter name or username"
+            autoCapitalize="none"
+            onChangeText={handleChangeText}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5 }}
+            leftIcon={{type: 'font-awesome', name: 'search', size: hp('1.7%'), marginLeft: hp('1.7%')}}
+          />
+        </View>
+      </View>
+      <View>
         <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
         { 
           pendingFriends.length == 0 ? (
-            <View style={{flex: 2, padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={styles.noMatchingUsers}>
+            <View style={{padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{ textAlign: 'center' }}>
                 You don't have any incoming friend requests.
               </Text>
             </View> 
           ) : (  // at least one pending friend request
-            <View style={{flex: 1, alignItems: 'center'}}>
+            <View style={{alignItems: 'center'}}>
               {renderPendingFriends()}
             </View>
           )
         }
+      </View>
+      <View style={{flex: 2}}>
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
-        <View styles={{flex: 1}}>
+        <View styles={{flex: 2}}>
           {renderAddFriends()}
         </View> 
         <View style={styles.line}></View>
-        <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
-        <View style={styles.line}></View>
-        <Text style={styles.subtitleText}>Copy Qwill Link</Text>
+        <TouchableOpacity  style={{flexDirection: "row", marginVertical: "1%"}}>
+          <Ionicons style={styles.icon} name={'share-outline'} size={normalize(24)}></Ionicons>
+          <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
+        </TouchableOpacity >
+        <TouchableOpacity style={{flexDirection: "row", marginVertical: "1%"}}>
+          <Ionicons style={styles.icon} name={'link-outline'} size={normalize(24)}></Ionicons>
+          <Text style={styles.subtitleText}>Copy Qwill Link</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -272,50 +282,53 @@ export default AddFriendsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: 40,
+    fontSize: wp('8%'),
     fontWeight: 'bold',
-    textAlign: 'left',
     flex: 1,
-    marginLeft: 30,
-    marginTop: 5
+    marginTop: hp('1.8%')
   },
   subtitleText: {
     fontFamily: 'JosefinSans',
-    fontSize: 20,
+    fontSize: normalize(20),
     textAlign: 'left',
-    flex: 1,
-    marginTop: 5,
-    marginBottom: 5
+    marginTop: hp('1%'),
+    marginBottom: hp('2%'),
+    marginLeft: wp('4%')
   },
   inputContainer: {
-    flexDirection: 'column', 
-    flex: 15,
-    width: 350,
-    marginLeft: 45,
-    marginTop: 10,
-    justifyContent: 'center'
+    width: wp('90%'),
+    height: hp('78%'),
+    borderRadius: hp('2%'),
+    marginTop: hp('2%'),
+    flex: 1,
   },
   suggestionsContainer: {
     width: "100%",
   },
   line: {
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: hp('1.5%'),
+    marginBottom: hp('1.5%'),
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: "90%",
+    alignSelf: 'center'
   },
   noMatchingUsers: {
-    fontFamily: 'JosefinSansBold',
-    width: 150,
+    fontFamily: 'JosefinSans',
+    width: wp('80%'),
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: 20,
-    lineHeight: 20,
+    fontWeight: "200",
+    fontSize: hp('2.5%'),
+    lineHeight: hp('2.5%'),
     display: "flex",
-    alignItems: "center",
     textAlign: "center",
     letterSpacing: 0.3,
     color: COLORS.black
   },
-})
+  icon: {
+    display: "flex",
+    alignItems: "center",
+    color: COLORS.black,
+    marginLeft: wp('2%')
+  }
+});

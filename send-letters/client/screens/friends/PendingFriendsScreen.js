@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -14,5 +14,3 @@ const PendingFriendsScreen = ({navigation}) => {
 };
 
 export default PendingFriendsScreen;
-
-const styles = StyleSheet.create({});

@@ -1,17 +1,16 @@
-import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
-import React, { useState, useContext, useEffect } from 'react'
-import { Input } from 'react-native-elements';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import styles from '../../styles/Profile.component.style';
-import { Snackbar } from 'react-native-paper';
+import { Input } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
+import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
-
+import styles from '../../styles/Profile.component.style';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 function SelectRecipientScreen({navigation}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -32,7 +31,10 @@ function SelectRecipientScreen({navigation}) {
       recipientID: "",
       recipientUsername: "",
       themeID: "",
-      fontID: "" 
+      fontID: "",
+      fontName: "",
+      customFont: false,
+      stickers: []
     });
     if (navigation.canGoBack()) {
       navigation.goBack();
@@ -101,25 +103,23 @@ function SelectRecipientScreen({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-        <TouchableOpacity onPress={()=>handleGoBack()}>
+    <SafeAreaView style={styles.safeview}>
+      <View style={[styles.header, styles.shadowLight]}></View>
+      <View style={styles.backbutton}>
+        <TouchableOpacity style={styles.backIcon} onPress={()=>handleGoBack()}>
           <Ionicons name={"arrow-back"} size={40}/>
         </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row'}}>
-        <Text style={styles.titleText}>Compose</Text>
+        <Text style={styles.selectTitleText}>Select a recipient</Text>
       </View>
       <View style={[styles.recipientsContainer]}>
-        <Text style={styles.selectTitleText}>Select a recipient</Text>
         <View style={styles.inputContainer}>
           <Input 
             placeholder="enter name or username"
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={handleChangeText}
-            inputContainerStyle={{borderBottomWidth:0, backgroundColor: 'white', height: 32, borderRadius: 5}}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: 15, marginLeft: 10}}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%')}}
           />
         </View>
         <View>

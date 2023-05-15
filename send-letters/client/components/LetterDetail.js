@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, ScrollView, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ScrollView, ImageBackground, TouchableOpacity, SafeAreaView } from 'react-native';
 import React from 'react';
 import images from '../assets/imageIndex';
 
@@ -11,24 +11,39 @@ const LetterDetail = props => {
   const propsHeight = height ? height: screenHeight * .64;
 
   // we'll render the default system font unless a fontID is specified
-  const textStyle = fontID.length === 0 ? {} : {
+  const textStyle = fontID == "" ? {} : {
     fontFamily: fontID
   };
-
+  if (props.touchable) {
   return (
+      <TouchableOpacity style={[styles.letter, {width: propsWidth, height: propsHeight}]} onPress={props.onPress}>
+      <ImageBackground 
+        resizeMode={'cover'}
+        style={{ flex: 1, width: '100%', height: '100%'}} 
+        source={themeID === "" ? null : images.themes[themeID]}> 
+      <ScrollView style={{width:'100%', height:'100%'}}>
+        <View style={{padding: 20}}>
+          <Text style={textStyle}>{text}</Text> 
+        </View>
+      </ScrollView>
+      </ImageBackground>
+    </TouchableOpacity>
+  )} else {
+    return (
       <View style={[styles.letter, {width: propsWidth, height: propsHeight}]}>
-        <ImageBackground 
-          resizeMode={'cover'}
-          style={{ flex: 1, width: '100%', height: '100%'}} 
-          source={themeID === "" ? null : images.themes[themeID]}> 
-        <ScrollView style={{width:'100%', height:'100%'}}>
-          <View style={{padding: 20}}>
-            <Text style={textStyle}>{text}</Text> 
-          </View>
-        </ScrollView>
-        </ImageBackground>
-      </View>
-  )
+      <ImageBackground 
+        resizeMode={'cover'}
+        style={{ flex: 1, width: '100%', height: '100%'}} 
+        source={themeID === "" ? null : images.themes[themeID]}> 
+      <ScrollView style={{width:'100%', height:'100%'}}>
+        <View style={{padding: 20}}>
+          <Text style={textStyle}>{text}</Text> 
+        </View>
+      </ScrollView>
+      </ImageBackground>
+    </View>
+    )
+  }
 };
 
 export default LetterDetail;

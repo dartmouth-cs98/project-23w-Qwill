@@ -11,7 +11,7 @@ sgMail.setApiKey(process.env.SENDGRID_KEY);
 export const signUp = async (req, res) => {
     try {
         // validation
-        const { name, email, username, password } = req.body;
+        const { name, email, username, phone="", password } = req.body;
         
         // check if fields are valid
         if (!name) {
@@ -57,7 +57,15 @@ export const signUp = async (req, res) => {
                 email,
                 username,
                 password: hashedPassword,
+                numCustomFonts: 0,
             }).save();
+            if (phone != "") {
+                const resp = await User.updateOne(
+                    {'_id': user._id},
+                    {'phone': phone}
+                );
+            }
+
             // create signed token
             const token = jwt.sign({
                 _id: user._id

@@ -1,14 +1,15 @@
-import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
-import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Snackbar } from 'react-native-paper';
+import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
 import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import { AuthContext } from '../../context/AuthContext';
 import ButtonPrimary from '../../components/ButtonPrimary';
+import findIP from '../../helpers/findIP';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
-import { ComposeContext } from '../../context/ComposeStackContext';
+import React, { useState, useContext } from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -17,8 +18,6 @@ function PreviewScreen({ navigation }) {
 
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
-
-  console.log(letterInfo);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
@@ -54,7 +53,10 @@ function PreviewScreen({ navigation }) {
           recipientID: "",
           themeID: "",
           recipientUsername: "",
-          fontID: ""
+          fontID: "",
+          fontName: "",
+          customFont: false,
+          stickers: []
         });
         navigation.replace('NavBar', 
           { screen: 'Home',
@@ -78,6 +80,7 @@ function PreviewScreen({ navigation }) {
         message:
           'This is Qwill',
       });
+      // keep this for now
       // if (result.action === Share.sharedAction) {
       //   if (result.activityType) {
       //     // shared with activity type of result.activityType
@@ -107,33 +110,33 @@ function PreviewScreen({ navigation }) {
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
           <PreviewEditRow text={letterInfo.recipientUsername} category={"Recipient"}/>
-          <PreviewEditRow text={letterInfo.themeID === "" ? "None" : letterInfo.themeID} category={"Theme"}/>
-          <PreviewEditRow text={letterInfo.fontID === "" ? "Default": letterInfo.fontID} category={"Font"}/>
+          <PreviewEditRow text={letterInfo.themeID} category={"Theme"}/>
+          <PreviewEditRow text={letterInfo.fontName} category={"Font"}/>
         </View>
       </View>
       <View style={{flex: .7, justifyContent: 'space-between'}}>
-        <Text style={{fontFamily: "JosefinSansBold", fontSize: 20}}>Does this look good?</Text>
+        <Text style={{fontFamily: "JosefinSansBold", fontSize: wp('5%')}}>Does this look good?</Text>
       </View>
-      <View style={{flexDirection: 'row', marginBottom: 15}}>
+      <View style={{flexDirection: 'row', marginBottom: wp('5%')}}>
         <ButtonPrimary
-          textWidth={115}
+          textWidth={wp('26.8%')}
           title={"No, edit it."}
           selected={true}
           onPress={() => navigation.goBack()}
         />
         <ButtonPrimary
-          textWidth={115}
+          textWidth={wp('30%')}
           title={"Yes, send it!"}
           selected={true}
           onPress={() => handleSendPressed()}
         />
       </View>
-      <ButtonPrimary
+      {/* <ButtonPrimary
           textWidth={115}
           title={"share it!!!"}
           selected={true}
           onPress={() => handleSharePressed()}
-        />
+      /> */}
       <Snackbar
           //SnackBar visibility control
           visible={snackIsVisible}
@@ -152,30 +155,29 @@ function PreviewScreen({ navigation }) {
 };
 
 export default PreviewScreen;
-
 const styles = StyleSheet.create({
   inputContainer: {
-      width: 300,
+      width: wp('80%'),
   },
   button: {
-      width: 200, 
-      marginTop: 10,
+      width: wp('53.33%'), 
+      marginTop: hp('1.35%'),
   },
   container: {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      padding: 10,
+      padding: wp('2.67%'),
       backgroundColor: 'white',
   },
   editContainer: {
-    width: screenWidth * .85,
-    height: screenHeight * .4,
+    width: wp('85%'),
+    height: hp('40%'),
     backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 20,
+    borderRadius: wp('5.33%'), 
+    marginTop: hp('2.7%'),
+    marginBottom: hp('2.7%'),
+    padding: wp('5.33%'),
     flex: 1,
   }
 });

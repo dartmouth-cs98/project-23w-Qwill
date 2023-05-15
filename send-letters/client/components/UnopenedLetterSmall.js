@@ -1,6 +1,7 @@
 import React from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 // Citation: https://dev.to/gedalyakrycer/ohsnap-manage-global-styles-in-react-native-334
 // Shadow Citation: https://blog.logrocket.com/applying-box-shadows-in-react-native/
@@ -17,35 +18,35 @@ const UnopenedLetterSmall = props => {
 };
 
 const styles = StyleSheet.create({
-    item : {
-        backgroundColor : '#EFF2CA',
-        height: 75,
-        width: 110,
-        borderRadius: 3, 
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: 10
-    },
-    shadow: {
+  item: {
+      backgroundColor: '#EFF2CA',
+      height: hp('8.1%'),
+      width: wp('25.7%'),
+      borderRadius: wp('0.7%'),
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginTop: hp('1.1%'),
+  },
+  shadow: {
       shadowColor: '#171717',
-      shadowOffset: {width: -2, height: 4},
+      shadowOffset: { width: -wp('0.47%'), height: hp('0.43%') },
       shadowOpacity: 0.2,
-      shadowRadius: 3,
-    },
-    letterTextHeader: {
-      fontSize: 5,
+      shadowRadius: wp('0.7%'),
+  },
+  letterTextHeader: {
+      fontSize: wp('1.17%'),
       position: "absolute",
-      left: 5,
-      top: 5
-    }, 
-    letterTextCenter: {
-      fontSize: 5,
+      left: wp('1.17%'),
+      top: hp('0.54%'),
+  },
+  letterTextCenter: {
+      fontSize: wp('1.17%'),
       position: "absolute",
-      left: 30,
-      top: 30
-    }
-
+      left: wp('7%'),
+      top: hp('3.24%'),
+  }
 });
+
 
 export default UnopenedLetterSmall;

@@ -22,11 +22,19 @@ const letterSchema = new mongoose.Schema({
     },
     theme: {
         type: String,
-        required: false,
+        required: true,
     },
     font: {
         type: String,
-        required: false,
+        required: true,
+    },
+    customFont: {
+        type: Boolean,
+        required: true,
+    },
+    stickers: {
+        type: Array,
+        required: true,
     },
     resetCode: "",
 }, {

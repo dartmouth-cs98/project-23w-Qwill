@@ -1,22 +1,19 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Text, View, FlatList, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import { AuthContext } from '../../context/AuthContext';
+import { hasRestrictedChar } from '../../helpers/stringValidation';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../../context/AuthContext';
-
-import Ionicons from '@expo/vector-icons/Ionicons';
-import axios from 'axios';
-import findIP from '../../helpers/findIP';
-import { hasRestrictedChar } from '../../helpers/stringValidation';
-import COLORS from '../../styles/colors';
-import ButtonBlue from '../../components/ButtonBlue.components';
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
 import { truncate } from '../../helpers/stringValidation';
+import { useIsFocused } from '@react-navigation/native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import axios from 'axios';
+import ButtonBlue from '../../components/ButtonBlue.components';
+import COLORS from '../../styles/colors';
+import findIP from '../../helpers/findIP';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState, useContext, useEffect } from 'react'
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
-const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
+const scale = wp('100%') / 390; // Scale factor for font size on 390 width screen
 
 const normalize = (size) => {
   const newSize = size * scale;
@@ -98,65 +95,64 @@ export default function HomeFriendsScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, alignItems: 'center', marginTop: 20 }}>
-      <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15 }}>
+    <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+      <View style={[styles.header, styles.shadowLight]}></View>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: hp('100%') *.02 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
           <Ionicons name="person-add-outline" size={normalize(40)} ></Ionicons>
         </TouchableOpacity>
       </View>
-      <View style={styles.recipientsContainer}>
-        <View style={styles.inputContainer}>
-          <Input
-            placeholder=" enter name or username"
-            autoCompleteType="email"
-            autoCapitalize="none"
-            onChangeText={handleChangeText}
-            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: normalize(32), width: normalize(330), borderRadius: 5 }}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
-          />
-        </View>
+        <View style={styles.recipientsContainer}>
+          <View style={styles.inputContainer }>
+            <Input
+              placeholder=" enter name or username"
+              autoCompleteType="email"
+              autoCapitalize="none"
+              onChangeText={handleChangeText}
+              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('6%'), width: wp('85%'), borderRadius: 5 }}
+              leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
+            />
+          </View>
         <View>
           {renderMatches()}
         </View>
         <View style={styles.line}/>
-        <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue>
+        {/* <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue> */}
       </View>
     </SafeAreaView>
   );
 };
 
+
 const styles = StyleSheet.create({
-  searchIcon: {
-    padding: 10,
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: hp('21%')
   },
-  input: { borderBottomWidth: 0, backgroundColor: 'white', height: 32, borderRadius: 5 },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
+  searchIcon: {
+    padding: wp('2%'),
+  },
+  input: { borderBottomWidth: 0, backgroundColor: 'white', height: hp('2.5%'), borderRadius: 5 },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: normalize(45),
+    fontSize: normalize(50),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: normalize(20),
-    marginTop: normalize(5)
+    marginLeft: wp('4%'),
+    marginTop: hp('0.8%')
   },
   btn: {
-    width: "18%",
-    // alignItems: 'left',
-    // justifyContent: 'left',
-  },
-  // container: {
-  //   height: 94,
-  //   width: 312,
-  //   backgroundColor: "#97ACE2",
-  //   borderRadius: 20,
-  //   marginBottom: 15
-  // },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    width: wp('18%'),
   },
   profilePicture: {
     height: normalize(56),
@@ -164,23 +160,23 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: "#000000",
     position: "absolute",
-    left: 18,
-    top: 11
+    left: wp('4.62%'),
+    top: hp('1.1%')
   },
   username: {
     fontSize: normalize(11),
     position: "absolute",
-    top: 72,
-    left: 18
+    top: hp('7.2%'),
+    left: wp('4.62%')
   },
   letterContainer: {
     position: "absolute",
-    left: 100,
+    left: wp('25.64%'),
     top: 0
   },
   button: {
-    width: 200,
-    marginTop: 10,
+    width: wp('51.28%'),
+    marginTop: hp('1.25%'),
   },
   container: {
     flex: 1,
@@ -190,62 +186,50 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   scrollView: {
-    height: 200,
+    height: hp('20%'),
   },
   recipientsContainer: {
-    width: 350,
-    height: 585,
+    width: wp('89.74%'),
+    height: hp('63.46%'),
     borderRadius: 20,
-    marginTop: 20,
+    marginTop: hp('1.25%'),
     flex: 1,
     alignContent: "center"
   },
   friendCircle: {
-    height: 70,
-    width: 70,
-    borderRadius: 50,
+    height: wp('18%'),
+    width: wp('18%'),
+    borderRadius: wp('18%'),
     backgroundColor: COLORS.profilebackground,
-    marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 5,
-    // borderWidth: 1,
-    // borderColor: 'black'
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    marginTop: hp('1.92%'),
+    marginLeft: wp('3.85%'),
+    marginRight: wp('3.85%'),
+    marginBottom: hp('0.64%'),
+    
   },
   selectTitleText: {
-    fontSize: 35,
+    fontSize: normalize(35),
     fontWeight: "400",
     justifyContent: "center",
     textAlign: 'center',
-    marginTop: 15,
-    // textDecorationLine: 'underline'
+    marginTop: hp('1.25%'),
   },
   inputContainer: {
-    // width: 350,
-    marginLeft: 5,
-    marginTop: 10, 
-    // flex: 1, 
-    // flex: "row", 
-    // alignContent: "center", 
+    marginLeft: wp('1.28%'),
+    justifyContent: 'center', 
+    alignItems: "center"
   },
   friendMidText: {
     textAlign: "center",
-    // textAlignVertical: "center",
-    fontSize: 20,
+    fontSize: normalize(20),
     color: "#1E4693",
     opacity: 1,
-    marginTop: 21,
+    marginTop: hp('2.8%'),
     fontWeight: "600"
-    // backgroundColor: "rgba(0,0,0,1)" 
   },
   line: {
-    marginTop: 10,
+    marginTop: hp('1.25%'),
+    borderBottomColor: COLORS.blue400,
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },

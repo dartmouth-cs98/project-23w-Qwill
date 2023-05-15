@@ -1,9 +1,15 @@
-import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio } from 'react-native';
-import React from "react";
+import { AuthContext } from '../../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import FontPreview from '../../components/FontPreview';
-import ButtonCircle from '../../components/ButtonCircle';
+import { Text, View, StyleSheet, FlatList, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as Font from 'expo-font';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
 import fontData from '../../assets/fontData';
+import FontPreview from '../../components/FontPreview';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, { useState, useEffect, useContext } from 'react';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -16,39 +22,129 @@ const normalize = (size) => {
 };
 
 const FontsScreen = ({navigation}) => {
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const [customFonts, setCustomFonts] = useState("");
+
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
+  const isFocused = useIsFocused();
+
+  // fetch the users custom fonts from the server
+  useEffect(() => {
+    fetchCustomFonts();
+  }, [isFocused]);
+
+  const fetchCustomFonts = async () => {
+    try {
+      const resp = await axios.post(findIP()+"/api/fetchCustomFonts", { userID: userInfo.user._id });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.createdFonts) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        // console.log(resp.data.createdFonts);
+        for (const customFont of resp.data.createdFonts) {
+          if (!Font.isLoaded(customFont._id)) {
+            await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
+          }
+        }
+        setCustomFonts(resp.data.createdFonts);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteFontPressed = async (item) => {
+    try {
+      const resp = await axios.post(findIP()+"/api/deleteFont", { fontID: item._id });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.ok) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        setSnackMessage("Font " + item.name + " successfully deleted");
+        setSnackIsVisible(true);
+        fetchCustomFonts();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
-      <View style={{ alignItems: 'center' }}>
-        <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
-          <Text style={styles.titleText}>Fonts</Text>
-          <ButtonCircle icon="pencil"></ButtonCircle>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
-          <View style={styles.line}></View>
-          <Text style={{fontSize: normalize(12) }}>Custom Fonts</Text>
-          <View style={styles.line}></View>
-        </View>
-        <View style={styles.noCustom}>
-          <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-          <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() =>{navigation.navigate("CameraScreen")}}>Add Custom Font</Text>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
-          <View style={styles.line}></View>
-          <Text style={{fontSize: normalize(12) }}>Default Fonts</Text>
-          <View style={styles.line}></View>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06 }}>
-          <FlatList
-            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-            data={fontData}
-            numColumns={3}
-            renderItem={({ item }) =>
-              <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025}}>
-                <FontPreview style={item.style} title={item.title}></FontPreview>
-              </View>}
-            keyExtractor={(item) => item.title}
-          />
-        </View>
+      <View style={[styles.header, styles.shadowLight]}></View>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
+        <Text style={styles.titleText}>Fonts</Text>
+        {/* <ButtonCircle icon="pencil"></ButtonCircle> */}
+        <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
+          <Ionicons name="pencil-outline" size={normalize(40)} ></Ionicons>
+        </TouchableOpacity>
+      </View>
+      <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
+        <View style={styles.line}></View>
+        <Text style={{fontSize: normalize(12),}}>Custom Fonts</Text>
+        <View style={styles.line}></View>
+      </View>
+      
+      {
+        customFonts.length == 0 ? ( 
+          <View style={styles.noCustom}>
+            <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
+            <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
+          </View>
+        ) : (
+          <View style={styles.custom}>
+            <FlatList
+              contentContainerStyle={{ justifyContent: 'space-between'}}
+              data={customFonts}
+              numColumns={3}
+              renderItem={({ item }) =>
+                <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                  <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
+                  <FontPreview style={{fontFamily: item._id}} title={item.name}></FontPreview>
+                  <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
+                  </TouchableOpacity>
+                </View>
+              }
+              keyExtractor={(item) => item.title}
+            />
+          </View>
+        )
+      }
+      
+      <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
+        <View style={styles.line}></View>
+        <Text style={{fontSize: normalize(12) }}>Default Fonts</Text>
+        <View style={styles.line}></View>
+      </View>
+      <View style={{ marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06 }}>
+        <FlatList
+          contentContainerStyle={{ justifyContent: 'space-between'}}
+          data={fontData}
+          numColumns={3}
+          renderItem={({ item }) =>
+            <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+              <FontPreview style={item.style} title={item.title}></FontPreview>
+            </View>
+          }
+          keyExtractor={(item) => item.title}
+        />
       </View>
     </SafeAreaView>
   );
@@ -57,31 +153,47 @@ const FontsScreen = ({navigation}) => {
 export default FontsScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: hp('13.5%')
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: { height: hp(0.4) },
+    shadowOpacity: 0.2,
+    shadowRadius: hp(0.15),
+  },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: normalize(50),
+    fontSize: wp('12%'),
     fontWeight: 'bold',
     textAlign: 'left',
     flex: 1,
-    marginLeft: windowWidth *.04,
-    marginTop: windowHeight *.008
+    marginLeft: wp('4%'),
+    marginTop: hp('0.8%')
   },
   line: {
-    width: windowWidth * .3,
+    width: wp('30%'),
     height: 0,
     borderWidth: 1,
     borderColor: "#737B7D",
-    marginLeft: windowWidth *.02,
-    marginRight: windowWidth *.02,
-    marginTop: normalize(7)
+    marginLeft: wp('2%'),
+    marginRight: wp('2%'),
+    marginTop: hp('0.5%')
   },
   noCustom: {
-    width: windowWidth *.8,
-    // height: windowHeight *.12,
-    aspectRatio: 4,
-    borderRadius: 20,
+    width: wp('80%'),
+    borderRadius: wp('10%'),
     backgroundColor: "#E2E8F6",
-    marginTop: windowHeight *.02,
+    marginTop: hp('2%'),
+  },
+  custom: {
+    width: wp('88%'),
+    marginLeft: wp('6%'), 
+    marginRight: wp('6%'),
+    marginTop: hp('2%'),
   },
   container: {
     flex: 1,
@@ -91,9 +203,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: normalize(24),
+    fontSize: wp('5%'),
     fontWeight: 'bold',
     color: 'white',
   },
+  btn: {
+    width: wp('18%'),
+  },
+  removeButton: {
+    position: 'absolute',
+    bottom: -hp('1%'),
+    right: 0,
+  }, 
+  removeIcon: {
+    position: 'absolute',
+    left: wp('22%'),
+    top: -hp('.2%'),
+    zIndex: 1,
+  }
 });
-

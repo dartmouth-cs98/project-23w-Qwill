@@ -1,88 +1,132 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useContext, useState } from 'react';
-import ButtonPrimary from '../../components/ButtonPrimary';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { ComposeContext } from '../../context/ComposeStackContext';
-import FontPreview from '../../components/FontPreview';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, FlatList, Dimensions } from 'react-native';
 import fontData from '../../assets/fontData';
+import FontPreview from '../../components/FontPreview';
+import { AuthContext } from '../../context/AuthContext';
+import React, { useContext, useState, useEffect } from 'react';
+import styles from '../../styles/Profile.component.style';
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
+import * as Font from 'expo-font';
+import { useIsFocused } from '@react-navigation/native';
 
-const ChangeFontScreen = ({navigation}) => {
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const ChangeFontScreen = ({ navigation }) => {
+
+  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [customFonts, setCustomFonts] = useState("");
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    fetchCustomFonts();
+  }, [isFocused]);
 
   const handleNextPressed = (selectedFont) => {
-      setLetterInfo({...letterInfo, fontID: selectedFont});
-      navigation.goBack(null);
+    setLetterInfo({ ...letterInfo, fontID: selectedFont, fontName: selectedFont });
+    navigation.goBack(null);
   };
 
-  // const selectFontGoBack = () => {
-  //   navigation.navigate('SelectTheme');
-  // }
-
+  const fetchCustomFonts = async () => {
+    try {
+      const resp = await axios.post(findIP()+"/api/fetchCustomFonts", { userID: userInfo.user._id });
+      
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else if (!resp.data || !resp.data.createdFonts) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        // console.log(resp.data.createdFonts);
+        for (const customFont of resp.data.createdFonts) {
+          if (!Font.isLoaded(customFont._id)) {
+            await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
+          }
+        }
+        setCustomFonts(resp.data.createdFonts);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
-    {/* <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 15}}>
-      <TouchableOpacity onPress={()=>composeStackGoBack(navigation, selectFontGoBack)}>
-        <Ionicons name={"arrow-back"} size={40}/>
-      </TouchableOpacity>
-      {/* <Text style={styles.titleText}>Compose</Text> 
-    </View> 
-    */}
-    <View style={{ flexDirection: 'row'}}>
-      <Text style={styles.titleText}>Compose</Text>
-    </View>
-    <View style={styles.fontsContainer}>
-      <Text style={styles.selectTitleText}>Select a font</Text>
-        <View style={{flexDirection: "row", marginTop: 20}}>
+    // <SafeAreaView style={styles.safeview}>
+    //   <View style={styles.defaultFontsContainer}>
+    //     <View style={{ flexDirection: "row" }}>
+    //       <FlatList
+    //         ListHeaderComponent={<Text style={styles.selectTitleText}> Select a font </Text>}
+    //         contentContainerStyle={{ justifyContent: 'center' }}
+    //         data={fontData}
+    //         numColumns={3}
+    //         renderItem={({ item }) =>
+    //           <View style={{ marginLeft: 5, marginRight: 5 }}>
+    //             <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title)}></FontPreview>
+    //           </View>}
+    //         keyExtractor={(item) => item.title}
+    //       />
+    //     </View>
+    //   </View>
+    // </SafeAreaView>
+    <SafeAreaView style={styles.safeview}>
+      <Text style={styles.selectTitleText}> Select a font </Text>
+      {
+        customFonts.length == 0 ? ( 
+          <></>
+        ) : (
+          <View style={styles.customFontsContainer}>
+            <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
+              <View style={styles.line}></View>
+              <Text style={{fontSize: 12}}>Custom Fonts</Text>
+              <View style={styles.line}></View>
+            </View>
+            <FlatList
+              contentContainerStyle={{ justifyContent: 'center'}}
+              data={customFonts}
+              numColumns={3}
+              renderItem={({ item }) =>
+              <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
+                  <FontPreview style={{fontFamily: item._id}} title={item.name} onPress={() => handleNextPressed(item._id, item.name, true)}></FontPreview>
+                </View>
+              }
+              keyExtractor={(item) => item.title}
+            />
+          </View>
+        )
+      }
+
+      <View style={styles.defaultFontsContainer}>
+        <View style={{flexDirection: "row", justifyContent: "center", marginVertical: 10}}>
+              <View style={styles.line}></View>
+              <Text style={{fontSize: 12}}>Default Fonts</Text>
+              <View style={styles.line}></View>
+        </View>
+        {/* <View style={{ flexDirection: "row" }}> */}
           <FlatList
-            contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
+            contentContainerStyle={{ justifyContent: 'center' }}
             data={fontData}
             numColumns={3}
-            renderItem={({item}) => 
-              <View style={{marginLeft: 10, marginRight: 10}}>
-                <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title)}></FontPreview>
+            renderItem={({ item }) =>
+            <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
+                <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title, item.title, false)}></FontPreview>
               </View>}
             keyExtractor={(item) => item.title}
           />
-        </View>
-      {/* </ScrollView> */}
-    </View>
-  </SafeAreaView>
+        {/* </View> */}
+      </View>
+
+    </SafeAreaView>
   );
 };
 
 export default ChangeFontScreen;
-
-const styles = StyleSheet.create({
-  fontsContainer: {
-    width: 350,
-    height: 585,
-    // backgroundColor: "#ACC3FF",
-    borderRadius: 20, 
-    marginTop:20,
-    flex: 1,
-  },
-  titleText: {
-    fontSize: 50, 
-    fontFamily: 'JosefinSansBold',
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: "center",
-    // marginLeft: -60
-  },
-  selectTitleText: {
-    fontSize: 35,
-    fontWeight: "400",
-    justifyContent: "center",
-    textAlign: 'center', 
-    marginTop: 15
-  },
-  shadow: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  }, 
-});

@@ -18,11 +18,22 @@ const userSchema = new mongoose.Schema({
         required: true,
         index: true,
     },
+    phone: {
+        type: Number,
+        required: false,
+        min: 10,
+        max: 12,
+    },
     password: {
         type: String,
         required: true,
         min: 6,
         max: 64,
+    },
+    numCustomFonts: {
+        type: Number,
+        required: true,
+        min: 0
     },
     resetCode: "",
 }, {

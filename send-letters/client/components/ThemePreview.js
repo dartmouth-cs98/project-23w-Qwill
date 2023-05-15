@@ -1,38 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, Dimensions, View } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler'
+import { StyleSheet, Text } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import COLORS from '../styles/colors'
-
-const screenWidth = Dimensions.get('window').width;
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const ThemePreview = props => {
   return (
     <TouchableOpacity
-      style={styles.containerTheme}
+      style={{}}
       onPress={props.onPress}
     >
-      <View style={{flexDirection: 'row'}}>
-        {/* <Text style={styles.text}>{props.themeName}</Text> */}
+      
         <Image 
           style={styles.theme}
           source={props.imageSource}
         />
-        <View style={styles.titleContainer}>
-          <Text style={styles.themeNameText}>{props.themeName}</Text>
-        </View>
+        <Text style={styles.themeNameText}>{props.themeName}</Text>
         
-      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   containerTheme: {
-    width: screenWidth*.9,
-    height: 200,
+    width: wp('90%'),
+    height: hp('21.6%'),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: '#E2E8F6',
@@ -41,26 +33,21 @@ const styles = StyleSheet.create({
   },
   theme: {
     height: undefined, 
-    width: screenWidth*.45,
+    width: wp('45%'),
     aspectRatio: 1,
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
   titleContainer: {
-    height: 180,
-    width: screenWidth*.5,
-    // justifyContent: "center",
-    // justifyContent: 'center', //Centered horizontally
-    // alignItems: 'center', //Centered vertically
-    // flex:1
-    // textAlignVertical: "center"
+    height: hp('19.44%'),
+    width: wp('50%'),
   },
   themeNameText: {
-    fontSize: 30, 
+    fontSize: hp('1.94%'), 
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     flex: 1,
-    marginTop: 75
-    // textAlign: "center",
+    textAlign: "center",
+    marginTop: "8%"
   }
 });
 

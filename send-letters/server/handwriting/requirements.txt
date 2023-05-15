@@ -1,0 +1,4 @@
+Pillow
+image
+google-cloud
+google-cloud-vision

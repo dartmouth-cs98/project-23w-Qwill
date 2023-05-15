@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, SafeAreaView  } from 'react-native';
 import React, { useState } from 'react';
 import LetterDetail from '../../components/LetterDetail';
 import { Ionicons } from '@expo/vector-icons';
@@ -56,7 +56,7 @@ const LetterDetailScreen = ({route, navigation}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={{ flex: 1, flexDirection :'row', alignItems: 'flex-start'}}>
         <TouchableOpacity onPress={handleBackPressed}>
           <Ionicons name={"arrow-back"} size={40}/>
@@ -75,10 +75,8 @@ const LetterDetailScreen = ({route, navigation}) => {
             title={"Reply"}
             onPress={handleReplyPressed}/>
       </View>
-    </View>
+    </SafeAreaView>
   )
 };
 
 export default LetterDetailScreen;
-
-const styles = StyleSheet.create({});

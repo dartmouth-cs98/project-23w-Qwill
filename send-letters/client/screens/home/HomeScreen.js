@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Dimensions, Image } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import LetterCarousel from '../../components/LetterCarousel';
 import { useIsFocused } from '@react-navigation/native';
+import { FlatList } from 'react-native';
+import * as Font from 'expo-font';
 
 // component imports
-import ButtonPrimary from '../../components/ButtonPrimary';
 import ButtonEmptyMailbox from '../../components/ButtonEmptyMailbox';
 import { Snackbar } from 'react-native-paper';
 import LetterForCarousel from '../../components/LetterForCarousel';
@@ -18,14 +19,12 @@ import { COLORS } from '../../styles/colors';
 // The react Button component renders the native button on each platform it uses. Because of this, 
 // it does not respond to the style prop. It has its own set of props.
 
-// calculate dimensions for the mailbox image
-const dimensions = Dimensions.get('window');
-const windowWidth = dimensions.width;
-const imageHeight = dimensions.height * (.7);
-const imageWidth = Math.round(imageHeight * .626);
+// 390 is the logical width of the largest iPhones before pro max sizes
+// https://www.ios-resolution.com/
+const IS_BIG_PHONE = wp(100) > 390;
 
-// widths for the slider carousel
-const SLIDER_WIDTH = windowWidth;
+const flatListMarginTop = IS_BIG_PHONE ? -hp('4%') : -hp('2%');
+const marginMailboxTop = IS_BIG_PHONE ? hp('15%') : hp('10%');
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -63,7 +62,7 @@ function HomeScreen({ navigation, route}) {
 
     try {
       const resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID, newStatus: "read"});
-
+      
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
       setSnackMessage("Could not establish connection to the server");
@@ -80,9 +79,14 @@ function HomeScreen({ navigation, route}) {
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
     return (
-        <View key={index}>
+        <View key={index}
+              style={{shadowOpacity: .1, 
+                      shadowColor: "#000000",
+                      marginBottom: -hp('20%')}}>
           <LetterForCarousel
             letterStatus={item.status}
+            letterFont={item.font}
+            letterDate={item.createdAt}
             sender={item.senderInfo.name}
             senderAddress={index}
             recipient={userInfo.user.name}
@@ -98,7 +102,7 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
-        
+        // console.log(resp.data)
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
           setSnackMessage("Could not establish connection to the server");
@@ -109,6 +113,11 @@ function HomeScreen({ navigation, route}) {
         } else if (!resp.data || !resp.data.receivedLetters) {
           console.error("Error: the response does not contain the expected fields");
         } else {
+          for (letter of resp.data.receivedLetters) {
+            if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
+              await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
+            }
+          }
           setMail(resp.data.receivedLetters);
         }
       } catch (err) {
@@ -119,31 +128,20 @@ function HomeScreen({ navigation, route}) {
   }, [isFocused]);
 
     return (
-      <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
-        <View style={{ flexDirection:"row"}}>
-            <ButtonPrimary selected={true} title={"Mailbox"}/>
-            <ButtonPrimary 
-              selected={false} 
-              title={"Drafts"} 
-              onPress={() => navigation.navigate('Drafts')}/>
-        </View>
+      <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
 
-        <View style={{flex: 1}}></View>
-
-        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: windowWidth}} >
-          <ImageBackground
-            source={require('../../assets/mailboxempty.png')}
-            style={{
-              flex: 1,
-              alignContent: 'center',
-              alignItems: 'center',
-              height: imageHeight,
-              width: imageWidth
-            }}
-          >
+        <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: wp('100%'), marginBottom: 0}} >
+         
             { mail.length === 0 ? (
+               <ImageBackground
+               source={require('../../assets/mailbox1.png')}
+               imageStyle={{position: 'absolute', bottom: hp('-80%'), left: 0, resizeMode: 'contain' }}
+               style={{
+                 flex: 1
+               }}
+             >
                 <View>
-                  <View style={{flex: 2, padding: '20%', justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={styles.emptyMailboxText}>
                       You don't have any letters in your mailbox.
                     </Text>
@@ -156,28 +154,33 @@ function HomeScreen({ navigation, route}) {
                     />
                   </View>
                 </View>
-              ) : mail.length === 1 ? (
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <LetterForCarousel
-                    letterStatus={mail[0].status}
-                    sender={mail[0].senderInfo.name}
-                    senderAddress={0}
-                    recipient={userInfo.user.name}
-                    recipientAddress={0}
-                    onPress={() => {handleLetterOpen(mail[0].text, mail[0]._id, mail[0].status, mail[0].senderInfo._id, mail[0].senderInfo.username, mail[0].theme, mail[0].font)}}
-                  />
-                </View>
-              ): (
+                </ImageBackground>
+              ) : (
               <>
                 <View style={{flex: 0}}/>
-                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: windowWidth}}>
-                  <LetterCarousel 
+                <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%', marginTop: flatListMarginTop}}>
+                  <FlatList
+                    contentContainerStyle={{marginBottom: 0}}
+                    shouldComponentUpdate={() => {return false;}}
                     data={mail}
-                    renderItem={renderItem}/>
+                    CellRendererComponent={this.renderItem}
+                    renderItem={renderItem}
+                    bounces={false}
+                    ListFooterComponent={
+                    <Image 
+                      resizeMode="contain" 
+                      style={{
+                        width: wp('100%'),
+                        marginTop: marginMailboxTop,
+                        marginBottom: -hp('15%')
+                      }} 
+                      source={require('../../assets/mailbox2.png')}>
+                    </Image>}
+                    ListFooterComponentStyle={{width: wp('100%')}}/>
                 </View>
               </>) 
             }
-          </ImageBackground>
+          
         </View>
         <Snackbar
           style={styles.snackbar}
@@ -196,18 +199,30 @@ function HomeScreen({ navigation, route}) {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: wp('100%'),
+    height: hp('28%')
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: { height: hp('0.4%') },
+    shadowOpacity: 0.2,
+    shadowRadius: wp('0.4%'),
+  },
   emptyMailboxText: {
     fontFamily: 'JosefinSansBold',
-    width: 150,
+    width: wp('50%'),
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 20,
-    lineHeight: 20,
+    fontSize: wp('4.8%'),
+    lineHeight: wp('5.6%'),
     display: "flex",
     alignItems: "center",
     textAlign: "center",
-    letterSpacing: 0.3,
-    color: COLORS.white
+    letterSpacing: wp('0.3%'),
+    color: COLORS.black
   },
   snackBarText: {
     color: COLORS.white,
@@ -216,9 +231,9 @@ const styles = StyleSheet.create({
   snackbar: {
     opacity: 0.7,
     alignSelf: 'center',
-    width: windowWidth * .7,
-    bottom: 10,
-    fontSize: 30,
-    borderRadius: 20,
+    width: wp('70%'),
+    bottom: hp('1.3%'),
+    fontSize: wp('4%'),
+    borderRadius: wp('4%'),
   }
 });

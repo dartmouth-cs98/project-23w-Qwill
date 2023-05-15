@@ -1,19 +1,18 @@
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native'
-import React, { useState, useContext } from 'react'
-import { StatusBar } from 'expo-status-bar';
-import { Input, Image } from 'react-native-elements';
-import { Snackbar } from 'react-native-paper';
-import axios from 'axios';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../../context/AuthContext';
-import findIP from '../../helpers/findIP';
-import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../styles/colors';
-
+import { Snackbar } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { TextInput } from 'react-native';
+import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
+import findIP from '../../helpers/findIP';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState, useContext } from 'react'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-
 
 // You can get the navigation stack as a prop
 // Later down in the code you can see the use of the function "navigation.navigate("name of screen")"
@@ -114,24 +113,21 @@ const SignUpScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"/>
-      <View style={{width: "60%"}}>
-        <Image 
-          style={{
-            height: undefined, 
-            width: '100%',
-            aspectRatio: 1,
-            resizeMode: "contain"}}
-          source={require('../../assets/logo.png')}
-        />
+      <View style={{alignContent: 'center'}}>
+        <Text style={styles.signUpHeader}> 
+          Sign Up
+        </Text>
       </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
-        <Input 
+        <TextInput 
+          style={styles.inputField}
           placeholder="Name"
           onChangeText={text => setName(text)}
           autoCorrect={false} 
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Email"
           autofocus
           type="email"
@@ -140,12 +136,14 @@ const SignUpScreen = ({navigation}) => {
           autoCapitalize="none"
           onChangeText={text => setEmail(text.toLowerCase())} 
         />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Username"
           autoCapitalize="none"
           onChangeText={text => setUsername(text)}
           autoCorrect={false} />
-        <Input
+        <TextInput
+          style={styles.inputField}
           placeholder="Password"
           secureTextEntry={true}
           type="password"
@@ -187,51 +185,66 @@ const SignUpScreen = ({navigation}) => {
             },
           }}
         >
-          {snackMessage}
-        </Snackbar>
+        {snackMessage}
+      </Snackbar>
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
-      <View style={{height: 100}}/>
+      <View style={{height: hp('10.8')}}/>
     </KeyboardAvoidingView>
   );
 };
 
 export default SignUpScreen;
 
+
 const styles = StyleSheet.create({
+    signUpHeader: {
+      fontSize: wp('18%'),
+      fontFamily: 'JosefinSansBold',
+      marginBottom: hp('4%'), 
+      marginTop: hp('10%')
+    },
+    inputField: {
+      backgroundColor: '#E2E8F6',
+      borderRadius: hp('3.2%'),
+      padding: hp('2%'),
+      margin: hp('0.8%'),
+      fontSize: hp('2%')
+    },
     inputContainer: {
-        width: 300,
+        width: wp('73%'),
     },
     button: {
-        width: 200,
-        marginTop: 10,
+        width: wp('60%'),
+        marginTop: hp('1.35%'),
     },
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        padding: 10,
-        backgroundColor: 'white',
+        padding: wp('2.67%'),
+        backgroundColor: '#F0F4FF',
+
     },
     imageWithShadow: {
-        width: 200, 
-        height: 200,
+        width: wp('53.33%'), 
+        height: wp('53.33%'),
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
+        shadowOffset: { width: 0, height: hp('0.13%') },
         shadowOpacity: 0.8,
-        shadowRadius: 2,  
+        shadowRadius: hp('0.27%'),  
     },
     btn: {
       backgroundColor: COLORS.blue700,
-      marginTop: 15,
+      marginTop: hp('2.03%'),
       boxSizing: "border-box",
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      paddingTop: 16,
-      paddingRight: 18,
-      paddingBottom: 16,
-      paddingLeft: 18,
+      paddingTop: wp('3%'),
+      paddingRight: wp('3%'),
+      paddingBottom: wp('3%'),
+      paddingLeft: wp('3%'),
       borderTopLeftRadius: 25,
       borderTopRightRadius: 25,
       borderBottomRightRadius: 25,
@@ -241,11 +254,12 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       flex: 1,
-      height: 18,
+      height: wp('4.5%'),
       fontStyle: "normal",
       fontWeight: "500",
-      fontSize: 18,
-      lineHeight: 18,
+      fontFamily: 'JosefinSans',
+      fontSize: wp('4.5%'),
+      lineHeight: wp('4.5%'),
       display: "flex",
       alignItems: "center",
       textAlign: "center",
@@ -253,26 +267,27 @@ const styles = StyleSheet.create({
       color: COLORS.white,
     },
     lineShort: {
-      width: 0.4 * WINDOW_WIDTH,
+      width: wp('10.67%'),
       height: 0,
-      borderWidth: 1,
+      borderWidth: wp('0.03%'),
       borderColor: "#737B7D",
     },
     text: {
-      fontSize: 16,
+      fontSize: hp('2.16%'),
       fontWeight: "600", 
       color: '#737B7D',
     },
     underLineText: {
-      fontSize: 17,
+      fontSize: wp('4.5%'),
+      fontFamily: 'JosefinSansBold',
       textDecorationLine: 'underline',
       color: '#737B7D',
       fontWeight: '600',
       textAlign: 'center',
     },
     orContainer: {
-      width: 0.9 * WINDOW_WIDTH,
-      height: 60,
+      width: wp('90%'),
+      height: hp('10%'),
       flexDirection: "row",
       justifyContent: 'space-between', 
       alignItems: 'center',

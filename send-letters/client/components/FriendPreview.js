@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import UnopenedLetterSmall from './UnopenedLetterSmall';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const FriendPreview = props => {
     return (
@@ -16,11 +17,11 @@ const FriendPreview = props => {
 
 const styles = StyleSheet.create({
     container: {
-        height: 94,
-        width: 312,
+        height: hp('12%'),
+        width: hp('12%'),
         backgroundColor: "#97ACE2",
         borderRadius: 20,
-        marginBottom: 15
+        marginBottom: hp('2%')
     },
     shadow: {
         shadowColor: '#171717',
@@ -29,23 +30,23 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     profilePicture: {
-        height: 56,
-        width: 56,
-        borderRadius: 28,
+        height: hp('7%'),
+        width: hp('7%'),
+        borderRadius: hp('3.5%'),
         backgroundColor: "#000000",
         position: "absolute",
-        left: 18,
-        top: 11
+        left: wp('5.8%'),
+        top: hp('1.5%')
     },
     username: {
-        fontSize: 11,
+        fontSize: hp('1.8%'),
         position: "absolute",
-        top: 72,
-        left: 18
+        top: hp('7.8%'),
+        left: wp('17.2%')
     },
     letterContainer: {
         position:"absolute", 
-        left:100, 
+        left: wp('32%'), 
         top: 0
     }
 });
