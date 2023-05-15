@@ -8,13 +8,23 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-
-const ThreeButtonAlert = ({navigation}) => {
+const ThreeButtonAlert = ({ navigation }) => {
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
-    const handleDiscard = async () => {        
+    const handleDiscard = async () => {
         if (letterInfo.letterID == "") {
             // letter was never saved in db
+            setLetterInfo({
+                letterID: "",
+                text: "",
+                recipientID: "",
+                themeID: "",
+                recipientUsername: "",
+                fontID: "",
+                fontName: "",
+                customFont: false,
+                stickers: []
+            });
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -24,8 +34,18 @@ const ThreeButtonAlert = ({navigation}) => {
             return;
         }
 
-        const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: letterInfo.letterID });
-        
+        const resp = await axios.post(findIP() + "/api/deleteLetter", { letterID: letterInfo.letterID });
+        setLetterInfo({
+            letterID: "",
+            text: "",
+            recipientID: "",
+            themeID: "",
+            recipientUsername: "",
+            fontID: "",
+            fontName: "",
+            customFont: false,
+            stickers: []
+        });
         if (!resp) {  // could not connect to backend
             console.log("ERROR: Could not establish server connection with axios");
             setSnackMessage("Could not establish connection to the server");
@@ -47,7 +67,19 @@ const ThreeButtonAlert = ({navigation}) => {
         );
     };
 
+
     const handleSave = () => {
+        setLetterInfo({
+            letterID: "",
+            text: "",
+            recipientID: "",
+            themeID: "",
+            recipientUsername: "",
+            fontID: "",
+            fontName: "",
+            customFont: false,
+            stickers: []
+        });
         navigation.dispatch(
             CommonActions.reset({
                 index: 0,
@@ -72,7 +104,7 @@ const ThreeButtonAlert = ({navigation}) => {
         <TouchableOpacity onPress={() => {
             threeButtonAlert();
         }}>
-            <Ionicons name={"close-outline"} size={40} style={{marginTop: hp(".9%")}}/>
+            <Ionicons name={"close-outline"} size={40} style={{ marginTop: hp(".9%") }} />
         </TouchableOpacity>
     );
 }
