@@ -35,17 +35,6 @@ const ThreeButtonAlert = ({ navigation }) => {
         }
 
         const resp = await axios.post(findIP() + "/api/deleteLetter", { letterID: letterInfo.letterID });
-        setLetterInfo({
-            letterID: "",
-            text: "",
-            recipientID: "",
-            themeID: "",
-            recipientUsername: "",
-            fontID: "",
-            fontName: "",
-            customFont: false,
-            stickers: []
-        });
         if (!resp) {  // could not connect to backend
             console.log("ERROR: Could not establish server connection with axios");
             setSnackMessage("Could not establish connection to the server");
@@ -57,8 +46,18 @@ const ThreeButtonAlert = ({ navigation }) => {
             console.error("Error: the response does not contain the expected fields");
         } else {
             console.log("letter deleted successfully");
+            setLetterInfo({
+                letterID: "",
+                text: "",
+                recipientID: "",
+                themeID: "",
+                recipientUsername: "",
+                fontID: "",
+                fontName: "",
+                customFont: false,
+                stickers: []
+            });
         }
-
         navigation.dispatch(
             CommonActions.reset({
                 index: 0,

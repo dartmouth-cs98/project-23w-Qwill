@@ -28,19 +28,16 @@ function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
-  const [sticker, setSticker] = useState(null);
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
   const [bgWidth, setBgWidth] = useState(0);
   const [bgHeight, setBgHeight] = useState(0);
-
-  // Dismiss snack message
-  const onDismissSnack = () => setSnackIsVisible(false);
-
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
+  // Dismiss snack message
+  const onDismissSnack = () => setSnackIsVisible(false);
 
   // A function that handles the sticker selection, updating state and fetching sticker details
   const stickerSelected = (sticker) => {
@@ -151,7 +148,7 @@ function ComposeScreen({ navigation, route }) {
         </View>
         <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
       </View>
-      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
+      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
       <ImageBackground
         onLayout={(event) => {
           const { width, height } = event.nativeEvent.layout;
