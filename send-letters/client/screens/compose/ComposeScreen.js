@@ -34,6 +34,8 @@ function ComposeScreen({ navigation, route }) {
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
+  const [bgWidth, setBgWidth] = useState(0);
+  const [bgHeight, setBgHeight] = useState(0);
 
   // Dismiss snack message
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -60,6 +62,8 @@ function ComposeScreen({ navigation, route }) {
             y: height / 4,
             initialX: 425 - width - width / 4,
             initialY: height / 4,
+            width: width,
+            height: height,
           },
         ]);
       });
@@ -125,6 +129,11 @@ function ComposeScreen({ navigation, route }) {
       </View>
       <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
       <ImageBackground
+        onLayout={(event) => {
+          const { width, height } = event.nativeEvent.layout;
+          setBgWidth(width);
+          setBgHeight(height);
+        }}
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
         source={images.themes[letterInfo.themeID]}>
@@ -133,6 +142,7 @@ function ComposeScreen({ navigation, route }) {
         >
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             <Input
+
               style={{
                 fontFamily: letterInfo.fontID,
                 marginTop: hp('2.16%'), // 20/926 = 0.0216
@@ -154,29 +164,39 @@ function ComposeScreen({ navigation, route }) {
             />
           </TouchableOpacity>
         </View>
-        
-        { imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
+
+        {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
           const stickerPanResponder = PanResponder.create({
             onMoveShouldSetPanResponder: () => true,
             onPanResponderGrant: (e, gestureState) => {
               setSelectedStickerIndex(index);
               setInitialStickerPosition({ x: gestureState.x0, y: gestureState.y0 });
             },
-            
+
             onPanResponderMove: (event, gestureState) => {
+              
+
+              
               if (selectedStickerIndex === index) {
+                
                 const dx = gestureState.moveX - initialStickerPosition.x;
                 const dy = gestureState.moveY - initialStickerPosition.y;
                 const updatedImageData = [...imageData];
+
+                console.log("x: mathmin first", updatedImageData[selectedStickerIndex].width);
+                console.log("x: mathmin sec", updatedImageData[selectedStickerIndex].initialX + dx);
+                console.log("x: old", updatedImageData[selectedStickerIndex].initialX + dx);
                 updatedImageData[selectedStickerIndex] = {
                   ...updatedImageData[selectedStickerIndex],
-                  x: updatedImageData[selectedStickerIndex].initialX + dx,
-                  y: updatedImageData[selectedStickerIndex].initialY + dy,
+                  // x: updatedImageData[selectedStickerIndex].initialX + dx,
+                  // y: updatedImageData[selectedStickerIndex].initialY + dy,
+                  x: Math.max(0, Math.min(bgWidth - updatedImageData[selectedStickerIndex].width, updatedImageData[selectedStickerIndex].initialX + dx)),
+                  y: Math.max(0, Math.min(bgHeight - updatedImageData[selectedStickerIndex].height, updatedImageData[selectedStickerIndex].initialY + dy)),
                 };
                 setImageData(updatedImageData);
               }
             },
-            
+
             onPanResponderRelease: (event, gestureState) => {
               if (selectedStickerIndex === index) {
                 const updatedImageData = [...imageData];
@@ -190,7 +210,7 @@ function ComposeScreen({ navigation, route }) {
                 setSelectedStickerIndex(null);
               }
             },
-            
+
           });
 
           return (
