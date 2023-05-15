@@ -1,6 +1,7 @@
 // Imports
 import { ComposeContext } from '../../context/ComposeStackContext';
 import {
+  Animated,
   Image,
   Text,
   View,
@@ -61,47 +62,6 @@ function ComposeScreen({ navigation, route }) {
             initialY: height / 4,
           },
         ]);
-      });
-      setSticker(null);
-    }
-  };
-
-
-  // Enables moving of the sticker
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderMove: (event, gestureState) => {
-      if (selectedStickerIndex !== null) {
-        const updatedImageData = [...imageData];
-        updatedImageData[selectedStickerIndex] = {
-          ...updatedImageData[selectedStickerIndex],
-          x: initialStickerPosition.x + gestureState.dx,
-          y: initialStickerPosition.y + gestureState.dy,
-        };
-        setImageData(updatedImageData);
-      }
-    },
-    onPanResponderRelease: () => {
-      if (selectedStickerIndex !== null) {
-        setInitialStickerPosition(null);
-        setSelectedStickerIndex(null);
-      }
-    },
-  });
-
-  const handleScreenTapped = (event) => {
-    Keyboard.dismiss();
-    const { locationX, locationY } = event.nativeEvent;
-    console.log(locationX, locationY);
-    if (sticker != null && imageData.length < 10) {
-      console.log("clicked")
-      const { locationX, locationY } = event.nativeEvent;
-      console.log(locationX, locationY);
-      setCount(count - 1);
-      const imageSource = images.stickers[sticker];
-      const imageUri = Image.resolveAssetSource(imageSource).uri;
-      Image.getSize(imageUri, (width, height) => {
-        setImageData([...imageData, { source: imageSource, x: locationX - (width / 2), y: locationY - (height / 2) }]);
       });
       setSticker(null);
     }
@@ -195,30 +155,42 @@ function ComposeScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
         
-        {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
+        { imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
           const stickerPanResponder = PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: () => {
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderGrant: (e, gestureState) => {
               setSelectedStickerIndex(index);
-              setInitialStickerPosition({ x: data.x, y: data.y });
+              setInitialStickerPosition({ x: gestureState.x0, y: gestureState.y0 });
             },
+            
             onPanResponderMove: (event, gestureState) => {
               if (selectedStickerIndex === index) {
+                const dx = gestureState.moveX - initialStickerPosition.x;
+                const dy = gestureState.moveY - initialStickerPosition.y;
                 const updatedImageData = [...imageData];
                 updatedImageData[selectedStickerIndex] = {
                   ...updatedImageData[selectedStickerIndex],
-                  x: initialStickerPosition.x + gestureState.dx,
-                  y: initialStickerPosition.y + gestureState.dy,
+                  x: updatedImageData[selectedStickerIndex].initialX + dx,
+                  y: updatedImageData[selectedStickerIndex].initialY + dy,
                 };
                 setImageData(updatedImageData);
               }
             },
-            onPanResponderRelease: () => {
+            
+            onPanResponderRelease: (event, gestureState) => {
               if (selectedStickerIndex === index) {
+                const updatedImageData = [...imageData];
+                updatedImageData[selectedStickerIndex] = {
+                  ...updatedImageData[selectedStickerIndex],
+                  initialX: updatedImageData[selectedStickerIndex].x,
+                  initialY: updatedImageData[selectedStickerIndex].y,
+                };
+                setImageData(updatedImageData);
                 setInitialStickerPosition(null);
                 setSelectedStickerIndex(null);
               }
             },
+            
           });
 
           return (
