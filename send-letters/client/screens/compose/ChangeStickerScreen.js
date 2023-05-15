@@ -1,6 +1,6 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useContext} from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import images from '../../assets/imageIndex';
@@ -23,7 +23,7 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: 20 }}>
       <View style={styles.themeContainer}>
         <Text style={styles.selectTitleText}>Select a sticker</Text>
-        <ScrollView
+        <ScrollView 
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContainer}
         >

@@ -5,7 +5,6 @@ import {
   Text,
   View,
   ImageBackground,
-  Keyboard,
   KeyboardAvoidingView,
   TouchableOpacity,
   LogBox,
@@ -17,7 +16,7 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
@@ -29,17 +28,16 @@ function ComposeScreen({ navigation, route }) {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
-  const [sticker, setSticker] = useState(null);
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
-
-  // Dismiss snack message
-  const onDismissSnack = () => setSnackIsVisible(false);
-
+  const [bgWidth, setBgWidth] = useState(0);
+  const [bgHeight, setBgHeight] = useState(0);
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
+  // Dismiss snack message
+  const onDismissSnack = () => setSnackIsVisible(false);
 
   // A function that handles the sticker selection, updating state and fetching sticker details
   const stickerSelected = (sticker) => {
@@ -59,51 +57,13 @@ function ComposeScreen({ navigation, route }) {
             y: height / 4,
             initialX: 425 - width - width / 4,
             initialY: height / 4,
+            width: width,
+            height: height,
           },
         ]);
       });
-      setSticker(null);
-    }
-  };
 
-
-  // Enables moving of the sticker
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderMove: (event, gestureState) => {
-      if (selectedStickerIndex !== null) {
-        const updatedImageData = [...imageData];
-        updatedImageData[selectedStickerIndex] = {
-          ...updatedImageData[selectedStickerIndex],
-          x: initialStickerPosition.x + gestureState.dx,
-          y: initialStickerPosition.y + gestureState.dy,
-        };
-        setImageData(updatedImageData);
-      }
-    },
-    onPanResponderRelease: () => {
-      if (selectedStickerIndex !== null) {
-        setInitialStickerPosition(null);
-        setSelectedStickerIndex(null);
-      }
-    },
-  });
-
-  const handleScreenTapped = (event) => {
-    Keyboard.dismiss();
-    const { locationX, locationY } = event.nativeEvent;
-    console.log(locationX, locationY);
-    if (sticker != null && imageData.length < 10) {
-      console.log("clicked")
-      const { locationX, locationY } = event.nativeEvent;
-      console.log(locationX, locationY);
-      setCount(count - 1);
-      const imageSource = images.stickers[sticker];
-      const imageUri = Image.resolveAssetSource(imageSource).uri;
-      Image.getSize(imageUri, (width, height) => {
-        setImageData([...imageData, { source: imageSource, x: locationX - (width / 2), y: locationY - (height / 2) }]);
-      });
-      setSticker(null);
+      updateBackendStickers();
     }
   };
 
@@ -147,6 +107,31 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
+  const updateBackendStickers = async () => {
+    setLetterInfo({ ...letterInfo, stickers: imageData, status: "draft" }); // updates letter information
+    reqBody = letterInfo;
+    reqBody["stickers"] = imageData;  // have to update text since context not yet updated
+    reqBody["status"] = "draft";
+    try {
+      resp = null;
+      if (letterInfo.letterID != "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
+        resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
+      }
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleNextPressed = () => { // Navigates to the next screen, Preview
     setNextButtonDisabled(true);
     setTimeout(() => {
@@ -163,8 +148,13 @@ function ComposeScreen({ navigation, route }) {
         </View>
         <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
       </View>
-      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : `Stickers left: ${count}`}</Text>
+      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
       <ImageBackground
+        onLayout={(event) => {
+          const { width, height } = event.nativeEvent.layout;
+          setBgWidth(width);
+          setBgHeight(height);
+        }}
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
         source={images.themes[letterInfo.themeID]}>
@@ -173,6 +163,7 @@ function ComposeScreen({ navigation, route }) {
         >
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             <Input
+
               style={{
                 fontFamily: letterInfo.fontID,
                 marginTop: hp('2.16%'), // 20/926 = 0.0216
@@ -194,31 +185,56 @@ function ComposeScreen({ navigation, route }) {
             />
           </TouchableOpacity>
         </View>
-        
+
         {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
           const stickerPanResponder = PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: () => {
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderGrant: (e, gestureState) => {
               setSelectedStickerIndex(index);
-              setInitialStickerPosition({ x: data.x, y: data.y });
+              setInitialStickerPosition({ x: gestureState.x0, y: gestureState.y0 });
             },
+
             onPanResponderMove: (event, gestureState) => {
+              
+
+              
               if (selectedStickerIndex === index) {
+                
+                const dx = gestureState.moveX - initialStickerPosition.x;
+                const dy = gestureState.moveY - initialStickerPosition.y;
                 const updatedImageData = [...imageData];
+
+                console.log("x: mathmin first", updatedImageData[selectedStickerIndex].width);
+                console.log("x: mathmin sec", updatedImageData[selectedStickerIndex].initialX + dx);
+                console.log("x: old", updatedImageData[selectedStickerIndex].initialX + dx);
                 updatedImageData[selectedStickerIndex] = {
                   ...updatedImageData[selectedStickerIndex],
-                  x: initialStickerPosition.x + gestureState.dx,
-                  y: initialStickerPosition.y + gestureState.dy,
+                  // x: updatedImageData[selectedStickerIndex].initialX + dx,
+                  // y: updatedImageData[selectedStickerIndex].initialY + dy,
+                  x: Math.max(0, Math.min(bgWidth - updatedImageData[selectedStickerIndex].width, updatedImageData[selectedStickerIndex].initialX + dx)),
+                  y: Math.max(0, Math.min(bgHeight - updatedImageData[selectedStickerIndex].height, updatedImageData[selectedStickerIndex].initialY + dy)),
                 };
                 setImageData(updatedImageData);
               }
             },
-            onPanResponderRelease: () => {
+
+            onPanResponderRelease: (event, gestureState) => {
               if (selectedStickerIndex === index) {
+                const updatedImageData = [...imageData];
+                updatedImageData[selectedStickerIndex] = {
+                  ...updatedImageData[selectedStickerIndex],
+                  initialX: updatedImageData[selectedStickerIndex].x,
+                  initialY: updatedImageData[selectedStickerIndex].y,
+                };
+                setImageData(updatedImageData);
                 setInitialStickerPosition(null);
                 setSelectedStickerIndex(null);
+
+                updateBackendStickers(); //updates the backend, storing stickers
               }
+              
             },
+
           });
 
           return (
