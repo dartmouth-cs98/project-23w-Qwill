@@ -14,8 +14,8 @@ router.get("/", (req, res) => {
     });
 });
 
-// post routes
-router.post("/uptimePing", uptimePing);
+// get routes
+router.get("/uptimePing", uptimePing);
 
 
 export default router; 
