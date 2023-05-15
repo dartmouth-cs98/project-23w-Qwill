@@ -5,12 +5,12 @@ import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 function SelectRecipientScreen({navigation}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
