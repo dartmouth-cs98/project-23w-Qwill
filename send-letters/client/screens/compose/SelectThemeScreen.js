@@ -31,6 +31,7 @@ const SelectThemeScreen = ({navigation, route}) => {
   const selectThemeGoBack = () => {
     if (route.params) {
       setLetterInfo({
+        ...letterInfo,
         letterID: "",
         text: "",
         recipientID: "",

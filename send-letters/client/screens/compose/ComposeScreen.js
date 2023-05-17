@@ -16,11 +16,13 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 function ComposeScreen({ navigation, route }) {
   const [count, setCount] = useState(10);
@@ -76,21 +78,17 @@ function ComposeScreen({ navigation, route }) {
   // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const handleTextChange = (text) => {
-    setLetterInfo({ ...letterInfo, text: text, status: "draft" });
-    reqBody = letterInfo;
-    reqBody["text"] = text;  // have to update text since context not yet updated
-    reqBody["status"] = "draft";
-    updateBackend(reqBody);
+    setLetterInfo({ ...letterInfo, text: text });
   };
 
   // Automatically saves to the backend as the user types.
-  const updateBackend = async (reqBody) => {
+  const updateBackend = async () => {
     try {
       resp = null;
-      if (letterInfo.letterID == "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
-        resp = await axios.post(findIP() + "/api/makeLetter", reqBody);
+      if (letterInfo.letterID === "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
+        resp = await axios.post(findIP() + "/api/makeLetter", letterInfo);
       } else { // The letter exists in DB as a draft; update new info
-        resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
+        resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
       }
       if (!resp) {  // Could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
@@ -100,15 +98,36 @@ function ComposeScreen({ navigation, route }) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
-        setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+        if (letterInfo.letterID == "") {
+          setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+        }
       }
     } catch (err) {
       console.error(err);
     }
   };
 
+
+  // update the database with the current details of the letter
+  useEffect(() => {
+    if (letterInfo.status == "draft") {
+      updateBackend();
+    }
+  }, [letterInfo]);
+
+
+  // this is only called when the screen is navigated to
+  useFocusEffect(
+    useCallback(() => {
+      if (letterInfo.status == "") {
+        setLetterInfo({ ...letterInfo, status: "draft" });
+      }
+    }, [letterInfo])
+  );
+
+
   const updateBackendStickers = async () => {
-    setLetterInfo({ ...letterInfo, stickers: imageData, status: "draft" }); // updates letter information
+    setLetterInfo({ ...letterInfo, stickers: imageData }); // updates letter information
     reqBody = letterInfo;
     reqBody["stickers"] = imageData;  // have to update text since context not yet updated
     reqBody["status"] = "draft";
@@ -125,7 +144,9 @@ function ComposeScreen({ navigation, route }) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
-        setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+        if (letterInfo.letterID == "") {
+          setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+        }
       }
     } catch (err) {
       console.error(err);
@@ -163,7 +184,6 @@ function ComposeScreen({ navigation, route }) {
         >
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             <Input
-
               style={{
                 fontFamily: letterInfo.fontID,
                 marginTop: hp('2.16%'), // 20/926 = 0.0216
