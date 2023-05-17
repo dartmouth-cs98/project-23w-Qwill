@@ -193,13 +193,25 @@ export const sendFriendRequest = async (req, res) => {
 
         // check if our db has user with the ID of the recipient
         const recipient = await User.findOne({
-            "_id": recipientID
+            "friendReqSender": senderID,
+            "friendReqRecipient": recipientID
         });
         if (!recipient) {
             return res.json({
                 error: "No user found with recipientID",
             });
         }
+
+        // check if friend request already exists
+        const friendCheck = await Friend.findOne({
+            "_id": recipientID
+        });
+        if (friendCheck) {
+            return res.json({
+                error: "friend request already sent",
+            });
+        }
+
 
         // add friend request to db
         try {
