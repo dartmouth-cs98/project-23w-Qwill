@@ -110,7 +110,7 @@ export default function HomeFriendsScreen({ navigation }) {
               autoCompleteType="email"
               autoCapitalize="none"
               onChangeText={handleChangeText}
-              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('6%'), width: wp('85%'), borderRadius: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5 }}
               leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
             />
           </View>

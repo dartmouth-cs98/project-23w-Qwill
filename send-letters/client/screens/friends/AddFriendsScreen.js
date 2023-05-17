@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AddFriendButton from '../../components/AddFriendButton';
@@ -224,6 +224,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1}}>
+      <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons style={{paddingLeft: wp('3%')}} name={"arrow-back"} size={normalize(40)} />
@@ -241,7 +242,7 @@ const AddFriendsScreen = ({ navigation }) => {
           />
         </View>
       </View>
-      <View>
+      <View style ={{flex: 1, marginBottom: hp("3%")}}>
         <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
         { 
           pendingFriends.length == 0 ? (
@@ -257,21 +258,13 @@ const AddFriendsScreen = ({ navigation }) => {
           )
         }
       </View>
-      <View style={{flex: 2}}>
+      <View style={{flex: 1}}>
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
         <View styles={{flex: 2}}>
           {renderAddFriends()}
         </View> 
         <View style={styles.line}></View>
-        <TouchableOpacity  style={{flexDirection: "row", marginVertical: "1%"}}>
-          <Ionicons style={styles.icon} name={'share-outline'} size={normalize(24)}></Ionicons>
-          <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
-        </TouchableOpacity >
-        <TouchableOpacity style={{flexDirection: "row", marginVertical: "1%"}}>
-          <Ionicons style={styles.icon} name={'link-outline'} size={normalize(24)}></Ionicons>
-          <Text style={styles.subtitleText}>Copy Qwill Link</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -280,19 +273,32 @@ const AddFriendsScreen = ({ navigation }) => {
 export default AddFriendsScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: "100%",
+    height: hp('21%')
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: {height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: wp('8%'),
+    fontSize: wp('10%'),
     fontWeight: 'bold',
     flex: 1,
-    marginTop: hp('1.8%')
+    marginTop: hp('1%'),
+    marginLeft: wp('3%'),
   },
   subtitleText: {
     fontFamily: 'JosefinSans',
-    fontSize: normalize(20),
+    fontSize: wp("5%"),
     textAlign: 'left',
-    marginTop: hp('1%'),
-    marginBottom: hp('2%'),
+    marginVertical: hp('1%'),
+    
     marginLeft: wp('4%')
   },
   inputContainer: {

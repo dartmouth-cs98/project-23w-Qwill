@@ -118,8 +118,9 @@ const styles = StyleSheet.create({
   },
   btnText: {},
   profilePhotoBack: {
-    height: hp('12.96%'),
+    // height: hp('12.96%'),
     width: wp('28.04%'),
+    aspectRatio: 1,
     borderRadius: wp('14.02%'),
     backgroundColor: 'black',
   },
