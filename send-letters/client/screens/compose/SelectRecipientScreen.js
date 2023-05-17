@@ -1,4 +1,3 @@
-import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
 import { Input } from 'react-native-elements';
@@ -13,7 +12,6 @@ import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
 
 function SelectRecipientScreen({navigation}) {
-  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
@@ -26,6 +24,7 @@ function SelectRecipientScreen({navigation}) {
   // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
     setLetterInfo({
+      ...letterInfo,
       letterID: "",
       text: "",
       recipientID: "",
@@ -45,7 +44,6 @@ function SelectRecipientScreen({navigation}) {
 
   const handleChangeText = async (text) => {    
     const newText = text.toLowerCase();
-    const senderID = userInfo.user._id;  
 
     // no need to connect to server if text contains restricted characters
     if (hasRestrictedChar(text) == true) {
@@ -54,7 +52,7 @@ function SelectRecipientScreen({navigation}) {
     }
 
     try {
-      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID, textToMatch: newText, friends: true, returnSelf: true });
+      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID: letterInfo.senderID, textToMatch: newText, friends: true, returnSelf: true });
       
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");

@@ -4,7 +4,7 @@ const router = express.Router();
 
 const uptimePing = async (req, res) => {
     console.log("Pinging server to stay awake...");
-    return res.status(0).send("Server has been pinged successfully");
+    return res.status(200).send("Server has been pinged successfully");
 };
 
 

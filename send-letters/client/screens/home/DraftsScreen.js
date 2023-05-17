@@ -72,6 +72,7 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
+      // fontName: "", // may need conditional to render correctly
       customFont: item.customFont,
       stickers: item.stickers
     });
