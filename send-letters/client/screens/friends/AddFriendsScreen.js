@@ -264,14 +264,6 @@ const AddFriendsScreen = ({ navigation }) => {
           {renderAddFriends()}
         </View> 
         <View style={styles.line}></View>
-        <TouchableOpacity  style={{flexDirection: "row", marginVertical: "1%"}}>
-          <Ionicons style={styles.icon} name={'share-outline'} size={normalize(24)}></Ionicons>
-          <Text style={styles.subtitleText}>Share Your Qwill Link</Text>
-        </TouchableOpacity >
-        <TouchableOpacity style={{flexDirection: "row", marginVertical: "1%"}}>
-          <Ionicons style={styles.icon} name={'link-outline'} size={normalize(24)}></Ionicons>
-          <Text style={styles.subtitleText}>Copy Qwill Link</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -282,14 +274,14 @@ export default AddFriendsScreen;
 const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: wp('8%'),
+    fontSize: wp('10%'),
     fontWeight: 'bold',
     flex: 1,
-    marginTop: hp('1.8%')
+    marginTop: hp('1%'),
   },
   subtitleText: {
     fontFamily: 'JosefinSans',
-    fontSize: normalize(20),
+    fontSize: wp("5%"),
     textAlign: 'left',
     marginTop: hp('1%'),
     marginBottom: hp('2%'),

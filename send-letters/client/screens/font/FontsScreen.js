@@ -89,7 +89,7 @@ const FontsScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={[styles.header, styles.shadowLight]}></View>
-      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: wp("4%") }}>
         <Text style={styles.titleText}>Fonts</Text>
         {/* <ButtonCircle icon="pencil"></ButtonCircle> */}
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
@@ -117,7 +117,7 @@ const FontsScreen = ({navigation}) => {
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
                   <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
-                  <FontPreview style={{fontFamily: item._id}} title={item.name}></FontPreview>
+                  <FontPreview style={{fontFamily: item._id}} title={item.name} customFont={true}></FontPreview>
                   <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
                   </TouchableOpacity>
                 </View>
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
   header: {
     position: "absolute",
     backgroundColor: "#BDCCF2",
-    width: "100%",
-    height: hp('13.5%')
+    width: wp("100%"),
+    height: hp('14%')
   },
   shadowLight: {
     shadowColor: '#171717',

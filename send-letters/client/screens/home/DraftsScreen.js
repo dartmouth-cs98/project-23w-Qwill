@@ -150,7 +150,7 @@ function DraftsScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0, backgroundColor: "#F0F4FF"  }}>
         <View>
           {renderDrafts()}
         </View>
