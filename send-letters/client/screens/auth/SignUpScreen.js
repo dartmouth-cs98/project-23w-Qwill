@@ -81,7 +81,6 @@ const SignUpScreen = ({navigation}) => {
 
     // connect to server and get response
     try {
-      console.log(findIP()+"/api/signUp");
       const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
       
       if (!resp) {  // could not connect to backend

@@ -34,13 +34,15 @@ const ThreeButtonAlert = ({ navigation }) => {
                     fontID: "",
                     fontName: "",
                     customFont: false,
-                    stickers: []
+                    stickers: [],
+                    status: ""
                 });
-                navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [{ name: 'Home' }],
-                    })
+                navigation.replace('NavBar', 
+                    { screen: 'Home',
+                        params: {
+                            screen: 'Mailbox', 
+                        }
+                    }
                 );
             }
         }
@@ -58,13 +60,15 @@ const ThreeButtonAlert = ({ navigation }) => {
             fontID: "",
             fontName: "",
             customFont: false,
-            stickers: []
+            stickers: [],
+            status: ""
         });
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'Home' }],
-            })
+        navigation.replace('NavBar', 
+            { screen: 'Home',
+                params: {
+                    screen: 'Mailbox', 
+                }
+            }
         );
     };
 
