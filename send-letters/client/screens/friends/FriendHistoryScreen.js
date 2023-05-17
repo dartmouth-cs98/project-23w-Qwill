@@ -57,7 +57,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
     }
   };
 
-  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
     navigation.navigate('LetterHistoryDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -74,11 +74,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
     const alignDirection = (item.sender == userInfo.user._id) ? "flex-end" : "flex-start";
 
     return (
-      // <Text 
-      //   style={{fontFamily: item.font, textAlign: alignDirection, width: 150}}
-      // >
-      //   {item.text + "\n\n\n\n"}
-      // </Text>
       <View style={{alignSelf: alignDirection, marginLeft: windowWidth*.1, marginRight: windowWidth*.1}}>
         {/* <LetterHistoryPreview item={item} onPress={handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}></LetterHistoryPreview> */}
         <LetterHistoryPreview 
@@ -93,7 +88,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
         ></LetterHistoryPreview>
       </View>
     );
-  }
+  };
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, marginTop: 20 }}>
