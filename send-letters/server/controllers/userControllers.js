@@ -201,6 +201,18 @@ export const sendFriendRequest = async (req, res) => {
             });
         }
 
+        // check if friend request already exists
+        const friendCheck = await Friend.findOne({
+            "friendReqSender": senderID,
+            "friendReqRecipient": recipientID
+        });
+        if (friendCheck) {
+            return res.json({
+                error: "friend request already sent",
+            });
+        }
+
+
         // add friend request to db
         try {
             const friendReq = await new Friend({
