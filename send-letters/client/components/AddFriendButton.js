@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         // marginTop: hp('4%')
     },
     sendInviteText: {
-        fontSize: wp('3.25%'),
+        fontSize: wp('3%'),
         color: "#7184B4",
         textAlign: 'center',
         marginTop: hp('1%'),
