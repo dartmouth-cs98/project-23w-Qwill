@@ -11,6 +11,7 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState, useContext } from 'react'
+import { withNavigationFocus } from 'react-navigation';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -106,95 +107,103 @@ const SignUpScreen = ({navigation}) => {
   const handleSignInPressed = () => {
     navigation.replace('SignIn');
   };
-  
-  // KeyboardAvoidingView:
-  // This component will automatically adjust its height, position, or bottom padding based on the 
-  // keyboard height to remain visible while the virtual keyboard is displayed.
-  return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="light"/>
-      <View style={{alignContent: 'center'}}>
-        <Text style={styles.signUpHeader}> 
-          Sign Up
-        </Text>
-      </View>
-      <View style={styles.inputContainer}>
-        {/* autofocus automatically focuses the app on this input */}
-        <TextInput 
-          style={styles.inputField}
-          placeholder="Name"
-          onChangeText={text => setName(text)}
-          autoCorrect={false} 
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Email"
-          autofocus
-          type="email"
-          keyboardType="email-address"
-          autoCompleteType="email"
-          autoCapitalize="none"
-          onChangeText={text => setEmail(text.toLowerCase())} 
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Username"
-          autoCapitalize="none"
-          onChangeText={text => setUsername(text)}
-          autoCorrect={false} />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Password"
-          secureTextEntry={true}
-          type="password"
-          autoCompleteType="password"
-          onChangeText={text => setPassword(text)}
-          onSubmitEditing={handleSignUpPressed}
-        /> 
-      </View>
-    
-      <View>
-        <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
-          <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
-          <Ionicons
-            style={{color: "#FFFFFF"}}
-            name={"arrow-forward-outline"}
-            size={24}>
-            </Ionicons>
-        </TouchableOpacity>
 
-        <View style={styles.orContainer}>
-          <View style={styles.lineShort}></View>
-          <Text style={styles.text}>or</Text>
-          <View style={styles.lineShort}></View>
-        </View>
+  class FocusStateLabel extends React.Component {
+    componentDidUpdate() {
+      if(this.props.isFocused){
+         this.inputField.focus();
+      }
+    }
+    render() {
+      // KeyboardAvoidingView:
+      // This component will automatically adjust its height, position, or bottom padding based on the
+      // keyboard height to remain visible while the virtual keyboard is displayed.
+      return (
+        <KeyboardAvoidingView behavior="padding" style={styles.signupContainer}>
+          <StatusBar style="light"/>
+          <View style={{alignContent: 'center'}}>
+            <Text style={styles.signUpHeader}>
+              Sign Up
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            {/* autofocus automatically focuses the app on this input */}
+            <TextInput
+              style={styles.inputField}
+              placeholder="Name"
+              onChangeText={text => setName(text)}
+              autoCorrect={false}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Email"
+              type="email"
+              keyboardType="email-address"
+              autoCompleteType="email"
+              autoCapitalize="none"
+              onChangeText={text => setEmail(text.toLowerCase())}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Username"
+              autoCapitalize="none"
+              onChangeText={text => setUsername(text)}
+              autoCorrect={false} />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Password"
+              secureTextEntry={true}
+              type="password"
+              autoCompleteType="password"
+              onChangeText={text => setPassword(text)}
+              onSubmitEditing={handleSignUpPressed}
+            />
+          </View>
 
-        <TouchableOpacity onPress={() => handleSignInPressed()}>
-          <Text style={styles.underLineText}>I already have an account</Text>
-        </TouchableOpacity>
-      </View>
+          <View>
+            <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
+              <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+              <Ionicons
+                style={{color: "#FFFFFF"}}
+                name={"arrow-forward-outline"}
+                size={24}>
+                </Ionicons>
+            </TouchableOpacity>
 
-      <Snackbar
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={onDismissSnack}
-          action={{
-            label: 'OK',
-            onPress: () => {
-              onDismissSnack();
-            },
-          }}
-        >
-        {snackMessage}
-      </Snackbar>
+            <View style={styles.orContainer}>
+              <View style={styles.lineShort}></View>
+              <Text style={styles.text}>or</Text>
+              <View style={styles.lineShort}></View>
+            </View>
 
-      {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
-      <View style={{height: hp('10.8')}}/>
-    </KeyboardAvoidingView>
-  );
+            <TouchableOpacity onPress={() => handleSignInPressed()}>
+              <Text style={styles.underLineText}>I already have an account</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Snackbar
+              //SnackBar visibility control
+              visible={snackIsVisible}
+              onDismiss={onDismissSnack}
+              action={{
+                label: 'OK',
+                onPress: () => {
+                  onDismissSnack();
+                },
+              }}
+            >
+            {snackMessage}
+          </Snackbar>
+
+          {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
+          <View style={{height: hp('10.8')}}/>
+        </KeyboardAvoidingView>
+      );
+  }
 };
 
-export default SignUpScreen;
+//export default SignUpScreen;
+export default withNavigationFocus(FocusStateLabel);
 
 
 const styles = StyleSheet.create({
@@ -224,7 +233,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         padding: wp('2.67%'),
         backgroundColor: '#F0F4FF',
-
+    },
+    signupContainer: {
+        flex: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: wp('0.67%'),
+        backgroundColor: '#F0F4FF',
     },
     imageWithShadow: {
         width: wp('53.33%'), 
