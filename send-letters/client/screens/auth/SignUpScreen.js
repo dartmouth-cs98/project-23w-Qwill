@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
       fontFamily: 'JosefinSansBold',
       marginBottom: hp('4%'), 
       marginTop: hp('10%'),
-      marginLeft: hp('3.8%'),
+      marginLeft: hp('5.5%'),
     },
     inputField: {
       backgroundColor: '#E2E8F6',
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: wp('73%'),
-        marginLeft: hp('3.8%'),
+        marginLeft: hp('4.5%'),
     },
     button: {
         width: wp('60%'),
