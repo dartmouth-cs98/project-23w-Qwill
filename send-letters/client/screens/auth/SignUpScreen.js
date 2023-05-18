@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { TextInput } from 'react-native';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -10,8 +10,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useState, useContext, useCallback } from 'react'
-import { useFocusEffect } from 'react-navigation/native';
+import React, { useState, useContext } from 'react'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -108,106 +109,102 @@ const SignUpScreen = ({navigation}) => {
     navigation.replace('SignIn');
   };
 
-  const TextFocus = (props) => {
-    const textRef = useRef(null);
-
-    useFocusEffect(
-      useCallback(() => {
-       // When the screen is focused
-       const focus = () => {
-        setTimeout(() => {
-         textRef?.current?.focus();
-        }, 1);
-       };
-       focus();
-       return focus; // cleanup
-      }, []),
-    );
-  };
-
   // KeyboardAvoidingView:
   // This component will automatically adjust its height, position, or bottom padding based on the
   // keyboard height to remain visible while the virtual keyboard is displayed.
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.signupContainer}>
-      <StatusBar style="light"/>
-      <View style={{alignContent: 'center'}}>
-        <Text style={styles.signUpHeader}>
-          Sign Up
-        </Text>
-      </View>
-      <View style={styles.inputContainer}>
-        {/* autofocus automatically focuses the app on this input */}
-        <TextInput
-          style={styles.inputField}
-          placeholder="Name"
-          onChangeText={text => setName(text)}
-          autoCorrect={false}
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Email"
-          autofocus
-          type="email"
-          keyboardType="email-address"
-          autoCompleteType="email"
-          autoCapitalize="none"
-          onChangeText={text => setEmail(text.toLowerCase())}
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Username"
-          autoCapitalize="none"
-          onChangeText={text => setUsername(text)}
-          autoCorrect={false} />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Password"
-          secureTextEntry={true}
-          type="password"
-          autoCompleteType="password"
-          onChangeText={text => setPassword(text)}
-          onSubmitEditing={handleSignUpPressed}
-        />
-      </View>
+    <KeyboardAvoidingView
+         behavior="padding"
+         style={styles.signupContainer}
+//         style={{flex:1}}
+//         alignItems="center"
+//         justifyContent="center"
+         behavior={Platform.OS === 'ios' ? 'position' : null}
+         keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 70}
+    >
+      <ScrollView
+        style={{flexGrow:1}}
+      >
+          <StatusBar style="light"/>
+          <View style={{alignContent: 'center'}}>
+            <Text style={styles.signUpHeader}>
+              Sign Up
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            {/* autofocus automatically focuses the app on this input */}
+            <TextInput
+              style={styles.inputField}
+              placeholder="Name"
+              onChangeText={text => setName(text)}
+              autoCorrect={false}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Email"
+              autofocus
+              type="email"
+              keyboardType="email-address"
+              autoCompleteType="email"
+              autoCapitalize="none"
+              onChangeText={text => setEmail(text.toLowerCase())}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Username"
+              autoCapitalize="none"
+              onChangeText={text => setUsername(text)}
+              autoCorrect={false} />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Password"
+              secureTextEntry={true}
+              type="password"
+              autoCompleteType="password"
+              onChangeText={text => setPassword(text)}
+              onSubmitEditing={handleSignUpPressed}
+            />
+          </View>
 
-      <View>
-        <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
-          <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
-          <Ionicons
-            style={{color: "#FFFFFF"}}
-            name={"arrow-forward-outline"}
-            size={24}>
-            </Ionicons>
-        </TouchableOpacity>
+          <View>
+            <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
+              <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+              <Ionicons
+                style={{color: "#FFFFFF"}}
+                name={"arrow-forward-outline"}
+                size={24}>
+                </Ionicons>
+            </TouchableOpacity>
 
-        <View style={styles.orContainer}>
-          <View style={styles.lineShort}></View>
-          <Text style={styles.text}>or</Text>
-          <View style={styles.lineShort}></View>
-        </View>
+            <View style={styles.orContainer}>
+              <View style={styles.lineShort}></View>
+              <Text style={styles.text}>or</Text>
+              <View style={styles.lineShort}></View>
+            </View>
 
-        <TouchableOpacity onPress={() => handleSignInPressed()}>
-          <Text style={styles.underLineText}>I already have an account</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity onPress={() => handleSignInPressed()}>
+              <Text style={styles.underLineText}>I already have an account</Text>
+            </TouchableOpacity>
+          </View>
 
-      <Snackbar
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={onDismissSnack}
-          action={{
-            label: 'OK',
-            onPress: () => {
-              onDismissSnack();
-            },
-          }}
-        >
-        {snackMessage}
-      </Snackbar>
+          <Snackbar
+              //SnackBar visibility control
+              visible={snackIsVisible}
+              onDismiss={onDismissSnack}
+              action={{
+                label: 'OK',
+                onPress: () => {
+                  onDismissSnack();
+                },
+              }}
+            >
+            {snackMessage}
+          </Snackbar>
 
-      {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
-      <View style={{height: hp('10.8')}}/>
+          {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
+          <View style={{height: hp('10.8')}}/>
+      </ScrollView>
+
     </KeyboardAvoidingView>
   );
 };
@@ -221,7 +218,8 @@ const styles = StyleSheet.create({
       fontSize: wp('18%'),
       fontFamily: 'JosefinSansBold',
       marginBottom: hp('4%'), 
-      marginTop: hp('10%')
+      marginTop: hp('10%'),
+      marginLeft: hp('3.8%'),
     },
     inputField: {
       backgroundColor: '#E2E8F6',
@@ -229,9 +227,11 @@ const styles = StyleSheet.create({
       padding: hp('2%'),
       margin: hp('0.8%'),
       fontSize: hp('2%')
+
     },
     inputContainer: {
         width: wp('73%'),
+        marginLeft: hp('3.8%'),
     },
     button: {
         width: wp('60%'),
@@ -245,11 +245,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F0F4FF',
     },
     signupContainer: {
-        flex: 5,
+        flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        padding: wp('0.67%'),
+        padding: wp('2.67%'),
         backgroundColor: '#F0F4FF',
+        //margin: hp('0.8%'),
+        //borderRadius: hp('3.2%'),
     },
     imageWithShadow: {
         width: wp('53.33%'), 
