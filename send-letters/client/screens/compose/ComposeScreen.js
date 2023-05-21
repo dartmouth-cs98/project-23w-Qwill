@@ -16,15 +16,18 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback, useRef } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useFocusEffect } from '@react-navigation/native';
+import { throttle } from 'lodash';
 
 
 function ComposeScreen({ navigation, route }) {
+  // const [inputText, setInputText] = useState('');
+
   const [count, setCount] = useState(10);
   const [imageData, setImageData] = useState([]);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -78,7 +81,7 @@ function ComposeScreen({ navigation, route }) {
   // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const handleTextChange = (text) => {
-    setLetterInfo({ ...letterInfo, text: text });
+    throttledUpdate(text);
   };
 
   // Automatically saves to the backend as the user types.
@@ -108,10 +111,26 @@ function ComposeScreen({ navigation, route }) {
   };
 
 
+  const throttledUpdate = useCallback(throttle((newText) => {
+    setLetterInfo({ ...letterInfo, text: newText });
+  }, 1000), []); // throttled to once per second
+
+
+  // cleanup function
+  useEffect(() => {
+    return () => {
+      console.log("being called")
+      throttledUpdate.cancel();
+    };
+
+  }, [throttledUpdate]);
+
+
   // update the database with the current details of the letter
   useEffect(() => {
     if (letterInfo.status == "draft") {
-      updateBackend();
+      console.log(letterInfo.text);
+      // updateBackend();
     }
   }, [letterInfo]);
 
@@ -154,6 +173,7 @@ function ComposeScreen({ navigation, route }) {
   };
 
   const handleNextPressed = () => { // Navigates to the next screen, Preview
+    updateBackend();
     setNextButtonDisabled(true);
     setTimeout(() => {
       setNextButtonDisabled(false);
@@ -165,9 +185,9 @@ function ComposeScreen({ navigation, route }) {
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <View style={{ alignContent: "flex-start" }}>
-          <ThreeButtonAlert navigation={navigation} ></ThreeButtonAlert>
+          <ThreeButtonAlert navigation={navigation}/>
         </View>
-        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
+        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
       </View>
       <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
       <ImageBackground
@@ -202,6 +222,7 @@ function ComposeScreen({ navigation, route }) {
               multiline={true}
               defaultValue={defaultText}
               autoCapitalize="none"
+              // value={inputText}
             />
           </TouchableOpacity>
         </View>

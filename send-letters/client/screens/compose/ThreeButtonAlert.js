@@ -12,6 +12,8 @@ const ThreeButtonAlert = ({ navigation }) => {
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
     const handleDiscard = async () => {
+        console.log("discarding");
+
         if (letterInfo.letterID != "") {
             const resp = await axios.post(findIP() + "/api/deleteLetter", { letterID: letterInfo.letterID });
             if (!resp) {  // could not connect to backend
@@ -80,7 +82,7 @@ const ThreeButtonAlert = ({ navigation }) => {
                 style: 'destructive',
             },
             { text: 'Save', onPress: () => handleSave() },
-            { text: 'Cancel', onPress: () => console.log('Canceled') },
+            { text: 'Cancel', onPress: () => null },
         ]);
     };
 

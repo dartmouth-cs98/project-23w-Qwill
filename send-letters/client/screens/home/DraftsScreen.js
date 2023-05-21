@@ -28,7 +28,6 @@ function DraftsScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
-
   
 
   // fetch the drafts from the server
