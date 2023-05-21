@@ -80,23 +80,36 @@ function ComposeScreen({ navigation, route }) {
     'Non-serializable values were found in the navigation state',
   ]);
 
-  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
-  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
-  const handleTextChange = (text) => {
-    throttledUpdate(text);
-    setNextButtonDisabled(true);
-    setInputText(text);
-  };
+
+  // create a letter when the screen loads in if it does not already exist
+  useEffect(() => {
+    const makeLetter = async () => {
+      if (letterInfo.letterID === "") {
+        try {
+          resp = await axios.post(findIP() + "/api/makeLetter", letterInfo);
+          if (!resp) {  // Could not connect to backend
+            console.log("ERROR: Could not establish server connection with axios");
+            setSnackMessage("Could not establish connection to the server");
+            setSnackIsVisible(true);
+          } else if (resp.data.error) {  // Another backend error
+            setSnackMessage(resp.data.error);
+            setSnackIsVisible(true);
+          } else {
+            setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    makeLetter();
+  }, []);
+
 
   // Automatically saves to the backend as the user types.
   const updateBackend = async () => {
     try {
-      resp = null;
-      if (letterInfo.letterID === "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
-        resp = await axios.post(findIP() + "/api/makeLetter", letterInfo);
-      } else { // The letter exists in DB as a draft; update new info
-        resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
-      }
+      resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
       if (!resp) {  // Could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -104,10 +117,6 @@ function ComposeScreen({ navigation, route }) {
       } else if (resp.data.error) {  // Another backend error
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
-      } else {
-        if (letterInfo.letterID == "") {
-          setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
-        }
       }
     } catch (err) {
       console.error(err);
@@ -115,9 +124,17 @@ function ComposeScreen({ navigation, route }) {
   };
 
 
+  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
+  const handleTextChange = (text) => {
+    setNextButtonDisabled(true);
+    throttledUpdate(text);
+    setInputText(text);
+  };
+
   const throttledUpdate = useCallback(throttle((newText) => {
-    setLetterInfo({ ...letterInfo, text: newText });
-  }, 750), []); // throttled to every 750ms
+    setLetterInfo((prevLetterInfo) => ({ ...prevLetterInfo, text: newText }));
+  }, 750), []); // called to every 750ms
 
   useEffect(() => {
     if (!isFocused) {
@@ -128,7 +145,7 @@ function ComposeScreen({ navigation, route }) {
 
   // update the database with the current details of the letter
   useEffect(() => {
-    if (letterInfo.status == "draft") {
+    if (letterInfo.status == "draft" && letterInfo.letterID != "") {
       updateBackend();
       setNextButtonDisabled(false);
     }
