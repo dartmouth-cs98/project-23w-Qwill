@@ -23,11 +23,11 @@ import ThreeButtonAlert from './ThreeButtonAlert';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useFocusEffect } from '@react-navigation/native';
 import { throttle } from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 
 
 function ComposeScreen({ navigation, route }) {
-  // const [inputText, setInputText] = useState('');
-
+  const [inputText, setInputText] = useState("");
   const [count, setCount] = useState(10);
   const [imageData, setImageData] = useState([]);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -40,6 +40,8 @@ function ComposeScreen({ navigation, route }) {
   const [bgHeight, setBgHeight] = useState(0);
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
+  const isFocused = useIsFocused();
+
 
   // Dismiss snack message
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -82,6 +84,8 @@ function ComposeScreen({ navigation, route }) {
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const handleTextChange = (text) => {
     throttledUpdate(text);
+    setNextButtonDisabled(true);
+    setInputText(text);
   };
 
   // Automatically saves to the backend as the user types.
@@ -113,24 +117,20 @@ function ComposeScreen({ navigation, route }) {
 
   const throttledUpdate = useCallback(throttle((newText) => {
     setLetterInfo({ ...letterInfo, text: newText });
-  }, 1000), []); // throttled to once per second
+  }, 750), []); // throttled to every 750ms
 
-
-  // cleanup function
   useEffect(() => {
-    return () => {
-      console.log("being called")
+    if (!isFocused) {
       throttledUpdate.cancel();
-    };
-
-  }, [throttledUpdate]);
+    }
+  }, [isFocused, throttledUpdate]);
 
 
   // update the database with the current details of the letter
   useEffect(() => {
     if (letterInfo.status == "draft") {
-      console.log(letterInfo.text);
-      // updateBackend();
+      updateBackend();
+      setNextButtonDisabled(false);
     }
   }, [letterInfo]);
 
@@ -173,7 +173,6 @@ function ComposeScreen({ navigation, route }) {
   };
 
   const handleNextPressed = () => { // Navigates to the next screen, Preview
-    updateBackend();
     setNextButtonDisabled(true);
     setTimeout(() => {
       setNextButtonDisabled(false);
