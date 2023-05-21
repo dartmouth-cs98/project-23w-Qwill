@@ -5,7 +5,6 @@ import { AuthContextProvider } from './context/AuthContext';
 import Navigation from './components/Navigation';
 import React, { useState, useEffect, useCallback } from "react";
 
-
 export default function App() {
   SplashScreen.preventAutoHideAsync();
   
