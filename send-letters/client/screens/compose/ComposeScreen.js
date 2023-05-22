@@ -8,7 +8,10 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   LogBox,
-  PanResponder
+  PanResponder,
+  TouchableWithoutFeedback,
+  Keyboard,
+  StyleSheet,
 } from 'react-native';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,6 +27,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useFocusEffect } from '@react-navigation/native';
 import { throttle } from 'lodash';
 import { useIsFocused } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 
 function ComposeScreen({ navigation, route }) {
@@ -41,6 +45,8 @@ function ComposeScreen({ navigation, route }) {
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const isFocused = useIsFocused();
+
+  const [keyboard, setKeyboard] = useState(false);
 
 
   // Dismiss snack message
@@ -197,14 +203,34 @@ function ComposeScreen({ navigation, route }) {
     navigation.push('Preview');
   };
 
-  return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
-        <View style={{ alignContent: "flex-start" }}>
-          <ThreeButtonAlert navigation={navigation}/>
+  const renderTopBar = () => {
+    if (keyboard) {
+      return (
+        <View style={{ flexDirection: "row", alignSelf: "center" }}>   
+          <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
+          <View style={{ alignContent: "flex-end" }}>
+            <TouchableOpacity style={internalStyles.doneOutline} onPress={() => Keyboard.dismiss()}>
+              <Text style={internalStyles.doneBtn}>Done</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
-      </View>
+      )
+    } else {
+      return (
+        <View style={{ flexDirection: "row", alignSelf: "center" }}>
+          <View style={{ alignContent: "flex-start" }}>
+            <ThreeButtonAlert navigation={navigation}/>
+          </View>
+          <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
+        </View>
+      )
+    }
+  };
+
+  return (
+    // <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {renderTopBar()}
       <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
       <ImageBackground
         onLayout={(event) => {
@@ -215,34 +241,29 @@ function ComposeScreen({ navigation, route }) {
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
         source={images.themes[letterInfo.themeID]}>
-        <View
-          style={{ flex: 1 }}
-        >
-          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            <Input
-              style={{
-                fontFamily: letterInfo.fontID,
-                marginTop: hp('2.16%'), // 20/926 = 0.0216
-                fontSize: hp('2.38%'), // 22/926 = 0.0237
-                height: hp('65.88%'), // 610/926 = 0.6588
-                width: wp('90%'), // 90% of screen width
-                marginLeft: wp('1.17%'), // 5/428 = 0.0117
-                marginRight: wp('1.17%'), // 5/428 = 0.0117
-              }}
-              placeholder={"Start writing your letter!"}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(text) => {
-                hasTyped = true;
-                handleTextChange(text);
-              }}
-              multiline={true}
-              defaultValue={defaultText}
-              autoCapitalize="none"
-              // value={inputText}
-            />
-          </TouchableOpacity>
-        </View>
-
+        <Input
+          style={{
+            fontFamily: letterInfo.fontID,
+            marginTop: hp('2.16%'), // 20/926 = 0.0216
+            fontSize: hp('2.38%'), // 22/926 = 0.0237
+            height: hp('65.88%'), // 610/926 = 0.6588
+            width: wp('90%'), // 90% of screen width
+            marginLeft: wp('1.17%'), // 5/428 = 0.0117
+            marginRight: wp('1.17%'), // 5/428 = 0.0117
+          }}
+          placeholder={"Start writing your letter!"}
+          inputContainerStyle={{ borderBottomWidth: 0 }}
+          onChangeText={(text) => {
+            hasTyped = true;
+            handleTextChange(text);
+          }}
+          multiline={true}
+          defaultValue={defaultText}
+          autoCapitalize="none"
+          onFocus={() => setKeyboard(true)}
+          onBlur={() => setKeyboard(false)}
+          // value={inputText}
+        />
         {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
           const stickerPanResponder = PanResponder.create({
             onMoveShouldSetPanResponder: () => true,
@@ -250,11 +271,7 @@ function ComposeScreen({ navigation, route }) {
               setSelectedStickerIndex(index);
               setInitialStickerPosition({ x: gestureState.x0, y: gestureState.y0 });
             },
-
             onPanResponderMove: (event, gestureState) => {
-              
-
-              
               if (selectedStickerIndex === index) {
                 
                 const dx = gestureState.moveX - initialStickerPosition.x;
@@ -286,14 +303,10 @@ function ComposeScreen({ navigation, route }) {
                 setImageData(updatedImageData);
                 setInitialStickerPosition(null);
                 setSelectedStickerIndex(null);
-
                 updateBackendStickers(); //updates the backend, storing stickers
-              }
-              
+              } 
             },
-
           });
-
           return (
             <Image
               key={index}
@@ -303,7 +316,6 @@ function ComposeScreen({ navigation, route }) {
             />
           );
         })}
-
       </ImageBackground>
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
         <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
@@ -313,3 +325,16 @@ function ComposeScreen({ navigation, route }) {
 };
 
 export default ComposeScreen;
+
+const internalStyles = StyleSheet.create({
+  doneBtn: {
+    fontSize: wp("5%"),
+    textDecorationLine: 'underline',
+    fontWeight: '600',
+  },
+  doneOutline: {
+    justifyContent: 'center', 
+    height: wp("13%"), 
+  }
+
+});

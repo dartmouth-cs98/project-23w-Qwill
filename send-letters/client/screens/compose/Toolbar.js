@@ -19,23 +19,21 @@ const Toolbar = ({ navigation, passedStickerSelected }) => {
             shadowOffset: {width: -2, height: 4},
             shadowOpacity: 0.3,
             shadowRadius: 3,}}>
-        <ButtonGroup
-            buttons={[
-                <ToolBarComponent text={"Recipient"} icon={"person-outline"}/>,
-                <ToolBarComponent text={"Font"} icon={"person-outline"}/>,
-                <ToolBarComponent text={"Theme"} icon={"clipboard-outline"}/>,
-                <ToolBarComponent text={"Stickers"} icon={"happy-outline"}/>
-            ]}
-            onPress={handlePress}
-            containerStyle={{
-                backgroundColor: "#E2E8F6", 
-                width: "80%",
-                aspectRatio: 8,
-                borderRadius: 10,
-                marginBottom: 20,
-    
-            }}
-        />
+            <ButtonGroup
+                buttons={[
+                    <ToolBarComponent text={"Recipient"} icon={"person-outline"}/>,
+                    <ToolBarComponent text={"Font"} icon={"person-outline"}/>,
+                    <ToolBarComponent text={"Theme"} icon={"clipboard-outline"}/>,
+                    <ToolBarComponent text={"Stickers"} icon={"happy-outline"}/>
+                ]}
+                onPress={handlePress}
+                containerStyle={{
+                    backgroundColor: "#E2E8F6", 
+                    aspectRatio: 7,
+                    // borderRadius: 10,
+                    // marginBottom: 20,
+                }}
+            />
         </View>
     );
 }
