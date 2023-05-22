@@ -45,8 +45,9 @@ function ComposeScreen({ navigation, route }) {
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const isFocused = useIsFocused();
-
   const [keyboard, setKeyboard] = useState(false);
+  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
 
 
   // Dismiss snack message
@@ -128,10 +129,7 @@ function ComposeScreen({ navigation, route }) {
       console.error(err);
     }
   };
-
-
-  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
-  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
+  
   const handleTextChange = (text) => {
     setNextButtonDisabled(true);
     throttledUpdate(text);
