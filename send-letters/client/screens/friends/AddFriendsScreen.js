@@ -237,8 +237,9 @@ const AddFriendsScreen = ({ navigation }) => {
             placeholder=" enter name or username"
             autoCapitalize="none"
             onChangeText={handleChangeText}
+            inputStyle={{ fontSize: wp("4%") }}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5 }}
-            leftIcon={{type: 'font-awesome', name: 'search', size: hp('1.7%'), marginLeft: hp('1.7%')}}
+            leftIcon={{type: 'font-awesome', name: 'search', size: hp('2.5%'), marginLeft: hp('1.7%')}}
           />
         </View>
       </View>
@@ -258,7 +259,7 @@ const AddFriendsScreen = ({ navigation }) => {
           )
         }
       </View>
-      <View style={{flex: 1}}>
+      <View style={{flex: 2}}>
         <View style={styles.line}></View>
         <Text style={styles.subtitleText}>Suggestions</Text>
         <View styles={{flex: 2}}>

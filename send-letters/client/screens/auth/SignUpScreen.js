@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { TextInput } from 'react-native';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -106,9 +106,9 @@ const SignUpScreen = ({navigation}) => {
   const handleSignInPressed = () => {
     navigation.replace('SignIn');
   };
-
+  
   // KeyboardAvoidingView:
-  // This component will automatically adjust its height, position, or bottom padding based on the
+  // This component will automatically adjust its height, position, or bottom padding based on the 
   // keyboard height to remain visible while the virtual keyboard is displayed.
   return (
     <KeyboardAvoidingView
@@ -175,33 +175,36 @@ const SignUpScreen = ({navigation}) => {
               <View style={styles.lineShort}></View>
             </View>
 
-            <TouchableOpacity onPress={() => handleSignInPressed()}>
-              <Text style={styles.underLineText}>I already have an account</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.orContainer}>
+          <View style={styles.lineShort}></View>
+          <Text style={styles.text}>or</Text>
+          <View style={styles.lineShort}></View>
+        </View>
 
-          <Snackbar
-              //SnackBar visibility control
-              visible={snackIsVisible}
-              onDismiss={onDismissSnack}
-              action={{
-                label: 'OK',
-                onPress: () => {
-                  onDismissSnack();
-                },
-              }}
-            >
-            {snackMessage}
-          </Snackbar>
+        <TouchableOpacity onPress={() => handleSignInPressed()}>
+          <Text style={styles.underLineText}>I already have an account</Text>
+        </TouchableOpacity>
+      </View>
 
-          {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
-          <View style={{height: hp('10.8')}}/>
-      </ScrollView>
+      <Snackbar
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={onDismissSnack}
+          action={{
+            label: 'OK',
+            onPress: () => {
+              onDismissSnack();
+            },
+          }}
+        >
+        {snackMessage}
+      </Snackbar>
 
+      {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
+      <View style={{height: hp('10.8')}}/>
     </KeyboardAvoidingView>
   );
 };
-
 
 export default SignUpScreen;
 
@@ -211,8 +214,7 @@ const styles = StyleSheet.create({
       fontSize: wp('18%'),
       fontFamily: 'JosefinSansBold',
       marginBottom: hp('4%'), 
-      marginTop: hp('10%'),
-      marginLeft: hp('5.5%'),
+      marginTop: hp('10%')
     },
     inputField: {
       backgroundColor: '#E2E8F6',
@@ -220,11 +222,9 @@ const styles = StyleSheet.create({
       padding: hp('2%'),
       margin: hp('0.8%'),
       fontSize: hp('2%')
-
     },
     inputContainer: {
         width: wp('73%'),
-        marginLeft: hp('4.5%'),
     },
     button: {
         width: wp('60%'),
@@ -236,15 +236,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         padding: wp('2.67%'),
         backgroundColor: '#F0F4FF',
-    },
-    signupContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: wp('2.67%'),
-        backgroundColor: '#F0F4FF',
-        //margin: hp('0.8%'),
-        //borderRadius: hp('3.2%'),
+
     },
     imageWithShadow: {
         width: wp('53.33%'), 

@@ -7,6 +7,7 @@ const {
     createCustomFont,
     fetchCustomFonts,
     deleteFont,
+    updateFontName,
 } = require("../controllers/fontControllers");
 
 router.get("/", (req, res) => {
@@ -19,6 +20,7 @@ router.get("/", (req, res) => {
 router.post("/createCustomFont", createCustomFont);
 router.post("/fetchCustomFonts", fetchCustomFonts);
 router.post("/deleteFont", deleteFont);
+router.post("/updateFontName", updateFontName);
 
 
 export default router; 

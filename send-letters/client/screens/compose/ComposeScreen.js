@@ -16,15 +16,18 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import images from '../../assets/imageIndex';
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback, useRef } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
 import ThreeButtonAlert from './ThreeButtonAlert';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useFocusEffect } from '@react-navigation/native';
+import { throttle } from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 
 
 function ComposeScreen({ navigation, route }) {
+  const [inputText, setInputText] = useState("");
   const [count, setCount] = useState(10);
   const [imageData, setImageData] = useState([]);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -37,6 +40,8 @@ function ComposeScreen({ navigation, route }) {
   const [bgHeight, setBgHeight] = useState(0);
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
+  const isFocused = useIsFocused();
+
 
   // Dismiss snack message
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -75,21 +80,36 @@ function ComposeScreen({ navigation, route }) {
     'Non-serializable values were found in the navigation state',
   ]);
 
-  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
-  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
-  const handleTextChange = (text) => {
-    setLetterInfo({ ...letterInfo, text: text });
-  };
+
+  // create a letter when the screen loads in if it does not already exist
+  useEffect(() => {
+    const makeLetter = async () => {
+      if (letterInfo.letterID === "") {
+        try {
+          resp = await axios.post(findIP() + "/api/makeLetter", letterInfo);
+          if (!resp) {  // Could not connect to backend
+            console.log("ERROR: Could not establish server connection with axios");
+            setSnackMessage("Could not establish connection to the server");
+            setSnackIsVisible(true);
+          } else if (resp.data.error) {  // Another backend error
+            setSnackMessage(resp.data.error);
+            setSnackIsVisible(true);
+          } else {
+            setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    makeLetter();
+  }, []);
+
 
   // Automatically saves to the backend as the user types.
   const updateBackend = async () => {
     try {
-      resp = null;
-      if (letterInfo.letterID === "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
-        resp = await axios.post(findIP() + "/api/makeLetter", letterInfo);
-      } else { // The letter exists in DB as a draft; update new info
-        resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
-      }
+      resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
       if (!resp) {  // Could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -97,10 +117,6 @@ function ComposeScreen({ navigation, route }) {
       } else if (resp.data.error) {  // Another backend error
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
-      } else {
-        if (letterInfo.letterID == "") {
-          setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
-        }
       }
     } catch (err) {
       console.error(err);
@@ -108,10 +124,30 @@ function ComposeScreen({ navigation, route }) {
   };
 
 
+  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
+  const handleTextChange = (text) => {
+    setNextButtonDisabled(true);
+    throttledUpdate(text);
+    setInputText(text);
+  };
+
+  const throttledUpdate = useCallback(throttle((newText) => {
+    setLetterInfo((prevLetterInfo) => ({ ...prevLetterInfo, text: newText }));
+  }, 750), []); // called to every 750ms
+
+  useEffect(() => {
+    if (!isFocused) {
+      throttledUpdate.cancel();
+    }
+  }, [isFocused, throttledUpdate]);
+
+
   // update the database with the current details of the letter
   useEffect(() => {
-    if (letterInfo.status == "draft") {
+    if (letterInfo.status == "draft" && letterInfo.letterID != "") {
       updateBackend();
+      setNextButtonDisabled(false);
     }
   }, [letterInfo]);
 
@@ -165,9 +201,9 @@ function ComposeScreen({ navigation, route }) {
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <View style={{ alignContent: "flex-start" }}>
-          <ThreeButtonAlert navigation={navigation} ></ThreeButtonAlert>
+          <ThreeButtonAlert navigation={navigation}/>
         </View>
-        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
+        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
       </View>
       <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
       <ImageBackground
@@ -202,6 +238,7 @@ function ComposeScreen({ navigation, route }) {
               multiline={true}
               defaultValue={defaultText}
               autoCapitalize="none"
+              // value={inputText}
             />
           </TouchableOpacity>
         </View>

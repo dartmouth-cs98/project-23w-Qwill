@@ -8,6 +8,7 @@ import findIP from '../../helpers/findIP';
 import { useIsFocused } from '@react-navigation/native';
 import LetterDetail from '../../components/LetterDetail';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { COLORS } from '../../styles/colors';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Font from 'expo-font';
@@ -28,9 +29,7 @@ function DraftsScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
-
   
-
   // fetch the drafts from the server
   useEffect(() => {
     fetchDrafts();
@@ -72,7 +71,8 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
-      // fontName: "", // may need conditional to render correctly
+      status: "draft",
+      fontName: item.customFont ? item.fontInfo.name : item.font,
       customFont: item.customFont,
       stickers: item.stickers
     });
@@ -118,7 +118,13 @@ function DraftsScreen({ navigation }) {
   function renderDrafts() {
     
     if (drafts && drafts.length == 0) {
-      return <Text style={{textAlign:'center'}}>No drafts found</Text>
+      return (
+        <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.emptyDraftText}>
+            You don't currently have any drafts.
+          </Text>
+        </View> 
+      )
     }
     return (
         <FlatList
@@ -191,5 +197,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: wp(2),
     left: wp(2),
-  }
+  }, 
+  emptyDraftText: {
+    fontFamily: 'JosefinSansBold',
+    width: wp('50%'),
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: wp('4.8%'),
+    lineHeight: wp('5.6%'),
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    letterSpacing: wp('0.3%'),
+    color: COLORS.black
+  },
 })
