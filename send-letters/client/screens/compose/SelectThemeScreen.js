@@ -8,9 +8,9 @@ import images from '../../assets/imageIndex';
 import React from 'react';
 import styles from '../../styles/Profile.component.style';
 import ThemePreview from '../../components/ThemePreview';
+import SafeAreaViewCross from '../../components/SafeAreaViewCross'
 
 const screenWidth = Dimensions.get('window').width;
-
 const SelectThemeScreen = ({navigation, route}) => {
 
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -49,7 +49,7 @@ const SelectThemeScreen = ({navigation, route}) => {
   const themesList = Object.keys(images.themes);
 
   return (
-    <SafeAreaView style={styles.safeview}>
+    <SafeAreaViewCross>
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={styles.backbutton}>
         <TouchableOpacity style={styles.backIcon} onPress={()=>composeStackGoBack(navigation, selectThemeGoBack)}>
@@ -74,7 +74,7 @@ const SelectThemeScreen = ({navigation, route}) => {
           </View>
         )}
       />
-    </SafeAreaView>
+    </SafeAreaViewCross>
   );
 };
 

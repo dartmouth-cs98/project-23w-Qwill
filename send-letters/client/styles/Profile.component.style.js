@@ -153,4 +153,14 @@ export default StyleSheet.create({
   backIcon: {
     marginTop: wp('.0%')
   },
+
+  droidSafeArea: {
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: npLBlue,
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
+
 });
