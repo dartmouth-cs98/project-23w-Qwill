@@ -116,6 +116,9 @@ const FontsScreen = ({navigation}) => {
               numColumns={3}
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                  <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
+                    <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
+                  </TouchableOpacity>
                   <FontPreview 
                     style={{fontFamily: item._id}}
                     customFont={true}
@@ -123,8 +126,6 @@ const FontsScreen = ({navigation}) => {
                     displayName={item.name}
                     fontID={item._id}
                   />
-                  <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
-                  <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}/>
                 </View>
               }
               keyExtractor={(item) => item.title}
