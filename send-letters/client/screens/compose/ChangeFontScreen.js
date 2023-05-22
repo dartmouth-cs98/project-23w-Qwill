@@ -1,35 +1,33 @@
+import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, FlatList, Dimensions } from 'react-native';
-import fontData from '../../assets/fontData';
-import FontPreview from '../../components/FontPreview';
-import { AuthContext } from '../../context/AuthContext';
-import React, { useContext, useState, useEffect } from 'react';
-import styles from '../../styles/Profile.component.style';
+import { useIsFocused } from '@react-navigation/native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as Font from 'expo-font';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
-import * as Font from 'expo-font';
-import { useIsFocused } from '@react-navigation/native';
-
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import fontData from '../../assets/fontData';
+import FontPreview from '../../components/FontPreview';
+import React, { useContext, useState, useEffect } from 'react';
+import styles from '../../styles/Profile.component.style';
 
 const ChangeFontScreen = ({ navigation }) => {
 
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [customFonts, setCustomFonts] = useState("");
-
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     fetchCustomFonts();
   }, [isFocused]);
 
-  const handleNextPressed = (selectedFont) => {
-    setLetterInfo({ ...letterInfo, fontID: selectedFont, fontName: selectedFont });
+  const handleNextPressed = (selectedFont, selectedFontName, customFont) => {
+    setLetterInfo({ ...letterInfo, fontID: selectedFont, fontName: selectedFontName, customFont: customFont });
     navigation.goBack(null);
   };
 
@@ -61,23 +59,6 @@ const ChangeFontScreen = ({ navigation }) => {
   };
   
   return (
-    // <SafeAreaView style={styles.safeview}>
-    //   <View style={styles.defaultFontsContainer}>
-    //     <View style={{ flexDirection: "row" }}>
-    //       <FlatList
-    //         ListHeaderComponent={<Text style={styles.selectTitleText}> Select a font </Text>}
-    //         contentContainerStyle={{ justifyContent: 'center' }}
-    //         data={fontData}
-    //         numColumns={3}
-    //         renderItem={({ item }) =>
-    //           <View style={{ marginLeft: 5, marginRight: 5 }}>
-    //             <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title)}></FontPreview>
-    //           </View>}
-    //         keyExtractor={(item) => item.title}
-    //       />
-    //     </View>
-    //   </View>
-    // </SafeAreaView>
     <SafeAreaView style={styles.safeview}>
       <Text style={styles.selectTitleText}> Select a font </Text>
       {
@@ -96,7 +77,12 @@ const ChangeFontScreen = ({ navigation }) => {
               numColumns={3}
               renderItem={({ item }) =>
               <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
-                  <FontPreview style={{fontFamily: item._id}} title={item.name} onPress={() => handleNextPressed(item._id, item.name, true)}></FontPreview>
+                  <FontPreview 
+                    style={{fontFamily: item._id}}
+                    title={item.name}
+                    displayName={item.name}
+                    onPress={() => handleNextPressed(item._id, item.name, true)}
+                  />
                 </View>
               }
               keyExtractor={(item) => item.title}
@@ -118,7 +104,12 @@ const ChangeFontScreen = ({ navigation }) => {
             numColumns={3}
             renderItem={({ item }) =>
             <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
-                <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title, item.title, false)}></FontPreview>
+                <FontPreview 
+                  style={item.style} 
+                  title={item.title}
+                  displayName={item.title}
+                  onPress={() => handleNextPressed(item.title, item.title, false)}
+                />
               </View>}
             keyExtractor={(item) => item.title}
           />

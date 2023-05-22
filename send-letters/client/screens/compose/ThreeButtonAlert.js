@@ -8,51 +8,67 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-
-const ThreeButtonAlert = ({navigation}) => {
+const ThreeButtonAlert = ({ navigation }) => {
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
-    const handleDiscard = async () => {        
-        if (letterInfo.letterID == "") {
-            // letter was never saved in db
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'Home' }],
-                })
-            );
-            return;
+    const handleDiscard = async () => {
+        if (letterInfo.letterID != "") {
+            const resp = await axios.post(findIP() + "/api/deleteLetter", { letterID: letterInfo.letterID });
+            if (!resp) {  // could not connect to backend
+                console.log("ERROR: Could not establish server connection with axios");
+                setSnackMessage("Could not establish connection to the server");
+                setSnackIsVisible(true);
+            } else if (resp.data.error) {  // backend error
+                setSnackMessage(resp.data.error);
+                setSnackIsVisible(true);
+            } else if (!resp.data || !resp.data.ok) {
+                console.error("Error: the response does not contain the expected fields");
+            }
         }
 
-        const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: letterInfo.letterID });
-        
-        if (!resp) {  // could not connect to backend
-            console.log("ERROR: Could not establish server connection with axios");
-            setSnackMessage("Could not establish connection to the server");
-            setSnackIsVisible(true);
-        } else if (resp.data.error) {  // backend error
-            setSnackMessage(resp.data.error);
-            setSnackIsVisible(true);
-        } else if (!resp.data || !resp.data.ok) {
-            console.error("Error: the response does not contain the expected fields");
-        } else {
-            console.log("letter deleted successfully");
-        }
-
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'Home' }],
-            })
+        setLetterInfo({
+            ...letterInfo,
+            letterID: "",
+            text: "",
+            recipientID: "",
+            themeID: "",
+            recipientUsername: "",
+            fontID: "",
+            fontName: "",
+            customFont: false,
+            stickers: [],
+            status: ""
+        });
+        navigation.replace('NavBar', 
+            { screen: 'Home',
+                params: {
+                    screen: 'Mailbox', 
+                }
+            }
         );
     };
 
+
     const handleSave = () => {
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'Home' }],
-            })
+        setLetterInfo({
+            ...letterInfo,
+            letterID: "",
+            text: "",
+            recipientID: "",
+            themeID: "",
+            recipientUsername: "",
+            fontID: "",
+            fontName: "",
+            customFont: false,
+            stickers: [],
+            status: ""
+        });
+        navigation.replace('NavBar', 
+            { screen: 'Home',
+                params: {
+                    screen: 'Mailbox', 
+                }
+            }
         );
     };
 
@@ -64,7 +80,7 @@ const ThreeButtonAlert = ({navigation}) => {
                 style: 'destructive',
             },
             { text: 'Save', onPress: () => handleSave() },
-            { text: 'Cancel', onPress: () => console.log('Canceled') },
+            { text: 'Cancel', onPress: () => null },
         ]);
     };
 
@@ -72,7 +88,7 @@ const ThreeButtonAlert = ({navigation}) => {
         <TouchableOpacity onPress={() => {
             threeButtonAlert();
         }}>
-            <Ionicons name={"close-outline"} size={40} style={{marginTop: hp(".9%")}}/>
+            <Ionicons name={"close-outline"} size={40} style={{ marginTop: hp(".9%") }} />
         </TouchableOpacity>
     );
 }

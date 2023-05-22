@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS } from '../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { truncate } from '../helpers/stringValidation';
 
 const PendingFriendButton = (props) => {
     const item = props.userInfo.requesterInfo;
@@ -12,10 +13,10 @@ const PendingFriendButton = (props) => {
                     <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
                 </View>
                 <View>
-                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('6%'),marginTop: hp('2%'), fontWeight: '600' }}>{(item.username).replace(/["]/g, '')} wants to be friends</Text>
+                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('1%'),marginTop: hp('2%'), fontWeight: '600' }}>{truncate(item.username.replace(/["]/g, ''), 10)} wants to be friends</Text>
                 </View>
             </View>
-            <View style={{ flexDirection: "row", position: "relative", top: -hp('2%'), left: wp('18%') }}>
+            <View style={{ flexDirection: "row", position: "relative", top: -hp('3.5%'), left: wp('18%') }}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onAcceptPressed}>
                     <Text style={styles.adText}>Accept</Text>
                 </TouchableOpacity>
@@ -32,28 +33,28 @@ export default PendingFriendButton;
 const styles = StyleSheet.create({
     outerView: {
         backgroundColor: COLORS.friendsButtonBackground,
-        marginVertical: hp('1.5%'),
+        marginVertical: hp('1%'),
         padding: wp('3%'),
-        borderRadius: 20,
+        borderRadius: wp("3%"),
         width: wp('80%'),
         aspectRatio: 3
     },
     friendCircle: {
-        height: hp('8%'),
-        width: hp('8%'),
-        borderRadius: hp('4%'),
+        width: wp('15%'),
+        aspectRatio: 1,
+        borderRadius: wp('15%'),
         backgroundColor: "rgba(30,70,147,0.2)",
         marginTop: hp('1%'),
         marginLeft: wp('2%'),
         marginRight: wp('2%'),
         marginBottom: hp('1%'),
+        justifyContent: "center",
     },
     friendMidText: {
         textAlign: "center",
         fontSize: wp('4.5%'),
         color: "#1E4693",
         opacity: 1,
-        marginTop: hp('2%'),
         fontWeight: "600"
     },
     sendInviteButton: {

@@ -8,34 +8,39 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
 import LetterDetail from '../../components/LetterDetail';
 import PreviewEditRow from '../../components/PreviewEditRow';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function PreviewScreen({ navigation }) {
-
-  const [userInfo, setUserInfo] = useContext(AuthContext);
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
 
-  const handleSendPressed = async () => {
-    try {
-      resp = null;
 
-      if (letterInfo.letterID == "") {
-        // letter hasn't been made in DB (never saved as a draft); make new letter with status sent
-        reqBody = letterInfo;
-        reqBody['status'] = "sent"
-        resp = await axios.post(findIP()+"/api/makeLetter", reqBody);
-      } else {
-        // letter exists in DB as a draft; update status to sent
-        resp = await axios.post(findIP()+"/api/updateLetterStatus", {letterID: letterInfo.letterID, newStatus: "sent"});
-      }
+  // update letterInfo incase any
+  // useEffect(() => {
+  //   setLetterInfo({ ...letterInfo });
+  // }, []);
+
+  const handleSendPressed = () => {
+    setLetterInfo({ ...letterInfo, status: "sent"});
+  };
+
+  useEffect(() => {
+    if (letterInfo.status == "sent") {
+      sendLetterBackend();
+    }
+  }, [letterInfo]);
+
+
+  const sendLetterBackend = async () => {
+    try {
+      resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
 
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
@@ -48,6 +53,7 @@ function PreviewScreen({ navigation }) {
         // successful letter send will be sent as a param, to toggle snackbar on home page
         // Reset our letter context
         setLetterInfo({
+          ...letterInfo,
           letterID: "",
           text: "",
           recipientID: "",
@@ -74,27 +80,27 @@ function PreviewScreen({ navigation }) {
     }
   };
 
-  const handleSharePressed = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          'This is Qwill',
-      });
-      // keep this for now
-      // if (result.action === Share.sharedAction) {
-      //   if (result.activityType) {
-      //     // shared with activity type of result.activityType
-      //   } else {
-      //     // shared
-      //   }
-      // } else if (result.action === Share.dismissedAction) {
-      //   // dismissed
-      // }
-    } catch (err) {
-      setSnackMessage(err);
-      setSnackIsVisible(true);
-    }
-  };
+  // const handleSharePressed = async () => {
+  //   try {
+  //     const result = await Share.share({
+  //       message:
+  //         'This is Qwill',
+  //     });
+  //     // keep this for now
+  //     if (result.action === Share.sharedAction) {
+  //       if (result.activityType) {
+  //         // shared with activity type of result.activityType
+  //       } else {
+  //         // shared
+  //       }
+  //     } else if (result.action === Share.dismissedAction) {
+  //       // dismissed
+  //     }
+  //   } catch (err) {
+  //     setSnackMessage(err);
+  //     setSnackIsVisible(true);
+  //   }
+  // };
   
   // In letter detail, preserving an A4 paper aspect ratio (1.41 height to width)
   return (

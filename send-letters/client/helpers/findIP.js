@@ -2,7 +2,7 @@
 export default function findIP() {
     const status = "dep"; // dep (deployed) or dev (developing)
     if (status == "dep") {
-        // return "https://qwill.onrender.com";
+        //return "https://qwill.onrender.com";
         return "https://qwill-kk5f.onrender.com";
     } else {
         const port = 8000;

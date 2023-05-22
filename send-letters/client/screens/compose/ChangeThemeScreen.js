@@ -13,33 +13,9 @@ const ChangeThemeScreen = ({ navigation, route }) => {
 
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
-  useEffect(() => {
-    if (route.params) {
-      const { recipientID, recipientUsername } = route.params;
-      setLetterInfo({ ...letterInfo, recipientID: recipientID, recipientUsername: recipientUsername });
-    }
-  }, [route.params]);
-
   const handleNextPressed = (selectedTheme) => {
     // We'll change the letter info context for the whole compose stack only when we push next.
     setLetterInfo({ ...letterInfo, themeID: selectedTheme });
-    navigation.goBack(null);
-  };
-
-  const selectThemeGoBack = () => {
-    if (route.params) {
-      setLetterInfo({
-        letterID: "",
-        text: "",
-        recipientID: "",
-        recipientUsername: "",
-        themeID: "",
-        fontID: "",
-        fontName: "",
-        customFont: false,
-        stickers: []
-      });
-    }
     navigation.goBack();
   };
 

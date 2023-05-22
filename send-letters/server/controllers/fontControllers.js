@@ -58,7 +58,8 @@ export const createCustomFont = async (req, res) => {
             if (exitCode === 0) {
                 // Convert base64 file content to a buffer
                 const fileContent = Buffer.from(output, 'base64')
-                const fontName = user.username + "-font-" + (user.numCustomFonts+1).toString();
+                // const fontName = user.username + "-font-" + (user.numCustomFonts+1).toString();
+                const fontName = "my-font-" + (user.numCustomFonts+1).toString();
                 const filePath = user.username + '/' + fontName + ".ttf";
 
                 var admin = require("firebase-admin");
@@ -92,7 +93,8 @@ export const createCustomFont = async (req, res) => {
                                 creator: userID,
                                 name: fontName,
                                 firebaseDownloadLink: downloadURL[0],
-                                firebaseFilePath: filePath
+                                firebaseFilePath: filePath,
+                                isDeleted: false,
                             }).save();
         
                             // Update number of custom fonts for the user
@@ -166,6 +168,7 @@ export const fetchCustomFonts = async (req, res) => {
             {
                $match: {
                     creator: new mongoose.Types.ObjectId(user._id), 
+                    isDeleted: false,
                 }
             },
         ];
@@ -189,7 +192,45 @@ export const fetchCustomFonts = async (req, res) => {
 };
 
 
+// this "deletes" a font by making it hidden to all users when fetching fonts
+// font is not fully deleted from db and firebase because it could still be in use in old letters
 export const deleteFont = async (req, res) => {  
+    try {
+        const { fontID } = req.body;
+
+        // check if our db has a font with the ID of the recipient
+        const font = await Font.findOne({
+            "_id": fontID
+        });
+        if (!font) {
+            return res.json({
+                error: "No font found with fontID",
+            });
+        }
+
+        // update the isDeleted boolean of font to true
+        try {
+            const resp = await Font.updateOne(
+                {'_id': fontID},
+                {'isDeleted': true}
+            );
+    
+            return res.json({
+                ok: true
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+
+export const deleteFontBackend = async (req, res) => {  
     try {
         const { fontID } = req.body;
 
@@ -238,6 +279,53 @@ export const deleteFont = async (req, res) => {
         } catch (err) {
             console.log(err);
             return res.status(300).send("Error deleting font from db. Try again.");
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+
+export const updateFontName = async (req, res) => {  
+    try {
+        const { fontID, newName } = req.body;
+
+        // check if our db has a font with the fontID
+        const font = await Font.findOne({
+            "_id": fontID
+        });
+        if (!font) {
+            return res.json({
+                error: "No font found with fontID",
+            });
+        }
+
+        // check to make sure font name doesn't already exist for user
+        const fontCheck = await Font.findOne({
+            "creator": font.creator,
+            "name": newName,
+        });
+        if (fontCheck) {
+            return res.json({
+                error: "font with new name already exists",
+            });
+        }
+
+        // update the name of font to the new name
+        try {
+            const resp = await Font.updateOne(
+                {'_id': fontID},
+                {'name': newName}
+            );
+    
+            return res.json({
+                ok: true
+            });
+        } catch (err) {
+            console.log(err);
         }
 
     } catch (err) {
