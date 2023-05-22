@@ -50,6 +50,7 @@ function HomeScreen({ navigation, route}) {
   }, [route.params]);
 
   const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers) => {
+    
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -79,6 +80,8 @@ function HomeScreen({ navigation, route}) {
 
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
+    
+
     return (
         <View key={index}
               style={{shadowOpacity: .1, 
