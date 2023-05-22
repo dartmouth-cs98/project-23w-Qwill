@@ -23,29 +23,29 @@ const ThreeButtonAlert = ({ navigation }) => {
                 setSnackIsVisible(true);
             } else if (!resp.data || !resp.data.ok) {
                 console.error("Error: the response does not contain the expected fields");
-            } else {
-                setLetterInfo({
-                    ...letterInfo,
-                    letterID: "",
-                    text: "",
-                    recipientID: "",
-                    themeID: "",
-                    recipientUsername: "",
-                    fontID: "",
-                    fontName: "",
-                    customFont: false,
-                    stickers: [],
-                    status: ""
-                });
-                navigation.replace('NavBar', 
-                    { screen: 'Home',
-                        params: {
-                            screen: 'Mailbox', 
-                        }
-                    }
-                );
             }
         }
+
+        setLetterInfo({
+            ...letterInfo,
+            letterID: "",
+            text: "",
+            recipientID: "",
+            themeID: "",
+            recipientUsername: "",
+            fontID: "",
+            fontName: "",
+            customFont: false,
+            stickers: [],
+            status: ""
+        });
+        navigation.replace('NavBar', 
+            { screen: 'Home',
+                params: {
+                    screen: 'Mailbox', 
+                }
+            }
+        );
     };
 
 
@@ -80,7 +80,7 @@ const ThreeButtonAlert = ({ navigation }) => {
                 style: 'destructive',
             },
             { text: 'Save', onPress: () => handleSave() },
-            { text: 'Cancel', onPress: () => console.log('Canceled') },
+            { text: 'Cancel', onPress: () => null },
         ]);
     };
 
