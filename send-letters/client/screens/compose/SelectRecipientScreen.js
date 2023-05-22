@@ -116,6 +116,7 @@ function SelectRecipientScreen({navigation}) {
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={handleChangeText}
+            inputStyle={{ fontSize: wp("4%") }}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
             leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%')}}
           />

@@ -29,8 +29,8 @@ const AddFriendButton = (props) => {
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onPress}>
                     {item.friendStatus == "non-friends" ?
                         <View style={{flexDirection: "row", alignSelf: "center"}}>
-                            <Ionicons style={styles.icon} name={'add-outline'} size={16}></Ionicons>
                             <Text style={styles.sendInviteText}>Send Invite</Text>
+                            {/* <Ionicons style={styles.icon} name={'add-outline'} size={16}></Ionicons> */}
                         </View>
                         :
                         <Text style={styles.sendInviteText}>Unsend Request</Text>
@@ -59,13 +59,13 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         borderRadius: wp('100%'),
         backgroundColor: "rgba(30,70,147,0.2)",
+        justifyContent: "center",
     },
     friendMidText: {
         textAlign: "center",
         fontSize: wp('5%'),
         color: "#1E4693",
         opacity: 1,
-        marginTop: hp('2%'),
         fontWeight: "600",
     },
     sendInviteButton: {
@@ -73,22 +73,16 @@ const styles = StyleSheet.create({
         aspectRatio: 3,
         borderRadius: wp('20%'),
         backgroundColor: COLORS.white,
-        // marginTop: hp('4%')
+        justifyContent: "center",
     },
     sendInviteText: {
         fontSize: wp('3%'),
         color: "#7184B4",
         textAlign: 'center',
-        marginTop: hp('1%'),
-        // justifyContent: "center",
-        // alignContent: "center",
     },
     icon: {
         display: "flex",
         alignItems: "center",
         color: "#1E4693",
-        marginTop: hp('1%'),
-        // justifyContent: "center",
-        // alignContent: "center",
       }
 });

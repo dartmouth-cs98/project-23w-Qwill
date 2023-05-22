@@ -98,7 +98,7 @@ const FontsScreen = ({navigation}) => {
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: normalize(12),}}>Custom Fonts</Text>
+        <Text style={{fontSize: wp("3%") }}>Custom Fonts</Text>
         <View style={styles.line}></View>
       </View>
       
@@ -116,10 +116,11 @@ const FontsScreen = ({navigation}) => {
               numColumns={3}
               renderItem={({ item }) =>
                 <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
-                  <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
-                  <FontPreview style={{fontFamily: item._id}} title={item.name} customFont={true}></FontPreview>
                   <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
+                    <Ionicons name="remove-circle" size={wp("4%")} color="#FF0000" style={styles.removeIcon}/>
                   </TouchableOpacity>
+                  <FontPreview style={{fontFamily: item._id}} title={item.name} customFont={true}></FontPreview>
+                  
                 </View>
               }
               keyExtractor={(item) => item.title}
@@ -130,10 +131,10 @@ const FontsScreen = ({navigation}) => {
       
       <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: normalize(12) }}>Default Fonts</Text>
+        <Text style={{fontSize: wp("3%") }}>Default Fonts</Text>
         <View style={styles.line}></View>
       </View>
-      <View style={{ marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06 }}>
+      <View style={{ marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06, flex: 3 }}>
         <FlatList
           contentContainerStyle={{ justifyContent: 'space-between'}}
           data={fontData}
@@ -194,6 +195,7 @@ const styles = StyleSheet.create({
     marginLeft: wp('6%'), 
     marginRight: wp('6%'),
     marginTop: hp('2%'),
+    flex: 1
   },
   container: {
     flex: 1,
@@ -211,14 +213,12 @@ const styles = StyleSheet.create({
     width: wp('18%'),
   },
   removeButton: {
-    position: 'absolute',
-    bottom: -hp('1%'),
-    right: 0,
+    zIndex: 1,
   }, 
   removeIcon: {
     position: 'absolute',
     left: wp('22%'),
     top: -hp('.2%'),
-    zIndex: 1,
+    zIndex: 2,
   }
 });

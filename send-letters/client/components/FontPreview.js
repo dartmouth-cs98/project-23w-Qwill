@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   container: {
     width: wp('25%'),
     aspectRatio: 1,
-    borderWidth: 1,
+    borderWidth: wp(".25%"),
     borderRadius: wp('5%'),
     borderStyle: 'dashed',
     borderColor: "#000000",
