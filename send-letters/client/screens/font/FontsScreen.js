@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#BDCCF2",
     width: wp("100%"),
-    height: hp('14%')
+    height: hp('15%')
   },
   shadowLight: {
     shadowColor: '#171717',

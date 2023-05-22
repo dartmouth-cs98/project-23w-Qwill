@@ -111,58 +111,69 @@ const SignUpScreen = ({navigation}) => {
   // This component will automatically adjust its height, position, or bottom padding based on the 
   // keyboard height to remain visible while the virtual keyboard is displayed.
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="light"/>
-      <View style={{alignContent: 'center'}}>
-        <Text style={styles.signUpHeader}> 
-          Sign Up
-        </Text>
-      </View>
-      <View style={styles.inputContainer}>
-        {/* autofocus automatically focuses the app on this input */}
-        <TextInput 
-          style={styles.inputField}
-          placeholder="Name"
-          onChangeText={text => setName(text)}
-          autoCorrect={false} 
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Email"
-          autofocus
-          type="email"
-          keyboardType="email-address"
-          autoCorrect={false}
-          autoCompleteType="email"
-          autoCapitalize="none"
-          onChangeText={text => setEmail(text.toLowerCase())} 
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Username"
-          autoCapitalize="none"
-          onChangeText={text => setUsername(text)}
-          autoCorrect={false} />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Password"
-          secureTextEntry={true}
-          type="password"
-          autoCompleteType="password"
-          onChangeText={text => setPassword(text)}
-          onSubmitEditing={handleSignUpPressed}
-        /> 
-      </View>
-    
-      <View>
-        <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
-          <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
-          <Ionicons
-            style={{color: "#FFFFFF"}}
-            name={"arrow-forward-outline"}
-            size={24}>
-            </Ionicons>
-        </TouchableOpacity>
+    <KeyboardAvoidingView
+         behavior="padding"
+         style={styles.container}
+    >
+      <ScrollView
+        style={{flexGrow:1}}
+      >
+          <StatusBar style="light"/>
+          <View style={{alignContent: 'center'}}>
+            <Text style={styles.signUpHeader}>
+              Sign Up
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            {/* autofocus automatically focuses the app on this input */}
+            <TextInput
+              style={styles.inputField}
+              placeholder="Name"
+              onChangeText={text => setName(text)}
+              autoCorrect={false}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Email"
+              autofocus
+              type="email"
+              keyboardType="email-address"
+              autoCompleteType="email"
+              autoCapitalize="none"
+              onChangeText={text => setEmail(text.toLowerCase())}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Username"
+              autoCapitalize="none"
+              onChangeText={text => setUsername(text)}
+              autoCorrect={false} />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Password"
+              secureTextEntry={true}
+              type="password"
+              autoCompleteType="password"
+              onChangeText={text => setPassword(text)}
+              onSubmitEditing={handleSignUpPressed}
+            />
+          </View>
+
+          <View>
+            <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
+              <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+              <Ionicons
+                style={{color: "#FFFFFF"}}
+                name={"arrow-forward-outline"}
+                size={24}>
+                </Ionicons>
+            </TouchableOpacity>
+
+            <View style={styles.orContainer}>
+              <View style={styles.lineShort}></View>
+              <Text style={styles.text}>or</Text>
+              <View style={styles.lineShort}></View>
+            </View>
 
         <View style={styles.orContainer}>
           <View style={styles.lineShort}></View>
