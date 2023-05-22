@@ -37,8 +37,8 @@ function DraftsScreen({ navigation }) {
 
   async function fetchDrafts() {
     try {
-      const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
-      
+      const resp = await axios.post(findIP() + "/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
+
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -94,8 +94,8 @@ function DraftsScreen({ navigation }) {
 
   const handleDeleteDraft = async (item) => {
     try {
-      const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: item._id });
-      
+      const resp = await axios.post(findIP() + "/api/deleteLetter", { letterID: item._id });
+
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -116,7 +116,7 @@ function DraftsScreen({ navigation }) {
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
-    
+
     if (drafts && drafts.length == 0) {
       return (
         <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
@@ -127,33 +127,36 @@ function DraftsScreen({ navigation }) {
       )
     }
     return (
-        <FlatList
-          nestedScrollEnabled
-          contentContainerStyle={{}}
-          data={drafts}
-          numColumns={1}
-          renderItem={({item}) => 
-          <View style={{justifyContent: 'center', alignItems: 'center', width: wp("100%")}}>
+      <FlatList
+        nestedScrollEnabled
+        contentContainerStyle={{}}
+        data={drafts}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <View style={{ justifyContent: 'center', alignItems: 'center', width: wp("100%") }}>
             <TouchableOpacity style={styles.btn} onPress={() => handleDeleteDraft(item)}>
               <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)} ></Ionicons>
               <View style={styles.xBackground}></View>
             </TouchableOpacity>
-            <View style={{marginVertical: 10}}>
-              <LetterDetail 
-                text={item.text} 
-                themeID={item.theme} 
-                fontID={item.font} 
-                width={wp('90%')*.8} 
-                height={hp('64%')*.8}
-                touchable={true}
-                onPress={() => handleDraftPressed(item)}
-              />
+            <View style={{ marginVertical: 10 }}>
+              <TouchableOpacity onPress={() => handleDraftPressed(item)}>
+                <LetterDetail
+                  text={item.text} // Update the text prop to directly pass the text value
+                  themeID={item.theme}
+                  fontID={item.font}
+                  stickers={item.stickers}
+                  width={wp('90%') * 0.8}
+                  height={hp('64%') * 0.8}
+                  touchable={true}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-            }
-          keyExtractor={item => item._id}
-        />
+        )}
+        keyExtractor={item => item._id}
+      />
     );
+
   };
 
   return (
@@ -176,20 +179,20 @@ const styles = StyleSheet.create({
   },
   shadowLight: {
     shadowColor: '#171717',
-    shadowOffset: {height: 4 },
+    shadowOffset: { height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 1.5,
   },
   icon: {
     color: 'red',
     zIndex: 2,
-  }, 
+  },
   btn: {
     zIndex: 1,
     position: 'absolute',
     top: wp(-.5),
-    left: wp('90%')*.92,
-  }, 
+    left: wp('90%') * .92,
+  },
   xBackground: {
     backgroundColor: 'white',
     width: wp(3),

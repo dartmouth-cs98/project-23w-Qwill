@@ -8,7 +8,8 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   LogBox,
-  PanResponder
+  PanResponder,
+  useWindowDimensions,
 } from 'react-native';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -41,35 +42,59 @@ function ComposeScreen({ navigation, route }) {
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const isFocused = useIsFocused();
-
+  const [stickerID, setStickerId] = useState(0);
 
   // Dismiss snack message
   const onDismissSnack = () => setSnackIsVisible(false);
 
   // A function that handles the sticker selection, updating state and fetching sticker details
-  const stickerSelected = (sticker) => {
+  const stickerSelected = async(sticker) => {
     // The function is only called if a sticker is selected and the total number of stickers is less than 10
     if (sticker != null && imageData.length < 10) {
       setCount(count - 1);
 
       const imageSource = images.stickers[sticker];
       const imageUri = Image.resolveAssetSource(imageSource).uri;
+      var w;
+      var h;
       Image.getSize(imageUri, (width, height) => {
         console.log(sticker, width, height);
+        w = width;
+        h = height;
         setImageData([
           ...imageData,
           {
+            id: stickerID,
             source: imageSource,
-            x: 425 - width - width / 4,
+            x: bgWidth - width - width / 4,
             y: height / 4,
-            initialX: 425 - width - width / 4,
+            initialX: bgWidth - width - width / 4,
             initialY: height / 4,
             width: width,
             height: height,
+            screenWidth: bgWidth,
+            screenHeight: bgHeight,
           },
         ]);
       });
-
+      // console.log('b4', imageData);
+      
+      // const updatedImageData = [...imageData];
+      // updatedImageData.push({
+      //   id: stickerID,
+      //   source: imageSource,
+      //   x: bgWidth - w - w / 4,
+      //   y: h / 4,
+      //   initialX: bgWidth - w - w / 4,
+      //   initialY: h / 4,
+      //   width: w,
+      //   height: h,
+      //   screenWidth: bgWidth,
+      //   screenHeight: bgHeight,
+      // });
+      
+      // setImageData(updatedImageData);
+      // console.log('af',imageData);
       updateBackendStickers();
     }
   };
@@ -190,10 +215,14 @@ function ComposeScreen({ navigation, route }) {
   };
 
   const handleNextPressed = () => { // Navigates to the next screen, Preview
+    
+    updateBackendStickers(); 
+    
     setNextButtonDisabled(true);
     setTimeout(() => {
       setNextButtonDisabled(false);
     }, 1000);
+    
     navigation.push('Preview');
   };
 
@@ -201,9 +230,9 @@ function ComposeScreen({ navigation, route }) {
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <View style={{ alignContent: "flex-start" }}>
-          <ThreeButtonAlert navigation={navigation}/>
+          <ThreeButtonAlert navigation={navigation} />
         </View>
-        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
+        <Toolbar navigation={navigation} passedStickerSelected={stickerSelected} />
       </View>
       <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
       <ImageBackground
@@ -211,6 +240,7 @@ function ComposeScreen({ navigation, route }) {
           const { width, height } = event.nativeEvent.layout;
           setBgWidth(width);
           setBgHeight(height);
+          console.log("bgwidthandheight", bgWidth, bgHeight);
         }}
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
@@ -238,7 +268,7 @@ function ComposeScreen({ navigation, route }) {
               multiline={true}
               defaultValue={defaultText}
               autoCapitalize="none"
-              // value={inputText}
+            // value={inputText}
             />
           </TouchableOpacity>
         </View>
@@ -252,20 +282,15 @@ function ComposeScreen({ navigation, route }) {
             },
 
             onPanResponderMove: (event, gestureState) => {
-              
 
-              
               if (selectedStickerIndex === index) {
-                
                 const dx = gestureState.moveX - initialStickerPosition.x;
                 const dy = gestureState.moveY - initialStickerPosition.y;
                 const updatedImageData = [...imageData];
-
-                console.log("x: mathmin first", updatedImageData[selectedStickerIndex].width);
-                console.log("x: mathmin sec", updatedImageData[selectedStickerIndex].initialX + dx);
-                console.log("x: old", updatedImageData[selectedStickerIndex].initialX + dx);
                 updatedImageData[selectedStickerIndex] = {
                   ...updatedImageData[selectedStickerIndex],
+                  // do not delete! 
+                  // old sticker movement
                   // x: updatedImageData[selectedStickerIndex].initialX + dx,
                   // y: updatedImageData[selectedStickerIndex].initialY + dy,
                   x: Math.max(0, Math.min(bgWidth - updatedImageData[selectedStickerIndex].width, updatedImageData[selectedStickerIndex].initialX + dx)),
@@ -289,7 +314,7 @@ function ComposeScreen({ navigation, route }) {
 
                 updateBackendStickers(); //updates the backend, storing stickers
               }
-              
+
             },
 
           });

@@ -49,7 +49,7 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers) => {
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -57,7 +57,8 @@ function HomeScreen({ navigation, route}) {
       senderID: senderID,
       senderUsername: senderUsername,
       themeID: themeID,
-      fontID: fontID
+      fontID: fontID,
+      stickers: stickers,
     });
 
     try {
@@ -91,7 +92,7 @@ function HomeScreen({ navigation, route}) {
             senderAddress={index}
             recipient={userInfo.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font, item.stickers)}}
           />
         </View>
     );
