@@ -22,6 +22,11 @@ function PreviewScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
 
+  // update letterInfo incase any
+  // useEffect(() => {
+  //   setLetterInfo({ ...letterInfo });
+  // }, []);
+
   const handleSendPressed = () => {
     setLetterInfo({ ...letterInfo, status: "sent"});
   };

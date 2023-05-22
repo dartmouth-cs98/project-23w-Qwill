@@ -28,7 +28,6 @@ function DraftsScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
-
   
 
   // fetch the drafts from the server
@@ -72,7 +71,8 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
-      // fontName: "", // may need conditional to render correctly
+      status: "draft",
+      fontName: item.customFont ? item.fontInfo.name : item.font,
       customFont: item.customFont,
       stickers: item.stickers
     });

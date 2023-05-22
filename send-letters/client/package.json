@@ -28,6 +28,8 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "fbjs": "^3.0.4",
+    "lodash": "^4.17.21",
+    "i": "^0.3.7",
     "patch-package": "^6.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
