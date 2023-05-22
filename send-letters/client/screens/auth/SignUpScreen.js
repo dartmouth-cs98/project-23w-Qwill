@@ -11,8 +11,6 @@ import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState, useContext } from 'react'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -115,12 +113,7 @@ const SignUpScreen = ({navigation}) => {
   return (
     <KeyboardAvoidingView
          behavior="padding"
-         style={styles.signupContainer}
-//         style={{flex:1}}
-//         alignItems="center"
-//         justifyContent="center"
-         behavior={Platform.OS === 'ios' ? 'position' : null}
-         keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 70}
+         style={styles.container}
     >
       <ScrollView
         style={{flexGrow:1}}
