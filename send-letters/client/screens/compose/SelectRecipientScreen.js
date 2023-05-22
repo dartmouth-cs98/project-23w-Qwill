@@ -1,7 +1,7 @@
 import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import { Input } from 'react-native-elements';
+import { TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, FlatList, TouchableOpacity, } from 'react-native';
@@ -113,9 +113,10 @@ function SelectRecipientScreen({navigation}) {
       </View>
       <View style={[styles.recipientsContainer]}>
         <View style={styles.inputContainer}>
-          <Input 
+          <TextInput 
             placeholder="enter name or username"
             autoCompleteType="email"
+            autoCorrect={false}
             autoCapitalize="none"
             onChangeText={handleChangeText}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}

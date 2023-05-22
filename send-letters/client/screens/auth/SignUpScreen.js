@@ -132,6 +132,7 @@ const SignUpScreen = ({navigation}) => {
           autofocus
           type="email"
           keyboardType="email-address"
+          autoCorrect={false}
           autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={text => setEmail(text.toLowerCase())} 
