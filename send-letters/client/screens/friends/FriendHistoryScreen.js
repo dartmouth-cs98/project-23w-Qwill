@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     borderRadius: wp('100%'),
     backgroundColor: "rgba(30,70,147,0.2)",
     alignContent: "center", 
-    marginLeft: wp('-18%')
+    marginLeft: wp('-16%')
   },
   friendMidText: {
     textAlign: "center",
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   verticalLine: {
     position: "absolute",
-    top: hp('20%'),
+    top: hp('22%'),
     width: StyleSheet.hairlineWidth,
     height: hp('80%'),
     alignSelf: "center",
