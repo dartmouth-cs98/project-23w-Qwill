@@ -1,17 +1,17 @@
 const images = {
     themes: {
-        Parchment: require('./themes/parchment-theme.png'),
-        LinedPaper: require('./themes/lined-paper-theme.png'),
+        Parchment: require('./themes/parchment-theme-min.png'),
+        LinedPaper: require('./themes/lined-paper-theme-min.png'),
 
-        Stars: require('./themes/Stars.png'),
-        Balloons: require('./themes/balloon-theme.png'),
-        Hearts: require('./themes/hearts-theme.png'),
-        Snowflakes: require('./themes/snowflake-theme.png'),
-        Flowers: require('./themes/spring-theme.png'),
+        Stars: require('./themes/Stars-min.png'),
+        Balloons: require('./themes/balloon-theme-min.png'),
+        Hearts: require('./themes/hearts-theme-min.png'),
+        Snowflakes: require('./themes/snowflake-theme-min.png'),
+        Flowers: require('./themes/spring-theme-min.png'),
 
-        Cat: require('./themes/cat-theme.png'),
-        Dog: require('./themes/dog-theme.png'),
-        CatDog: require('./themes/dog-cat-theme.png'),
+        Cat: require('./themes/cat-theme-min.png'),
+        Dog: require('./themes/dog-theme-min.png'),
+        CatDog: require('./themes/dog-cat-theme-min.png'),
     },
     stickers: {
         Bear: require('./stickers/bear-sticker-smaller.png'),
