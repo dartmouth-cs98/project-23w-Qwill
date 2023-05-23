@@ -5,7 +5,7 @@ import images from '../assets/imageIndex';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const LetterDetail = props => {
+const  LetterDetail = props => {
   const { text, fontID, themeID, width, height, stickers } = props;
 
   const propsWidth = width ? width : screenWidth * .9;
