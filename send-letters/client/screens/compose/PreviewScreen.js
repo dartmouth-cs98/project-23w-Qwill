@@ -21,12 +21,6 @@ function PreviewScreen({ navigation }) {
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
 
-
-  // update letterInfo incase any
-  // useEffect(() => {
-  //   setLetterInfo({ ...letterInfo });
-  // }, []);
-
   const handleSendPressed = () => {
     setLetterInfo({ ...letterInfo, status: "sent"});
   };
@@ -79,28 +73,6 @@ function PreviewScreen({ navigation }) {
       console.error(err);
     }
   };
-
-  // const handleSharePressed = async () => {
-  //   try {
-  //     const result = await Share.share({
-  //       message:
-  //         'This is Qwill',
-  //     });
-  //     // keep this for now
-  //     if (result.action === Share.sharedAction) {
-  //       if (result.activityType) {
-  //         // shared with activity type of result.activityType
-  //       } else {
-  //         // shared
-  //       }
-  //     } else if (result.action === Share.dismissedAction) {
-  //       // dismissed
-  //     }
-  //   } catch (err) {
-  //     setSnackMessage(err);
-  //     setSnackIsVisible(true);
-  //   }
-  // };
   
   // In letter detail, preserving an A4 paper aspect ratio (1.41 height to width)
   return (
@@ -140,12 +112,6 @@ function PreviewScreen({ navigation }) {
           onPress={() => handleSendPressed()}
         />
       </View>
-      {/* <ButtonPrimary
-          textWidth={115}
-          title={"share it!!!"}
-          selected={true}
-          onPress={() => handleSharePressed()}
-      /> */}
       <Snackbar
           //SnackBar visibility control
           visible={snackIsVisible}

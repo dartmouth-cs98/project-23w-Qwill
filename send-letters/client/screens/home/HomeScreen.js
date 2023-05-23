@@ -24,7 +24,6 @@ import { COLORS } from '../../styles/colors';
 const IS_BIG_PHONE = wp(100) > 390;
 
 const flatListMarginTop = IS_BIG_PHONE ? -hp('4%') : -hp('2%');
-const marginMailboxTop = IS_BIG_PHONE ? hp('15%') : hp('10%');
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -80,13 +79,12 @@ function HomeScreen({ navigation, route}) {
 
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
-    
-
+    const marginBot = index == mail.length - 1 ? 0 : -hp(20);
     return (
         <View key={index}
               style={{shadowOpacity: .1, 
                       shadowColor: "#000000",
-                      marginBottom: -hp('20%')}}>
+                      marginBottom: marginBot }}>
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}
@@ -138,13 +136,13 @@ function HomeScreen({ navigation, route}) {
             { mail.length === 0 ? (
                <ImageBackground
                source={require('../../assets/mailbox1.png')}
-               imageStyle={{position: 'absolute', bottom: hp('-80%'), left: 0, resizeMode: 'contain' }}
+               imageStyle={{position: 'absolute', bottom: hp('-60%'), left: 0, right: 0, resizeMode: 'contain', width: '100%' }}
                style={{
                  flex: 1
                }}
              >
                 <View>
-                  <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center', marginBottom: -hp('10%')}}>
                     <Text style={styles.emptyMailboxText}>
                       You don't have any letters in your mailbox.
                     </Text>
@@ -163,22 +161,24 @@ function HomeScreen({ navigation, route}) {
                 <View style={{flex: 0}}/>
                 <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%', marginTop: flatListMarginTop}}>
                   <FlatList
-                    contentContainerStyle={{marginBottom: 0}}
+                    contentContainerStyle={{marginBottom: 0, zIndex: 2}}
                     shouldComponentUpdate={() => {return false;}}
                     data={mail}
-                    CellRendererComponent={this.renderItem}
                     renderItem={renderItem}
                     bounces={false}
                     ListFooterComponent={
                     <Image 
                       resizeMode="contain" 
                       style={{
+                        height: wp(100), 
+                        transform: [{translateY: -hp('3')}],
                         width: wp('100%'),
-                        marginTop: marginMailboxTop,
+                        marginTop: 0,
                         marginBottom: -hp('15%')
                       }} 
                       source={require('../../assets/mailbox2.png')}>
-                    </Image>}
+                    </Image>
+                    }
                     ListFooterComponentStyle={{width: wp('100%')}}/>
                 </View>
               </>) 
