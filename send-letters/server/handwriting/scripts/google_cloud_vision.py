@@ -85,19 +85,26 @@ def cut_texts(texts, image, png_dir):
 			height = cropped_image.height
 			c = chr(char_unicode)
 			if c.isupper():
-				paddingBottom = int(height*0.3)
+				paddingBottom = int(height*.3)
 				paddingTop = 0
 			elif c in "acemnorsuvwxz":
-				paddingBottom = int(height*0.3)
-				paddingTop = int(height*0.3)
+				paddingBottom = int(height*.3)
+				paddingTop = int(height*.3)
 			elif c in "gpqy":
 				paddingBottom = 0
-				paddingTop = int(height*0.3)
+				paddingTop = int(height*.3)
 			elif c in "bdfhiklt":
-				paddingBottom = int(height*0.3)
+				paddingBottom = int(height*.3)
 				paddingTop = 0
-			expanded_image = Image.new('RGB', (width, height + paddingTop + paddingBottom), (255, 255, 255))
-			expanded_image.paste(cropped_image, (0, paddingTop))
+			
+			# Get new height at 3:4 aspect ration
+			new_height = height + paddingTop + paddingBottom
+			new_width = int(.75*new_height)
+
+			paddingLeft = (new_width - width)*.5
+
+			expanded_image = Image.new('RGB', (new_width, new_height), (255, 255, 255))
+			expanded_image.paste(cropped_image, (paddingLeft, paddingTop))
 			new_file_name = os.path.join(png_dir, str(char_unicode) + ".png")
 			expanded_image.save(new_file_name, 'PNG')
 

@@ -75,7 +75,7 @@ function DraftsScreen({ navigation }) {
     });
   };
   useEffect(() => {
-    if (letterInfo.text != "") {
+    if (letterInfo.letterID != "") {
       navigation.navigate('NavBar', {
         screen: 'Compose',
         params: {
