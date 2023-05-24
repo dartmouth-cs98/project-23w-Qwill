@@ -80,8 +80,26 @@ def cut_texts(texts, image, png_dir):
 			# Crop image with vertex values and save image as a png to the png directory
 			cropped_image = image.crop((left, top, right, bottom))
 			cropped_image = trim(cropped_image)
+
+			width = cropped_image.width
+			height = cropped_image.height
+			c = chr(char_unicode)
+			if c.isupper():
+				paddingBottom = int(height*0.3)
+				paddingTop = 0
+			elif c in "acemnorsuvwxz":
+				paddingBottom = int(height*0.3)
+				paddingTop = int(height*0.3)
+			elif c in "gpqy":
+				paddingBottom = 0
+				paddingTop = int(height*0.3)
+			elif c in "bdfhiklt":
+				paddingBottom = int(height*0.3)
+				paddingTop = 0
+			expanded_image = Image.new('RGB', (width, height + paddingTop + paddingBottom), (255, 255, 255))
+			expanded_image.paste(cropped_image, (0, paddingTop))
 			new_file_name = os.path.join(png_dir, str(char_unicode) + ".png")
-			cropped_image.save(new_file_name, 'PNG')
+			expanded_image.save(new_file_name, 'PNG')
 
 
 """
