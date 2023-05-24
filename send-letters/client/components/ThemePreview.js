@@ -10,7 +10,6 @@ const ThemePreview = props => {
       style={{}}
       onPress={props.onPress}
     >
-      
         <Image 
           style={styles.theme}
           source={props.imageSource}

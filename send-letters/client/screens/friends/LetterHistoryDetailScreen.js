@@ -8,7 +8,7 @@ import ButtonPrimary from '../../components/ButtonPrimary';
 
 const LetterHistoryDetailScreen = ({route, navigation}) => {
   // use senderID to know who to reply to
-  const {letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID} = route.params;
+  const {letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers} = route.params;
   
   // For snackbar:
   // https://callstack.github.io/react-native-paper/snackbar.html
@@ -63,7 +63,7 @@ const LetterHistoryDetailScreen = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center'}}>
-        <LetterDetail text={letterText} themeID={themeID} fontID={fontID}/>
+        <LetterDetail text={letterText} themeID={themeID} fontID={fontID} stickers={stickers}/>
       </View>
       <View style={{flex: 4, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
           <ButtonPrimary 

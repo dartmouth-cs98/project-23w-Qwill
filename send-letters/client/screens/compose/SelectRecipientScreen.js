@@ -1,5 +1,6 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
+import { TextInput } from 'react-native';
 import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -114,6 +115,7 @@ function SelectRecipientScreen({navigation}) {
           <Input 
             placeholder="enter name or username"
             autoCompleteType="email"
+            autoCorrect={false}
             autoCapitalize="none"
             onChangeText={handleChangeText}
             inputStyle={{ fontSize: wp("4%") }}
