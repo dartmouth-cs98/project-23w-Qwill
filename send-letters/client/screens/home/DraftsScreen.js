@@ -57,9 +57,9 @@ function DraftsScreen({ navigation }) {
     }
   }
 
-  const handleDraftPressed = async (item) => {
+  const handleDraftPressed = (item) => {
     // clicking on draft button will update the current letter info
-    await setLetterInfo({
+    setLetterInfo({
       senderID: userID,
       letterID: item._id,
       text: item.text,
@@ -72,9 +72,10 @@ function DraftsScreen({ navigation }) {
       customFont: item.customFont,
       stickers: item.stickers,
     });
+
   };
   useEffect(() => {
-    if (letterInfo.text != "") {
+    if (letterInfo.letterID != "") {
       navigation.navigate('NavBar', {
         screen: 'Compose',
         params: {
@@ -122,16 +123,14 @@ function DraftsScreen({ navigation }) {
         </View> 
       )
     }
-  
-    console.log("drafts",drafts);
     return (
       <FlatList
         nestedScrollEnabled
         contentContainerStyle={{}}
         data={drafts}
         numColumns={1}
+        extraData={drafts}
         renderItem={({ item }) => (
-
           <View style={{ justifyContent: 'center', alignItems: 'center', width: wp("100%") }}>
             <TouchableOpacity style={styles.btn} onPress={() => handleDeleteDraft(item)}>
               <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)} ></Ionicons>
@@ -145,7 +144,6 @@ function DraftsScreen({ navigation }) {
                   fontID={item.font}
                   width={wp('90%') * 0.8}
                   height={hp('64%') * 0.8}
-                  touchable={true}
                   stickers={item.stickers}
                 />
               </TouchableOpacity>
