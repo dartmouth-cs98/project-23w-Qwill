@@ -13,10 +13,6 @@ import { COLORS } from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Font from 'expo-font';
 
-
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
-
 function DraftsScreen({ navigation }) {
 
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -74,7 +70,7 @@ function DraftsScreen({ navigation }) {
       status: "draft",
       fontName: item.customFont ? item.fontInfo.name : item.font,
       customFont: item.customFont,
-      stickers: item.stickers
+      stickers: item.stickers,
     });
   };
   useEffect(() => {
@@ -126,6 +122,8 @@ function DraftsScreen({ navigation }) {
         </View> 
       )
     }
+  
+    console.log("drafts",drafts);
     return (
       <FlatList
         nestedScrollEnabled
@@ -133,6 +131,7 @@ function DraftsScreen({ navigation }) {
         data={drafts}
         numColumns={1}
         renderItem={({ item }) => (
+
           <View style={{ justifyContent: 'center', alignItems: 'center', width: wp("100%") }}>
             <TouchableOpacity style={styles.btn} onPress={() => handleDeleteDraft(item)}>
               <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)} ></Ionicons>
@@ -144,10 +143,10 @@ function DraftsScreen({ navigation }) {
                   text={item.text} // Update the text prop to directly pass the text value
                   themeID={item.theme}
                   fontID={item.font}
-                  stickers={item.stickers}
                   width={wp('90%') * 0.8}
                   height={hp('64%') * 0.8}
                   touchable={true}
+                  stickers={item.stickers}
                 />
               </TouchableOpacity>
             </View>
