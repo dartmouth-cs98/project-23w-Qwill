@@ -58,6 +58,7 @@ function DraftsScreen({ navigation }) {
   }
 
   const handleDraftPressed = async (item) => {
+    console.log(item);
     // clicking on draft button will update the current letter info
     await setLetterInfo({
       senderID: userID,
@@ -123,7 +124,6 @@ function DraftsScreen({ navigation }) {
       )
     }
   
-    console.log("drafts",drafts);
     return (
       <FlatList
         nestedScrollEnabled
