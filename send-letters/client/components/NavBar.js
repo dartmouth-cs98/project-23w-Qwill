@@ -128,7 +128,8 @@ function NavBar() {
     },
     fontIconSelected: {
       borderColor: 'black',
-      backgroundColor: 'black'
+      backgroundColor: 'black',
+      // justifyContent: 'center'
     },
     fontIconUnselected: {
       borderColor: 'grey'
