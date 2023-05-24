@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Snackbar } from 'react-native-paper';
-import { Text, View, StyleSheet, Dimensions, Share } from 'react-native';
+import { Image, Text, View, StyleSheet, Dimensions, Share } from 'react-native';
 import axios from 'axios';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import findIP from '../../helpers/findIP';
@@ -82,8 +82,11 @@ function PreviewScreen({ navigation }) {
           text={letterInfo.text} 
           themeID={letterInfo.themeID} 
           fontID={letterInfo.fontID} 
+          stickers={letterInfo.stickers}
           width={screenWidth * .65} 
-          height={screenHeight * .46}/>
+          height={screenHeight * .46}
+          />
+          
       </View>
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>

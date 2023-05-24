@@ -355,7 +355,8 @@ export const fetchLetterHistory = async (req, res) => {
                     'senderInfo.name': 1,
                     'senderInfo.username': 1,
                     'recipientInfo.name': 1,
-                    'recipientInfo.username': 1
+                    'recipientInfo.username': 1,
+                    'stickers': 1,
                 }
             },
             {

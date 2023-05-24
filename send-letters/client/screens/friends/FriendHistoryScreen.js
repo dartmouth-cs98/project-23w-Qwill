@@ -46,18 +46,20 @@ export default function FriendHistoryScreen({ route, navigation }) {
         console.error("Error: the response does not contain the expected fields");
       } else {
         for (letter of resp.data.letterHistory) {
+          console.log("*****checking letter friendhistoryscreen", letter);
           if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
             await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
           }
         }
-        setLetterHistory(resp.data.letterHistory);
+        setLetterHistory(resp.data.letterHistory); //todo show tate and ask about backend
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers) => {
+    console.log("FriendHistoryScreen", stickers);
     navigation.navigate('LetterHistoryDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -65,7 +67,8 @@ export default function FriendHistoryScreen({ route, navigation }) {
       senderID: senderID,
       senderUsername: senderUsername,
       themeID: themeID,
-      fontID: fontID
+      fontID: fontID,
+      stickers: stickers,
     });
   };
 
@@ -84,7 +87,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
             // senderAddress={index}
             recipient={item.recipientInfo.name}
             // recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font, item.stickers)}}
         ></LetterHistoryPreview>
       </View>
     );
