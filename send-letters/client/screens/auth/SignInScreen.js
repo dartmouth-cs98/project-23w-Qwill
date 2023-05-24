@@ -47,7 +47,7 @@ const SignInScreen = ({ navigation }) => {
       } else {
         setState(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-        navigation.navigate('');
+        navigation.navigate('NavBar');
       }
     } catch (err) {
       console.error(err);
