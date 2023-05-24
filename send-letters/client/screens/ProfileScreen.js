@@ -27,15 +27,15 @@ function ProfileScreen({navigation}) {
   };
 
   const handleChangeUsername = () => {
-    pass
+    return
   };
 
   const handleChangePassword = () => {
-    pass
+    return
   };
 
   const handleBugSubmit = () => {
-    pass
+    return
   };
   
     return (
