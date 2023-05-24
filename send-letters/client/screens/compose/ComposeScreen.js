@@ -27,14 +27,13 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useFocusEffect } from '@react-navigation/native';
 import { throttle } from 'lodash';
 import { useIsFocused } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-
 
 function ComposeScreen({ navigation, route }) {
   const [inputText, setInputText] = useState("");
   const [count, setCount] = useState(10);
-  const [imageData, setImageData] = useState([]);
+  
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
+  const [imageData, setImageData] = useState(letterInfo.stickers);
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
   // To move stickers
@@ -83,24 +82,7 @@ function ComposeScreen({ navigation, route }) {
           },
         ]);
       });
-      // console.log('b4', imageData);
-      
-      // const updatedImageData = [...imageData];
-      // updatedImageData.push({
-      //   id: stickerID,
-      //   source: imageSource,
-      //   x: bgWidth - w - w / 4,
-      //   y: h / 4,
-      //   initialX: bgWidth - w - w / 4,
-      //   initialY: h / 4,
-      //   width: w,
-      //   height: h,
-      //   screenWidth: bgWidth,
-      //   screenHeight: bgHeight,
-      // });
-      
-      // setImageData(updatedImageData);
-      // console.log('af',imageData);
+      setStickerId(stickerID+1);
       updateBackendStickers();
     }
   };
@@ -257,13 +239,12 @@ function ComposeScreen({ navigation, route }) {
     // <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {renderTopBar()}
-      <Text style={styles.subtitleText}>{imageData.length >= 10 ? 'No more stickers' : ``}</Text>
+      <Text style={styles.normalText}>{imageData.length >= 10 ? 'No more stickers!' : ``}</Text>
       <ImageBackground
         onLayout={(event) => {
           const { width, height } = event.nativeEvent.layout;
           setBgWidth(width);
           setBgHeight(height);
-          console.log("bgwidthandheight", bgWidth, bgHeight);
         }}
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '95%' }}
