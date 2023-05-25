@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   LogBox,
   PanResponder,
-  TouchableWithoutFeedback,
   Keyboard,
   StyleSheet,
 } from 'react-native';
