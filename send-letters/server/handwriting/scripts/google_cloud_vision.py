@@ -101,7 +101,7 @@ def cut_texts(texts, image, png_dir):
 			new_height = height + paddingTop + paddingBottom
 			new_width = int(.75*new_height)
 
-			paddingLeft = (new_width - width)*.5
+			paddingLeft = int((new_width - width)*.5)
 
 			expanded_image = Image.new('RGB', (new_width, new_height), (255, 255, 255))
 			expanded_image.paste(cropped_image, (paddingLeft, paddingTop))
@@ -133,7 +133,7 @@ def display_texts(texts, image):
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/amanda_handwriting.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
@@ -152,7 +152,7 @@ if __name__ == "__main__":
 	cut_texts(texts, image, png_dir)
 
 	# Display identified texts and their bounding boxes
-	display_texts(texts, image)
+	# display_texts(texts, image)
 
 	# Clear all of temp directory
-	shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+	# shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)

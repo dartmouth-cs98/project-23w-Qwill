@@ -128,7 +128,7 @@ const FontsScreen = ({navigation}) => {
                   />
                 </View>
               }
-              keyExtractor={(item) => item.title}
+              keyExtractor={(item) => item._id}
             />
           </View>
         )
