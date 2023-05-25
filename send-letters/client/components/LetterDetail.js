@@ -5,7 +5,7 @@ import images from '../assets/imageIndex';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const  LetterDetail = props => {
+const LetterDetail = props => {
   const { text, fontID, themeID, width, height, stickers } = props;
 
   const propsWidth = width ? width : screenWidth * .9;
@@ -15,51 +15,29 @@ const  LetterDetail = props => {
   const textStyle = fontID == "" ? {} : {
     fontFamily: fontID
   };
-  if (props.touchable) {
-    return (
-      <TouchableOpacity style={[styles.letter, { width: propsWidth, height: propsHeight }]} onPress={props.onPress}>
-        <ImageBackground
-          resizeMode={'cover'}
-          style={{ flex: 1, width: '100%', height: '100%' }}
-          source={themeID === "" ? null : images.themes[themeID]}>
-          <ScrollView style={{ width: '100%', height: '100%' }}>
-            <View style={{ padding: 20 }}>
-              <Text style={textStyle}>{text}</Text>
-            </View>
-          </ScrollView>
-          {stickers.map((data, index) => (
-            <Image
-              key={index}
-              source={data.source}
-              style={{ position: 'absolute', left: (data.x/(data.screenWidth)-data.width)*propsWidth, top: ((data.y/data.screenHeight)-data.height)*propsHeight, width: 10, height: 5}}
-            />
-          ))}
-        </ImageBackground>
-      </TouchableOpacity>
-    )
-  } else {
-    return (
-      <View style={[styles.letter, { width: propsWidth, height: propsHeight }]}>
-        <ImageBackground
-          resizeMode={'cover'}
-          style={{ flex: 1, width: '100%', height: '100%' }}
-          source={themeID === "" ? null : images.themes[themeID]}>
-          <ScrollView style={{ width: '100%', height: '100%' }}>
-            <View style={{ padding: 20 }}>
-              <Text style={textStyle}>{text}</Text>
-            </View>
-          </ScrollView>
-          {stickers.map((data, index) => (
-            <Image
-              key={index}
-              source={data.source}
-              style={{ position: 'absolute', width: (data.width/data.screenWidth)*propsWidth, height: (data.height/data.screenWidth)*propsWidth, left: (data.x/data.screenWidth)*propsWidth, top: (data.y/data.screenHeight)*propsHeight }}
-            />
-          ))}
-        </ImageBackground>
-      </View>
-    )
-  }
+
+  return (
+    <View style={[styles.letter, { width: propsWidth, height: propsHeight }]}>
+      <ImageBackground
+        resizeMode={'cover'}
+        style={{ flex: 1, width: '100%', height: '100%' }}
+        source={themeID === "" ? null : images.themes[themeID]}>
+        <ScrollView style={{ width: '100%', height: '100%' }}>
+          <View style={{ padding: 20 }}>
+            <Text style={textStyle}>{text}</Text>
+          </View>
+        </ScrollView>
+        {stickers.map((data, index) => (
+          <Image
+            key={index}
+            source={data.source}
+            style={{ position: 'absolute', width: (data.width / data.screenWidth) * propsWidth, height: (data.height / data.screenWidth) * propsWidth, left: (data.x / data.screenWidth) * propsWidth, top: (data.y / data.screenHeight) * propsHeight }}
+          />
+        ))}
+      </ImageBackground>
+    </View>
+  )
+
 };
 
 export default LetterDetail;

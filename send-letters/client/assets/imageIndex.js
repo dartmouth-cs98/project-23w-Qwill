@@ -18,7 +18,13 @@ const images = {
         Cat: require('./stickers/cat-sticker-smaller.png'),
         Chicken: require('./stickers/chicken-sticker-smaller.png'),
         Squirtle: require('./stickers/squirtle-sticker-smaller.png'),
-    }
+    },
+    stickers_big: {
+        Bear_big: require('./stickers/bear-sticker.png'),
+        Cat_big: require('./stickers/cat-sticker.png'),
+        Chicken_big: require('./stickers/chicken-sticker.png'),
+        Squirtle_big: require('./stickers/squirtle-sticker.png'),
+    },
 };
 
 export default images;
