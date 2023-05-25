@@ -1,5 +1,4 @@
 import fontforge
-import psMat
 import os
 import sys
 import shutil
