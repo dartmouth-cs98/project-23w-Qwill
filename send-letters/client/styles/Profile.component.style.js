@@ -130,6 +130,13 @@ export default StyleSheet.create({
     textAlign: "center",
     marginBottom: 10
   },
+  normalText: {
+    fontSize: 20,
+    fontFamily: 'JosefinSansBold',
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 10
+  },
   shadowLight: {
     shadowColor: '#171717',
     shadowOffset: {height: 4 },
