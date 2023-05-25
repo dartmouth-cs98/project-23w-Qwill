@@ -12,7 +12,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
 
-function SelectRecipientScreen({navigation}) {
+function SelectRecipientScreen({ navigation }) {
   const [matchingUsers, setMatchingUsers] = useState("");
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
@@ -43,7 +43,7 @@ function SelectRecipientScreen({navigation}) {
     }
   };
 
-  const handleChangeText = async (text) => {    
+  const handleChangeText = async (text) => {
     const newText = text.toLowerCase();
 
     // no need to connect to server if text contains restricted characters
@@ -53,8 +53,8 @@ function SelectRecipientScreen({navigation}) {
     }
 
     try {
-      const resp = await axios.post(findIP()+"/api/matchUsers", { senderID: letterInfo.senderID, textToMatch: newText, friends: true, returnSelf: true });
-      
+      const resp = await axios.post(findIP() + "/api/matchUsers", { senderID: letterInfo.senderID, textToMatch: newText, friends: true, returnSelf: true });
+
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -78,26 +78,24 @@ function SelectRecipientScreen({navigation}) {
   }, []);
 
   const handleNextPressed = (item) => {
-    setLetterInfo({...letterInfo, recipientID: item._id, recipientUsername: item.username});
+    setLetterInfo({ ...letterInfo, recipientID: item._id, recipientUsername: item.username });
     navigation.push('SelectTheme');
   };
 
   // this function renders the users that match the text in the input component
   function renderMatches() {
     if (matchingUsers.length == 0) {
-      return <Text style={{textAlign:'center'}}>No users found</Text>
+      return <Text style={{ textAlign: 'center' }}>No users found</Text>
     }
     return (
-      <View>
-        <FlatList
-          nestedScrollEnabled
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
-          data={matchingUsers}
-          numColumns={3}
-          renderItem={({item}) => <SelectRecipientButton userInfo={item} onPress={() => handleNextPressed(item)}/>}
-          keyExtractor={item => item.username}
-        />
-      </View>
+      <FlatList
+        nestedScrollEnabled
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
+        data={matchingUsers}
+        numColumns={3}
+        renderItem={({ item }) => <SelectRecipientButton userInfo={item} onPress={() => handleNextPressed(item)} />}
+        keyExtractor={item => item.username}
+      />
     );
   };
 
@@ -105,27 +103,27 @@ function SelectRecipientScreen({navigation}) {
     <SafeAreaView style={styles.safeview}>
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={styles.backbutton}>
-        <TouchableOpacity style={styles.backIcon} onPress={()=>handleGoBack()}>
-          <Ionicons name={"arrow-back"} size={40}/>
+        <TouchableOpacity style={styles.backIcon} onPress={() => handleGoBack()}>
+          <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
         <Text style={styles.selectTitleText}>Select a recipient</Text>
       </View>
       <View style={[styles.recipientsContainer]}>
         <View style={styles.inputContainer}>
-          <Input 
+          <Input
             placeholder="enter name or username"
             autoCompleteType="email"
             autoCorrect={false}
             autoCapitalize="none"
             onChangeText={handleChangeText}
             inputStyle={{ fontSize: wp("4%") }}
-            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
-            leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%')}}
+            inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5 }}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%') }}
           />
         </View>
         <View>
           {renderMatches()}
-        </View>     
+        </View>
       </View>
     </SafeAreaView>
   );
