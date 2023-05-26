@@ -80,8 +80,33 @@ def cut_texts(texts, image, png_dir):
 			# Crop image with vertex values and save image as a png to the png directory
 			cropped_image = image.crop((left, top, right, bottom))
 			cropped_image = trim(cropped_image)
+
+			width = cropped_image.width
+			height = cropped_image.height
+			c = chr(char_unicode)
+			if c.isupper():
+				paddingBottom = int(height*.3)
+				paddingTop = 0
+			elif c in "acemnorsuvwxz":
+				paddingBottom = int(height*.3)
+				paddingTop = int(height*.3)
+			elif c in "gpqy":
+				paddingBottom = 0
+				paddingTop = int(height*.3)
+			elif c in "bdfhiklt":
+				paddingBottom = int(height*.3)
+				paddingTop = 0
+			
+			# Get new height at 3:4 aspect ration
+			new_height = height + paddingTop + paddingBottom
+			new_width = int(.75*new_height)
+
+			paddingLeft = int((new_width - width)*.5)
+
+			expanded_image = Image.new('RGB', (new_width, new_height), (255, 255, 255))
+			expanded_image.paste(cropped_image, (paddingLeft, paddingTop))
 			new_file_name = os.path.join(png_dir, str(char_unicode) + ".png")
-			cropped_image.save(new_file_name, 'PNG')
+			expanded_image.save(new_file_name, 'PNG')
 
 
 """
@@ -108,7 +133,7 @@ def display_texts(texts, image):
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/amanda_handwriting.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
@@ -127,7 +152,7 @@ if __name__ == "__main__":
 	cut_texts(texts, image, png_dir)
 
 	# Display identified texts and their bounding boxes
-	display_texts(texts, image)
+	# display_texts(texts, image)
 
 	# Clear all of temp directory
-	shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+	# shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)

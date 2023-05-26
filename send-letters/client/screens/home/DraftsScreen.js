@@ -57,6 +57,7 @@ function DraftsScreen({ navigation }) {
     }
   }
 
+
   const handleDraftPressed = (item) => {
     // clicking on draft button will update the current letter info
     setLetterInfo({
@@ -123,6 +124,7 @@ function DraftsScreen({ navigation }) {
         </View> 
       )
     }
+
     return (
       <FlatList
         nestedScrollEnabled

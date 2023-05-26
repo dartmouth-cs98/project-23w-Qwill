@@ -15,18 +15,15 @@ def generate_font(svg_dir, default_font_path, font_name):
     # Set output file names
     output_ttf = os.path.join(os.path.dirname(svg_dir), font_name + ".ttf")
 
-    # Create a new font object
-    font = fontforge.font()
+    # Initialize a fontforge font intially filled with the glyphs from the LibreBaskerville-Regular font
+    font = fontforge.open(default_font_path)
 
     # Set font properties
-    font.fontname = 'Qwill Test'
-    font.familyname = 'Qwill Test'
+    font.fontname = 'Qwill-Test'
+    font.familyname = 'Qwill-Test'
     font.em = 1000
     font.ascent = 800
     font.descent = 200
-
-    # Initialize a fontforge font intially filled with the glyphs from the LibreBaskerville-Regular font
-    font = fontforge.open(default_font_path)
 
     # Open all files from the svg directory
     for filename in os.listdir(svg_dir):
@@ -42,6 +39,14 @@ def generate_font(svg_dir, default_font_path, font_name):
         handwritten_glyph.clear()
         handwritten_glyph.importOutlines(filepath)
 
+        # Set the advance width of the character
+        handwritten_glyph.width = 500
+
+        # Adjust the side bearings to center the outlines
+        handwritten_glyph.left_side_bearing = 50
+        handwritten_glyph.right_side_bearing = 50
+
+
     # Generate the .ttf file from the font
     font.generate(output_ttf)
 
@@ -52,9 +57,10 @@ def generate_font(svg_dir, default_font_path, font_name):
 if __name__ == "__main__":
     server_dir = sys.argv[0][:-38]
     svg_dir = os.path.join(server_dir, "temp/svg_files")
-    default_font_path = os.path.join(server_dir, "handwriting/LibreBaskerville-Regular.ttf")
+    # default_font_path = os.path.join(server_dir, "handwriting/LibreBaskerville-Regular.ttf")
+    default_font_path = os.path.join(server_dir, "handwriting/GloriaHallelujah-Regular.ttf")
     font_name = "Qwill-font-test"
     generate_font(svg_dir, default_font_path, font_name)
 
     # Clear all of svg directory
-    shutil.rmtree(svg_dir, ignore_errors=True, onerror=None)
+    # shutil.rmtree(svg_dir, ignore_errors=True, onerror=None)
