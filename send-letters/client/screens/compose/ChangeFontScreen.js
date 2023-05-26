@@ -45,7 +45,6 @@ const ChangeFontScreen = ({ navigation }) => {
       } else if (!resp.data || !resp.data.createdFonts) {
         console.error("Error: the response does not contain the expected fields");
       } else {
-        // console.log(resp.data.createdFonts);
         for (const customFont of resp.data.createdFonts) {
           if (!Font.isLoaded(customFont._id)) {
             await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
@@ -76,7 +75,7 @@ const ChangeFontScreen = ({ navigation }) => {
               data={customFonts}
               numColumns={3}
               renderItem={({ item }) =>
-              <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
+                <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
                   <FontPreview 
                     style={{fontFamily: item._id}}
                     title={item.name}
@@ -97,13 +96,12 @@ const ChangeFontScreen = ({ navigation }) => {
               <Text style={{fontSize: 12}}>Default Fonts</Text>
               <View style={styles.line}></View>
         </View>
-        {/* <View style={{ flexDirection: "row" }}> */}
           <FlatList
             contentContainerStyle={{ justifyContent: 'center' }}
             data={fontData}
             numColumns={3}
             renderItem={({ item }) =>
-            <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
+              <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
                 <FontPreview 
                   style={item.style} 
                   title={item.title}
@@ -113,7 +111,6 @@ const ChangeFontScreen = ({ navigation }) => {
               </View>}
             keyExtractor={(item) => item.title}
           />
-        {/* </View> */}
       </View>
 
     </SafeAreaView>

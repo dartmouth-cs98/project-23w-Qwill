@@ -55,6 +55,7 @@ def generate_font(svg_dir, default_font_path, font_name):
 
 
 if __name__ == "__main__":
+    
     server_dir = sys.argv[0][:-38]
     svg_dir = os.path.join(server_dir, "temp/svg_files")
     # default_font_path = os.path.join(server_dir, "handwriting/LibreBaskerville-Regular.ttf")
@@ -63,4 +64,4 @@ if __name__ == "__main__":
     generate_font(svg_dir, default_font_path, font_name)
 
     # Clear all of svg directory
-    # shutil.rmtree(svg_dir, ignore_errors=True, onerror=None)
+    shutil.rmtree(svg_dir, ignore_errors=True, onerror=None)

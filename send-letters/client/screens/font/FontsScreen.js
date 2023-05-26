@@ -91,7 +91,6 @@ const FontsScreen = ({navigation}) => {
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: wp("4%") }}>
         <Text style={styles.titleText}>Fonts</Text>
-        {/* <ButtonCircle icon="pencil"></ButtonCircle> */}
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
           <Ionicons name="pencil-outline" size={normalize(40)} ></Ionicons>
         </TouchableOpacity>
