@@ -76,7 +76,7 @@ if __name__ == '__main__':
         try:
             svg_dir = os.path.join(temp_dir, "svg_files")
             font_name = str(username) + "-font-" + str(int(numCustomFonts)+1)
-            default_font_path = os.path.join(server_dir, "handwriting/LibreBaskerville-Regular.ttf")
+            default_font_path = os.path.join(server_dir, "handwriting/GloriaHallelujah-Regular.ttf")
             font_generation.generate_font(svg_dir, default_font_path, font_name)
         except Exception as err:
             handle_error(err, temp_dir, 54)

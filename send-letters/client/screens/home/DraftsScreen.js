@@ -8,13 +8,10 @@ import findIP from '../../helpers/findIP';
 import { useIsFocused } from '@react-navigation/native';
 import LetterDetail from '../../components/LetterDetail';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { COLORS } from '../../styles/colors';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Font from 'expo-font';
-
-
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
 function DraftsScreen({ navigation }) {
 
@@ -28,9 +25,7 @@ function DraftsScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const isFocused = useIsFocused();
-
   
-
   // fetch the drafts from the server
   useEffect(() => {
     fetchDrafts();
@@ -38,8 +33,8 @@ function DraftsScreen({ navigation }) {
 
   async function fetchDrafts() {
     try {
-      const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
-      
+      const resp = await axios.post(findIP() + "/api/fetchLetters", { userID, possibleLetterStatuses: ["draft"], userStatus: "sender" });
+
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -62,9 +57,10 @@ function DraftsScreen({ navigation }) {
     }
   }
 
-  const handleDraftPressed = async (item) => {
+
+  const handleDraftPressed = (item) => {
     // clicking on draft button will update the current letter info
-    await setLetterInfo({
+    setLetterInfo({
       senderID: userID,
       letterID: item._id,
       text: item.text,
@@ -72,12 +68,15 @@ function DraftsScreen({ navigation }) {
       recipientUsername: item.recipientInfo.username,
       themeID: item.theme,
       fontID: item.font,
+      status: "draft",
+      fontName: item.customFont ? item.fontInfo.name : item.font,
       customFont: item.customFont,
-      stickers: item.stickers
+      stickers: item.stickers,
     });
+
   };
   useEffect(() => {
-    if (letterInfo.text != "") {
+    if (letterInfo.letterID != "") {
       navigation.navigate('NavBar', {
         screen: 'Compose',
         params: {
@@ -93,8 +92,8 @@ function DraftsScreen({ navigation }) {
 
   const handleDeleteDraft = async (item) => {
     try {
-      const resp = await axios.post(findIP()+"/api/deleteLetter", { letterID: item._id });
-      
+      const resp = await axios.post(findIP() + "/api/deleteLetter", { letterID: item._id });
+
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -115,42 +114,52 @@ function DraftsScreen({ navigation }) {
 
   // this function renders the user's drafts found in the DB
   function renderDrafts() {
-    
+
     if (drafts && drafts.length == 0) {
-      return <Text style={{textAlign:'center'}}>No drafts found</Text>
+      return (
+        <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.emptyDraftText}>
+            You don't currently have any drafts.
+          </Text>
+        </View> 
+      )
     }
+
     return (
-        <FlatList
-          nestedScrollEnabled
-          contentContainerStyle={{}}
-          data={drafts}
-          numColumns={1}
-          renderItem={({item}) => 
-          <View style={{justifyContent: 'center', alignItems: 'center', width: wp("100%")}}>
+      <FlatList
+        nestedScrollEnabled
+        contentContainerStyle={{}}
+        data={drafts}
+        numColumns={1}
+        extraData={drafts}
+        renderItem={({ item }) => (
+          <View style={{ justifyContent: 'center', alignItems: 'center', width: wp("100%") }}>
             <TouchableOpacity style={styles.btn} onPress={() => handleDeleteDraft(item)}>
               <Ionicons style={styles.icon} name={'close-circle'} size={wp(6.5)} ></Ionicons>
               <View style={styles.xBackground}></View>
             </TouchableOpacity>
-            <View style={{marginVertical: 10}}>
-              <LetterDetail 
-                text={item.text} 
-                themeID={item.theme} 
-                fontID={item.font} 
-                width={wp('90%')*.8} 
-                height={hp('64%')*.8}
-                touchable={true}
-                onPress={() => handleDraftPressed(item)}
-              />
+            <View style={{ marginVertical: 10 }}>
+              <TouchableOpacity onPress={() => handleDraftPressed(item)}>
+                <LetterDetail
+                  text={item.text} // Update the text prop to directly pass the text value
+                  themeID={item.theme}
+                  fontID={item.font}
+                  width={wp('90%') * 0.8}
+                  height={hp('64%') * 0.8}
+                  stickers={item.stickers}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-            }
-          keyExtractor={item => item._id}
-        />
+        )}
+        keyExtractor={item => item._id}
+      />
     );
+
   };
 
   return (
-    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0, backgroundColor: "#F0F4FF"  }}>
         <View>
           {renderDrafts()}
         </View>
@@ -169,20 +178,20 @@ const styles = StyleSheet.create({
   },
   shadowLight: {
     shadowColor: '#171717',
-    shadowOffset: {height: 4 },
+    shadowOffset: { height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 1.5,
   },
   icon: {
     color: 'red',
     zIndex: 2,
-  }, 
+  },
   btn: {
     zIndex: 1,
     position: 'absolute',
     top: wp(-.5),
-    left: wp('90%')*.92,
-  }, 
+    left: wp('90%') * .92,
+  },
   xBackground: {
     backgroundColor: 'white',
     width: wp(3),
@@ -190,5 +199,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: wp(2),
     left: wp(2),
-  }
+  }, 
+  emptyDraftText: {
+    fontFamily: 'JosefinSansBold',
+    width: wp('50%'),
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: wp('4.8%'),
+    lineHeight: wp('5.6%'),
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    letterSpacing: wp('0.3%'),
+    color: COLORS.black
+  },
 })

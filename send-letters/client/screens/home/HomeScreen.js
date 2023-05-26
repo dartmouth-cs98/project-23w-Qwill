@@ -24,7 +24,6 @@ import { COLORS } from '../../styles/colors';
 const IS_BIG_PHONE = wp(100) > 390;
 
 const flatListMarginTop = IS_BIG_PHONE ? -hp('4%') : -hp('2%');
-const marginMailboxTop = IS_BIG_PHONE ? hp('15%') : hp('10%');
 
 function HomeScreen({ navigation, route}) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
@@ -49,7 +48,8 @@ function HomeScreen({ navigation, route}) {
     }
   }, [route.params]);
 
-  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers) => {
+    
     navigation.navigate('LetterDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -57,7 +57,8 @@ function HomeScreen({ navigation, route}) {
       senderID: senderID,
       senderUsername: senderUsername,
       themeID: themeID,
-      fontID: fontID
+      fontID: fontID,
+      stickers: stickers,
     });
 
     try {
@@ -78,11 +79,12 @@ function HomeScreen({ navigation, route}) {
 
   // This func is passed as a param to the letter carousel to render each itme 
   const renderItem = ({item, index}) => {
+    const marginBot = index == mail.length - 1 ? 0 : -hp(20);
     return (
         <View key={index}
               style={{shadowOpacity: .1, 
                       shadowColor: "#000000",
-                      marginBottom: -hp('20%')}}>
+                      marginBottom: marginBot }}>
           <LetterForCarousel
             letterStatus={item.status}
             letterFont={item.font}
@@ -91,7 +93,7 @@ function HomeScreen({ navigation, route}) {
             senderAddress={index}
             recipient={userInfo.user.name}
             recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font, item.stickers)}}
           />
         </View>
     );
@@ -102,7 +104,6 @@ function HomeScreen({ navigation, route}) {
     async function fetchMail() {
       try {
         const resp = await axios.post(findIP()+"/api/fetchLetters", { userID, possibleLetterStatuses: ["sent", "read"], userStatus: "recipient" });
-        // console.log(resp.data)
         if (!resp) {  // could not connect to backend
           console.log("ERROR: Could not establish server connection with axios");
           setSnackMessage("Could not establish connection to the server");
@@ -128,20 +129,20 @@ function HomeScreen({ navigation, route}) {
   }, [isFocused]);
 
     return (
-      <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0 }}>
+      <SafeAreaView style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between', alignItems: 'center', marginTop: 0, backgroundColor: "#F0F4FF" }}>
 
         <View style={{flex: 8, justifyContent: 'center', alignItems: 'center', width: wp('100%'), marginBottom: 0}} >
          
             { mail.length === 0 ? (
                <ImageBackground
                source={require('../../assets/mailbox1.png')}
-               imageStyle={{position: 'absolute', bottom: hp('-80%'), left: 0, resizeMode: 'contain' }}
+               imageStyle={{position: 'absolute', bottom: hp('-60%'), left: 0, right: 0, resizeMode: 'contain', width: '100%' }}
                style={{
                  flex: 1
                }}
              >
                 <View>
-                  <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center', marginBottom: -hp('10%')}}>
                     <Text style={styles.emptyMailboxText}>
                       You don't have any letters in your mailbox.
                     </Text>
@@ -160,22 +161,24 @@ function HomeScreen({ navigation, route}) {
                 <View style={{flex: 0}}/>
                 <View style={{flex: 8, alignItems: 'center', alignSelf: 'center', width: wp('100%'), marginBottom: '-10%', marginTop: flatListMarginTop}}>
                   <FlatList
-                    contentContainerStyle={{marginBottom: 0}}
+                    contentContainerStyle={{marginBottom: 0, zIndex: 2}}
                     shouldComponentUpdate={() => {return false;}}
                     data={mail}
-                    CellRendererComponent={this.renderItem}
                     renderItem={renderItem}
                     bounces={false}
                     ListFooterComponent={
                     <Image 
                       resizeMode="contain" 
                       style={{
+                        height: wp(100), 
+                        transform: [{translateY: -hp('3')}],
                         width: wp('100%'),
-                        marginTop: marginMailboxTop,
+                        marginTop: 0,
                         marginBottom: -hp('15%')
                       }} 
                       source={require('../../assets/mailbox2.png')}>
-                    </Image>}
+                    </Image>
+                    }
                     ListFooterComponentStyle={{width: wp('100%')}}/>
                 </View>
               </>) 

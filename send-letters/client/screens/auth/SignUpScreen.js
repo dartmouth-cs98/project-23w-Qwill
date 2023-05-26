@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { TextInput } from 'react-native';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -28,7 +28,6 @@ const SignUpScreen = ({navigation}) => {
   // https://callstack.github.io/react-native-paper/snackbar.html
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
-
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSignUpPressed = async () => {
@@ -111,85 +110,92 @@ const SignUpScreen = ({navigation}) => {
   // This component will automatically adjust its height, position, or bottom padding based on the 
   // keyboard height to remain visible while the virtual keyboard is displayed.
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="light"/>
-      <View style={{alignContent: 'center'}}>
-        <Text style={styles.signUpHeader}> 
-          Sign Up
-        </Text>
-      </View>
-      <View style={styles.inputContainer}>
-        {/* autofocus automatically focuses the app on this input */}
-        <TextInput 
-          style={styles.inputField}
-          placeholder="Name"
-          onChangeText={text => setName(text)}
-          autoCorrect={false} 
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Email"
-          autofocus
-          type="email"
-          keyboardType="email-address"
-          autoCompleteType="email"
-          autoCapitalize="none"
-          onChangeText={text => setEmail(text.toLowerCase())} 
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Username"
-          autoCapitalize="none"
-          onChangeText={text => setUsername(text)}
-          autoCorrect={false} />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Password"
-          secureTextEntry={true}
-          type="password"
-          autoCompleteType="password"
-          onChangeText={text => setPassword(text)}
-          onSubmitEditing={handleSignUpPressed}
-        /> 
-      </View>
-    
-      <View>
-        <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
-          <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
-          <Ionicons
-            style={{color: "#FFFFFF"}}
-            name={"arrow-forward-outline"}
-            size={24}>
-            </Ionicons>
-        </TouchableOpacity>
-
-        <View style={styles.orContainer}>
-          <View style={styles.lineShort}></View>
-          <Text style={styles.text}>or</Text>
-          <View style={styles.lineShort}></View>
+    <KeyboardAvoidingView
+         behavior="padding"
+         style={styles.container}
+    >
+      <ScrollView style={{flexGrow:1}}>
+        <StatusBar style="light"/>
+        <View style={{alignContent: 'center'}}>
+          <Text style={styles.signUpHeader}>
+            Sign Up
+          </Text>
         </View>
 
-        <TouchableOpacity onPress={() => handleSignInPressed()}>
-          <Text style={styles.underLineText}>I already have an account</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.inputContainer}>
+          {/* autofocus automatically focuses the app on this input */}
+          <TextInput
+            style={styles.inputField}
+            placeholder="Name"
+            onChangeText={text => setName(text)}
+            autoCorrect={false}
+          />
+          <TextInput
+            style={styles.inputField}
+            placeholder="Email"
+            autofocus
+            type="email"
+            keyboardType="email-address"
+            autoCompleteType="email"
+            autoCapitalize="none"
+            onChangeText={text => setEmail(text.toLowerCase())}
+          />
+          <TextInput
+            style={styles.inputField}
+            placeholder="Username"
+            autoCapitalize="none"
+            onChangeText={text => setUsername(text)}
+            autoCorrect={false} />
+          <TextInput
+            style={styles.inputField}
+            placeholder="Password"
+            secureTextEntry={true}
+            type="password"
+            autoCompleteType="password"
+            onChangeText={text => setPassword(text)}
+            onSubmitEditing={handleSignUpPressed}
+          />
+        </View>
+
+        <View>
+          <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
+            <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+            <Ionicons
+              style={{color: "#FFFFFF"}}
+              name={"arrow-forward-outline"}
+              size={24}>
+              </Ionicons>
+          </TouchableOpacity>
+
+          <View style={styles.orContainer}>
+            <View style={styles.lineShort}></View>
+            <Text style={styles.text}>or</Text>
+            <View style={styles.lineShort}></View>
+          </View>
+
+          <TouchableOpacity onPress={() => handleSignInPressed()}>
+            <Text style={styles.underLineText}>I already have an account</Text>
+          </TouchableOpacity>
+        </View>
+          {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
+        <View style={{height: hp('10.8')}}/>
+      </ScrollView>
 
       <Snackbar
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={onDismissSnack}
-          action={{
-            label: 'OK',
-            onPress: () => {
-              onDismissSnack();
-            },
-          }}
-        >
-        {snackMessage}
+        style={styles.snackbar}
+        //SnackBar visibility control
+        visible={snackIsVisible}
+        onDismiss={() => onDismissSnack}
+        action={{
+          label: 'OK',
+          onPress: () => {
+            setSnackIsVisible(false);
+          },
+        }}
+      >
+        <Text style={styles.snackBarText}>{snackMessage}</Text>
       </Snackbar>
 
-      {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
-      <View style={{height: hp('10.8')}}/>
     </KeyboardAvoidingView>
   );
 };
@@ -202,7 +208,8 @@ const styles = StyleSheet.create({
       fontSize: wp('18%'),
       fontFamily: 'JosefinSansBold',
       marginBottom: hp('4%'), 
-      marginTop: hp('10%')
+      marginTop: hp('10%'),
+      marginLeft: hp('5.5%'),
     },
     inputField: {
       backgroundColor: '#E2E8F6',
@@ -210,9 +217,11 @@ const styles = StyleSheet.create({
       padding: hp('2%'),
       margin: hp('0.8%'),
       fontSize: hp('2%')
+
     },
     inputContainer: {
         width: wp('73%'),
+        marginLeft: hp('4.5%'),
     },
     button: {
         width: wp('60%'),
@@ -224,7 +233,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         padding: wp('2.67%'),
         backgroundColor: '#F0F4FF',
-
+    },
+    signupContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: wp('2.67%'),
+        backgroundColor: '#F0F4FF',
+        //margin: hp('0.8%'),
+        //borderRadius: hp('3.2%'),
     },
     imageWithShadow: {
         width: wp('53.33%'), 
@@ -293,4 +310,16 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       color: '#737B7D'
     },
+    snackBarText: {
+      color: COLORS.white,
+      textAlign: 'center'
+    },
+    snackbar: {
+      opacity: 0.7,
+      alignSelf: 'center',
+      width: wp('70%'),
+      bottom: hp('1.3%'),
+      fontSize: wp('4%'),
+      borderRadius: wp('4%'),
+    }
 });

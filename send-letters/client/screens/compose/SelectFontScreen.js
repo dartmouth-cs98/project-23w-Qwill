@@ -96,8 +96,13 @@ const SelectFontScreen = ({ navigation }) => {
               data={customFonts}
               numColumns={3}
               renderItem={({ item }) =>
-                <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
-                  <FontPreview style={{fontFamily: item._id}} title={item.name} onPress={() => handleNextPressed(item._id, item.name, true)}/>
+              <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
+                  <FontPreview 
+                    style={{fontFamily: item._id}} 
+                    title={item.name}
+                    displayName={item.name}
+                    onPress={() => handleNextPressed(item._id, item.name, true)}
+                  />
                 </View>
               }
               keyExtractor={(item) => item._id}
@@ -119,7 +124,12 @@ const SelectFontScreen = ({ navigation }) => {
             numColumns={3}
             renderItem={({ item }) =>
             <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
-                <FontPreview style={item.style} title={item.title} onPress={() => handleNextPressed(item.title, item.title, false)}></FontPreview>
+                <FontPreview 
+                  style={item.style} 
+                  title={item.title}
+                  displayName={item.title}
+                  onPress={() => handleNextPressed(item.title, item.title, false)}
+                />
               </View>}
             keyExtractor={(item) => item.title}
           />

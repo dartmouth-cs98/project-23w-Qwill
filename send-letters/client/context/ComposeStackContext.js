@@ -18,6 +18,7 @@ const ComposeContextProvider = ({ children }) => {
         fontName: "",
         customFont: false,
         stickers: [],
+        status: "",
     });
 
     return (

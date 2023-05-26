@@ -1,4 +1,3 @@
-import { AuthContext } from '../../context/AuthContext';
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar } from '../../helpers/stringValidation';
 import { Input } from 'react-native-elements';
@@ -13,7 +12,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 
 export default function ChangeRecipientScreen({ navigation }) {
-    const [userInfo, setUserInfo] = useContext(AuthContext);
     const [matchingUsers, setMatchingUsers] = useState("");
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
 
@@ -23,12 +21,11 @@ export default function ChangeRecipientScreen({ navigation }) {
 
     const handleNextPressed = (item) => {
         setLetterInfo({ ...letterInfo, recipientID: item._id, recipientUsername: item.username });
-        navigation.goBack(null);
+        navigation.goBack();
     };
 
     const handleChangeText = async (text) => {
         const newText = text.toLowerCase();
-        const senderID = userInfo.user._id;
 
         // no need to connect to server if text contains restricted characters
         if (hasRestrictedChar(text) == true) {
@@ -37,7 +34,7 @@ export default function ChangeRecipientScreen({ navigation }) {
         }
 
         try {
-            const resp = await axios.post(findIP() + "/api/matchUsers", { senderID, textToMatch: newText, friends: true });
+            const resp = await axios.post(findIP() + "/api/matchUsers", { senderID: letterInfo.senderID, textToMatch: newText, friends: true, returnSelf: true });
 
             if (!resp) {  // could not connect to backend
                 console.log("ERROR: Could not establish server connection with axios");
@@ -89,7 +86,8 @@ export default function ChangeRecipientScreen({ navigation }) {
                         autoCompleteType="email"
                         autoCapitalize="none"
                         onChangeText={handleChangeText}
-                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5}}
+                        inputStyle={{ fontSize: wp("4%") }}
+                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('80%'), borderRadius: 5}}
                         leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('3%') }}
                     />
                 </View>

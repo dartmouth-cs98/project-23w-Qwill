@@ -93,12 +93,6 @@ export default StyleSheet.create({
     top: hp('1.18%'), // (11/932) * 100% ≈ 1.18% of screen height
   },
   recipientsContainer: {
-    // width: wp('90%'),
-    // height: hp('70%'),
-    // borderRadius: 20,
-    // // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     width: wp('89.74%'),
     height: hp('63.46%'),
     borderRadius: 20,
@@ -134,6 +128,13 @@ export default StyleSheet.create({
     fontFamily: 'JosefinSansBold',
     fontWeight: 'bold',
     textAlign: "center",
+    marginBottom: 10
+  },
+  normalText: {
+    fontSize: 20,
+    fontFamily: 'JosefinSansBold',
+    textAlign: "center",
+    marginTop: 10,
     marginBottom: 10
   },
   shadowLight: {

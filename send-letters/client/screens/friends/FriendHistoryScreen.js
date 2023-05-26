@@ -46,18 +46,20 @@ export default function FriendHistoryScreen({ route, navigation }) {
         console.error("Error: the response does not contain the expected fields");
       } else {
         for (letter of resp.data.letterHistory) {
+          console.log("*****checking letter friendhistoryscreen", letter);
           if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
             await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
           }
         }
-        setLetterHistory(resp.data.letterHistory);
+        setLetterHistory(resp.data.letterHistory); //todo show tate and ask about backend
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleLetterOpen = async (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID) => {
+  const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers) => {
+    console.log("FriendHistoryScreen", stickers);
     navigation.navigate('LetterHistoryDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -65,7 +67,8 @@ export default function FriendHistoryScreen({ route, navigation }) {
       senderID: senderID,
       senderUsername: senderUsername,
       themeID: themeID,
-      fontID: fontID
+      fontID: fontID,
+      stickers: stickers,
     });
   };
 
@@ -74,11 +77,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
     const alignDirection = (item.sender == userInfo.user._id) ? "flex-end" : "flex-start";
 
     return (
-      // <Text 
-      //   style={{fontFamily: item.font, textAlign: alignDirection, width: 150}}
-      // >
-      //   {item.text + "\n\n\n\n"}
-      // </Text>
       <View style={{alignSelf: alignDirection, marginLeft: windowWidth*.1, marginRight: windowWidth*.1}}>
         {/* <LetterHistoryPreview item={item} onPress={handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}></LetterHistoryPreview> */}
         <LetterHistoryPreview 
@@ -89,11 +87,11 @@ export default function FriendHistoryScreen({ route, navigation }) {
             // senderAddress={index}
             recipient={item.recipientInfo.name}
             // recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font, item.stickers)}}
         ></LetterHistoryPreview>
       </View>
     );
-  }
+  };
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, marginTop: 20 }}>
@@ -132,7 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: wp('100%'),
     backgroundColor: "rgba(30,70,147,0.2)",
     alignContent: "center", 
-    marginLeft: wp('-18%')
+    marginLeft: wp('-16%')
   },
   friendMidText: {
     textAlign: "center",
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
   },
   verticalLine: {
     position: "absolute",
-    top: hp('20%'),
+    top: hp('22%'),
     width: StyleSheet.hairlineWidth,
     height: hp('80%'),
     alignSelf: "center",

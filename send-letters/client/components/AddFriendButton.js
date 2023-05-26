@@ -21,19 +21,19 @@ const AddFriendButton = (props) => {
             <View style={styles.friendCircle} title={item.username}>
                 <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
             </View>
-            <View style={{marginLeft: "4%", marginTop: "1%"}}>
+            <View style={{marginLeft: wp("4%"), marginTop: "1%"}}>
                 <Text style={{textAlign: 'left', fontSize: 12, fontWeight: '600'}}>{(item.username).replace(/["]/g, '')}</Text>
                 <Text style={{textAlign: 'left', fontSize: 11, color: "#7184B4"}}>{"Already on Qwill"}</Text>
             </View>
-            <View style={{marginLeft: "20%"}}>
+            <View style={{marginLeft: wp("8%"), justifyContent: "center"}}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onPress}>
                     {item.friendStatus == "non-friends" ?
                         <View style={{flexDirection: "row", alignSelf: "center"}}>
-                            <Ionicons style={styles.icon} name={'add-outline'} size={normalize(16)}></Ionicons>
                             <Text style={styles.sendInviteText}>Send Invite</Text>
+                            {/* <Ionicons style={styles.icon} name={'add-outline'} size={16}></Ionicons> */}
                         </View>
                         :
-                        <Text style={styles.sendInviteText}>Request Sent</Text>
+                        <Text style={styles.sendInviteText}>Unsend Request</Text>
                     }
                 </TouchableOpacity>
             </View>
@@ -47,44 +47,42 @@ export default AddFriendButton;
 const styles = StyleSheet.create({
     outerView: { 
         backgroundColor: COLORS.friendsButtonBackground,
-        marginVertical: hp('1.5%'),
-        padding: wp('3%'),
+        marginVertical: hp('1%'),
+        padding: wp('2.5%'),
         flexDirection:'row',
         borderRadius: wp('3%'),
         width: wp('80%'),
-        aspectRatio: 5,
+        aspectRatio: 4,
     },
     friendCircle: {
         width: wp('15%'),
         aspectRatio: 1,
         borderRadius: wp('100%'),
         backgroundColor: "rgba(30,70,147,0.2)",
+        justifyContent: "center",
     },
     friendMidText: {
         textAlign: "center",
-        fontSize: wp('3.5%'),
+        fontSize: wp('5%'),
         color: "#1E4693",
         opacity: 1,
-        marginTop: hp('28%'),
         fontWeight: "600",
     },
     sendInviteButton: {
-        width: wp('60%'),
+        width: wp('25%'),
         aspectRatio: 3,
         borderRadius: wp('20%'),
         backgroundColor: COLORS.white,
-        marginTop: hp('4%')
+        justifyContent: "center",
     },
     sendInviteText: {
-        fontSize: wp('2.5%'),
+        fontSize: wp('3%'),
         color: "#7184B4",
         textAlign: 'center',
-        marginTop: hp('9%')
     },
     icon: {
         display: "flex",
         alignItems: "center",
         color: "#1E4693",
-        marginTop: hp('6%'),
       }
 });

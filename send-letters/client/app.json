@@ -2,7 +2,7 @@
   "expo": {
     "name": "Qwill",
     "slug": "Qwill",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tatetoussaint.Qwill"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +29,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "177fb78d-d24d-4a49-8415-a7b291b0f903"
+      }
     }
-    
   }
 }

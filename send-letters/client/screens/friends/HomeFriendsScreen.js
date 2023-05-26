@@ -83,7 +83,7 @@ export default function HomeFriendsScreen({ navigation }) {
               <TouchableOpacity style={styles.friendCircle} onPress={() => handleFriendPressed(item, index)} title={item.username}>
                 <Text style={styles.friendMidText}>{item.name.replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: 12 }}>
+              <Text style={{ textAlign: 'center', fontSize: wp("3%") }}>
                 {truncate(item.username.replace(/["]/g, ''), 10)}
               </Text>
             </View>
@@ -110,8 +110,9 @@ export default function HomeFriendsScreen({ navigation }) {
               autoCompleteType="email"
               autoCapitalize="none"
               onChangeText={handleChangeText}
-              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('6%'), width: wp('85%'), borderRadius: 5 }}
-              leftIcon={{ type: 'font-awesome', name: 'search', size: normalize(15), marginLeft: normalize(10) }}
+              inputStyle={{ fontSize: wp("4%") }}
+              inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5}}
+              leftIcon={{ type: 'font-awesome', name: 'search', size: hp('2.5%'), marginLeft: hp('1.7%')}}
             />
           </View>
         <View>
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
     marginLeft: wp('3.85%'),
     marginRight: wp('3.85%'),
     marginBottom: hp('0.64%'),
+    justifyContent: "center",
     
   },
   selectTitleText: {
@@ -224,7 +226,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
     color: "#1E4693",
     opacity: 1,
-    marginTop: hp('2.8%'),
     fontWeight: "600"
   },
   line: {

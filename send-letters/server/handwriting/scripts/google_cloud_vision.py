@@ -8,6 +8,8 @@ import io
 from PIL import Image, ImageDraw
 import sys
 import shutil
+import cv2
+import numpy as np
 
 # project_id = os.environ.get("GCP_PROJECT")
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "send-letters/server/application_default_credentials.json"
@@ -24,6 +26,30 @@ def detect_text(content):
 	response = client.text_detection(image=vision.Image(content=content))
 	texts = response.text_annotations
 	return texts
+
+def trim(image):
+    # convert the image to grayscale and binarize it
+    gray = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
+
+    # find the contours of the binary image
+    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # find the bounding rectangles of the contours
+    bounding_rects = [cv2.boundingRect(contour) for contour in contours]
+
+    # find the combined bounding rectangle of all contours
+    xmins = [x for x, _, _, _ in bounding_rects]
+    ymins = [y for _, y, _, _ in bounding_rects]
+    xmaxs = [x + w for x, _, w, _ in bounding_rects]
+    ymaxs = [y + h for _, y, _, h in bounding_rects]
+
+    xmin = min(xmins)-3
+    ymin = min(ymins)-3
+    xmax = max(xmaxs)+3
+    ymax = max(ymaxs)+3
+
+    return image.crop((xmin, ymin, xmax, ymax))
 
 
 """
@@ -53,8 +79,34 @@ def cut_texts(texts, image, png_dir):
 
 			# Crop image with vertex values and save image as a png to the png directory
 			cropped_image = image.crop((left, top, right, bottom))
+			cropped_image = trim(cropped_image)
+
+			width = cropped_image.width
+			height = cropped_image.height
+			c = chr(char_unicode)
+			if c.isupper():
+				paddingBottom = int(height*.3)
+				paddingTop = 0
+			elif c in "acemnorsuvwxz":
+				paddingBottom = int(height*.3)
+				paddingTop = int(height*.3)
+			elif c in "gpqy":
+				paddingBottom = 0
+				paddingTop = int(height*.3)
+			elif c in "bdfhiklt":
+				paddingBottom = int(height*.3)
+				paddingTop = 0
+			
+			# Get new height at 3:4 aspect ration
+			new_height = height + paddingTop + paddingBottom
+			new_width = int(.75*new_height)
+
+			paddingLeft = int((new_width - width)*.5)
+
+			expanded_image = Image.new('RGB', (new_width, new_height), (255, 255, 255))
+			expanded_image.paste(cropped_image, (paddingLeft, paddingTop))
 			new_file_name = os.path.join(png_dir, str(char_unicode) + ".png")
-			cropped_image.save(new_file_name, 'PNG')
+			expanded_image.save(new_file_name, 'PNG')
 
 
 """
@@ -82,7 +134,7 @@ def display_texts(texts, image):
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/tate_scanned.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
@@ -101,7 +153,7 @@ if __name__ == "__main__":
 	cut_texts(texts, image, png_dir)
 
 	# Display identified texts and their bounding boxes
-	display_texts(texts, image)
+	# display_texts(texts, image)
 
 	# Clear all of temp directory
 	shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
