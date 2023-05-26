@@ -1,45 +1,224 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Keyboard } from 'react-native';
+import { COLORS } from '../styles/colors';
+import { Snackbar } from 'react-native-paper';
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ButtonBlue from '../components/ButtonBlue.components';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { hasWhiteSpace, hasRestrictedChar } from '../helpers/stringValidation';
+import axios from 'axios';
+import findIP from '../helpers/findIP';
+
 
 function ProfileScreen({navigation}) {
 
-  const [state, setState] = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
 
+  const [newName, setNewName] = useState('');
   const [newUsername, setNewUsername] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [bug, setBug] = useState('');
 
-  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+  const [nameModalVisible, setNameModalVisible] = useState(false);
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
+  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [bugModalVisible, setBugModalVisible] = useState(false);
 
+  const [snackMessage, setSnackMessage] = useState("");
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const onDismissSnack = () => setSnackIsVisible(false);
+
   const handleSignOutPressed = async () => {
-    setState({ token: "", user: null });
+    setUserInfo({ token: "", user: null });
     await AsyncStorage.removeItem("auth-rn");
     navigation.navigate('SignIn');
   };
 
-  const handleChangeUsername = () => {
-    return;
+  const handleChangeName = async () => {
+    if (userInfo.user.name == newName) {
+      return;
+    }
+
+    try {
+      resp = await axios.post(findIP() + "/api/changeName", {userID: userInfo.user._id, newName});
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setUserInfo(prevUserInfo => ({
+          ...prevUserInfo, 
+          user: {
+            ...prevUserInfo.user,
+            name: newName
+          }
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleChangePassword = () => {
-    return;
+
+  const handleChangeUsername = async () => {
+    if (userInfo.user.username == newUsername) {
+      return;
+    }
+
+    // check username length
+    if (newUsername.length > 30) {
+      setSnackMessage("Username must be less than 30 characters");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check for whitespace in a username
+    if (hasWhiteSpace(newUsername) == true) {
+      setSnackMessage("Your username cannot contain spaces");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check for restricted characters in a username
+    if (hasRestrictedChar(newUsername) == true) {
+      setSnackMessage("Your username cannot contain a restricted character");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    try {
+      resp = await axios.post(findIP() + "/api/changeUsername", {userID: userInfo.user._id, newUsername});
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setUserInfo(prevUserInfo => ({
+          ...prevUserInfo, 
+          user: {
+            ...prevUserInfo.user,
+            username: newUsername
+          }
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleBugSubmit = () => {
-    return;
+  const handleChangePassword = async () => {
+    // check for all fields filled in
+    if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
+      setSnackMessage("All fields are required");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check that new password field matches confirm password field
+    if (newPassword != confirmPassword) {
+      setSnackMessage("Passwords must match");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    try {
+      resp = await axios.post(findIP() + "/api/changePassword", {userID: userInfo.user._id, oldPassword, newPassword});
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setSnackMessage("Your password has been changed");
+        setSnackIsVisible(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  const handleBugSubmit = async () => {
+    // check for empty bugs
+    if (bug.length < 8) {
+      setSnackMessage("Bug reports must be longer than 8 characters");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    try {
+      resp = await axios.post(findIP() + "/api/reportBug", { bug });
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        setSnackMessage("Thank you for the report!");
+        setSnackIsVisible(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const CustomSnackbar = () => {
+    <Snackbar
+      style={styles.snackbar}
+      //SnackBar visibility control
+      visible={snackIsVisible}
+      onDismiss={() => onDismissSnack}
+      action={{
+        label: 'OK',
+        onPress: () => {
+          setSnackIsVisible(false);
+        },
+      }}
+    >
+      <Text style={styles.snackBarText}>{snackMessage}</Text>
+    </Snackbar>
+  }
   
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: "#F0F4FF"}}>
+        <Modal animationType="slide" transparent={true} visible={nameModalVisible} onRequestClose={() => {setNameModalVisible(!nameModalVisible);}}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity style={styles.closeButton} onPress={() => setNameModalVisible(!nameModalVisible)}>
+                <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
+              </TouchableOpacity>
+              <Text style={styles.modalTitleText}>Change Name</Text>
+              <TextInput
+                style={styles.infoInput}
+                placeholder="Type new name here..."
+                multiline={true}
+                textAlignVertical='top'
+                textAlign='left'
+                blurOnSubmit={true}
+                value={newName}
+                onChangeText={setNewName}
+                autoCapitalize='none'
+              />
+              <ButtonBlue title={"Change name"} style={{marginTop: wp("5%")}} onPress={handleChangeName}/>
+            </View>
+          </View>
+          <CustomSnackbar/>
+        </Modal>
+
         <Modal animationType="slide" transparent={true} visible={usernameModalVisible} onRequestClose={() => {setUsernameModalVisible(!usernameModalVisible);}}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -56,11 +235,14 @@ function ProfileScreen({navigation}) {
                 blurOnSubmit={true}
                 value={newUsername}
                 onChangeText={setNewUsername}
+                autoCapitalize='none'
               />
-              <ButtonBlue title={"Change Username"} style={{marginTop: wp("5%")}} onPress={handleChangeUsername}></ButtonBlue>
+              <ButtonBlue title={"Change Username"} style={{marginTop: wp("5%")}} onPress={handleChangeUsername}/>
             </View>
           </View>
+          <CustomSnackbar/>
         </Modal>
+
         <Modal animationType="slide" transparent={true} visible={passwordModalVisible} onRequestClose={() => {setPasswordModalVisible(!passwordModalVisible);}}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -70,6 +252,17 @@ function ProfileScreen({navigation}) {
               <Text style={styles.modalTitleText}>Change Password</Text>
               <TextInput
                 style={styles.infoInput}
+                placeholder="Type current password..."
+                multiline={true}
+                textAlignVertical='top'
+                textAlign='left'
+                blurOnSubmit={true}
+                value={oldPassword}
+                onChangeText={setOldPassword}
+                autoCapitalize='none'
+              />
+              <TextInput
+                style={styles.infoInput}
                 placeholder="Type new password..."
                 multiline={true}
                 textAlignVertical='top'
@@ -77,21 +270,25 @@ function ProfileScreen({navigation}) {
                 blurOnSubmit={true}
                 value={newPassword}
                 onChangeText={setNewPassword}
+                autoCapitalize='none'
               />
               <TextInput
                 style={styles.infoInput}
-                placeholder="Confirm Password..."
+                placeholder="Confirm new password..."
                 multiline={true}
                 textAlignVertical='top'
                 textAlign='left'
                 blurOnSubmit={true}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
+                autoCapitalize='none'
               />
-              <ButtonBlue title={"Change Password"} style={{marginTop: wp("5%")}} onPress={handleChangePassword}></ButtonBlue>
+              <ButtonBlue title={"Change Password"} style={{marginTop: wp("5%")}} onPress={handleChangePassword}/>
             </View>
           </View>
+          <CustomSnackbar/>
         </Modal>
+
         <Modal animationType="slide" transparent={true} visible={bugModalVisible} onRequestClose={() => {setBugModalVisible(!bugModalVisible);}}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -108,21 +305,24 @@ function ProfileScreen({navigation}) {
                 blurOnSubmit={true}
                 value={bug}
                 onChangeText={setBug}
+                autoCapitalize='none'
               />
-              <ButtonBlue title={"Report Bug"} style={{marginTop: wp("5%")}} onPress={handleBugSubmit}></ButtonBlue>
+              <ButtonBlue title={"Report Bug"} style={{marginTop: wp("5%")}} onPress={handleBugSubmit}/>
             </View>
           </View>
+          <CustomSnackbar/>
         </Modal>
+
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
         </View>
         <View style={{alignItems: 'center'}}>
           <View style={styles.profilePhotoBack}></View>
           <Text style={{marginTop: hp('1.08%'), fontWeight: "bold", fontSize: hp('1.94%')}}>
-            {state.user.username}
+            {userInfo.user.username}
           </Text>
           <Text style={{marginTop: hp('1.08%'), fontWeight: "300", fontSize: hp('1.94%')}}>
-            Joined Qwill in {state.user.createdAt.substring(0,4)}
+            Joined Qwill in {userInfo.user.createdAt.substring(0,4)}
           </Text>
           <View style={styles.lineLong}></View>
         </View>
@@ -132,7 +332,20 @@ function ProfileScreen({navigation}) {
           </View>
         </View>
         <View style={{flex: 1, marginBottom: hp('27.03%')}}>
-          <TouchableOpacity style={styles.settingContainer} onPress={() => setUsernameModalVisible(true)}>
+          <TouchableOpacity style={styles.settingContainer} onPress={() => {setNameModalVisible(true); setSnackIsVisible(false);}}>
+              <Ionicons
+              style={{marginLeft: wp('4.67%')}}
+              name={"person-outline"}
+              size={hp('2.59%')}>
+              </Ionicons>
+              <Text style={styles.text}>Change Name</Text>
+              <Ionicons
+              style={{marginRight: wp('4.67%')}}
+              name={"chevron-forward-outline"}
+              size={hp('2.59%')}>
+              </Ionicons>
+            </TouchableOpacity>
+          <TouchableOpacity style={styles.settingContainer} onPress={() => {setUsernameModalVisible(true); setSnackIsVisible(false);}}>
             <Ionicons
             style={{marginLeft: wp('4.67%')}}
             name={"person-outline"}
@@ -145,7 +358,7 @@ function ProfileScreen({navigation}) {
             size={hp('2.59%')}>
             </Ionicons>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.settingContainer} onPress={() => setPasswordModalVisible(true)}>
+          <TouchableOpacity style={styles.settingContainer} onPress={() => {setPasswordModalVisible(true); setSnackIsVisible(false);}}>
             <Ionicons
             style={{marginLeft: wp('4.67%')}}
             name={"lock-closed-outline"}
@@ -158,7 +371,7 @@ function ProfileScreen({navigation}) {
             size={hp('2.59%')}>
             </Ionicons>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.settingContainer} onPress={() => setBugModalVisible(true)}>
+          <TouchableOpacity style={styles.settingContainer} onPress={() => {setBugModalVisible(true); setSnackIsVisible(false);}}>
             <Ionicons
             style={{marginLeft: wp('4.67%')}}
             name={"bug-outline"}
@@ -300,4 +513,16 @@ const styles = StyleSheet.create({
     borderWidth: wp('0.15%'),
     borderColor: "grey",
   },
+  snackBarText: {
+    color: COLORS.white,
+    textAlign: 'center'
+  },
+  snackbar: {
+    opacity: 0.7,
+    alignSelf: 'center',
+    width: wp('70%'),
+    bottom: hp('1.3%'),
+    fontSize: wp('4%'),
+    borderRadius: wp('4%'),
+  }
 });
