@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # APT dependencies
 RUN apt-get update && \
-    apt-get install -y curl python3 python3-pip fontforge python3-fontforge imagemagick potrace
+    apt-get install -y curl python3 python3-pip fontforge python3-fontforge imagemagick potrace libgl1-mesa-glx
 
 # Node.js installation
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
