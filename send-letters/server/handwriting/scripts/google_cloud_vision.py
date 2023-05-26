@@ -67,21 +67,22 @@ def display_texts(texts, image):
 
 	# Loop through identified text, draw a red bounding box highlighting the corresponding polygon encompassing 
 	# 	the text, and draw the identified character(s) in red
-	print('Texts:')
+	# print('Texts:')
 	for text in texts[1:]:
-		print('\n"{}"'.format(text.description))        
+		print('\n"{}"'.format(text.description))
+		# text.description = ''.join(c for c in text.description if ord(c) < 256)   
 		vertices = (['({},{})'.format(vertex.x, vertex.y)                    
                     for vertex in text.bounding_poly.vertices])
 		print('bounds: {}'.format(','.join(vertices)))
 		vertices = [(vertex.x, vertex.y) for vertex in text.bounding_poly.vertices]
 		draw.polygon(vertices, outline='red')
-		draw.text((vertices[0][0], vertices[0][1] - 10), text.description, fill='red')    
+		draw.text((vertices[0][0], vertices[0][1] - 10), text.description, fill='red')
 	image.show()
 
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/amanda_handwriting.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/tate_scanned.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
@@ -96,7 +97,7 @@ if __name__ == "__main__":
 
 	# Detect text in given content and cut images into individuals .png files
 	texts = detect_text(content)
-	# print(texts)
+	print(texts)
 	cut_texts(texts, image, png_dir)
 
 	# Display identified texts and their bounding boxes
