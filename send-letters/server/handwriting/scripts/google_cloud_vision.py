@@ -5,7 +5,7 @@
 import os
 from google.cloud import vision
 import io    
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance
 import sys
 import shutil
 import cv2
@@ -23,7 +23,8 @@ Note: The function requires Google Application Credentials to exist in the corre
 def detect_text(content):
 	# Source: https://cloud.google.com/vision/docs/handwriting#detect_document_text_in_a_remote_image 
 	client = vision.ImageAnnotatorClient()
-	response = client.text_detection(image=vision.Image(content=content))
+	image_context = vision.ImageContext(language_hints=['en'])
+	response = client.text_detection(image=vision.Image(content=content), image_context=image_context)
 	texts = response.text_annotations
 	return texts
 
@@ -119,26 +120,30 @@ def display_texts(texts, image):
 
 	# Loop through identified text, draw a red bounding box highlighting the corresponding polygon encompassing 
 	# 	the text, and draw the identified character(s) in red
-	print('Texts:')
+	# print('Texts:')
 	for text in texts[1:]:
-		print('\n"{}"'.format(text.description))        
+		print('\n"{}"'.format(text.description))
+		# text.description = ''.join(c for c in text.description if ord(c) < 256)   
 		vertices = (['({},{})'.format(vertex.x, vertex.y)                    
                     for vertex in text.bounding_poly.vertices])
 		print('bounds: {}'.format(','.join(vertices)))
 		vertices = [(vertex.x, vertex.y) for vertex in text.bounding_poly.vertices]
 		draw.polygon(vertices, outline='red')
-		draw.text((vertices[0][0], vertices[0][1] - 10), text.description, fill='red')    
+		draw.text((vertices[0][0], vertices[0][1] - 10), text.description, fill='red')
 	image.show()
 
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/tate_handwriting.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
 		content = image_file.read()
 		image = Image.open(io.BytesIO(content)).convert('RGBA')
+		# Enhance the contrast of the image (for pencil and lighter ink)
+		enhancer = ImageEnhance.Contrast(image)
+		image = enhancer.enhance(2.5)
 
 	# Clear all files in temp directory and create empty temp/png folder
 	temp_dir = os.path.join(server_dir, "temp")
@@ -148,11 +153,11 @@ if __name__ == "__main__":
 
 	# Detect text in given content and cut images into individuals .png files
 	texts = detect_text(content)
-	# print(texts)
+	print(texts)
 	cut_texts(texts, image, png_dir)
 
 	# Display identified texts and their bounding boxes
-	# display_texts(texts, image)
+	display_texts(texts, image)
 
 	# Clear all of temp directory
 	# shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)

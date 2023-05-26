@@ -4,9 +4,11 @@ import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
 
 // sendgrid
+// First four controllers from: https://nabendu82.medium.com/react-native-project-with-nodejs-and-mongodb-part-2-9f3217b37e8c
 require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_KEY);
+
 
 export const signUp = async (req, res) => {
     try {
@@ -42,7 +44,7 @@ export const signUp = async (req, res) => {
                 error: "Email is already associated with an account",
             });
         }
-        const usernameExist = await User.findOne({'username': {'$regex': username,$options:'i'}});
+        const usernameExist = await User.findOne({'username': {'$regex': `^${username}$`,$options:'i'}});
         if (usernameExist) {
             return res.json({
                 error: "Username is already associated with an account",
@@ -196,6 +198,123 @@ export const resetPassword = async (req, res) => {
         return res.json({
             ok: true
         });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+export const changeName = async (req, res) => {
+    try {
+        const { userID, newName } = req.body;
+
+        // check if our db has a user with the ID of the recipient
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // set new name
+        user.name = newName;
+        user.resetCode = "";
+        user.save();
+        return res.json({
+            ok: true
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+export const changeUsername = async (req, res) => {
+    try {
+        const { userID, newUsername } = req.body;
+
+        // check if our db has a user with the ID of the recipient
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // check if username already exists
+        const usernameExist = await User.findOne({'username': {'$regex': `^${newUsername}$`,$options:'i'}});
+        if (usernameExist) {
+            console.log(req.body);
+            console.log(usernameExist);
+            return res.json({
+                error: "Username is already associated with another account",
+            });
+        }
+
+        // set new username to current
+        user.username = newUsername;
+        user.resetCode = "";
+        user.save();
+        return res.json({
+            ok: true
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+export const changePassword = async (req, res) => {
+    try {
+        const { userID, oldPassword, newPassword } = req.body;
+
+        // check if our db has a user with the ID of the recipient
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // check if password is short
+        if (!newPassword || newPassword.length < 6) {
+            return res.json({
+                error: "Password is required and should be 6 characters long",
+            });
+        }
+
+        // check if old password provided was correct
+        const match = await comparePassword(oldPassword, user.password);
+        if (!match) {
+            return res.json({
+                error: "Current Password is incorrect",
+            });
+        }
+
+        // hash password and save to use profile
+        const hashedPassword = await hashPassword(newPassword);
+        user.password = hashedPassword;
+        user.resetCode = "";
+        user.save();
+        return res.json({
+            ok: true
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+export const reportBug = async (req, res) => {
+    try {
+        const { bug } = req.body;
+        console.log("BUG FOUND: " + bug);
     } catch (err) {
         console.log(err);
     }

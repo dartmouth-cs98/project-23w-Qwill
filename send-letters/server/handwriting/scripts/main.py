@@ -3,7 +3,7 @@ import sys
 import os
 import base64
 import io
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance
 import shutil
 
 # import helper functions
@@ -60,6 +60,9 @@ if __name__ == '__main__':
         # Initialize a png directory and cut handwriting image into png files for each character (represented by ascii file name)
         try:
             image = Image.open(io.BytesIO(handwriting_sample_image)).convert('RGBA')
+            # Enhance the contrast of the image (for pencil and lighter ink)
+            enhancer = ImageEnhance.Contrast(image)
+            image = enhancer.enhance(2.5)
             png_dir = os.path.join(temp_dir, "png_files")
             os.makedirs(png_dir)
             google_cloud_vision.cut_texts(texts, image, png_dir)
