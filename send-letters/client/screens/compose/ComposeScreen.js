@@ -62,7 +62,8 @@ function ComposeScreen({ navigation, route }) {
       var w;
       var h;
       Image.getSize(imageUri, (width, height) => {
-        console.log(sticker, width, height);
+        // console.log(sticker, width, height);
+
         w = width;
         h = height;
         setImageData([
@@ -80,9 +81,28 @@ function ComposeScreen({ navigation, route }) {
             screenHeight: bgHeight,
           },
         ]);
+
+        // console.log("updated stickers 0");
+        setLetterInfo((prevLetterInfo) => ({
+          ...prevLetterInfo,
+          stickers: [
+            ...prevLetterInfo.stickers,
+            {
+              id: stickerID,
+              source: imageSource,
+              x: bgWidth - width - width / 4,
+              y: height / 4,
+              initialX: bgWidth - width - width / 4,
+              initialY: height / 4,
+              width: width,
+              height: height,
+              screenWidth: bgWidth,
+              screenHeight: bgHeight,
+            },
+          ]
+        }));
       });
       setStickerId(stickerID+1);
-      updateBackendStickers();
     }
   };
 
@@ -170,38 +190,7 @@ function ComposeScreen({ navigation, route }) {
     }, [letterInfo])
   );
 
-
-  const updateBackendStickers = async () => {
-    setLetterInfo({ ...letterInfo, stickers: imageData }); // updates letter information
-    reqBody = letterInfo;
-    reqBody["stickers"] = imageData;  // have to update text since context not yet updated
-    reqBody["status"] = "draft";
-    try {
-      resp = null;
-      if (letterInfo.letterID != "") { // The letter hasn't been made in DB (never saved as a draft); make new letter with status draft
-        resp = await axios.post(findIP() + "/api/updateLetterInfo", reqBody);
-      }
-      if (!resp) {  // Could not connect to backend
-        console.log("ERROR: Could not establish server connection with axios");
-        setSnackMessage("Could not establish connection to the server");
-        setSnackIsVisible(true);
-      } else if (resp.data.error) {  // Another backend error
-        setSnackMessage(resp.data.error);
-        setSnackIsVisible(true);
-      } else {
-        if (letterInfo.letterID == "") {
-          setLetterInfo({ ...letterInfo, letterID: resp.data.letterID });
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleNextPressed = () => { // Navigates to the next screen, Preview
-    
-    updateBackendStickers(); 
-    
+  const handleNextPressed = () => { // Navigates to the next screen, Preview    
     setNextButtonDisabled(true);
     setTimeout(() => {
       setNextButtonDisabled(false);
@@ -308,9 +297,13 @@ function ComposeScreen({ navigation, route }) {
                 setImageData(updatedImageData);
                 setInitialStickerPosition(null);
                 setSelectedStickerIndex(null);
-                updateBackendStickers(); //updates the backend, storing stickers
-              }
+                setLetterInfo((prevLetterInfo) => ({
+                  ...prevLetterInfo,
+                  stickers: updatedImageData
+                }));
+              
 
+              }
             },
           });
           return (
