@@ -82,7 +82,7 @@ function ComposeScreen({ navigation, route }) {
           },
         ]);
 
-        console.log("updated stickers 0");
+        // console.log("updated stickers 0");
         setLetterInfo((prevLetterInfo) => ({
           ...prevLetterInfo,
           stickers: [
