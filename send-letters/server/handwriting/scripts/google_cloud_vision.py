@@ -5,7 +5,7 @@
 import os
 from google.cloud import vision
 import io    
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance
 import sys
 import shutil
 import cv2
@@ -23,7 +23,8 @@ Note: The function requires Google Application Credentials to exist in the corre
 def detect_text(content):
 	# Source: https://cloud.google.com/vision/docs/handwriting#detect_document_text_in_a_remote_image 
 	client = vision.ImageAnnotatorClient()
-	response = client.text_detection(image=vision.Image(content=content))
+	image_context = vision.ImageContext(language_hints=['en'])
+	response = client.text_detection(image=vision.Image(content=content), image_context=image_context)
 	texts = response.text_annotations
 	return texts
 
@@ -134,12 +135,15 @@ def display_texts(texts, image):
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/testfullclear2.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/tate_handwriting.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
 		content = image_file.read()
 		image = Image.open(io.BytesIO(content)).convert('RGBA')
+		# Enhance the contrast of the image (for pencil and lighter ink)
+		enhancer = ImageEnhance.Contrast(image)
+		image = enhancer.enhance(2.5)
 
 	# Clear all files in temp directory and create empty temp/png folder
 	temp_dir = os.path.join(server_dir, "temp")
@@ -153,7 +157,7 @@ if __name__ == "__main__":
 	cut_texts(texts, image, png_dir)
 
 	# Display identified texts and their bounding boxes
-	# display_texts(texts, image)
+	display_texts(texts, image)
 
 	# Clear all of temp directory
-	shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+	# shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
