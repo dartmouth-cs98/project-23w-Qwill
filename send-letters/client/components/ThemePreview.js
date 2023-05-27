@@ -32,7 +32,9 @@ const styles = StyleSheet.create({
   },
   theme: {
     height: undefined, 
-    width: wp('45%'),
+    width: wp('35%'),
+    //justifyContent: 'center',
+    //alignItems: 'center',
     aspectRatio: 1,
     resizeMode: "contain",
   },

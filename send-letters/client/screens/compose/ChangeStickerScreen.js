@@ -22,7 +22,7 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
   return (
     <SafeAreaView style={styles.safeview}>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
+        <Text style={styles.selectTitleText}>Add a sticker</Text>
         <FlatList
           data={stickers}
           numColumns={2}

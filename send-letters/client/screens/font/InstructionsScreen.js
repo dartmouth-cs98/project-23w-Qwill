@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import COLORS from '../../styles/colors';
@@ -82,39 +82,43 @@ const FontsScreen = ({ navigation }) => {
         </TouchableOpacity>
         <Text style={styles.titleText}>Create Custom Font</Text>
       </View>
+
       <View style={styles.line}></View>
-      <Text style={styles.centeredText}>To produce your custom font, we need a sample of your handwriting!</Text>
-      <Text style={styles.centeredText}>Follow the instructions below and we will handle the rest!</Text>
-      <View style={styles.line}></View>
-      <View style={styles.listContainer}>
-        <Text ordered={true} style={styles.listItem}>
-          1. On a plain white sheet of paper and a black pen, write out the alphabet in uppercase letters. Make sure their is enough space between the characters and that they are large enough.
-        </Text>
-        <Text ordered={true} style={styles.listItem}>
-          2. On another line, write the alphabet in lowercase.
-        </Text>
-        <Text ordered={true} style={styles.listItem}>
-          3. Either take a photo of your writing or scan the document and select from camera roll.
-        </Text>
-      </View>
-      <View style={styles.line}></View>
-      <Text style={styles.centeredText}>Your sample should look something like this:</Text>
-      <Image
-        style={{
-          height: undefined,
-          width: '80%',
-          aspectRatio: 2,
-          resizeMode: "contain",
-        }}
-        source={require('../../assets/exampleSample.png')}
-      />
-      {/* <View style={{flexDirection: "row"}}>
+      <ScrollView contentContainerStyle={styles.listContainer}>
+        <Text style={styles.centeredText}>To produce your custom font, we need a sample of your handwriting. Follow the instructions below and we will handle the rest! </Text>
+        <View style={styles.line}></View>
+        <View style={styles.listContainer}>
+          <Text ordered={true} style={styles.listItem}>
+            1. On a plain white sheet of paper and a black pen, write out the alphabet in uppercase letters. Make sure their is enough space between the characters and that they are large enough.
+          </Text>
+          <Text ordered={true} style={styles.listItem}>
+            2. On another line, write the alphabet in lowercase.
+          </Text>
+          <Text ordered={true} style={styles.listItem}>
+            3. Either take a photo of your writing or scan the document and select from camera roll.
+          </Text>
+        </View>
+        <View style={styles.line}></View>
+        <Text style={styles.centeredText}>Your sample should look something like this:</Text>
+        <Image
+          style={{
+            height: undefined,
+            width: '80%',
+            aspectRatio: 2,
+            resizeMode: "contain",
+            alignContent: "center",
+            justifyContent: "center"
+          }}
+          source={require('../../assets/exampleSample.png')}
+        />
+        {/* <View style={{flexDirection: "row"}}>
             <ButtonPrimary
                 selected={false}
                 title={"Add Font By Camera"}
                 onPress={() =>{navigation.navigate("CameraScreen")}}
             />
         </View> */}
+      </ScrollView>
       <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={handlePickImagePressed}></ButtonBlue>
       <Snackbar
         style={styles.snackbar}
@@ -160,17 +164,16 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     width: wp('80%'),
-    // marginBottom: hp('2.6%')
   },
   listItem: {
     fontSize: hp('1.8%'),
     fontWeight: 'bold',
     marginVertical: hp('0.8%'),
-    fontFamily: 'JosefinSansBold',
+    fontFamily: 'JosefinSans',
   },
   centeredText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: wp('4.3%'),
+    fontSize: wp('4%'),
     textAlign: 'center',
     paddingHorizontal: wp('3.8%'),
     marginTop: hp('1.2%'),
