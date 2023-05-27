@@ -1,8 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native-elements';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
 import LetterDetailScreen from '../screens/home/LetterDetailScreen';
 import HomeTopTabs from './HomeTopTabs';
 

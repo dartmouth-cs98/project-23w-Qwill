@@ -6,6 +6,7 @@ import styles from '../../styles/Profile.component.style';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -27,13 +28,15 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
           data={stickers}
           numColumns={2}
           keyExtractor={(item) => item}
-          renderItem={({ item: sticker }) => (
-            <ThemePreview
-              key={sticker}
-              stickerName={sticker}
-              imageSource={images.stickers[sticker]}
-              onPress={() => onStickerSelect(sticker)}
-            />
+          renderItem={({ item: sticker, index }) => (
+            <View style={{ marginRight: index % 2 === 0 ? widthPercentageToDP('8%') : 0 }}>
+              <ThemePreview
+                key={sticker}
+                stickerName={sticker}
+                imageSource={images.stickers[sticker]}
+                onPress={() => onStickerSelect(sticker)}
+              />
+            </View>
           )}
         />
 

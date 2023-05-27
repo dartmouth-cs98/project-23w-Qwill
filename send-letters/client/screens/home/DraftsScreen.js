@@ -144,8 +144,8 @@ function DraftsScreen({ navigation }) {
                   text={item.text} // Update the text prop to directly pass the text value
                   themeID={item.theme}
                   fontID={item.font}
-                  width={wp('90%') * 0.8}
-                  height={hp('64%') * 0.8}
+                  width={wp('65%') * 0.6}
+                  height={wp('100%') * 0.6}
                   stickers={item.stickers}
                 />
               </TouchableOpacity>
