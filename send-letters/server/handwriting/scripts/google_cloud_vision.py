@@ -70,13 +70,17 @@ def cut_texts(texts, image, png_dir):
 		vertices = [(vertex.x, vertex.y) for vertex in text.bounding_poly.vertices]
 		# Create new image with the bounding box area and save as PNG
 		if vertices:
-			# Get coordinates of vertices and give 10 pixel buffer if possible
-			left, top = vertices[0]
-			right, bottom = vertices[2]
-			left = max(0, left - 10) 
-			top = max(0, top - 10)  
-			right = min(image.width, right + 10)
-			bottom = min(image.height, bottom + 10)
+			# Get coordinates of vertices and give 1% pixel buffer if possible
+			left = min(vertex[0] for vertex in vertices)
+			top = min(vertex[1] for vertex in vertices)
+			right = max(vertex[0] for vertex in vertices)
+			bottom = max(vertex[1] for vertex in vertices)
+
+			buffer = image.height // 100
+			left = max(0, left - buffer) 
+			top = max(0, top - buffer)
+			right = min(image.width, right + buffer)
+			bottom = min(image.height, bottom + buffer)
 
 			# Crop image with vertex values and save image as a png to the png directory
 			cropped_image = image.crop((left, top, right, bottom))
@@ -85,6 +89,10 @@ def cut_texts(texts, image, png_dir):
 			width = cropped_image.width
 			height = cropped_image.height
 			c = chr(char_unicode)
+
+
+			paddingTop = 0
+			paddingBottom = 0
 			if c.isupper():
 				paddingBottom = int(height*.3)
 				paddingTop = 0
@@ -135,7 +143,7 @@ def display_texts(texts, image):
 
 if __name__ == "__main__":
 	server_dir = sys.argv[0][:-43]
-	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/tate_handwriting.png")
+	handwriting_file_loc = os.path.join(server_dir, "handwriting/test_images/amanda.png")
 
 	# Open handwriting test file
 	with io.open(handwriting_file_loc, 'rb') as image_file:
