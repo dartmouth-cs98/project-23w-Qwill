@@ -6,6 +6,7 @@ import styles from '../../styles/Profile.component.style';
 import images from '../../assets/imageIndex';
 import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const ChangeStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -22,18 +23,20 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
   return (
     <SafeAreaView style={styles.safeview}>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
+        <Text style={styles.selectTitleText}>Add a sticker</Text>
         <FlatList
           data={stickers}
           numColumns={2}
           keyExtractor={(item) => item}
-          renderItem={({ item: sticker }) => (
-            <ThemePreview
-              key={sticker}
-              stickerName={sticker}
-              imageSource={images.stickers[sticker]}
-              onPress={() => onStickerSelect(sticker)}
-            />
+          renderItem={({ item: sticker, index }) => (
+            <View style={{ marginRight: index % 2 === 0 ? widthPercentageToDP('8%') : 0 }}>
+              <ThemePreview
+                key={sticker}
+                stickerName={sticker}
+                imageSource={images.stickers[sticker]}
+                onPress={() => onStickerSelect(sticker)}
+              />
+            </View>
           )}
         />
 

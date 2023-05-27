@@ -13,12 +13,8 @@ import * as Font from 'expo-font';
 import axios from 'axios';
 import findIP from '../../helpers/findIP';
 import { Snackbar } from 'react-native-paper';
-
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const SelectFontScreen = ({ navigation }) => {
 
