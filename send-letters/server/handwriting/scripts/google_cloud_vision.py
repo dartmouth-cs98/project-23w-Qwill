@@ -90,7 +90,6 @@ def cut_texts(texts, image, png_dir):
 			height = cropped_image.height
 			c = chr(char_unicode)
 
-
 			paddingTop = 0
 			paddingBottom = 0
 			if c.isupper():
@@ -168,4 +167,4 @@ if __name__ == "__main__":
 	display_texts(texts, image)
 
 	# Clear all of temp directory
-	# shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
+	shutil.rmtree(temp_dir, ignore_errors=True, onerror=None)
