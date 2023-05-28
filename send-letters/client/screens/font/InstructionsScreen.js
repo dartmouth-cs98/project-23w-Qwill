@@ -95,21 +95,25 @@ const FontsScreen = ({ navigation }) => {
         } else if (resp.data.error) {  // backend error
           setSnackMessage(resp.data.error);
           setSnackIsVisible(true);
-        } else if (!resp.data || !resp.data.message || !resp.data.font) {
+        } else if (resp.data.message) {
+          // font creation successful
+          if (resp.data.font) {
+            // Take the user back to fonts page with snackbar success message
+            setFontIsSuccess(true);
+            // load the font
+            const customFont = resp.data.font;
+            if (!Font.isLoaded(customFont._id)) {
+              await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
+            }
+          // font creation not successful
+          } else {
+            setSnackMessage(resp.data.message);
+            setSnackIsVisible(true);
+          }
+        } else {
           console.error("Error: the response does not contain the expected fields");
           setSnackMessage("Something went wrong! Your font was not created.");
           setSnackIsVisible(true);
-        } else {
-          // Take the user back to fonts page with snackbar success message
-          setFontIsSuccess(true);
-          console.log(resp.data);
-          
-          // load the font
-          const customFont = resp.data.font;
-          if (!Font.isLoaded(customFont._id)) {
-            await Font.loadAsync({ [customFont._id]: customFont.firebaseDownloadLink });
-          }
-
         }
       } catch (err) {
         console.error(err);
@@ -161,13 +165,6 @@ const FontsScreen = ({ navigation }) => {
           }}
           source={require('../../assets/exampleSample.png')}
         />
-        {/* <View style={{flexDirection: "row"}}>
-              <ButtonPrimary
-                  selected={false}
-                  title={"Add Font By Camera"}
-                  onPress={() =>{navigation.navigate("CameraScreen")}}
-              />
-          </View> */}
         <ButtonBlue style={[styles.btn, styles.shadow]} title="Select your handwriting sample!" onPress={handlePickImagePressed}></ButtonBlue>
       </> ) :
         (
@@ -189,7 +186,7 @@ const FontsScreen = ({ navigation }) => {
         visible={snackIsVisible}
         onDismiss={() => { setSnackIsVisible(false) }}
         // short dismiss duration
-        duration={2000}
+        duration={4000}
       >
         <Text style={styles.snackBarText}>{snackMessage}</Text>
       </Snackbar>

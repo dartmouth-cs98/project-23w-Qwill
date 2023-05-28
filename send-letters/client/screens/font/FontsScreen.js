@@ -79,7 +79,7 @@ const FontsScreen = ({navigation}) => {
       } else if (!resp.data || !resp.data.ok) {
         console.error("Error: the response does not contain the expected fields");
       } else {
-        setSnackMessage("Font " + item.name + " successfully deleted");
+        setSnackMessage("Font \"" + item.name + "\" successfully deleted");
         setSnackIsVisible(true);
         fetchCustomFonts();
       }
@@ -163,10 +163,10 @@ const FontsScreen = ({navigation}) => {
           visible={snackIsVisible}
           onDismiss={() => {setSnackIsVisible(false)}}
           // short dismiss duration
-          duration={2000}
-          >
-            <Text style={styles.snackBarText}>Letter sent!</Text>
-        </Snackbar>
+          duration={3000}
+      >
+        <Text style={styles.snackBarText}>{snackMessage}</Text>
+      </Snackbar>
     </SafeAreaView>
   );
 };
