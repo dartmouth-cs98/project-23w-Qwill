@@ -106,8 +106,8 @@ const FontsScreen = ({navigation}) => {
       {
         customFonts.length == 0 ? ( 
           <View style={styles.noCustom}>
-            <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-            <Text style={{ textAlign: 'center', marginTop: windowHeight *.02, marginBottom: windowHeight *.02,textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
+            <Text style={{ textAlign: 'center', marginTop: hp("2%"), fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
+            <Text style={{ textAlign: 'center', marginTop: hp("2%"), marginBottom: hp("2%"),textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
           </View>
         ) : (
           <View style={styles.custom}>
@@ -116,9 +116,9 @@ const FontsScreen = ({navigation}) => {
               data={customFonts}
               numColumns={3}
               renderItem={({ item }) =>
-                <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                <View style={{ marginLeft: wp("2.5%"), marginRight: wp("2.5%"), marginBottom: hp("1%")}}>
                   <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
-                    <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
+                    <Ionicons name="remove-circle" size={wp(5)} color="#FF0000" style={styles.removeIcon}/>
                   </TouchableOpacity>
                   <FontPreview 
                     style={{fontFamily: item._id}}
@@ -134,18 +134,18 @@ const FontsScreen = ({navigation}) => {
           </View>
         )
       }
-      <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
+      <View style={{ flexDirection: "row", marginTop: hp("2%") }}>
         <View style={styles.line}></View>
         <Text style={{fontSize: wp("3%") }}>Default Fonts</Text>
         <View style={styles.line}></View>
       </View>
-      <View style={{ marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06, flex: 3 }}>
+      <View style={{ marginTop: hp("2%"), marginLeft: wp("6%"), marginRight: wp("6%"), flex: 3 }}>
         <FlatList
           contentContainerStyle={{ justifyContent: 'space-between'}}
           data={fontData}
           numColumns={3}
           renderItem={({ item }) =>
-            <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+            <View style={{ marginLeft: wp("2.5%"), marginRight: wp("2.5%"), marginBottom: hp("1%")}}>
               <FontPreview 
                 style={item.style}
                 title={item.title}

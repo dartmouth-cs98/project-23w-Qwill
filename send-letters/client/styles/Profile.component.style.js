@@ -38,12 +38,13 @@ export default StyleSheet.create({
     marginLeft: wp('6%'), 
     marginRight: wp('6%'),
     // marginTop: hp('2%'),
+    flex: 1
   },
   defaultFontsContainer: {
     width: wp('82%'),
     height: hp('80%'),
     borderRadius: 20,
-    flex: 1,
+    flex: 3,
   },
   letterContainer: {
     position: 'absolute',
@@ -115,7 +116,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     textAlign: 'center',
-    marginLeft: wp('3%')
+    // marginLeft: wp('3%')
   },
   shadow: {
     shadowColor: '#171717',
