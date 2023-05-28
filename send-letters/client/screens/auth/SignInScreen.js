@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { Image, Text } from 'react-native-elements';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, View, KeyboardAvoidingView, Keyboard } from 'react-native'
 import { TextInput } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,6 +29,7 @@ const SignInScreen = ({ navigation }) => {
   const handleSignInPressed = async () => {
 
     if (emailUsername === "" || password === "") {
+      Keyboard.dismiss();
       setSnackMessage("All fields are required");
       setSnackIsVisible(true);
       return;
@@ -40,9 +41,11 @@ const SignInScreen = ({ navigation }) => {
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
+        Keyboard.dismiss();
         setSnackIsVisible(true);
       } else if (resp.data.error) {  // backend error
         setSnackMessage(resp.data.error);
+        Keyboard.dismiss();
         setSnackIsVisible(true);
       } else {
         setState(resp.data);

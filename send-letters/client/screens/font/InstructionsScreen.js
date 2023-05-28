@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Image, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import COLORS from '../../styles/colors';
@@ -227,17 +227,16 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     width: wp('80%'),
-    // marginBottom: hp('2.6%')
   },
   listItem: {
     fontSize: hp('1.8%'),
     fontWeight: 'bold',
     marginVertical: hp('0.8%'),
-    fontFamily: 'JosefinSansBold',
+    fontFamily: 'JosefinSans',
   },
   centeredText: {
     fontFamily: 'JosefinSansBold',
-    fontSize: wp('4.3%'),
+    fontSize: wp('4%'),
     textAlign: 'center',
     paddingHorizontal: wp('3.8%'),
     marginTop: hp('1.2%'),

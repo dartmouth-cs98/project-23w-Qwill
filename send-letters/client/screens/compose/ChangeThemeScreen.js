@@ -23,7 +23,7 @@ const ChangeThemeScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.safeview}>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
+        <Text style={styles.selectTitleText}>Change the theme</Text>
         <FlatList
         style={styles.scrollView}
         contentContainerStyle={{}}
