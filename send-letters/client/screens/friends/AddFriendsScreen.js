@@ -6,7 +6,7 @@ import { Input } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, TouchableOpacity, FlatList, StyleSheet, Dimensions, PixelRatio, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AddFriendButton from '../../components/AddFriendButton';
 import axios from 'axios';
 import COLORS from '../../styles/colors';
@@ -46,8 +46,8 @@ const AddFriendsScreen = ({ navigation }) => {
 
   const loadPendingFriends = async () => {
     try {
-      const resp = await axios.post(findIP()+"/api/getIncomingFriendReqs", { userID });
-      
+      const resp = await axios.post(findIP() + "/api/getIncomingFriendReqs", { userID });
+
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -76,11 +76,11 @@ const AddFriendsScreen = ({ navigation }) => {
   const handleChangeText = async (text) => {
     const textToMatch = text.toLowerCase();
     setText(textToMatch);
-    
+
     if (hasRestrictedChar(text)) { setMatchingUsers([]); return; }
-  
+
     try {
-      const resp = await axios.post(findIP()+"/api/matchUsers", 
+      const resp = await axios.post(findIP() + "/api/matchUsers",
         { senderID: userID, textToMatch, nonFriends: true, pendingFriends: true, hideIncoming: true }
       );
 
@@ -103,7 +103,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   const handleAcceptFriendPressed = async (item, index) => {
     try {
-      const resp = await axios.post(findIP()+"/api/acceptFriendRequest", { friendReqID: item._id });
+      const resp = await axios.post(findIP() + "/api/acceptFriendRequest", { friendReqID: item._id });
 
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
@@ -123,7 +123,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   const handleDeclineFriendPressed = async (item, index) => {
     try {
-      const resp = await axios.post(findIP()+"/api/deleteFriendRequest", { friendReqID: item._id });
+      const resp = await axios.post(findIP() + "/api/deleteFriendRequest", { friendReqID: item._id });
 
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
@@ -150,14 +150,14 @@ const AddFriendsScreen = ({ navigation }) => {
       <View style={styles.suggestionsContainer}>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
           data={pendingFriends}
           extraData={extraData}
           numColumns={1}
           renderItem={
-            ({item, index}) => <PendingFriendButton 
-              userInfo={item} 
-              onAcceptPressed={() => handleAcceptFriendPressed(item, index)} 
+            ({ item, index }) => <PendingFriendButton
+              userInfo={item}
+              onAcceptPressed={() => handleAcceptFriendPressed(item, index)}
               onDeclinePressed={() => handleDeclineFriendPressed(item, index)}
             />
           }
@@ -174,10 +174,10 @@ const AddFriendsScreen = ({ navigation }) => {
       let msg;
 
       if (item.friendStatus == "non-friends") {
-        resp = await axios.post(findIP()+"/api/sendFriendRequest", { senderID: userID, recipientID: item._id });
+        resp = await axios.post(findIP() + "/api/sendFriendRequest", { senderID: userID, recipientID: item._id });
         msg = "Request Sent!"
       } else {
-        resp = await axios.post(findIP()+"/api/deleteFriendRequest", { friendReqID: item.friend._id });
+        resp = await axios.post(findIP() + "/api/deleteFriendRequest", { friendReqID: item.friend._id });
         msg = "Request unsent"
       }
 
@@ -205,13 +205,13 @@ const AddFriendsScreen = ({ navigation }) => {
       <View style={styles.suggestionsContainer}>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
           data={matchingUsers}
           extraData={extraData}
           numColumns={1}
           renderItem={
-            ({item, index}) => <AddFriendButton 
-              userInfo={item} 
+            ({ item, index }) => <AddFriendButton
+              userInfo={item}
               onPress={() => handleAddFriendPressed(item, index)}
             />
           }
@@ -223,15 +223,15 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={[styles.header, styles.shadowLight]}></View>
-      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight *.02 }}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight * .02 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons style={{paddingLeft: wp('3%')}} name={"arrow-back"} size={normalize(40)} />
+          <Ionicons style={{ paddingLeft: wp('3%') }} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
         <Text style={styles.titleText}>Add Friends</Text>
       </View>
-      <View style={{alignItems: 'center', marginBottom: windowHeight*.07}}>
+      <View style={{ alignItems: 'center', marginBottom: windowHeight * .07 }}>
         <View style={styles.inputContainer}>
           <Input
             placeholder=" enter name or username"
@@ -239,34 +239,44 @@ const AddFriendsScreen = ({ navigation }) => {
             onChangeText={handleChangeText}
             inputStyle={{ fontSize: wp("4%") }}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5 }}
-            leftIcon={{type: 'font-awesome', name: 'search', size: hp('2.5%'), marginLeft: hp('1.7%')}}
+            leftIcon={{ type: 'font-awesome', name: 'search', size: hp('2.5%'), marginLeft: hp('1.7%') }}
           />
         </View>
       </View>
-      <View style ={{flex: 1, marginBottom: hp("3%")}}>
-        <Text style={styles.subtitleText}>Pending - {pendingFriends.length}</Text>
-        { 
-          pendingFriends.length == 0 ? (
-            <View style={{padding: '0%', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{ textAlign: 'center' }}>
-                You don't have any incoming friend requests.
-              </Text>
-            </View> 
-          ) : (  // at least one pending friend request
-            <View style={{alignItems: 'center'}}>
+
+      <View style={{ flex: 2, marginTop: hp("2%") }}>
+        <Text style={styles.subtitleText}>Suggestions</Text>
+        <View styles={{ flex: 2 }}>
+          {renderAddFriends()}
+        </View>
+        <View style={styles.line}></View>
+
+        {
+          pendingFriends.length === 0 ? (
+            <View>
+              <Text style={styles.subtitleText}> No Pending Friend Requests </Text>
+              <Text style={{textAlign: 'center', fontSize: wp('3%')}}> Search and add some friends! </Text>
+            </View>
+          ) : pendingFriends.length === 1 ? (
+            // render when only one pending friend
+            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.subtitleText}>{pendingFriends.length} One Pending Friend Request </Text>
               {renderPendingFriends()}
             </View>
+
+          ) : (
+            // render when more than one pending friend
+            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.subtitleText}>{pendingFriends.length} Pending Friend Requests </Text>
+              {renderPendingFriends()}
+            </View>
+
+
           )
         }
+
       </View>
-      <View style={{flex: 2}}>
-        <View style={styles.line}></View>
-        <Text style={styles.subtitleText}>Suggestions</Text>
-        <View styles={{flex: 2}}>
-          {renderAddFriends()}
-        </View> 
-        <View style={styles.line}></View>
-      </View>
+
     </SafeAreaView>
   );
 };
@@ -282,7 +292,7 @@ const styles = StyleSheet.create({
   },
   shadowLight: {
     shadowColor: '#171717',
-    shadowOffset: {height: 4 },
+    shadowOffset: { height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 1.5,
   },
@@ -299,7 +309,7 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     textAlign: 'left',
     marginVertical: hp('1%'),
-    
+
     marginLeft: wp('4%')
   },
   inputContainer: {
