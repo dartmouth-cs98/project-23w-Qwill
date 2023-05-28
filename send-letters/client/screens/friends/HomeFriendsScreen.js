@@ -118,7 +118,7 @@ export default function HomeFriendsScreen({ navigation }) {
         <View>
           {renderMatches()}
         </View>
-        <View style={styles.line}/>
+        {/* <View style={styles.line}/> */}
         {/* <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue> */}
       </View>
     </SafeAreaView>
