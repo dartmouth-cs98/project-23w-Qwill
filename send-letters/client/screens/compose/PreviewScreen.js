@@ -83,8 +83,8 @@ function PreviewScreen({ navigation }) {
           themeID={letterInfo.themeID} 
           fontID={letterInfo.fontID} 
           stickers={letterInfo.stickers}
-          width={screenWidth * .65} 
-          height={screenHeight * .46}
+          width={.65} 
+          height={.46}
           />
           
       </View>

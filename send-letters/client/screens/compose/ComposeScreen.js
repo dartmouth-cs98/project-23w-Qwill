@@ -241,7 +241,7 @@ function ComposeScreen({ navigation, route }) {
           style={{
             fontFamily: letterInfo.fontID,
             marginTop: hp('2.16%'), // 20/926 = 0.0216
-            fontSize: hp('2.38%'), // 22/926 = 0.0237
+            fontSize: wp('5%'), // 22/926 = 0.0237
             height: hp('65.88%'), // 610/926 = 0.6588
             width: wp('90%'), // 90% of screen width
             marginLeft: wp('1.17%'), // 5/428 = 0.0117
