@@ -121,7 +121,6 @@ export const createCustomFont = async (req, res) => {
 
             // Handle tracked exit errors from Python process defined in ERROR_DICT and return corresponding message
             } else if (exitCode in ERROR_DICT) {
-                console.log(errorMessage);
                 return res.json({
                     message: ERROR_DICT[exitCode]
                 });            

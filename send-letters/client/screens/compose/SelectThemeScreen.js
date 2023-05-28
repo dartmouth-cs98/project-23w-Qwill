@@ -3,7 +3,7 @@ import { ComposeContext } from '../../context/ComposeStackContext';
 import { composeStackGoBack } from '../../helpers/composeStackGoBack';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions, FlatList } from 'react-native';
 import { useContext, useEffect, useCallback } from 'react';
 import images from '../../assets/imageIndex';
 import React from 'react';
@@ -74,7 +74,7 @@ const SelectThemeScreen = ({ navigation, route }) => {
         <Text style={styles.selectTitleText}>Select a theme</Text>
       </View>
       <FlatList
-        // initialNumToRender={6}
+        initialNumToRender={6}
         getItemLayout={(data, index) => (
           { length: styles.scrollView.height, offset: styles.scrollView.height * index, index }
         )}
@@ -82,7 +82,7 @@ const SelectThemeScreen = ({ navigation, route }) => {
         contentContainerStyle={{}}
         data={themesList}
         numColumns={2}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item}
         renderItem={renderItem}
       />
     </SafeAreaView>

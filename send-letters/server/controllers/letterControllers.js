@@ -349,6 +349,7 @@ export const fetchLetterHistory = async (req, res) => {
                     'status': 1,
                     'theme': 1,
                     'font': 1,
+                    'fontInfo': 1,
                     'customFont': 1,
                     'stickers': 1,
                     'createdAt': 1,
