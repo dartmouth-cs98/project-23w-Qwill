@@ -22,11 +22,11 @@ const LetterDetail = props => {
         resizeMode={'cover'}
         style={{ flex: 1, width: '100%', height: '100%' }}
         source={themeID === "" ? null : images.themes[themeID]}>
-        <ScrollView style={{ width: '100%', height: '100%' }}>
+        <View style={{ width: '100%', height: '100%' }}>
           <View style={{ padding: 20 }}>
             <Text style={textStyle}>{text}</Text>
           </View>
-        </ScrollView>
+        </View>
         {stickers.map((data, index) => (
           <Image
             key={index}
