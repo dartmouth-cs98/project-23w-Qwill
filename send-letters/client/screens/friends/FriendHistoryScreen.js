@@ -89,6 +89,27 @@ export default function FriendHistoryScreen({ route, navigation }) {
     );
   };
 
+  const renderHistory = () => {
+    if (letterHistory.length == 0) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.emptyHistoryText}>You have no letter history with this friend</Text>
+        </View>
+      )
+    } else {
+      return (
+        <View style={{flex: 1}}>
+          <View style={styles.verticalLine}></View>
+            <FlatList
+              data={letterHistory}
+              renderItem={({item}) => renderItem(item)}
+              keyExtractor={item => item._id}
+            />
+        </View>
+      )
+    }
+  };
+
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, marginTop: 20 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -103,18 +124,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
       </View>
       <Text style={styles.username}>{item.username}</Text>
       <View style={styles.line}></View>
-      <View style={styles.verticalLine}></View>
-      {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{ height: '100%', width: 1, backgroundColor: 'black' }} />
-        <View style={{ height: '100%', width: 10, backgroundColor: 'black' }} />
-      </View> */}
-      <View style={{flex: 1}}>
-        <FlatList
-          data={letterHistory}
-          renderItem={({item}) => renderItem(item)}
-          keyExtractor={item => item._id}
-        />
-      </View>
+      {renderHistory()}
     </SafeAreaView>
   )
 };
@@ -157,5 +167,18 @@ const styles = StyleSheet.create({
     height: hp('80%'),
     alignSelf: "center",
     backgroundColor: COLORS.blue400,
-  }
+  },
+  emptyHistoryText: {
+    fontFamily: 'JosefinSansBold',
+    width: wp('60%'),
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: wp('4.8%'),
+    lineHeight: wp('5.6%'),
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    letterSpacing: wp('0.3%'),
+    color: COLORS.black
+  },
 });

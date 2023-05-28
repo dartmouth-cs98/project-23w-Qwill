@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, Modal, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Modal, TouchableOpacity, ScrollView, TextInput, TouchableWithoutFeedback } from 'react-native';
 import axios from 'axios';
 import findIP from '../helpers/findIP';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -52,6 +52,7 @@ const FontPreview = props => {
     }
   };
 
+
   return (
     <View>
       <Modal
@@ -79,6 +80,7 @@ const FontPreview = props => {
                   }}
                   ref={(input) => { this.textInputRef = input; }} 
                   onSubmitEditing={() => handleEnterPressed()}
+                  onBlur={handleEnterPressed}
                 />
               ) : (
                 <Text style={[styles.modalTitle, props.style]}>{props.title}</Text>
