@@ -60,7 +60,7 @@ export default function ChangeRecipientScreen({ navigation }) {
     // this function renders the users that match the text in the input component
     function renderMatches() {
         if (matchingUsers.length == 0) {
-            return <Text style={{ textAlign: 'center' }}>No users found</Text>
+            return <Text style={{ textAlign: 'center' }}>No friend found</Text>
         }
         return (
             <View>

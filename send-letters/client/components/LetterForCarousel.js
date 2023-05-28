@@ -51,8 +51,8 @@ const LetterForCarousel = props => {
                 <Text style={[styles.monthYear, styles.shadow]}>{date[2]}</Text>
               </View>
             </View>
-            <Text style={[styles.letterTextHeader, textStyle]}>{props.sender}{"\n"}{props.senderAddress}</Text>
-            <Text style={[styles.letterTextCenter, textStyle]}>{props.recipient}{"\n"}{props.recipientAddress}</Text>
+            <Text style={[styles.letterTextHeader, textStyle]}>{props.sender}</Text>
+            <Text style={[styles.letterTextCenter, textStyle]}>{props.recipient}</Text>
           </TouchableOpacity>
       </ImageBackground>
     </View>

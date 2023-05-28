@@ -27,6 +27,7 @@ const LetterDetail = props => {
         style={{ flex: 1, width: '100%', height: '100%' }}
         source={themeID === "" ? null : images.themes[themeID]}>
         <View style={{ width: '100%', height: '100%' }}>
+          {/* This could be part of the issue */}
           <View style={{ marginLeft: hp("1.17%"), marginRight: hp('1.17%'), marginTop: hp('2.16%')}}>
             <Text style={[textStyle, {fontSize: wp("5%")*width}]}>{text}</Text>
           </View>
