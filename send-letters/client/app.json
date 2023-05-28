@@ -4,7 +4,7 @@
     "slug": "Qwill",
     "version": "1.0.8",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/logo-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/logo-splash.png",
