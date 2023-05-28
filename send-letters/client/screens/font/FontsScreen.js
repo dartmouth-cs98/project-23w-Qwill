@@ -132,7 +132,6 @@ const FontsScreen = ({navigation}) => {
           </View>
         )
       }
-      
       <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
         <View style={styles.line}></View>
         <Text style={{fontSize: wp("3%") }}>Default Fonts</Text>
@@ -199,9 +198,9 @@ const styles = StyleSheet.create({
     marginTop: hp('2%'),
   },
   custom: {
-    width: wp('88%'),
-    marginLeft: wp('6%'), 
-    marginRight: wp('6%'),
+    width: wp('90%'),
+    marginLeft: wp('5%'), 
+    marginRight: wp('5%'),
     marginTop: hp('2%'),
     flex: 1
   },

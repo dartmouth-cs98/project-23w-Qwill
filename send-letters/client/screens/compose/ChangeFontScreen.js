@@ -64,23 +64,22 @@ const ChangeFontScreen = ({ navigation }) => {
         customFonts.length == 0 ? ( 
           <></>
         ) : (
-          <View style={styles.customFontsContainer}>
-            <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
-              <View style={styles.line}></View>
-              <Text style={{fontSize: 12}}>Custom Fonts</Text>
-              <View style={styles.line}></View>
-            </View>
+          <View style={styles.custom}>
             <FlatList
-              contentContainerStyle={{ justifyContent: 'center'}}
+              contentContainerStyle={{ justifyContent: 'space-between'}}
               data={customFonts}
               numColumns={3}
               renderItem={({ item }) =>
-                <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
+                <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+                  <TouchableOpacity style={styles.removeButton} onPress={() => handleDeleteFontPressed(item)}>
+                    <Ionicons name="remove-circle" size={20} color="#FF0000" style={styles.removeIcon}/>
+                  </TouchableOpacity>
                   <FontPreview 
                     style={{fontFamily: item._id}}
+                    customFont={true}
                     title={item.name}
                     displayName={item.name}
-                    onPress={() => handleNextPressed(item._id, item.name, true)}
+                    fontID={item._id}
                   />
                 </View>
               }
@@ -89,28 +88,27 @@ const ChangeFontScreen = ({ navigation }) => {
           </View>
         )
       }
-
-      <View style={styles.defaultFontsContainer}>
-        <View style={{flexDirection: "row", justifyContent: "center", marginVertical: 10}}>
-              <View style={styles.line}></View>
-              <Text style={{fontSize: 12}}>Default Fonts</Text>
-              <View style={styles.line}></View>
-        </View>
-          <FlatList
-            contentContainerStyle={{ justifyContent: 'center' }}
-            data={fontData}
-            numColumns={3}
-            renderItem={({ item }) =>
-              <View style={{ marginLeft: wp(1), marginRight: wp(1), marginVertical: hp(.3)}}>
-                <FontPreview 
-                  style={item.style} 
-                  title={item.title}
-                  displayName={item.title}
-                  onPress={() => handleNextPressed(item.title, item.title, false)}
-                />
-              </View>}
-            keyExtractor={(item) => item.title}
-          />
+      <View style={{ flexDirection: "row", marginTop: windowHeight *.02 }}>
+        <View style={styles.line}></View>
+        <Text style={{fontSize: wp("3%") }}>Default Fonts</Text>
+        <View style={styles.line}></View>
+      </View>
+      <View style={{ marginTop: windowHeight *.02, marginLeft: windowWidth *.06, marginRight: windowWidth *.06, flex: 3 }}>
+        <FlatList
+          contentContainerStyle={{ justifyContent: 'space-between'}}
+          data={fontData}
+          numColumns={3}
+          renderItem={({ item }) =>
+            <View style={{ marginLeft: windowWidth *.025, marginRight: windowWidth *.025, marginBottom: windowHeight*.01}}>
+              <FontPreview 
+                style={item.style}
+                title={item.title}
+                displayName={item.title}
+              />
+            </View>
+          }
+          keyExtractor={(item) => item.title}
+        />
       </View>
 
     </SafeAreaView>
