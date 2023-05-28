@@ -78,7 +78,7 @@ export default function ChangeRecipientScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.safeview}>
-            <Text style={styles.selectTitleText}>Select a recipient</Text>
+            <Text style={styles.selectTitleText}>Change the recipient</Text>
             <View style={[styles.recipientsContainer]}>
                 <View style={styles.inputContainer}>
                     <Input

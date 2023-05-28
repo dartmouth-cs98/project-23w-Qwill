@@ -74,7 +74,7 @@ const SelectThemeScreen = ({ navigation, route }) => {
         <Text style={styles.selectTitleText}>Select a theme</Text>
       </View>
       <FlatList
-        // initialNumToRender={6}
+        initialNumToRender={6}
         getItemLayout={(data, index) => (
           { length: styles.scrollView.height, offset: styles.scrollView.height * index, index }
         )}

@@ -54,7 +54,7 @@ if __name__ == '__main__':
         
         # Exit with code 51 if no text detected
         if (texts == []):
-            handle_error("", temp_dir, 51)
+            handle_error("No characters were detected in the selected image", temp_dir, 51)
         # print(texts)
         
         # Initialize a png directory and cut handwriting image into png files for each character (represented by ascii file name)

@@ -34,7 +34,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
   const updateLetterHistory = async () => {
     try {
       const resp = await axios.post(findIP()+"/api/fetchLetterHistory", { userID: userInfo.user._id, friendID: item._id });
-      console.log(resp.data);
       if (!resp) {
         console.log("ERROR: Could not establish server connection with axios");
         setSnackMessage("Could not establish connection to the server");
@@ -46,7 +45,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
         console.error("Error: the response does not contain the expected fields");
       } else {
         for (letter of resp.data.letterHistory) {
-          console.log("*****checking letter friendhistoryscreen", letter);
           if (letter.fontInfo && !Font.isLoaded(letter.fontInfo._id)) {
             await Font.loadAsync({ [letter.fontInfo._id]: letter.fontInfo.firebaseDownloadLink });
           }
@@ -59,7 +57,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
   };
 
   const handleLetterOpen = (letterText, letterID, letterStatus, senderID, senderUsername, themeID, fontID, stickers) => {
-    console.log("FriendHistoryScreen", stickers);
     navigation.navigate('LetterHistoryDetail', {
       letterText: letterText,
       letterID: letterID,
@@ -78,7 +75,6 @@ export default function FriendHistoryScreen({ route, navigation }) {
 
     return (
       <View style={{alignSelf: alignDirection, marginLeft: windowWidth*.1, marginRight: windowWidth*.1}}>
-        {/* <LetterHistoryPreview item={item} onPress={handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font)}></LetterHistoryPreview> */}
         <LetterHistoryPreview 
             letterStatus={item.status}
             letterFont={item.font}

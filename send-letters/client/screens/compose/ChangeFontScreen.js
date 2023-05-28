@@ -59,7 +59,7 @@ const ChangeFontScreen = ({ navigation }) => {
   
   return (
     <SafeAreaView style={styles.safeview}>
-      <Text style={styles.selectTitleText}> Select a font </Text>
+      <Text style={styles.selectTitleText}> Change the font </Text>
       {
         customFonts.length == 0 ? ( 
           <></>

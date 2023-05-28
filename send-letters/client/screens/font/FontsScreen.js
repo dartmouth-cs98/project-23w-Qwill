@@ -10,6 +10,8 @@ import fontData from '../../assets/fontData';
 import FontPreview from '../../components/FontPreview';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useState, useEffect, useContext } from 'react';
+import { Snackbar } from 'react-native-paper';
+import { COLORS } from '../../styles/colors';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -77,7 +79,7 @@ const FontsScreen = ({navigation}) => {
       } else if (!resp.data || !resp.data.ok) {
         console.error("Error: the response does not contain the expected fields");
       } else {
-        setSnackMessage("Font " + item.name + " successfully deleted");
+        setSnackMessage("Font \"" + item.name + "\" successfully deleted");
         setSnackIsVisible(true);
         fetchCustomFonts();
       }
@@ -154,6 +156,16 @@ const FontsScreen = ({navigation}) => {
           keyExtractor={(item) => item.title}
         />
       </View>
+      <Snackbar
+          style={styles.snackbar}
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={() => {setSnackIsVisible(false)}}
+          // short dismiss duration
+          duration={3000}
+      >
+        <Text style={styles.snackBarText}>{snackMessage}</Text>
+      </Snackbar>
     </SafeAreaView>
   );
 };
@@ -227,5 +239,17 @@ const styles = StyleSheet.create({
     left: wp('22%'),
     top: -hp('.2%'),
     zIndex: 2,
+  },
+  snackbar: {
+    opacity: 0.7,
+    alignSelf: 'center',
+    width: wp('70%'),
+    bottom: hp('1.3%'),
+    fontSize: wp('4%'),
+    borderRadius: wp('4%'),
+  },
+  snackBarText: {
+    color: COLORS.white,
+    textAlign: 'center'
   }
 });
