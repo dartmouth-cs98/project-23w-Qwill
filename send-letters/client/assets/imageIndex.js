@@ -78,7 +78,7 @@ const images = {
         // mudkip: require('././stickers/mudkip.png'),
         // piplup: require('././stickers/piplup.png'),
         // vulpix: require('././stickers/vulpix.png'),
-        // celebration: require('./stickers/celebration.png'),
+        celebration: require('./stickers/celebration.png'),
         // bombDetonation: require('./stickers/bomb-detonation.png'),
         // inLove: require('./stickers/in-love.png'),
         // goodMorning: require('./stickers/good-morning.png'),
