@@ -1,5 +1,7 @@
 import User from "../schemas/userSchema";
 import Friend from "../schemas/friendSchema";
+import Letter from "../schemas/letterSchema";
+import Font from "../schemas/fontSchema";
 
 
 export const matchUsers = async (req, res) => {
@@ -372,6 +374,64 @@ export const getIncomingFriendReqs = async (req, res) => {
         return res.json({
             incomingFriendReqs: incomingFriendReqs
         });
+        
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Error. Try again.");
+    }
+};
+
+
+export const countUserStats = async (req, res) => {
+    try {
+        const { userID } = req.body;        
+
+        // check if our db has user with the ID of the sender
+        const user = await User.findOne({
+            "_id": userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No friend request found with the userID",
+            });
+        }
+
+        try {
+            const lettersSentCount = await Letter.countDocuments(
+                {
+                    'sender': userID,
+                    $or: [
+                        { 'status': "sent" }, 
+                        { 'status': "read" },
+                        { 'status': "archive" },
+                    ],
+                }
+            );
+
+            const lettersReceivedCount = await Letter.countDocuments(
+                {
+                    'recipient': userID,
+                    $or: [
+                        { 'status': "sent" }, 
+                        { 'status': "read" },
+                        { 'status': "archive" },
+                    ],
+                }
+            );
+
+            const fontsCreatedCount = await Font.countDocuments(
+                { 'creator': userID }
+            );
+
+            return res.json({
+                numLettersSent: lettersSentCount,
+                numLettersReceived: lettersReceivedCount,
+                numFontsCreated: fontsCreatedCount
+            });
+        } catch (err) {
+            console.log(err);
+        }
         
 
     } catch (err) {
