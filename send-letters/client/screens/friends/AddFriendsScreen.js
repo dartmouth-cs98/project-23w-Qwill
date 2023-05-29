@@ -148,23 +148,21 @@ const AddFriendsScreen = ({ navigation }) => {
       return <Text style={{ textAlign: 'center' }}>No pending requests found</Text>
     }
     return (
-      <View style={styles.suggestionsContainer}>
-        <FlatList
-          nestedScrollEnabled
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
-          data={pendingFriends}
-          extraData={extraData}
-          numColumns={1}
-          renderItem={
-            ({ item, index }) => <PendingFriendButton
-              userInfo={item}
-              onAcceptPressed={() => handleAcceptFriendPressed(item, index)}
-              onDeclinePressed={() => handleDeclineFriendPressed(item, index)}
-            />
-          }
-          keyExtractor={item => item._id}
-        />
-      </View>
+      <FlatList
+        nestedScrollEnabled
+        contentContainerStyle={{ alignItems: "center" }}
+        data={pendingFriends}
+        extraData={extraData}
+        numColumns={1}
+        renderItem={
+          ({ item, index }) => <PendingFriendButton
+            userInfo={item}
+            onAcceptPressed={() => handleAcceptFriendPressed(item, index)}
+            onDeclinePressed={() => handleDeclineFriendPressed(item, index)}
+          />
+        }
+        keyExtractor={item => item._id}
+      />
     );
   };
 
@@ -200,13 +198,12 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderAddFriends() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSans", marginVertical: wp("5%") }}>No users found</Text>
+      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSansBold", alignContent: 'center'}}>No users found</Text>
     }
     return (
-      <View style={styles.suggestionsContainer}>
         <FlatList
           nestedScrollEnabled
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}
+          contentContainerStyle={{ alignItems: "center" }}
           data={matchingUsers}
           extraData={extraData}
           numColumns={1}
@@ -218,7 +215,6 @@ const AddFriendsScreen = ({ navigation }) => {
           }
           keyExtractor={item => item._id}
         />
-      </View>
     );
   };
 
@@ -245,37 +241,38 @@ const AddFriendsScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={{ flex: 2, marginTop: hp("2%") }}>
-        <View style={{ flex: 2 }}>
-        <Text style={styles.subtitleText}>Search Profiles</Text>
-        <View styles={{ flex: 2 }}>
+        {/* <View style={{ flex: 2 }}> */}
+        <Text style={styles.searchText}>Search Profiles</Text>
+        {/* <View styles={{ flex: 2 }}> */}
+        {/* <View> */}
           {renderAddFriends()}
-        </View>
+        {/* </View> */}
       </View>
       <View style={styles.line}></View>
       <View style={{flex: 1}}>
         {
           pendingFriends.length === 0 ? (
-            <View>
+            <View style={{ alignItems: 'center', flex: 1 }}>
               <Text style={styles.subtitleText}> No Pending Friend Requests </Text>
               <Text style={{textAlign: 'center', fontSize: wp('3%')}}> Search and add some friends! </Text>
             </View>
           ) : pendingFriends.length === 1 ? (
             // render when only one pending friend
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
               <Text style={styles.subtitleText}>1 Pending Friend Request </Text>
               {renderPendingFriends()}
             </View>
 
           ) : (
             // render when more than one pending friend
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
               <Text style={styles.subtitleText}>{pendingFriends.length} Pending Friend Requests </Text>
               {renderPendingFriends()}
             </View>
           )
         }
         </View>
-      </View>
+      {/* </View> */}
     </SafeAreaView>
   );
 };
@@ -308,7 +305,15 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     textAlign: 'left',
     marginVertical: hp('1%'),
-    marginLeft: wp('4%')
+    marginLeft: wp('4%'),
+  },
+  searchText: {
+    fontFamily: 'JosefinSans',
+    fontSize: wp("5%"),
+    textAlign: 'left',
+    marginVertical: hp('1%'),
+    marginLeft: wp('4%'),
+    // flex: 1
   },
   inputContainer: {
     width: wp('90%'),
@@ -319,7 +324,6 @@ const styles = StyleSheet.create({
   },
   suggestionsContainer: {
     width: wp('100%'),
-    // flex: 1
   },
   line: {
     marginTop: hp('1.5%'),
@@ -327,7 +331,8 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: "90%",
-    alignSelf: 'center'
+    alignSelf: 'center',
+    // flex: .2
   },
   noMatchingUsers: {
     fontFamily: 'JosefinSans',

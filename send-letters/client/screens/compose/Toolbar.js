@@ -1,7 +1,7 @@
 // CustomButtonGroup.js
 import React from 'react';
 import { ButtonGroup } from '@rneui/themed';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import ToolBarComponent from '../../components/ToolBarComponent';
 
 
@@ -10,7 +10,7 @@ const Toolbar = ({ navigation, passedStickerSelected }) => {
         if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
         if (value == 1) { navigation.navigate('ChangeFontScreen'); }
         if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-        if (value == 3) { navigation.navigate('ChangeStickerScreen', { passedFunction: passedStickerSelected }); }
+        if (value == 3) { navigation.navigate('ChangeStickerScreen', { passedFunction: passedStickerSelected }, Keyboard.dismiss()); }
     };
 
     return (
