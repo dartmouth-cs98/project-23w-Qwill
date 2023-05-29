@@ -100,7 +100,7 @@ export default function HomeFriendsScreen({ navigation }) {
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: hp('100%') *.02 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
-          <Ionicons name="person-add-outline" size={normalize(40)} ></Ionicons>
+          <Ionicons name="person-add-outline" size={wp("10%")} ></Ionicons>
         </TouchableOpacity>
       </View>
         <View style={styles.recipientsContainer}>

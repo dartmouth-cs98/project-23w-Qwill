@@ -94,7 +94,9 @@ const FontsScreen = ({navigation}) => {
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: wp("4%") }}>
         <Text style={styles.titleText}>Fonts</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
-          <Ionicons name="pencil-outline" size={normalize(40)} ></Ionicons>
+          <Ionicons name="pencil-outline" size={wp('12%')} ></Ionicons>
+          <Ionicons name="add-outline" size={wp("7%")} style={styles.plus}></Ionicons>
+          {/* <Text style={styles.newCustomFont}>New Custom</Text> */}
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
@@ -229,7 +231,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   btn: {
-    width: wp('18%'),
+    width: wp('20%'),
+    // justifyContent: 'center',
+    // alignContent: 'center',
   },
   removeButton: {
     zIndex: 1,
@@ -251,5 +255,16 @@ const styles = StyleSheet.create({
   snackBarText: {
     color: COLORS.white,
     textAlign: 'center'
-  }
+  },
+  plus: {
+    position: 'absolute',
+    top: hp('2.75%'),
+    left: wp('6%'),
+  },
+  newCustomFont: {
+    fontFamily: 'JosefinSansBold',
+    fontStyle: "normal",
+    fontSize: wp('2.5%'),
+    lineHeight: wp('3%'),
+  },
 });
