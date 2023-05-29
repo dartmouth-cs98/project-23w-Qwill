@@ -254,6 +254,7 @@ function ComposeScreen({ navigation, route }) {
                 width: wp('90%'),
                 marginLeft: wp('1.17%'),
                 marginRight: wp('1.17%'),
+                lineHeight: wp('6.5%'),
               }}
               placeholder={"Start writing your letter!"}
               inputContainerStyle={{ borderBottomWidth: 0 }}
@@ -261,6 +262,8 @@ function ComposeScreen({ navigation, route }) {
                 if (!maxHeightReached || newText.length <= inputText.length) {
                   // setInputText(newText);
                   handleTextChange(newText);
+                  Keyboard.dismiss();
+                  // TODO: add snack message here
                 }
               }}
               multiline={true}
@@ -271,6 +274,7 @@ function ComposeScreen({ navigation, route }) {
               onContentSizeChange={(event) => {
                 if (event.nativeEvent.contentSize.height > MAX_INPUT_HEIGHT) {
                   setMaxHeightReached(true);
+                  setInputText(prevText => prevText.slice(0, -1));
                 } else {
                   setMaxHeightReached(false);
                 }
