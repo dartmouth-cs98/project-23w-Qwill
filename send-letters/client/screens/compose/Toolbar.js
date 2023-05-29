@@ -7,10 +7,11 @@ import ToolBarComponent from '../../components/ToolBarComponent';
 
 const Toolbar = ({ navigation, passedStickerSelected }) => {
     const handlePress = (value) => {
+        Keyboard.dismiss();
         if (value == 0) { navigation.navigate('ChangeRecipientScreen'); }
         if (value == 1) { navigation.navigate('ChangeFontScreen'); }
         if (value == 2) { navigation.navigate('ChangeThemeScreen'); }
-        if (value == 3) { navigation.navigate('ChangeStickerScreen', { passedFunction: passedStickerSelected }, Keyboard.dismiss()); }
+        if (value == 3) { navigation.navigate('ChangeStickerScreen', { passedFunction: passedStickerSelected }); }
     };
 
     return (

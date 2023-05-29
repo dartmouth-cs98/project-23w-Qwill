@@ -27,15 +27,17 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useFocusEffect } from '@react-navigation/native';
 import { throttle } from 'lodash';
 import { useIsFocused } from '@react-navigation/native';
+import { Snackbar } from 'react-native-paper';
+import { COLORS } from '../../styles/colors';
+
 
 function ComposeScreen({ navigation, route }) {
   const [inputText, setInputText] = useState("");
+  const [lastValidText, setLastValidText] = useState(''); 
   const [count, setCount] = useState(10);
   
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const [imageData, setImageData] = useState(letterInfo.stickers);
-  const [snackIsVisible, setSnackIsVisible] = useState(false);
-  const [snackMessage, setSnackMessage] = useState("");
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
@@ -55,6 +57,8 @@ function ComposeScreen({ navigation, route }) {
   const MAX_INPUT_HEIGHT = hp('63%');
 
   // Dismiss snack message
+  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
   const onDismissSnack = () => setSnackIsVisible(false);
 
   // A function that handles the sticker selection, updating state and fetching sticker details
@@ -88,7 +92,6 @@ function ComposeScreen({ navigation, route }) {
           },
         ]);
 
-        // console.log("updated stickers 0");
         setLetterInfo((prevLetterInfo) => ({
           ...prevLetterInfo,
           stickers: [
@@ -234,7 +237,6 @@ function ComposeScreen({ navigation, route }) {
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {renderTopBar()}
       <Text style={styles.normalText}>{imageData.length >= 10 ? 'No more stickers!' : ``}</Text>
-      {/* <ConditionalScrollView condition={keyboard}> */}
       <ScrollView style={{width: wp('100%')}} scrollEnabled={keyboard} >
         <ImageBackground
             onLayout={(event) => {
@@ -260,10 +262,8 @@ function ComposeScreen({ navigation, route }) {
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onChangeText={(newText) => {
                 if (!maxHeightReached || newText.length <= inputText.length) {
-                  // setInputText(newText);
                   handleTextChange(newText);
-                  Keyboard.dismiss();
-                  // TODO: add snack message here
+                  setLastValidText(newText);
                 }
               }}
               multiline={true}
@@ -274,7 +274,12 @@ function ComposeScreen({ navigation, route }) {
               onContentSizeChange={(event) => {
                 if (event.nativeEvent.contentSize.height > MAX_INPUT_HEIGHT) {
                   setMaxHeightReached(true);
-                  setInputText(prevText => prevText.slice(0, -1));
+                  // setInputText(prevText => prevText.slice(0, -1));
+                  setInputText(lastValidText);
+                  Keyboard.dismiss();
+                  console.log("this is why the keyboard is closing:");
+                  setSnackMessage("Letter has reached page limit.");
+                  setSnackIsVisible(true);
                 } else {
                   setMaxHeightReached(false);
                 }
@@ -321,8 +326,6 @@ function ComposeScreen({ navigation, route }) {
                     ...prevLetterInfo,
                     stickers: updatedImageData
                   }));
-                
-
                 }
               },
             });
@@ -341,11 +344,20 @@ function ComposeScreen({ navigation, route }) {
         : <></>
         }
       </ScrollView>
-      {/* </ConditionalScrollView> */}
 
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
         <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
       </KeyboardAvoidingView>
+      <Snackbar
+          style={internalStyles.snackbar}
+          //SnackBar visibility control
+          visible={snackIsVisible}
+          onDismiss={() => {setSnackIsVisible(false)}}
+          // short dismiss duration
+          duration={2000}
+        >
+          <Text style={internalStyles.snackBarText}>{snackMessage}</Text>
+      </Snackbar>
     </SafeAreaView>
   );
 };
@@ -361,6 +373,17 @@ const internalStyles = StyleSheet.create({
   doneOutline: {
     justifyContent: 'center', 
     height: wp("13%"), 
+  },
+  snackBarText: {
+    color: COLORS.white,
+    textAlign: 'center'
+  },
+  snackbar: {
+    opacity: 0.7,
+    alignSelf: 'center',
+    width: wp('70%'),
+    bottom: hp('1.3%'),
+    fontSize: wp('4%'),
+    borderRadius: wp('4%'),
   }
-
 });
