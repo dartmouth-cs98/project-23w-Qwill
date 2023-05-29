@@ -85,8 +85,7 @@ function PreviewScreen({ navigation }) {
           stickers={letterInfo.stickers}
           width={.65} 
           height={.46}
-          />
-          
+        />
       </View>
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[{flexDirection: 'column', justifyContent: 'space-between'}, styles.editContainer]}>
