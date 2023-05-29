@@ -29,9 +29,10 @@ const HomeTopTabs = () => {
       initialRouteName={'Mailbox'}
       screenOptions={{
         tabBarLabelStyle: {
-          fontSize: hp('2.25%'),
+          fontSize: hp('2.65%'),
           textTransform: 'none',
           fontWeight: 'bold',
+          fontFamily: 'JosefinSansBold'
         },
         tabBarStyle: styles.shadowLight,
         tabBarActiveTintColor: '#46589C', // set the color of the active tab

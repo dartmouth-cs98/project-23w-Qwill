@@ -94,12 +94,14 @@ const FontsScreen = ({navigation}) => {
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: wp("4%") }}>
         <Text style={styles.titleText}>Fonts</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
-          <Ionicons name="pencil-outline" size={normalize(40)} ></Ionicons>
+          <Ionicons name="pencil-outline" size={wp('12%')} ></Ionicons>
+          <Ionicons name="add-outline" size={wp("7%")} style={styles.plus}></Ionicons>
+          {/* <Text style={styles.newCustomFont}>New Custom</Text> */}
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: wp("3%") }}>Custom Fonts</Text>
+        <Text style={styles.fontSectionTitle}>Custom Fonts</Text>
         <View style={styles.line}></View>
       </View>
       
@@ -136,7 +138,7 @@ const FontsScreen = ({navigation}) => {
       }
       <View style={{ flexDirection: "row", marginTop: hp("2%") }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: wp("3%") }}>Default Fonts</Text>
+        <Text style={styles.fontSectionTitle}>Default Fonts</Text>
         <View style={styles.line}></View>
       </View>
       <View style={{ marginTop: hp("2%"), marginLeft: wp("6%"), marginRight: wp("6%"), flex: 3 }}>
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     marginLeft: wp('5%'), 
     marginRight: wp('5%'),
     marginTop: hp('2%'),
-    flex: 1
+    flex: 1.25
   },
   container: {
     flex: 1,
@@ -229,7 +231,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   btn: {
-    width: wp('18%'),
+    width: wp('20%'),
+    // justifyContent: 'center',
+    // alignContent: 'center',
   },
   removeButton: {
     zIndex: 1,
@@ -251,5 +255,15 @@ const styles = StyleSheet.create({
   snackBarText: {
     color: COLORS.white,
     textAlign: 'center'
-  }
+  },
+  plus: {
+    position: 'absolute',
+    top: hp('2.75%'),
+    left: wp('6%'),
+  },
+  fontSectionTitle: {
+    fontFamily: 'JosefinSans',
+    fontStyle: "normal",
+    fontSize: wp('3.5%'),
+  },
 });

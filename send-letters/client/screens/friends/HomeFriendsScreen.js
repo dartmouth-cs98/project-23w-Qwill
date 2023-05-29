@@ -23,16 +23,40 @@ const normalize = (size) => {
 export default function HomeFriendsScreen({ navigation }) {
   const [userInfo, setUserInfo] = useContext(AuthContext);
   const [matchingUsers, setMatchingUsers] = useState("");
+  const [pendingFriends, setPendingFriends] = useState("");
 
   const [text, onChangeText] = useState("");
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const isFocused = useIsFocused();
 
+  const userID = userInfo.user._id;
+
   // fetch any pending friend requests from the server
   useEffect(() => {
     handleChangeText("");
+    loadPendingFriends();
   }, [isFocused]);
+
+  const loadPendingFriends = async () => {
+    try {
+      const resp = await axios.post(findIP() + "/api/getIncomingFriendReqs", { userID });
+
+      if (!resp) {  // could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // backend error
+        console.error(error);
+      } else if (!resp.data || !resp.data.incomingFriendReqs) {
+        console.error("Error: the response does not contain the expected fields");
+      } else {
+        setPendingFriends(resp.data.incomingFriendReqs);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const handleChangeText = async (text) => {
     const textToMatch = text.toLowerCase();
@@ -94,13 +118,24 @@ export default function HomeFriendsScreen({ navigation }) {
     );
   };
 
+  const renderPendingIcon = () => {
+    if (pendingFriends.length != 0) {
+      return (
+        <View style={styles.pendingIcon}>
+          <Text style={styles.pendingText}>{pendingFriends.length}</Text>
+        </View>
+      );
+    }
+  }
+
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: hp('100%') *.02 }}>
         <Text style={styles.titleText}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
-          <Ionicons name="person-add-outline" size={normalize(40)} ></Ionicons>
+          {renderPendingIcon()}
+          <Ionicons name="person-add-outline" size={wp("10%")} ></Ionicons>
         </TouchableOpacity>
       </View>
         <View style={styles.recipientsContainer}>
@@ -234,4 +269,21 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.blue400,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  pendingIcon: {
+    position: "absolute",
+    width: wp('4%'),
+    aspectRatio: 1,
+    backgroundColor: "#FF0000",
+    borderRadius: wp('4%'),
+    zIndex: 1,
+    justifyContent: "center",
+    left: wp('7%'),
+    top: hp('-0.4%')
+  },
+  pendingText: {
+    color: "#FFFFFF",
+    textAlign: "center",
+    fontSize: wp('3.5%'),
+    fontWeight: "bold",
+  }
 });

@@ -313,23 +313,25 @@ function ProfileScreen({navigation}) {
           <CustomSnackbar/>
         </Modal>
 
+        <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
         </View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
           <View style={styles.profilePhotoBack}></View>
-          <Text style={{marginTop: hp('1.08%'), fontWeight: "bold", fontSize: hp('1.94%')}}>
-            {userInfo.user.username}
+          <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}}>
+            {userInfo.user.name}
           </Text>
-          <Text style={{marginTop: hp('1.08%'), fontWeight: "300", fontSize: hp('1.94%')}}>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "500", fontSize: hp('1.94%')}}>
+          @{userInfo.user.username}
+          </Text>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "300", fontSize: hp('1.7%')}}>
             Joined Qwill in {userInfo.user.createdAt.substring(0,4)}
           </Text>
-          <View style={styles.lineLong}></View>
+          {/* <View style={styles.lineLong}></View> */}
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={styles.settingsText}>Settings</Text>
-          </View>
+        <View style={{flexDirection: 'row', marginBottom: hp("3%")}}>
+          <Text style={styles.settingsText}>Settings</Text>
         </View>
         <View style={{flex: 1, marginBottom: hp('27.03%')}}>
           <TouchableOpacity style={styles.settingContainer} onPress={() => {setNameModalVisible(true); setSnackIsVisible(false);}}>
@@ -348,7 +350,7 @@ function ProfileScreen({navigation}) {
           <TouchableOpacity style={styles.settingContainer} onPress={() => {setUsernameModalVisible(true); setSnackIsVisible(false);}}>
             <Ionicons
             style={{marginLeft: wp('4.67%')}}
-            name={"person-outline"}
+            name={"person-circle-outline"}
             size={hp('2.59%')}>
             </Ionicons>
             <Text style={styles.text}>Change Username</Text>
@@ -392,6 +394,18 @@ function ProfileScreen({navigation}) {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    backgroundColor: "#BDCCF2",
+    width: wp("100%"),
+    height: hp('37%')
+  },
+  shadowLight: {
+    shadowColor: '#171717',
+    shadowOffset: { height: hp(0.4) },
+    shadowOpacity: 0.3,
+    shadowRadius: hp(0.15),
+  },
   btn: {
     boxSizing: "border-box",
     display: "flex",
@@ -402,11 +416,12 @@ const styles = StyleSheet.create({
     paddingBottom: hp('1.3%'),
     paddingLeft: wp('4.2%'),
     borderRadius: wp('2.3%'),
+    borderColor: "#B9BCC3",
     borderWidth: wp('0.23%'),
-    borderColor: "#737B7D",
     borderStyle: "solid",
     marginRight: wp('4.67%'),
-    marginTop: hp('1.08%')
+    marginTop: hp('1.08%'),
+    backgroundColor: "#E2E8F6",
   },
   btnText: {},
   profilePhotoBack: {
@@ -415,6 +430,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: wp('14.02%'),
     backgroundColor: 'black',
+    marginBottom: hp('1%')
   },
   lineLong: {
     width: wp('74.3%'),
@@ -436,11 +452,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between', 
     alignItems: 'center',
-    borderColor: "#black",
+    borderColor: "#B9BCC3",
     borderWidth: wp('0.23%'),
     borderRadius: wp('2.3%'),
     marginVertical: hp('0.54%'),
-    alignSelf: 'center'
+    alignSelf: 'center',
+    backgroundColor: "#E2E8F6",
   },
   text: {
     fontSize: wp('3.5%'),

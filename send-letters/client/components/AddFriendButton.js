@@ -3,6 +3,8 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { Text, View, TouchableOpacity, StyleSheet, Dimensions, PixelRatio } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
+import { truncate } from '../helpers/stringValidation';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -21,11 +23,12 @@ const AddFriendButton = (props) => {
             <View style={styles.friendCircle} title={item.username}>
                 <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
             </View>
-            <View style={{marginLeft: wp("4%"), marginTop: "1%"}}>
-                <Text style={{textAlign: 'left', fontSize: 12, fontWeight: '600'}}>{(item.username).replace(/["]/g, '')}</Text>
-                <Text style={{textAlign: 'left', fontSize: 11, color: "#7184B4"}}>{"Already on Qwill"}</Text>
+            <View style={{marginLeft: wp("4%"), justifyContent: "center"}}>
+                <Text style={{textAlign: 'left', fontSize: wp("3.5%"), fontWeight: '600'}}>{truncate(item.username.replace(/["]/g, ''), 15)}</Text>
+                <Text style={{textAlign: 'left', fontSize: wp("3.25%"), color: "#7184B4"}}>{item.name}</Text>
             </View>
-            <View style={{marginLeft: wp("8%"), justifyContent: "center"}}>
+            <View style={{ flex: 1 }}/>
+            <View style={styles.inviteBtn}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onPress}>
                     {item.friendStatus == "non-friends" ?
                         <View style={{flexDirection: "row", alignSelf: "center"}}>
@@ -53,6 +56,8 @@ const styles = StyleSheet.create({
         borderRadius: wp('3%'),
         width: wp('80%'),
         aspectRatio: 4,
+        borderColor: "#CACED7",
+        borderWidth: wp('0.23%'),
     },
     friendCircle: {
         width: wp('15%'),
@@ -84,5 +89,11 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         color: "#1E4693",
-      }
+      },
+    inviteBtn: {
+        // position: "absolute",
+        // top: hp("3%"),
+        // marginLeft: wp("8%"), 
+        justifyContent: "center"
+    }
 });

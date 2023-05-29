@@ -13,7 +13,7 @@ const PendingFriendButton = (props) => {
                     <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
                 </View>
                 <View>
-                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('1%'),marginTop: hp('2%'), fontWeight: '600' }}>{truncate(item.username.replace(/["]/g, ''), 10)} wants to be friends</Text>
+                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('1%'),marginTop: hp('1.5%'), fontWeight: '600' }}>{truncate(item.username.replace(/["]/g, ''), 10)} wants to be friends</Text>
                 </View>
             </View>
             <View style={{ flexDirection: "row", position: "relative", top: -hp('3.5%'), left: wp('18%') }}>
@@ -37,7 +37,9 @@ const styles = StyleSheet.create({
         padding: wp('3%'),
         borderRadius: wp("3%"),
         width: wp('80%'),
-        aspectRatio: 3
+        aspectRatio: 3,
+        borderColor: "#CACED7",
+        borderWidth: wp('0.23%'),
     },
     friendCircle: {
         width: wp('15%'),
@@ -66,11 +68,13 @@ const styles = StyleSheet.create({
         marginRight: wp('3%'),
         marginBottom: hp('1%'),
         justifyContent: "center",
+        borderColor: "#CACED7",
+        borderWidth: wp('0.23%'),
     },
     adText: {
         fontSize: wp('3.5%'),
         fontWeight: "500",
         color: "#7184B4",
-        textAlign: "center"
+        textAlign: "center",
     }
 });
