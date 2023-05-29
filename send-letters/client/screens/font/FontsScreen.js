@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     marginLeft: wp('5%'), 
     marginRight: wp('5%'),
     marginTop: hp('2%'),
-    flex: 1
+    flex: 1.25
   },
   container: {
     flex: 1,
