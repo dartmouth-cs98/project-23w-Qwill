@@ -11,6 +11,7 @@ import {
   PanResponder,
   Keyboard,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import { Input } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -38,6 +39,7 @@ function ComposeScreen({ navigation, route }) {
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
+  const [movingSticker, setMovingSticker] = useState(false);
   const [bgWidth, setBgWidth] = useState(0);
   const [bgHeight, setBgHeight] = useState(0);
   // Prevents user from clicking the Next button once they have clicked it 
@@ -47,6 +49,10 @@ function ComposeScreen({ navigation, route }) {
   // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const [stickerID, setStickerId] = useState(0);
+
+  const [maxHeightReached, setMaxHeightReached] = useState(false);
+  const [previousTextLength, setPreviousTextLength] = useState(0);
+  const MAX_INPUT_HEIGHT = hp('63%');
 
   // Dismiss snack message
   const onDismissSnack = () => setSnackIsVisible(false);
@@ -223,99 +229,120 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
+
   return (
-    // <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {renderTopBar()}
       <Text style={styles.normalText}>{imageData.length >= 10 ? 'No more stickers!' : ``}</Text>
-      <ImageBackground
-        onLayout={(event) => {
-          const { width, height } = event.nativeEvent.layout;
-          setBgWidth(width);
-          setBgHeight(height);
-        }}
-        resizeMode={'cover'}
-        style={{ flex: 1, width: '100%', height: '95%' }}
-        source={images.themes[letterInfo.themeID]}>
-        <Input
-          style={{
-            fontFamily: letterInfo.fontID,
-            marginTop: hp('2.16%'), // 20/926 = 0.0216
-            fontSize: wp('5%'), // 22/926 = 0.0237
-            height: hp('65.88%'), // 610/926 = 0.6588
-            width: wp('90%'), // 90% of screen width
-            marginLeft: wp('1.17%'), // 5/428 = 0.0117
-            marginRight: wp('1.17%'), // 5/428 = 0.0117
-          }}
-          placeholder={"Start writing your letter!"}
-          inputContainerStyle={{ borderBottomWidth: 0 }}
-          onChangeText={(text) => {
-            hasTyped = true;
-            handleTextChange(text);
-          }}
-          multiline={true}
-          defaultValue={defaultText}
-          autoCapitalize="none"
-          onFocus={() => setKeyboard(true)}
-          onBlur={() => setKeyboard(false)}
-          // value={inputText}
-        />
-        {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
-          const stickerPanResponder = PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
-            onPanResponderGrant: (e, gestureState) => {
-              setSelectedStickerIndex(index);
-              setInitialStickerPosition({ x: gestureState.x0, y: gestureState.y0 });
-            },
-            onPanResponderMove: (event, gestureState) => {
-
-              if (selectedStickerIndex === index) {
-                const dx = gestureState.moveX - initialStickerPosition.x;
-                const dy = gestureState.moveY - initialStickerPosition.y;
-                const updatedImageData = [...imageData];
-                updatedImageData[selectedStickerIndex] = {
-                  ...updatedImageData[selectedStickerIndex],
-                  // do not delete! 
-                  // old sticker movement
-                  // x: updatedImageData[selectedStickerIndex].initialX + dx,
-                  // y: updatedImageData[selectedStickerIndex].initialY + dy,
-                  x: Math.max(0, Math.min(bgWidth - updatedImageData[selectedStickerIndex].width, updatedImageData[selectedStickerIndex].initialX + dx)),
-                  y: Math.max(0, Math.min(bgHeight - updatedImageData[selectedStickerIndex].height, updatedImageData[selectedStickerIndex].initialY + dy)),
-                };
-                setImageData(updatedImageData);
-              }
-            },
-
-            onPanResponderRelease: (event, gestureState) => {
-              if (selectedStickerIndex === index) {
-                const updatedImageData = [...imageData];
-                updatedImageData[selectedStickerIndex] = {
-                  ...updatedImageData[selectedStickerIndex],
-                  initialX: updatedImageData[selectedStickerIndex].x,
-                  initialY: updatedImageData[selectedStickerIndex].y,
-                };
-                setImageData(updatedImageData);
-                setInitialStickerPosition(null);
-                setSelectedStickerIndex(null);
-                setLetterInfo((prevLetterInfo) => ({
-                  ...prevLetterInfo,
-                  stickers: updatedImageData
-                }));
-              
-
-              }
-            },
-          });
-          return (
-            <Image
-              key={index}
-              source={data.source}
-              style={{ position: 'absolute', left: data.x, top: data.y }}
-              {...stickerPanResponder.panHandlers}
+      {/* <ConditionalScrollView condition={keyboard}> */}
+      <ScrollView style={{width: wp('100%')}} scrollEnabled={keyboard} >
+        <ImageBackground
+            onLayout={(event) => {
+              const { width, height } = event.nativeEvent.layout;
+              setBgWidth(width);
+              setBgHeight(height);
+            }}
+            resizeMode={'cover'}
+            style={{ flex: 1, width: '100%', height: '100%' }}
+            source={images.themes[letterInfo.themeID]}>
+            <Input
+              style={{
+                fontFamily: letterInfo.fontID,
+                marginTop: hp('2.16%'),
+                fontSize: wp('5%'),
+                height: hp('65.88%'),
+                width: wp('90%'),
+                marginLeft: wp('1.17%'),
+                marginRight: wp('1.17%'),
+                lineHeight: wp('6.5%'),
+              }}
+              placeholder={"Start writing your letter!"}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              onChangeText={(newText) => {
+                if (!maxHeightReached || newText.length <= inputText.length) {
+                  // setInputText(newText);
+                  handleTextChange(newText);
+                  Keyboard.dismiss();
+                  // TODO: add snack message here
+                }
+              }}
+              multiline={true}
+              defaultValue={defaultText}
+              autoCapitalize="none"
+              onFocus={() => setKeyboard(true)}
+              onBlur={() => setKeyboard(false)}
+              onContentSizeChange={(event) => {
+                if (event.nativeEvent.contentSize.height > MAX_INPUT_HEIGHT) {
+                  setMaxHeightReached(true);
+                  setInputText(prevText => prevText.slice(0, -1));
+                } else {
+                  setMaxHeightReached(false);
+                }
+              }}
+              value={inputText}
             />
-          );
-        })}
-      </ImageBackground>
+          {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
+            const stickerPanResponder = PanResponder.create({
+              onMoveShouldSetPanResponder: () => true,
+              onPanResponderGrant: (e, gestureState) => {
+                setSelectedStickerIndex(index);
+                setInitialStickerPosition({ x: gestureState.x0, y: gestureState.y0 });
+              },
+              onPanResponderMove: (event, gestureState) => {
+
+                if (selectedStickerIndex === index) {
+                  const dx = gestureState.moveX - initialStickerPosition.x;
+                  const dy = gestureState.moveY - initialStickerPosition.y;
+                  const updatedImageData = [...imageData];
+                  updatedImageData[selectedStickerIndex] = {
+                    ...updatedImageData[selectedStickerIndex],
+                    // do not delete! 
+                    // old sticker movement
+                    // x: updatedImageData[selectedStickerIndex].initialX + dx,
+                    // y: updatedImageData[selectedStickerIndex].initialY + dy,
+                    x: Math.max(0, Math.min(bgWidth - updatedImageData[selectedStickerIndex].width, updatedImageData[selectedStickerIndex].initialX + dx)),
+                    y: Math.max(0, Math.min(bgHeight - updatedImageData[selectedStickerIndex].height, updatedImageData[selectedStickerIndex].initialY + dy)),
+                  };
+                  setImageData(updatedImageData);
+                }
+              },
+              onPanResponderRelease: (event, gestureState) => {
+                if (selectedStickerIndex === index) {
+                  const updatedImageData = [...imageData];
+                  updatedImageData[selectedStickerIndex] = {
+                    ...updatedImageData[selectedStickerIndex],
+                    initialX: updatedImageData[selectedStickerIndex].x,
+                    initialY: updatedImageData[selectedStickerIndex].y,
+                  };
+                  setImageData(updatedImageData);
+                  setInitialStickerPosition(null);
+                  setSelectedStickerIndex(null);
+                  setLetterInfo((prevLetterInfo) => ({
+                    ...prevLetterInfo,
+                    stickers: updatedImageData
+                  }));
+                
+
+                }
+              },
+            });
+            return (
+              <Image
+                key={index}
+                source={data.source}
+                style={{ position: 'absolute', left: data.x, top: data.y }}
+                {...stickerPanResponder.panHandlers}
+              />
+            );
+          })}
+        </ImageBackground>
+        {keyboard
+        ? <View style={{height: hp('30%'), width: wp('100%')}}></View>
+        : <></>
+        }
+      </ScrollView>
+      {/* </ConditionalScrollView> */}
+
       <KeyboardAvoidingView style={{ flexDirection: 'row' }}>
         <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
       </KeyboardAvoidingView>
