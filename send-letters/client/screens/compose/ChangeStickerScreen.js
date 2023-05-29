@@ -13,12 +13,13 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
   const { passedFunction } = route.params;
 
   onStickerSelect = (stickerid) => {
+    console.log(stickerid);
     passedFunction(stickerid);
     navigation.goBack(null);
   };
 
   // Get the list of themes from the images index under assets
-  const stickers = Object.keys(images.stickers);
+  const stickers = Object.keys(images.stickers_big);
 
   return (
     <SafeAreaView style={styles.safeview}>
@@ -33,7 +34,7 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
               <ThemePreview
                 key={sticker}
                 stickerName={sticker}
-                imageSource={images.stickers[sticker]}
+                imageSource={images.stickers_big[sticker]}
                 onPress={() => onStickerSelect(sticker)}
               />
             </View>
