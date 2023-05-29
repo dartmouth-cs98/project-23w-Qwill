@@ -317,12 +317,15 @@ function ProfileScreen({navigation}) {
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
         </View>
-        <View style={{alignItems: 'center', marginBottom: hp("3%")}}>
+        <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
           <View style={styles.profilePhotoBack}></View>
-          <Text style={{marginTop: hp('1.08%'), fontWeight: "bold", fontSize: hp('1.94%')}}>
-            {userInfo.user.username}
+          <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}}>
+            {userInfo.user.name}
           </Text>
-          <Text style={{marginTop: hp('1.08%'), fontWeight: "300", fontSize: hp('1.94%')}}>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "500", fontSize: hp('1.94%')}}>
+          @{userInfo.user.username}
+          </Text>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "300", fontSize: hp('1.7%')}}>
             Joined Qwill in {userInfo.user.createdAt.substring(0,4)}
           </Text>
           {/* <View style={styles.lineLong}></View> */}
@@ -395,12 +398,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#BDCCF2",
     width: wp("100%"),
-    height: hp('34%')
+    height: hp('37%')
   },
   shadowLight: {
     shadowColor: '#171717',
     shadowOffset: { height: hp(0.4) },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: hp(0.15),
   },
   btn: {
@@ -413,8 +416,8 @@ const styles = StyleSheet.create({
     paddingBottom: hp('1.3%'),
     paddingLeft: wp('4.2%'),
     borderRadius: wp('2.3%'),
+    borderColor: "#B9BCC3",
     borderWidth: wp('0.23%'),
-    borderColor: "#737B7D",
     borderStyle: "solid",
     marginRight: wp('4.67%'),
     marginTop: hp('1.08%'),
@@ -427,6 +430,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: wp('14.02%'),
     backgroundColor: 'black',
+    marginBottom: hp('1%')
   },
   lineLong: {
     width: wp('74.3%'),
@@ -441,7 +445,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     marginLeft: wp('7%'),
     marginTop: hp('2.7%'),
-    textDecorationLine: 'underline',
   },
   settingContainer: {
     width: wp('80%'),

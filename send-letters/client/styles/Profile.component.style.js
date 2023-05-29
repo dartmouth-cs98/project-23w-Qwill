@@ -162,7 +162,7 @@ export default StyleSheet.create({
     marginTop: wp('.0%')
   },
   fontSectionTitle: {
-    fontFamily: 'JosefinSansBold',
+    fontFamily: 'JosefinSans',
     fontStyle: "normal",
     fontSize: wp('3.5%'),
   },

@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     left: wp('6%'),
   },
   fontSectionTitle: {
-    fontFamily: 'JosefinSansBold',
+    fontFamily: 'JosefinSans',
     fontStyle: "normal",
     fontSize: wp('3.5%'),
   },

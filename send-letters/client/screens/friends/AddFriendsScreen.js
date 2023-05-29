@@ -15,6 +15,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import PendingFriendButton from '../../components/PendingFriendButton';
 import React, { useState, useContext, useEffect } from 'react'
 
+
 const scale = windowWidth / 390; // Scale factor for font size on 390 width screen
 
 const normalize = (size) => {
@@ -199,7 +200,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderAddFriends() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%') }}>No users found</Text>
+      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSans", marginVertical: wp("5%") }}>No users found</Text>
     }
     return (
       <View style={styles.suggestionsContainer}>
@@ -245,7 +246,7 @@ const AddFriendsScreen = ({ navigation }) => {
       </View>
 
       <View style={{ flex: 2, marginTop: hp("2%") }}>
-        <Text style={styles.subtitleText}>Suggestions</Text>
+        <Text style={styles.subtitleText}>Search Profiles</Text>
         <View styles={{ flex: 2 }}>
           {renderAddFriends()}
         </View>
@@ -260,7 +261,7 @@ const AddFriendsScreen = ({ navigation }) => {
           ) : pendingFriends.length === 1 ? (
             // render when only one pending friend
             <View style={{ alignItems: 'center' }}>
-              <Text style={styles.subtitleText}>{pendingFriends.length} One Pending Friend Request </Text>
+              <Text style={styles.subtitleText}>1 Pending Friend Request </Text>
               {renderPendingFriends()}
             </View>
 
@@ -309,7 +310,6 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     textAlign: 'left',
     marginVertical: hp('1%'),
-
     marginLeft: wp('4%')
   },
   inputContainer: {
