@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Keyboard } from 'react-native';
 import { COLORS } from '../styles/colors';
 import { Snackbar } from 'react-native-paper';
@@ -11,6 +11,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { hasWhiteSpace, hasRestrictedChar } from '../helpers/stringValidation';
 import axios from 'axios';
 import findIP from '../helpers/findIP';
+import { useIsFocused } from '@react-navigation/native';
 
 
 function ProfileScreen({navigation}) {
@@ -36,6 +37,36 @@ function ProfileScreen({navigation}) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
+
+  const isFocused = useIsFocused();
+
+  // fetch the users custom fonts from the server
+  useEffect(() => {
+    const loadUserStats = async () => {
+      try {
+        const resp = await axios.post(findIP()+"/api/countUserStats", { userID: userInfo.user._id });
+        
+        if (!resp) {  // could not connect to backend
+          console.log("ERROR: Could not establish server connection with axios");
+          setSnackMessage("Could not establish connection to the server");
+          setSnackIsVisible(true);
+        } else if (resp.data.error) {  // backend error
+          setSnackMessage(resp.data.error);
+          setSnackIsVisible(true);
+        } else if (!resp.data || !resp.data.numLettersSent || !resp.data.numLettersReceived || !resp.data.numFontsCreated) {
+          console.error("Error: the response does not contain the expected fields");
+        } else {
+          setNumLettersSent(resp.data.numLettersSent);
+          setNumLettersReceived(resp.data.numLettersReceived); 
+          setNumFontsCreated(resp.data.numFontsCreated);     
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadUserStats();
+  }, [isFocused]);
+  
 
   const handleSignOutPressed = async () => {
     setUserInfo({ token: "", user: null });

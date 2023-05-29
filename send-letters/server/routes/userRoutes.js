@@ -3,11 +3,13 @@ import express from "express";
 const router = express.Router();
 
 // get controllers 
-const { matchUsers, 
+const { 
+    matchUsers, 
     sendFriendRequest, 
     acceptFriendRequest, 
     deleteFriendRequest, 
-    getIncomingFriendReqs 
+    getIncomingFriendReqs,
+    countUserStats
 } = require("../controllers/userControllers");
 
 router.get("/", (req, res) => {
@@ -22,5 +24,6 @@ router.post("/sendFriendRequest", sendFriendRequest);
 router.post("/acceptFriendRequest", acceptFriendRequest);
 router.post("/deleteFriendRequest", deleteFriendRequest);
 router.post("/getIncomingFriendReqs", getIncomingFriendReqs);
+router.post("/countUserStats", countUserStats);
 
 export default router; 
