@@ -244,14 +244,15 @@ const AddFriendsScreen = ({ navigation }) => {
           />
         </View>
       </View>
-
       <View style={{ flex: 2, marginTop: hp("2%") }}>
+        <View style={{ flex: 2 }}>
         <Text style={styles.subtitleText}>Search Profiles</Text>
         <View styles={{ flex: 2 }}>
           {renderAddFriends()}
         </View>
-        <View style={styles.line}></View>
-
+      </View>
+      <View style={styles.line}></View>
+      <View style={{flex: 1}}>
         {
           pendingFriends.length === 0 ? (
             <View>
@@ -271,13 +272,10 @@ const AddFriendsScreen = ({ navigation }) => {
               <Text style={styles.subtitleText}>{pendingFriends.length} Pending Friend Requests </Text>
               {renderPendingFriends()}
             </View>
-
-
           )
         }
-
+        </View>
       </View>
-
     </SafeAreaView>
   );
 };
@@ -320,7 +318,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   suggestionsContainer: {
-    width: "100%",
+    width: wp('100%'),
+    // flex: 1
   },
   line: {
     marginTop: hp('1.5%'),

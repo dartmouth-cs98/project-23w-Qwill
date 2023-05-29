@@ -24,6 +24,10 @@ function ProfileScreen({navigation}) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [bug, setBug] = useState('');
 
+  const [numLettersSent, setNumLettersSent] = useState(0);
+  const [numLettersReceived, setNumLettersReceived] = useState(0);
+  const [numFontsCreated, setNumFontsCreated] = useState(0);
+
   const [nameModalVisible, setNameModalVisible] = useState(false);
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
@@ -312,13 +316,12 @@ function ProfileScreen({navigation}) {
           </View>
           <CustomSnackbar/>
         </Modal>
-
         <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
         </View>
         <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
-          <View style={styles.profilePhotoBack}></View>
+          {/* <View style={styles.profilePhotoBack}></View> */}
           <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}}>
             {userInfo.user.name}
           </Text>
@@ -329,6 +332,22 @@ function ProfileScreen({navigation}) {
             Joined Qwill in {userInfo.user.createdAt.substring(0,4)}
           </Text>
           {/* <View style={styles.lineLong}></View> */}
+        </View>
+        <View style={[styles.statsContainer, styles.shadowLight]}>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={styles.statText}>{numLettersSent}</Text>
+            <Text style={styles.statsTitleText}>Letters Sent</Text>
+          </View>
+          <View style={styles.vertLine}></View>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={styles.statText}>{numLettersReceived}</Text>
+            <Text style={styles.statsTitleText}>Letters Recieved</Text>
+          </View>
+          <View style={styles.vertLine}></View>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={styles.statText}>{numFontsCreated}</Text>
+            <Text style={styles.statsTitleText}>Fonts Generated</Text>
+          </View>
         </View>
         <View style={{flexDirection: 'row', marginBottom: hp("3%")}}>
           <Text style={styles.settingsText}>Settings</Text>
@@ -398,7 +417,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#BDCCF2",
     width: wp("100%"),
-    height: hp('37%')
+    height: hp('28%')
   },
   shadowLight: {
     shadowColor: '#171717',
@@ -541,5 +560,38 @@ const styles = StyleSheet.create({
     bottom: hp('1.3%'),
     fontSize: wp('4%'),
     borderRadius: wp('4%'),
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#E2E8F6',
+    borderColor: "#B9BCC3",
+    borderWidth: wp('0.23%'),
+    borderRadius: wp('2.3%'),
+    // heigth: hp('4%'),
+    width: wp('80%'),
+    flex: .6,
+    alignSelf: 'center',
+    justifyContent: 'space-evenly',
+  },
+  vertLine: { 
+    width: StyleSheet.hairlineWidth*2,
+    // flex: 1,
+    height: hp('5%'),
+    alignSelf: "center",
+    backgroundColor: "#B9BCC3",
+    alignSelf: 'center'
+  },
+  statText: {
+    fontWeight: "600",
+    fontSize: hp('2.5%'),
+    textAlign: 'center',
+    marginTop: hp('2%')
+  },
+  statsTitleText: {
+    // position: 'absolute',
+    // top: hp('10%'),
+    fontWeight: "300", 
+    fontSize: hp('1.25%'),
+    marginTop: hp('.5%'),
   }
 });
