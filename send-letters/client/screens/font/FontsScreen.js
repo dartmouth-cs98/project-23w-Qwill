@@ -101,7 +101,7 @@ const FontsScreen = ({navigation}) => {
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: wp("3%") }}>Custom Fonts</Text>
+        <Text style={styles.fontSectionTitle}>Custom Fonts</Text>
         <View style={styles.line}></View>
       </View>
       
@@ -138,7 +138,7 @@ const FontsScreen = ({navigation}) => {
       }
       <View style={{ flexDirection: "row", marginTop: hp("2%") }}>
         <View style={styles.line}></View>
-        <Text style={{fontSize: wp("3%") }}>Default Fonts</Text>
+        <Text style={styles.fontSectionTitle}>Default Fonts</Text>
         <View style={styles.line}></View>
       </View>
       <View style={{ marginTop: hp("2%"), marginLeft: wp("6%"), marginRight: wp("6%"), flex: 3 }}>
@@ -261,10 +261,9 @@ const styles = StyleSheet.create({
     top: hp('2.75%'),
     left: wp('6%'),
   },
-  newCustomFont: {
+  fontSectionTitle: {
     fontFamily: 'JosefinSansBold',
     fontStyle: "normal",
-    fontSize: wp('2.5%'),
-    lineHeight: wp('3%'),
+    fontSize: wp('3.5%'),
   },
 });

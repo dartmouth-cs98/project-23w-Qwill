@@ -161,4 +161,9 @@ export default StyleSheet.create({
   backIcon: {
     marginTop: wp('.0%')
   },
+  fontSectionTitle: {
+    fontFamily: 'JosefinSansBold',
+    fontStyle: "normal",
+    fontSize: wp('3.5%'),
+  },
 });

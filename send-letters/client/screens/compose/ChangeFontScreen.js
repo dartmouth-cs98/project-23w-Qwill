@@ -67,7 +67,7 @@ const ChangeFontScreen = ({ navigation }) => {
           <View style={styles.customFontsContainer}>
             <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
               <View style={styles.line}></View>
-              <Text style={{fontSize: 12}}>Custom Fonts</Text>
+              <Text style={styles.fontSectionTitle}>Custom Fonts</Text>
               <View style={styles.line}></View>
             </View>
             <FlatList
@@ -93,7 +93,7 @@ const ChangeFontScreen = ({ navigation }) => {
       <View style={styles.defaultFontsContainer}>
         <View style={{flexDirection: "row", justifyContent: "center", marginVertical: 10}}>
               <View style={styles.line}></View>
-              <Text style={{fontSize: 12}}>Default Fonts</Text>
+              <Text style={styles.fontSectionTitle}>Default Fonts</Text>
               <View style={styles.line}></View>
         </View>
           <FlatList
