@@ -52,7 +52,7 @@ function ComposeScreen({ navigation, route }) {
   const [stickerID, setStickerId] = useState(0);
 
   const [maxHeightReached, setMaxHeightReached] = useState(false);
-  const MAX_INPUT_HEIGHT = hp('63%');
+  const MAX_INPUT_HEIGHT = hp('62%');
 
   // Dismiss snack message
   const [snackIsVisible, setSnackIsVisible] = useState(false);
