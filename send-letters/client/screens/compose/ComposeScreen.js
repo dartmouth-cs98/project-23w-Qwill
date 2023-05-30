@@ -33,7 +33,7 @@ import { COLORS } from '../../styles/colors';
 
 function ComposeScreen({ navigation, route }) {
   // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
-  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : "";
   const [inputText, setInputText] = useState(defaultText);
   const [lastValidText, setLastValidText] = useState(''); 
   const [count, setCount] = useState(10);
@@ -57,6 +57,11 @@ function ComposeScreen({ navigation, route }) {
   // Dismiss snack message
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
+
+
+  const [offScreenText, setOffScreenText] = useState("");
+  const [offScreenTextHeight, setOffScreenTextHeight] = useState(0);
+
 
   // A function that handles the sticker selection, updating state and fetching sticker details
   const stickerSelected = async(sticker) => {
@@ -244,7 +249,7 @@ function ComposeScreen({ navigation, route }) {
             resizeMode={'cover'}
             style={{ flex: 1, width: '100%', height: '100%' }}
             source={images.themes[letterInfo.themeID]}>
-            <Input
+            {/* <Input
               style={{
                 fontFamily: letterInfo.fontID,
                 marginTop: hp('2.16%'),
@@ -257,10 +262,9 @@ function ComposeScreen({ navigation, route }) {
               }}
               placeholder={"Start writing your letter!"}
               inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(newText) => {
-                if (!maxHeightReached || newText.length <= inputText.length) {
+              onChangeText={async (newText) => {
+                if (!maxHeightReached || newText.length <= lastValidText.length) {
                   handleTextChange(newText);
-                  setLastValidText(newText);
                 }
               }}
               multiline={true}
@@ -279,7 +283,62 @@ function ComposeScreen({ navigation, route }) {
                 }
               }}
               value={inputText}
+            /> */}
+            <Input
+            // MUST CHANGE STYLE IN TEXT COMPONENT BELOW AS WELL
+              style={{
+                fontFamily: letterInfo.fontID,
+                marginTop: hp('2.16%'),
+                fontSize: wp('5%'),
+                height: hp('65.88%'),
+                width: wp('90%'),
+                marginLeft: wp('1.17%'),
+                marginRight: wp('1.17%'),
+                lineHeight: wp('6.5%'),
+              }}
+              placeholder={"Start writing your letter!"}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              onChangeText={(newText) => {
+                setOffScreenText(newText);
+                if (!maxHeightReached || newText.length <= inputText.length) {
+                  handleTextChange(newText);
+                  setLastValidText(newText);
+                }
+              }}
+              multiline={true}
+              defaultValue={defaultText}
+              autoCapitalize="none"
+              onFocus={() => setKeyboard(true)}
+              onBlur={() => setKeyboard(false)}
+              value={inputText}
             />
+            <Text
+              style={{
+                position: "absolute",
+                top: -2000,
+                fontFamily: letterInfo.fontID,
+                fontSize: wp('5%'),
+                width: wp('90%'),
+                lineHeight: wp('6.5%'),
+              }}
+              onLayout={(event) => {
+                const newHeight = event.nativeEvent.layout.height;
+                if (newHeight > MAX_INPUT_HEIGHT) {
+                  setMaxHeightReached(true);
+                  setInputText(lastValidText);
+                  Keyboard.dismiss();
+                  setSnackMessage("Letter has reached page limit.");
+                  setSnackIsVisible(true);
+                } else {
+                  setMaxHeightReached(false);
+                }
+                setOffScreenTextHeight(newHeight);
+              }}
+            >
+              {offScreenText}
+            </Text>
+
+
           {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
             const stickerPanResponder = PanResponder.create({
               onMoveShouldSetPanResponder: () => true,
