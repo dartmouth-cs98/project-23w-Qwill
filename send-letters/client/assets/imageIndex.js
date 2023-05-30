@@ -5,10 +5,12 @@ const images = {
 
         Stars: require('./themes-min/Stars-min.png'),
         Fruit: require('./themes-min/fruits-min.png'),
+        Meat: require('./themes-min/meat-min.png'),
         Sunset: require('./themes-min/sunset-min.png'),
         Mountains: require('./themes-min/mountains-min.png'),
         Melt: require('./themes-min/Melt-min.png'),
         Cake: require('./themes-min/birthday-min.png'),
+        Smiles: require('./themes-min/smileys-min.png'),
         Balloons: require('./themes-min/balloon-theme-min.png'),
         Hearts: require('./themes-min/hearts-theme-min.png'),
         Snowflakes: require('./themes-min/snowflake-theme-min.png'),
