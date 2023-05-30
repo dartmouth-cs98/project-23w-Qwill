@@ -32,7 +32,9 @@ import { COLORS } from '../../styles/colors';
 
 
 function ComposeScreen({ navigation, route }) {
-  const [inputText, setInputText] = useState("");
+  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
+  const [inputText, setInputText] = useState(defaultText);
   const [lastValidText, setLastValidText] = useState(''); 
   const [count, setCount] = useState(10);
   
@@ -41,25 +43,20 @@ function ComposeScreen({ navigation, route }) {
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
-  const [movingSticker, setMovingSticker] = useState(false);
   const [bgWidth, setBgWidth] = useState(0);
   const [bgHeight, setBgHeight] = useState(0);
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const isFocused = useIsFocused();
   const [keyboard, setKeyboard] = useState(false);
-  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
-  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const [stickerID, setStickerId] = useState(0);
 
   const [maxHeightReached, setMaxHeightReached] = useState(false);
-  const [previousTextLength, setPreviousTextLength] = useState(0);
   const MAX_INPUT_HEIGHT = hp('63%');
 
   // Dismiss snack message
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
-  const onDismissSnack = () => setSnackIsVisible(false);
 
   // A function that handles the sticker selection, updating state and fetching sticker details
   const stickerSelected = async(sticker) => {
@@ -267,17 +264,14 @@ function ComposeScreen({ navigation, route }) {
                 }
               }}
               multiline={true}
-              defaultValue={defaultText}
               autoCapitalize="none"
               onFocus={() => setKeyboard(true)}
               onBlur={() => setKeyboard(false)}
               onContentSizeChange={(event) => {
                 if (event.nativeEvent.contentSize.height > MAX_INPUT_HEIGHT) {
                   setMaxHeightReached(true);
-                  // setInputText(prevText => prevText.slice(0, -1));
                   setInputText(lastValidText);
                   Keyboard.dismiss();
-                  console.log("this is why the keyboard is closing:");
                   setSnackMessage("Letter has reached page limit.");
                   setSnackIsVisible(true);
                 } else {
