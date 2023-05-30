@@ -149,6 +149,7 @@ function DraftsScreen({ navigation }) {
                   width={.9*.8}
                   height={.64*.8}
                   stickers={item.stickers}
+                  large={false}
                 />
               </TouchableOpacity>
             </View>

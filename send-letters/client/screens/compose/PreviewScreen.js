@@ -83,8 +83,9 @@ function PreviewScreen({ navigation }) {
           themeID={letterInfo.themeID} 
           fontID={letterInfo.fontID} 
           stickers={letterInfo.stickers}
-          width={.65} 
-          height={.46}
+          width={.9*.8} 
+          height={.64*.8}
+          large={false}
         />
       </View>
       <View style={{flex: 2.5, justifyContent: 'center', alignItems: 'center'}}>

@@ -99,6 +99,10 @@ export default function FriendHistoryScreen({ route, navigation }) {
     } else {
       return (
         <View style={{flex: 1}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.topText}>Recieved</Text>
+            <Text style={styles.topText}>Sent</Text>
+          </View>
           <View style={styles.verticalLine}></View>
             <FlatList
               data={letterHistory}
@@ -162,7 +166,7 @@ const styles = StyleSheet.create({
   },
   verticalLine: {
     position: "absolute",
-    top: hp('22%'),
+    top: hp('1%'),
     width: StyleSheet.hairlineWidth,
     height: hp('80%'),
     alignSelf: "center",
@@ -181,4 +185,10 @@ const styles = StyleSheet.create({
     letterSpacing: wp('0.3%'),
     color: COLORS.black
   },
+  topText: {
+    fontFamily: 'JosefinSans',
+    fontSize: wp('3%'),
+    marginHorizontal: wp('10%'),
+    color: COLORS.blue600
+  }
 });
