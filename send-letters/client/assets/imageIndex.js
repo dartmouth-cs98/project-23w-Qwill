@@ -5,6 +5,7 @@ const images = {
 
         Stars: require('./themes-min/Stars-min.png'),
         Fruit: require('./themes-min/fruits-min.png'),
+        Meat: require('./themes-min/meat-min.png'),
         Sunset: require('./themes-min/sunset-min.png'),
         Mountains: require('./themes-min/mountains-min.png'),
         Melt: require('./themes-min/Melt-min.png'),
