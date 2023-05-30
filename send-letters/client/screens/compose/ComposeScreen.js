@@ -32,7 +32,9 @@ import { COLORS } from '../../styles/colors';
 
 
 function ComposeScreen({ navigation, route }) {
-  const [inputText, setInputText] = useState("");
+  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
+  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : "";
+  const [inputText, setInputText] = useState(defaultText);
   const [lastValidText, setLastValidText] = useState(''); 
   const [count, setCount] = useState(10);
   
@@ -41,25 +43,25 @@ function ComposeScreen({ navigation, route }) {
   // To move stickers
   const [selectedStickerIndex, setSelectedStickerIndex] = useState(null);
   const [initialStickerPosition, setInitialStickerPosition] = useState(null);
-  const [movingSticker, setMovingSticker] = useState(false);
   const [bgWidth, setBgWidth] = useState(0);
   const [bgHeight, setBgHeight] = useState(0);
   // Prevents user from clicking the Next button once they have clicked it 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const isFocused = useIsFocused();
   const [keyboard, setKeyboard] = useState(false);
-  // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
-  const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : undefined;
   const [stickerID, setStickerId] = useState(0);
 
   const [maxHeightReached, setMaxHeightReached] = useState(false);
-  const [previousTextLength, setPreviousTextLength] = useState(0);
   const MAX_INPUT_HEIGHT = hp('63%');
 
   // Dismiss snack message
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
-  const onDismissSnack = () => setSnackIsVisible(false);
+
+
+  const [offScreenText, setOffScreenText] = useState("");
+  const [offScreenTextHeight, setOffScreenTextHeight] = useState(0);
+
 
   // A function that handles the sticker selection, updating state and fetching sticker details
   const stickerSelected = async(sticker) => {
@@ -247,7 +249,7 @@ function ComposeScreen({ navigation, route }) {
             resizeMode={'cover'}
             style={{ flex: 1, width: '100%', height: '100%' }}
             source={images.themes[letterInfo.themeID]}>
-            <Input
+            {/* <Input
               style={{
                 fontFamily: letterInfo.fontID,
                 marginTop: hp('2.16%'),
@@ -260,24 +262,20 @@ function ComposeScreen({ navigation, route }) {
               }}
               placeholder={"Start writing your letter!"}
               inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(text) => {
-                if (!maxHeightReached || text.length <= inputText.length) {
-                  handleTextChange(text);
-                  setLastValidText(text);
+              onChangeText={async (newText) => {
+                if (!maxHeightReached || newText.length <= lastValidText.length) {
+                  handleTextChange(newText);
                 }
               }}
               multiline={true}
-              defaultValue={defaultText}
               autoCapitalize="none"
               onFocus={() => setKeyboard(true)}
               onBlur={() => setKeyboard(false)}
               onContentSizeChange={(event) => {
                 if (event.nativeEvent.contentSize.height > MAX_INPUT_HEIGHT) {
                   setMaxHeightReached(true);
-                  // setInputText(prevText => prevText.slice(0, -1));
                   setInputText(lastValidText);
                   Keyboard.dismiss();
-                  console.log("this is why the keyboard is closing:");
                   setSnackMessage("Letter has reached page limit.");
                   setSnackIsVisible(true);
                 } else {
@@ -285,7 +283,62 @@ function ComposeScreen({ navigation, route }) {
                 }
               }}
               value={inputText}
+            /> */}
+            <Input
+            // MUST CHANGE STYLE IN TEXT COMPONENT BELOW AS WELL
+              style={{
+                fontFamily: letterInfo.fontID,
+                marginTop: hp('2.16%'),
+                fontSize: wp('5%'),
+                height: hp('65.88%'),
+                width: wp('90%'),
+                marginLeft: wp('1.17%'),
+                marginRight: wp('1.17%'),
+                lineHeight: wp('6.5%'),
+              }}
+              placeholder={"Start writing your letter!"}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              onChangeText={(newText) => {
+                setOffScreenText(newText);
+                if (!maxHeightReached || newText.length <= inputText.length) {
+                  handleTextChange(newText);
+                  setLastValidText(newText);
+                }
+              }}
+              multiline={true}
+              defaultValue={defaultText}
+              autoCapitalize="none"
+              onFocus={() => setKeyboard(true)}
+              onBlur={() => setKeyboard(false)}
+              value={inputText}
             />
+            <Text
+              style={{
+                position: "absolute",
+                top: -2000,
+                fontFamily: letterInfo.fontID,
+                fontSize: wp('5%'),
+                width: wp('90%'),
+                lineHeight: wp('6.5%'),
+              }}
+              onLayout={(event) => {
+                const newHeight = event.nativeEvent.layout.height;
+                if (newHeight > MAX_INPUT_HEIGHT) {
+                  setMaxHeightReached(true);
+                  setInputText(lastValidText);
+                  Keyboard.dismiss();
+                  setSnackMessage("Letter has reached page limit.");
+                  setSnackIsVisible(true);
+                } else {
+                  setMaxHeightReached(false);
+                }
+                setOffScreenTextHeight(newHeight);
+              }}
+            >
+              {offScreenText}
+            </Text>
+
+
           {imageData.map((data, index) => { // creates a separate Pan Responder for each image in the imageData array
             const stickerPanResponder = PanResponder.create({
               onMoveShouldSetPanResponder: () => true,
