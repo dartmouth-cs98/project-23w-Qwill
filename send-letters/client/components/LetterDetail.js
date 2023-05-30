@@ -15,6 +15,7 @@ const LetterDetail = props => {
   // we'll render the default system font unless a fontID is specified
   const textStyle = fontID == "" ? {} : {
     fontFamily: fontID,
+    lineHeight: wp('4.2%'),
     // marginLeft: wp('1.17%')*width, 
     // marginRight: wp('1.17%')*width, 
     // marginTop: hp('2.16%')*height

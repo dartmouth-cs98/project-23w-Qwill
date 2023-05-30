@@ -260,10 +260,10 @@ function ComposeScreen({ navigation, route }) {
               }}
               placeholder={"Start writing your letter!"}
               inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(newText) => {
-                if (!maxHeightReached || newText.length <= inputText.length) {
-                  handleTextChange(newText);
-                  setLastValidText(newText);
+              onChangeText={(text) => {
+                if (!maxHeightReached || text.length <= inputText.length) {
+                  handleTextChange(text);
+                  setLastValidText(text);
                 }
               }}
               multiline={true}
