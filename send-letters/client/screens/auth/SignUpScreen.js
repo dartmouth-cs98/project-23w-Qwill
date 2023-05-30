@@ -202,6 +202,8 @@ const SignUpScreen = ({navigation}) => {
 
       {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
       <View style={{height: hp('10.8')}}/>
+
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

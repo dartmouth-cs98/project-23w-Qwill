@@ -8,7 +8,7 @@ import images from '../../assets/imageIndex';
 import React from 'react';
 import styles from '../../styles/Profile.component.style';
 import ThemePreview from '../../components/ThemePreview';
-import SafeAreaViewCross from '../../components/SafeAreaViewCross'
+import SafeAreaViewCross from '../../components/SafeAreaViewCross';
 
 const screenWidth = Dimensions.get('window').width;
 const SelectThemeScreen = ({navigation, route}) => {
