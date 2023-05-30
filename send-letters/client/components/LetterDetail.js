@@ -12,9 +12,13 @@ const LetterDetail = props => {
   const propsWidth = width ? wp(String(width*100)) : wp('90%');
   const propsHeight = height ? hp(String(height*100)) : hp("64%");
 
+  const heightRatio = height ? height : 0.64;
+  const widthRatio = width ? width : 0.9;
+
   // we'll render the default system font unless a fontID is specified
   const textStyle = fontID == "" ? {} : {
     fontFamily: fontID,
+    lineHeight: hp("4.25%")*heightRatio,
     // marginLeft: wp('1.17%')*width, 
     // marginRight: wp('1.17%')*width, 
     // marginTop: hp('2.16%')*height
@@ -28,8 +32,8 @@ const LetterDetail = props => {
         source={themeID === "" ? null : images.themes[themeID]}>
         <View style={{ width: '100%', height: '100%' }}>
           {/* This could be part of the issue */}
-          <View style={{ marginLeft: hp("1.17%"), marginRight: hp('1.17%'), marginTop: hp('2.16%')}}>
-            <Text style={[textStyle, {fontSize: wp("5%")*width}]}>{text}</Text>
+          <View style={{ marginLeft: hp("1.17%")*(widthRatio*1.5), marginRight: hp('1.17%')*(widthRatio*1.5), marginTop: hp('2.16%')*(heightRatio*2)}}>
+            <Text style={[textStyle, {fontSize: wp("5%")*widthRatio}]}>{text}</Text>
           </View>
         </View>
         {stickers.map((data, index) => (
