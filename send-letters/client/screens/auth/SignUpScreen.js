@@ -64,6 +64,13 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
+    // check username length
+    if (username.length < 6) {
+      setSnackMessage("Username must be more than 6 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
     // check for whitespace in a username
     if (hasWhiteSpace(username) == true) {
       setSnackMessage("Your username cannot contain spaces");

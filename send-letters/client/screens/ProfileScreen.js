@@ -109,8 +109,8 @@ function ProfileScreen({navigation}) {
     }
 
     // check username length
-    if (newUsername.length > 30) {
-      setSnackMessage("Username must be less than 30 characters");
+    if (newUsername.length > 30 || newUsername.length < 6) {
+      setSnackMessage("Username must be between 6 and 30 characters");
       setSnackIsVisible(true);
       return;
     }
