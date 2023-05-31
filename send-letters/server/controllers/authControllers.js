@@ -315,6 +315,9 @@ export const reportBug = async (req, res) => {
     try {
         const { bug } = req.body;
         console.log("BUG FOUND: " + bug);
+        return res.json({
+            ok: true
+        });
     } catch (err) {
         console.log(err);
     }

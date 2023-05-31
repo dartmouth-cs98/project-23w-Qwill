@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: hp('2.5%'),
     color: "#1E4693",
     opacity: 1,
-    marginTop: hp('10%'),
+    marginTop: hp('2.5%'),
     fontWeight: "600",
   },
   line: {
