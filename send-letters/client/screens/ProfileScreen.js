@@ -38,6 +38,9 @@ function ProfileScreen({navigation}) {
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
 
+  const [mainSnackMessage, setMainSnackMessage] = useState("");
+  const [mainSnackIsVisible, setMainSnackIsVisible] = useState(false);
+
   const isFocused = useIsFocused();
 
   // fetch the users custom fonts from the server
@@ -79,6 +82,13 @@ function ProfileScreen({navigation}) {
       return;
     }
 
+    // check name length
+    if (newUsername.length > 30) {
+      setSnackMessage("Maximum character length fot name is 30 characters");
+      setSnackIsVisible(true);
+      return;
+    }
+
     try {
       resp = await axios.post(findIP() + "/api/changeName", {userID: userInfo.user._id, newName});
       if (!resp) {  // Could not connect to backend
@@ -96,6 +106,9 @@ function ProfileScreen({navigation}) {
             name: newName
           }
         }));
+        setMainSnackMessage("Your name has been successfully changed");
+        setMainSnackIsVisible(true);
+        setNameModalVisible(false);
       }
     } catch (err) {
       console.error(err);
@@ -109,8 +122,13 @@ function ProfileScreen({navigation}) {
     }
 
     // check username length
-    if (newUsername.length > 30 || newUsername.length < 6) {
-      setSnackMessage("Username must be between 6 and 30 characters");
+    if (newUsername.length > 30) {
+      setSnackMessage("Maximum character length fot username is 30 characters");
+      setSnackIsVisible(true);
+      return;
+    }
+    if (newUsername.length < 6) {
+      setSnackMessage("Minimum character length fot username is 6 characters");
       setSnackIsVisible(true);
       return;
     }
@@ -146,6 +164,9 @@ function ProfileScreen({navigation}) {
             username: newUsername
           }
         }));
+        setMainSnackMessage("Your username has been successfully changed");
+        setMainSnackIsVisible(true);
+        setUsernameModalVisible(false);
       }
     } catch (err) {
       console.error(err);
@@ -177,8 +198,9 @@ function ProfileScreen({navigation}) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
-        setSnackMessage("Your password has been changed");
-        setSnackIsVisible(true);
+        setMainSnackMessage("Your password has been successfully changed");
+        setMainSnackIsVisible(true);
+        setPasswordModalVisible(false);
       }
     } catch (err) {
       console.error(err);
@@ -187,9 +209,7 @@ function ProfileScreen({navigation}) {
 
   const handleBugSubmit = async () => {
     // check for empty bugs
-    if (bug.length < 8) {
-      setSnackMessage("Bug reports must be longer than 8 characters");
-      setSnackIsVisible(true);
+    if (bug.length == 0) {
       return;
     }
 
@@ -203,8 +223,9 @@ function ProfileScreen({navigation}) {
         setSnackMessage(resp.data.error);
         setSnackIsVisible(true);
       } else {
-        setSnackMessage("Thank you for the report!");
-        setSnackIsVisible(true);
+        setMainSnackMessage("Your bug has been reported. We thank you for the report!");
+        setMainSnackIsVisible(true);
+        setBugModalVisible(false);
       }
     } catch (err) {
       console.error(err);
@@ -212,6 +233,7 @@ function ProfileScreen({navigation}) {
   };
 
   const CustomSnackbar = () => {
+    return (
     <Snackbar
       style={styles.snackbar}
       //SnackBar visibility control
@@ -226,6 +248,7 @@ function ProfileScreen({navigation}) {
     >
       <Text style={styles.snackBarText}>{snackMessage}</Text>
     </Snackbar>
+    );
   }
   
     return (
@@ -347,22 +370,21 @@ function ProfileScreen({navigation}) {
           </View>
           <CustomSnackbar/>
         </Modal>
+
         <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
         </View>
         <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
-          {/* <View style={styles.profilePhotoBack}></View> */}
           <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}}>
             {userInfo.user.name}
           </Text>
           <Text style={{marginTop: hp('.75%'), fontWeight: "500", fontSize: hp('1.94%')}}>
-          @{userInfo.user.username}
+            @{userInfo.user.username}
           </Text>
           <Text style={{marginTop: hp('.75%'), fontWeight: "300", fontSize: hp('1.7%')}}>
             Joined Qwill in {userInfo.user.createdAt.substring(0,4)}
           </Text>
-          {/* <View style={styles.lineLong}></View> */}
         </View>
         <View style={[styles.statsContainer, styles.shadowLight]}>
           <View style={{flexDirection: 'column'}}>
@@ -437,6 +459,15 @@ function ProfileScreen({navigation}) {
             </Ionicons>
           </TouchableOpacity>
         </View>
+        <Snackbar
+          style={styles.snackbar}
+          //SnackBar visibility control
+          visible={mainSnackIsVisible}
+          onDismiss={() => setMainSnackIsVisible(false)}
+          duration={2000}
+        >
+          <Text style={styles.snackBarText}>{mainSnackMessage}</Text>
+        </Snackbar>      
       </SafeAreaView>
     );
   };
@@ -525,7 +556,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // marginTop: 22
   },
   modalView: {
     margin: wp('5%'),
@@ -558,7 +588,7 @@ const styles = StyleSheet.create({
   },
   bugInput: {
     backgroundColor: 'white',
-    height: wp('60%'),
+    height: wp('45%'),
     width: wp('80%'),  
     alignSelf: 'center',
     marginTop: wp('5%'),
