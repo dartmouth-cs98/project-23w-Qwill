@@ -4,15 +4,19 @@ Qwill is a mobile app to customize your handwriting into digital letters. <br>
 
 ![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
 <br>
-<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/19b5b31a-6438-47fd-aa57-689b277a429e" width="500">
+## Home Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/19b5b31a-6438-47fd-aa57-689b277a429e" width="300">
 
-<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/fd4d96bf-1402-4e3d-91ff-7b535fb83125" width="500">
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/fd4d96bf-1402-4e3d-91ff-7b535fb83125" width="300">
 
-<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/dd3a425e-8746-41be-85dd-f564ff5d9d8d" width="500">
+## Friends Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/dd3a425e-8746-41be-85dd-f564ff5d9d8d" width="300">
 
-<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/06b3095e-161e-47c2-b928-17d9ad978c6d" width="500">
+## Font Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/06b3095e-161e-47c2-b928-17d9ad978c6d" width="300">
 
-<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/719d7f75-d9f5-40fc-8fa1-831dadcae662" width="500">
+## Preview Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/719d7f75-d9f5-40fc-8fa1-831dadcae662" width="300">
 
 
 
