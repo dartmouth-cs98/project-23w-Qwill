@@ -1,15 +1,3 @@
-# Todos
-
-* Handwriting
-    1. Write 3-4 sentences with all letters of alphabet.
-    2. User scans image.
-    3. OCR to take a border. <
-    4. Ink extraction for that letter. <
-    5. Change into OTF/TTF file. 
-* Friends Flow
-* Home page
-* Drafts
-
 # Qwill
 
 ![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
