@@ -56,7 +56,10 @@ function ProfileScreen({navigation}) {
         } else if (resp.data.error) {  // backend error
           setSnackMessage(resp.data.error);
           setSnackIsVisible(true);
-        } else if (!resp.data || !resp.data.numLettersSent || !resp.data.numLettersReceived || !resp.data.numFontsCreated) {
+        } else if (!resp.data || 
+            !resp.data.hasOwnProperty('numLettersSent') || 
+            !resp.data.hasOwnProperty('numLettersReceived') ||
+            !resp.data.hasOwnProperty('numFontsCreated')) {
           console.error("Error: the response does not contain the expected fields");
         } else {
           setNumLettersSent(resp.data.numLettersSent);
