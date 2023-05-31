@@ -1,6 +1,10 @@
 # Qwill
 
-Qwill is a mobile app to customize your handwriting into digital letters. <br>
+Cellphones and social media have made it harder to forge genuine connections with your loved ones. Plus, there’s nothing like a handwritten letter!  
+
+That’s why we created Qwill, an app that allows you to send letters to your chosen friends, in your own handwriting. The letters come with themes and stickers too!
+
+<br>
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png" width="600">
