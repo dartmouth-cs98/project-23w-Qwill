@@ -35,7 +35,7 @@ function ComposeScreen({ navigation, route }) {
   // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : "";
   const [inputText, setInputText] = useState(defaultText);
-  const [lastValidText, setLastValidText] = useState(''); 
+  const [lastValidText, setLastValidText] = useState(defaultText);
   const [count, setCount] = useState(10);
   
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -57,7 +57,6 @@ function ComposeScreen({ navigation, route }) {
   // Dismiss snack message
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
-
 
   const [offScreenText, setOffScreenText] = useState("");
   const [offScreenTextHeight, setOffScreenTextHeight] = useState(0);
@@ -308,6 +307,7 @@ function ComposeScreen({ navigation, route }) {
               multiline={true}
               defaultValue={defaultText}
               autoCapitalize="none"
+              autoCorrect={false}
               onFocus={() => setKeyboard(true)}
               onBlur={() => setKeyboard(false)}
               value={inputText}
