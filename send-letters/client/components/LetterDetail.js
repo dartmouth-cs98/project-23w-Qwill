@@ -7,7 +7,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const LetterDetail = props => {
-  const { text, fontID, themeID, width, height, stickers } = props;
+  const { text, fontID, themeID, width, height, stickers, large } = props;
 
   const propsWidth = width ? wp(String(width*100)) : wp('90%');
   const propsHeight = height ? hp(String(height*100)) : hp("64%");
@@ -15,13 +15,14 @@ const LetterDetail = props => {
   const heightRatio = height ? height : 0.64;
   const widthRatio = width ? width : 0.9;
 
+  const marginWidthMult = large ? 1.33 : 1.1;
+  const marginHeightMult = large ? 1.15 : .925;
+  const fontLineMult = large ? .636 : .508;
+
   // we'll render the default system font unless a fontID is specified
   const textStyle = fontID == "" ? {} : {
     fontFamily: fontID,
-    lineHeight: hp("4.25%")*heightRatio,
-    // marginLeft: wp('1.17%')*width, 
-    // marginRight: wp('1.17%')*width, 
-    // marginTop: hp('2.16%')*height
+    lineHeight: hp("4.25%")*fontLineMult,
   };
 
   return (
@@ -32,7 +33,7 @@ const LetterDetail = props => {
         source={themeID === "" ? null : images.themes[themeID]}>
         <View style={{ width: '100%', height: '100%' }}>
           {/* This could be part of the issue */}
-          <View style={{ marginLeft: hp("1.17%")*(widthRatio*1.5), marginRight: hp('1.17%')*(widthRatio*1.5), marginTop: hp('2.16%')*(heightRatio*2)}}>
+          <View style={{ marginLeft: hp("1.17%")*marginWidthMult, marginRight: hp('1.17%')*(widthRatio*1.5), marginTop: hp('2.16%')*marginHeightMult}}>
             <Text style={[textStyle, {fontSize: wp("5%")*widthRatio}]}>{text}</Text>
           </View>
         </View>

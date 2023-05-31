@@ -63,7 +63,7 @@ const LetterDetailScreen = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center'}}>
-        <LetterDetail text={letterText} themeID={themeID} fontID={fontID} stickers={stickers} width={.9} height={.64}/>
+        <LetterDetail text={letterText} themeID={themeID} fontID={fontID} stickers={stickers} width={.9} height={.64} large={true}/>
       </View>
       <View style={{flex: 3, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
           <ButtonPrimary 

@@ -198,7 +198,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderAddFriends() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSansBold", alignContent: 'center'}}>No users found</Text>
+      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSansBold", marginTop: hp("2%")}}>No users found</Text>
     }
     return (
         <FlatList
@@ -240,7 +240,7 @@ const AddFriendsScreen = ({ navigation }) => {
           />
         </View>
       </View>
-      <View style={{ flex: 2, marginTop: hp("2%") }}>
+      <View style={{ flex: 2, marginTop: hp("2%")}}>
         {/* <View style={{ flex: 2 }}> */}
         <Text style={styles.searchText}>Search Profiles</Text>
         {/* <View styles={{ flex: 2 }}> */}
