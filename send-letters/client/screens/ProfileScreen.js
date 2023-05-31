@@ -83,8 +83,8 @@ function ProfileScreen({navigation}) {
     }
 
     // check name length
-    if (newUsername.length > 30) {
-      setSnackMessage("Maximum character length fot name is 30 characters");
+    if (newName.length > 30) {
+      setSnackMessage("Maximum character length for name is 30 characters");
       setSnackIsVisible(true);
       return;
     }
@@ -123,12 +123,12 @@ function ProfileScreen({navigation}) {
 
     // check username length
     if (newUsername.length > 30) {
-      setSnackMessage("Maximum character length fot username is 30 characters");
+      setSnackMessage("Maximum character length for username is 30 characters");
       setSnackIsVisible(true);
       return;
     }
     if (newUsername.length < 6) {
-      setSnackMessage("Minimum character length fot username is 6 characters");
+      setSnackMessage("Minimum character length for username is 6 characters");
       setSnackIsVisible(true);
       return;
     }
@@ -234,20 +234,20 @@ function ProfileScreen({navigation}) {
 
   const CustomSnackbar = () => {
     return (
-    <Snackbar
-      style={styles.snackbar}
-      //SnackBar visibility control
-      visible={snackIsVisible}
-      onDismiss={() => onDismissSnack}
-      action={{
-        label: 'OK',
-        onPress: () => {
-          setSnackIsVisible(false);
-        },
-      }}
-    >
-      <Text style={styles.snackBarText}>{snackMessage}</Text>
-    </Snackbar>
+      <Snackbar
+        style={styles.snackbar}
+        //SnackBar visibility control
+        visible={snackIsVisible}
+        onDismiss={() => onDismissSnack}
+        action={{
+          label: 'OK',
+          onPress: () => {
+            setSnackIsVisible(false);
+          },
+        }}
+      >
+        <Text style={styles.snackBarText}>{snackMessage}</Text>
+      </Snackbar>
     );
   }
   
