@@ -83,7 +83,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
             // senderAddress={index}
             recipient={item.recipientInfo.name}
             // recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font, item.stickers)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.sender, item.senderInfo.username, item.theme, item.font, item.stickers)}}
         ></LetterHistoryPreview>
       </View>
     );
