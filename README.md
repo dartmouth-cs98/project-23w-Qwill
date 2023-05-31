@@ -1,27 +1,23 @@
-# Todos
-
-* Handwriting
-    1. Write 3-4 sentences with all letters of alphabet.
-    2. User scans image.
-    3. OCR to take a border. <
-    4. Ink extraction for that letter. <
-    5. Change into OTF/TTF file. 
-* Friends Flow
-* Home page
-* Drafts
-
 # Qwill
 
-![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
-
 Qwill is a mobile app to customize your handwriting into digital letters. <br>
-![home view one letter](https://user-images.githubusercontent.com/45802767/237006121-9b272f9d-b535-4429-838b-de9132b2760b.png)
-![home view many letters](https://user-images.githubusercontent.com/45802767/237006108-11963a8a-6db4-47a7-8417-19fc61002df5.png)
-![draft view](https://user-images.githubusercontent.com/45802767/237006109-df318fd1-3d2e-4f51-98d9-0235737e97e9.png)
-![friends view](https://user-images.githubusercontent.com/45802767/237006115-ba216ce3-5891-4f81-b8ce-c8a358d44b8e.png)
-![fonts view](https://user-images.githubusercontent.com/45802767/237006117-ed66ccda-783e-4487-aaca-0d6e10f7ff4a.png)
-![select theme view](https://user-images.githubusercontent.com/45802767/237006118-2ff17012-9341-4938-81a0-1b0bec58fbe4.png)
-![letter preview](https://user-images.githubusercontent.com/45802767/237006119-19f8924c-f224-4d31-8bf6-c7fba9ab0e68.png)
+
+![logo](https://user-images.githubusercontent.com/45802767/224577276-d8e807a8-801c-41cc-bb3c-455217f0f76c.png)
+<br>
+## Home Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/19b5b31a-6438-47fd-aa57-689b277a429e" width="300">
+
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/fd4d96bf-1402-4e3d-91ff-7b535fb83125" width="300">
+
+## Friends Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/dd3a425e-8746-41be-85dd-f564ff5d9d8d" width="300">
+
+## Font Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/06b3095e-161e-47c2-b928-17d9ad978c6d" width="300">
+
+## Preview Screen
+<img src="https://github.com/dartmouth-cs98/project-23w-qwill/assets/102633877/719d7f75-d9f5-40fc-8fa1-831dadcae662" width="300">
+
 
 
 ## Architecture
