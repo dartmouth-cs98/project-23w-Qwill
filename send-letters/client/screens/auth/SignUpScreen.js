@@ -34,7 +34,7 @@ const SignUpScreen = ({navigation}) => {
 
   const handleSignUpPressed = async () => {
     if(!signUpButtonDisabled){
-      sendSignInBackend();
+      sendSignUpBackend();
       setSignUpButtonDisabled(true);
       setTimeout(() => {
         setSignUpButtonDisabled(false);
@@ -42,7 +42,7 @@ const SignUpScreen = ({navigation}) => {
     }
   }
 
-  const sendSignInBackend = async () => {
+  const sendSignUpBackend = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
