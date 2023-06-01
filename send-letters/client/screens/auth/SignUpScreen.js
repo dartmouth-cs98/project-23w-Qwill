@@ -50,7 +50,7 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
-    // check name
+    // check name length
     if (name.length > 30) {
       setSnackMessage("Name must be less than 30 characters long");
       setSnackIsVisible(true);
