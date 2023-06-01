@@ -45,7 +45,7 @@ const SelectThemeScreen = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const themesList = Object.keys(images.themes);
+  const themesList = Object.keys(images.themes_min);
 
   //The useCallback hook returns a memoized version of the callback that only changes if one of the dependencies has changed.
   const renderItem = useCallback(

@@ -11,6 +11,8 @@ import findIP from '../../helpers/findIP';
 import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
+import { useIsFocused } from '@react-navigation/native';
+
 
 function SelectRecipientScreen({ navigation }) {
   const [matchingUsers, setMatchingUsers] = useState("");
@@ -21,6 +23,8 @@ function SelectRecipientScreen({ navigation }) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
+
+  const isFocused = useIsFocused();
 
   // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
@@ -75,7 +79,7 @@ function SelectRecipientScreen({ navigation }) {
   // update the matching users when the page is first (will correspond to all friends)
   useEffect(() => {
     handleChangeText("");
-  }, []);
+  }, [isFocused]);
 
   const handleNextPressed = (item) => {
     setLetterInfo({ ...letterInfo, recipientID: item._id, recipientUsername: item.username });

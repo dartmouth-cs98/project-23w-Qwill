@@ -23,6 +23,8 @@ const SignUpScreen = ({navigation}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
+  const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(false);
+
 
   // For snackbar:
   // https://callstack.github.io/react-native-paper/snackbar.html
@@ -31,9 +33,27 @@ const SignUpScreen = ({navigation}) => {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSignUpPressed = async () => {
+    if(!signUpButtonDisabled){
+      sendSignInBackend();
+      setSignUpButtonDisabled(true);
+      setTimeout(() => {
+        setSignUpButtonDisabled(false);
+      }, 2500); // Disable for 2.5 seconds
+    }
+  }
+
+  const sendSignInBackend = async () => {
+    console.log("1");
     // check for empty fields
     if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check name
+    if (name.length > 30) {
+      setSnackMessage("Name must be less than 30 characters long");
       setSnackIsVisible(true);
       return;
     }
@@ -85,6 +105,7 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
+    console.log("2");
     // connect to server and get response
     try {
       const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
@@ -99,9 +120,11 @@ const SignUpScreen = ({navigation}) => {
         return;
       } else {
         setState(resp.data);
+        console.log("3");
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
         // successful sign up
         alert("Sign Up Successful. Welcome to Qwill");
+        console.log("4");
         navigation.navigate('NavBar');
       }
     } catch (err) {
