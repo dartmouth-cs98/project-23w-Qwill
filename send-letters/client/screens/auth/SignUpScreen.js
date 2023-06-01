@@ -43,7 +43,6 @@ const SignUpScreen = ({navigation}) => {
   }
 
   const sendSignInBackend = async () => {
-    console.log("1");
     // check for empty fields
     if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
@@ -105,7 +104,6 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
-    console.log("2");
     // connect to server and get response
     try {
       const resp = await axios.post(findIP()+"/api/signUp", { name, email, username, password });
@@ -120,11 +118,9 @@ const SignUpScreen = ({navigation}) => {
         return;
       } else {
         setState(resp.data);
-        console.log("3");
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
         // successful sign up
         alert("Sign Up Successful. Welcome to Qwill");
-        console.log("4");
         navigation.navigate('NavBar');
       }
     } catch (err) {
