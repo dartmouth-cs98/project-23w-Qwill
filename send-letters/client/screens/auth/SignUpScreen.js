@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView, Keyboard } from 'react-native';
 import { TextInput } from 'react-native';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -179,7 +179,7 @@ const SignUpScreen = ({navigation}) => {
             type="password"
             autoCompleteType="password"
             onChangeText={text => setPassword(text)}
-            onSubmitEditing={handleSignUpPressed}
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
         </View>
 
