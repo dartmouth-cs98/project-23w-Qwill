@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeFriendsScreen from '../screens/friends/HomeFriendsScreen';
 import FriendHistoryScreen from '../screens/friends/FriendHistoryScreen';
 import AddFriendsScreen from '../screens/friends/AddFriendsScreen';
-import PendingFriendsScreen from '../screens/friends/PendingFriendsScreen';
 import LetterHistoryDetailScreen from '../screens/friends/LetterHistoryDetailScreen';
 
 // Contains the mailbox and the drafts page
@@ -45,11 +44,6 @@ export default function FriendStack() {
           options={{title: "AddFriendsScreen",}}
           name='AddFriendsScreen' 
           component={AddFriendsScreen}
-        />
-        <Stack.Screen 
-          options={{title: "PendingFriendsScreen",}}
-          name='PendingFriendsScreen' 
-          component={PendingFriendsScreen}
         />
         <Stack.Screen 
           options={{title: "LetterHistoryDetail",}}

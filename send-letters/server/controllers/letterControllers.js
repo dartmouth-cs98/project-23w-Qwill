@@ -2,6 +2,13 @@ import User from "../schemas/userSchema";
 import Letter from "../schemas/letterSchema";
 
 
+/**
+ * POST /api/makeLetter
+ * Creates a letter in the database with the given details in the request body
+ *
+ * Request body: { text: String, recipientID: String, themeID: String, fontID: String, customFont: String, senderID: String, stickers: Array, status: String }
+ * Response: { letterID: String } || { error: String }
+ */
 export const makeLetter = async (req, res) => {
     try {
         const { text, recipientID, themeID, fontID, customFont, senderID, stickers, status } = req.body;        
@@ -53,6 +60,18 @@ export const makeLetter = async (req, res) => {
 };
 
 
+/**
+ * POST /api/fetchLetters
+ * Fetches letters in the database with the given details in the request body (limit 100)
+ *
+ * Request body: { userID: String, possibleLetterStatuses: Array, userStatus: String }
+ * Response: { receivedLetters: Array } || { error: String }
+ * 
+ * This controller fetches letters where the user is either the sender or recipient, based on the 'userStatus' parameter.
+ *   If a user with the given ID exists in the database, it fetches all letters where the user is either the sender or 
+ *   recipient, and the letter status matches any status in the 'possibleLetterStatuses' array. The fetched letters are 
+ *   then returned in the response. 
+ */
 export const fetchLetters = async (req, res) => {
     var mongoose = require('mongoose');
 
@@ -159,6 +178,13 @@ export const fetchLetters = async (req, res) => {
 };
 
 
+/**
+ * POST /api/updateLetterStatus
+ * Updates the status of a letter in the database based on the request body
+ *
+ * Request body: { letterID: String, newStatus: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const updateLetterStatus = async (req, res) => {  
     try {
         const { letterID, newStatus } = req.body;
@@ -194,6 +220,13 @@ export const updateLetterStatus = async (req, res) => {
 };
 
 
+/**
+ * POST /api/updateLetterInfo
+ * Updates the fields of a letter in the database based on the fields in the request body
+ *
+ * Request body: { letterID: String, text: String, recipientID: String, themeID: String, fontID: String, customFont: String, senderID: String, stickers: Array, status: String }
+ * Response: { letterID: String } || { error: String }
+ */
 export const updateLetterInfo = async (req, res) => {    
     try {
         // get letterID and the new values for the letter
@@ -240,6 +273,13 @@ export const updateLetterInfo = async (req, res) => {
 };
 
 
+/**
+ * POST /api/deleteLetter
+ * Deletes a letter from the database based on the request body
+ *
+ * Request body: { letterID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const deleteLetter = async (req, res) => {  
     try {
         const { letterID } = req.body;
@@ -275,6 +315,18 @@ export const deleteLetter = async (req, res) => {
 };
 
 
+/**
+ * POST /api/fetchLetterHistory
+ * Fetches the history of letters between two users from the database based on the request body
+ *
+ * Request body: { userID: String, friendID: String }
+ * Response: { letterHistory: Array } || { error: String }
+ * 
+ * If both users are found, it finds all letters in the database between these two users provided 
+ *   in the request body, excluding drafts. Each letter is appended with information about its sender 
+ *   and recipient. The controller returns a response with the array of letters if the process is 
+ *   successful.
+ */
 export const fetchLetterHistory = async (req, res) => {
     var mongoose = require('mongoose');
 
@@ -384,6 +436,7 @@ export const fetchLetterHistory = async (req, res) => {
         return res.status(400).send("Error. Try again.");
     }
 };
+
 
 const addFontInfo = [
     // Add the field `fontObjectId` for letters sent with a custom font

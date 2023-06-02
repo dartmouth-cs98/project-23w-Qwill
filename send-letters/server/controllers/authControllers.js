@@ -10,6 +10,13 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 
+/**
+ * POST /api/signUp
+ * Handles user sign up and input validation
+ * 
+ * Request body: { name: String, email: String, username: String, phone: String (optional), password: String }
+ * Response: { token: String, user: Object } || { error: String }
+ */
 export const signUp = async (req, res) => {
     try {
         // validation
@@ -90,6 +97,14 @@ export const signUp = async (req, res) => {
     }
 };
 
+
+/**
+ * POST /api/signIn
+ * Handles user sign in by checking user email/username and password
+ * 
+ * Request body: { emailUsername: String, password: String }
+ * Response: { token: String, user: Object } || { error: String }
+ */
 export const signIn = async (req, res) => {
     try {
         const { emailUsername, password } = req.body;
@@ -130,6 +145,14 @@ export const signIn = async (req, res) => {
     }
 };
 
+
+/**
+ * POST /api/forgotPassword
+ * Generates a reset code for a user who forgot their password
+ * 
+ * Request body: { email: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
     // find user by email
@@ -169,6 +192,14 @@ export const forgotPassword = async (req, res) => {
     }
 };
 
+
+/**
+ * POST /api/resetPassword
+ * Resets the password of a user given a reset code
+ * 
+ * Request body: { email: String, password: String, resetCode: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const resetPassword = async (req, res) => {
     try {
         const { email, password, resetCode } = req.body;
@@ -204,6 +235,13 @@ export const resetPassword = async (req, res) => {
 };
 
 
+/**
+ * POST /api/changeName
+ * Changes the name of a user
+ * 
+ * Request body: { userID: String, newName: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const changeName = async (req, res) => {
     try {
         const { userID, newName } = req.body;
@@ -231,6 +269,13 @@ export const changeName = async (req, res) => {
 };
 
 
+/**
+ * POST /api/changeUsername
+ * Changes the username of a user
+ * 
+ * Request body: { userID: String, newUsername: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const changeUsername = async (req, res) => {
     try {
         const { userID, newUsername } = req.body;
@@ -268,6 +313,13 @@ export const changeUsername = async (req, res) => {
 };
 
 
+/**
+ * POST /api/changePassword
+ * Changes the password of a user
+ * 
+ * Request body: { userID: String, oldPassword: String, newPassword: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const changePassword = async (req, res) => {
     try {
         const { userID, oldPassword, newPassword } = req.body;
@@ -311,6 +363,13 @@ export const changePassword = async (req, res) => {
 };
 
 
+/**
+ * POST /api/bug
+ * Reports a detected bug in the frontend application
+ * 
+ * Request body: { bug: String }
+ * Response: { ok: Boolean } || Error
+ */
 export const reportBug = async (req, res) => {
     try {
         const { bug } = req.body;

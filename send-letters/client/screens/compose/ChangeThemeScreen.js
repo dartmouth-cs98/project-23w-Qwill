@@ -18,7 +18,7 @@ const ChangeThemeScreen = ({ navigation, route }) => {
   };
 
   // Get the list of themes from the images index under assets
-  const themesList = Object.keys(images.themes);
+  const themesList = Object.keys(images.themes_min);
 
   return (
     <SafeAreaView style={styles.safeview}>

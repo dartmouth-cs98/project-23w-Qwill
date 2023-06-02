@@ -4,6 +4,18 @@ import Letter from "../schemas/letterSchema";
 import Font from "../schemas/fontSchema";
 
 
+/**
+ * POST /api/matchUsers
+ * Matches users based on the given text in the request body, filtering for non-friends, pending friends, friends, and self
+ * 
+ * Request body: { senderID: String, textToMatch: String, nonFriends: Boolean, pendingFriends: Boolean, friends: Boolean, hideIncoming: Boolean, returnSelf: Boolean }
+ * Response: { matchingUsers: Array } || { error: String }
+ * 
+ * This controller matches users based on the given the case insensitive text (textToMatch). It returns an array of user objects that have a username 
+ *   or name that starts with the given text. It filters the returned user objects based on whether the match is themself, non-friends, pending friends,
+ *   or friends with the user sending the request (senderID). The returned users include a field indicating the friend status between the sender and 
+ *   the matched user. If hideIncoming is set to true, it will not return incoming friend requests.
+ */
 export const matchUsers = async (req, res) => {
     try {
         // senderID of the request, the text to match, and whether to match the non-friends, pending friends, and friends
@@ -172,6 +184,13 @@ export const matchUsers = async (req, res) => {
 };
 
 
+/**
+ * POST /api/sendFriendRequest
+ * Sends a friend request by creating a new entry in the MongoDB Friends collection
+ * 
+ * Request body: { senderID: String, recipientID: String }
+ * Response: { friendReqID: String } || { error: String }
+ */
 export const sendFriendRequest = async (req, res) => {
     try {
         const { senderID, recipientID } = req.body;        
@@ -237,6 +256,13 @@ export const sendFriendRequest = async (req, res) => {
 };
 
 
+/**
+ * POST /api/acceptFriendRequest
+ * Accepts a friend request by updating the status to "friends"
+ * 
+ * Request body: { friendReqID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const acceptFriendRequest = async (req, res) => {
     try {
         const { friendReqID } = req.body;        
@@ -272,6 +298,13 @@ export const acceptFriendRequest = async (req, res) => {
 };
 
 
+/**
+ * POST /api/deleteFriendRequest
+ * Deletes a friend request from the MongoDB Friends collection
+ * 
+ * Request body: { friendReqID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const deleteFriendRequest = async (req, res) => {
     try {
         const { friendReqID } = req.body;        
@@ -307,9 +340,11 @@ export const deleteFriendRequest = async (req, res) => {
 
 
 /**
- * This function takes in the ID of the user and returns a JSON file containing
- *   all incoming friend requests from the mongo Friends collection
- * @param userID The ID of the user from the mongo user collection
+ * POST /api/getIncomingFriendReqs
+ * Retrieves all pending friend requests for a specific user (limit of 250)
+ * 
+ * Request body: { userID: String }
+ * Response: { incomingFriendReqs: Array } || { error: String }
  */
 export const getIncomingFriendReqs = async (req, res) => {
     var mongoose = require('mongoose');
@@ -383,6 +418,14 @@ export const getIncomingFriendReqs = async (req, res) => {
 };
 
 
+/**
+ * POST /api/countUserStats
+ * Counts and returns number of letters sent, letters received, and fonts created by a specific user
+ *   Note: Only letters with a status of "sent", "read", or "archive" are included in the counts
+ * 
+ * Request body: { userID: String }
+ * Response: { numLettersSent: Number, numLettersReceived: Number, numFontsCreated: Number } || { error: String }
+ */
 export const countUserStats = async (req, res) => {
     try {
         const { userID } = req.body;        

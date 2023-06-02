@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView, Keyboard } from 'react-native';
 import { TextInput } from 'react-native';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -23,6 +23,8 @@ const SignUpScreen = ({navigation}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
+  const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(false);
+
 
   // For snackbar:
   // https://callstack.github.io/react-native-paper/snackbar.html
@@ -31,9 +33,26 @@ const SignUpScreen = ({navigation}) => {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSignUpPressed = async () => {
+    if(!signUpButtonDisabled){
+      sendSignUpBackend();
+      setSignUpButtonDisabled(true);
+      setTimeout(() => {
+        setSignUpButtonDisabled(false);
+      }, 2500); // Disable for 2.5 seconds
+    }
+  }
+
+  const sendSignUpBackend = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check name length
+    if (name.length > 30) {
+      setSnackMessage("Name must be less than 30 characters long");
       setSnackIsVisible(true);
       return;
     }
@@ -160,7 +179,7 @@ const SignUpScreen = ({navigation}) => {
             type="password"
             autoCompleteType="password"
             onChangeText={text => setPassword(text)}
-            onSubmitEditing={handleSignUpPressed}
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
         </View>
 
