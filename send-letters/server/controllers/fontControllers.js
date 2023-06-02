@@ -3,6 +3,20 @@ import Font from "../schemas/fontSchema";
 require("dotenv").config();
 
 
+/**
+ * POST /api/createCustomFont
+ * Creates a custom font from a handwriting image and stores it in Firebase and MongoDB
+ *
+ * Request body: { userID: String, handwritingImage: String (Base64 format) }
+ * Response: { message: String, font: Font object } || { message: String } || { error: String }
+ * 
+ * This controller generates a custom font based on the user's handwriting from the provided image
+ * It spawns a new Python process that takes in the handwriting image, and outputs a TrueType font (TTF) file
+ * The TTF file is then uploaded to Firebase Storage, and a new Font record is created in MongoDB
+ * The controller returns a success response with the created font if everything is successful
+ * If any error occurs during the process, it sends a response with the error message
+ * Specific error codes from the Python process (described in the README) are handled with predefined messages
+ */
 export const createCustomFont = async (req, res) => {
     // Initialize an error dictionary that maps potential python exit codes with their corresponding error messages to sent to user
     const ERROR_DICT = {
@@ -146,6 +160,13 @@ export const createCustomFont = async (req, res) => {
 };
 
 
+/**
+ * POST /api/fetchCustomFonts
+ * Fetches all custom fonts created by a specific user
+ *
+ * Request body: { userID: String }
+ * Response: { createdFonts: Array of Fonts } || { error: String }
+ */
 export const fetchCustomFonts = async (req, res) => {
     var mongoose = require('mongoose');
 
@@ -191,8 +212,14 @@ export const fetchCustomFonts = async (req, res) => {
 };
 
 
-// this "deletes" a font by making it hidden to all users when fetching fonts
-// font is not fully deleted from db and firebase because it could still be in use in old letters
+/**
+ * POST /api/deleteFont
+ * Marks a font as deleted in the database based on the request body
+ * Note: this hides the font from the user who created it, but it still exists for old letters
+ *
+ * Request body: { fontID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const deleteFont = async (req, res) => {  
     try {
         const { fontID } = req.body;
@@ -228,7 +255,13 @@ export const deleteFont = async (req, res) => {
 };
 
 
-
+/**
+ * POST /api/deleteFontBackend
+ * Deletes a font from the Mongo database and Firebase storage based on the request body
+ *
+ * Request body: { fontID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const deleteFontBackend = async (req, res) => {  
     try {
         const { fontID } = req.body;
@@ -287,7 +320,13 @@ export const deleteFontBackend = async (req, res) => {
 };
 
 
-
+/**
+ * POST /api/updateFontName
+ * Updates the name of a font in the database based on the request body
+ *
+ * Request body: { fontID: String, newName: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const updateFontName = async (req, res) => {  
     try {
         const { fontID, newName } = req.body;
