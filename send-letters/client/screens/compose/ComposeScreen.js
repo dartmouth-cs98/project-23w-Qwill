@@ -116,7 +116,7 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
-  // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
+  // We can ignore the non-serializable warnings as our child component AddStickerScreen
   // has no deep links nor state persistence, which must be handled.
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
