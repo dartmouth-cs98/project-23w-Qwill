@@ -194,8 +194,6 @@ Please note, if you want the frontend to make axios requests to the locally run 
 
 ## Build
 
-## Build
-
 ### Frontend
 
 To run the frontend locally, use the following commands from the base directory:
