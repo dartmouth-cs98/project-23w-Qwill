@@ -225,9 +225,6 @@ function ProfileScreen({navigation}) {
         // Account successfully deleted; force sign-out
         setDeleteAccountModalVisible(false);
         handleSignOutPressed();
-        // setUserInfo({ token: "", user: null });
-        // await AsyncStorage.removeItem("auth-rn");
-        // navigation.navigate('SignIn');
       }
     } catch (err) {
       console.error(err);
