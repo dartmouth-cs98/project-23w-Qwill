@@ -33,6 +33,7 @@ function ProfileScreen({navigation}) {
   const [usernameModalVisible, setUsernameModalVisible] = useState(false);
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [bugModalVisible, setBugModalVisible] = useState(false);
+  const [deleteAccountModalVisible, setDeleteAccountModalVisible] = useState(false);
 
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
@@ -210,6 +211,29 @@ function ProfileScreen({navigation}) {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      resp = await axios.post(findIP() + "/api/deleteUserAccount", {userID: userInfo.user._id});
+      if (!resp) {  // Could not connect to backend
+        console.log("ERROR: Could not establish server connection with axios");
+        setSnackMessage("Could not establish connection to the server");
+        setSnackIsVisible(true);
+      } else if (resp.data.error) {  // Another backend error
+        setSnackMessage(resp.data.error);
+        setSnackIsVisible(true);
+      } else {
+        // Account successfully deleted; force sign-out
+        setDeleteAccountModalVisible(false);
+        handleSignOutPressed();
+        // setUserInfo({ token: "", user: null });
+        // await AsyncStorage.removeItem("auth-rn");
+        // navigation.navigate('SignIn');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleBugSubmit = async () => {
     // check for empty bugs
     if (bug.length == 0) {
@@ -374,6 +398,23 @@ function ProfileScreen({navigation}) {
           <CustomSnackbar/>
         </Modal>
 
+        <Modal animationType="slide" transparent={true} visible={deleteAccountModalVisible} onRequestClose={() => {setDeleteAccountModalVisible(!deleteAccountModalVisible);}}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity style={styles.closeButton} onPress={() => setDeleteAccountModalVisible(!deleteAccountModalVisible)}>
+                <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
+              </TouchableOpacity>
+              <Text style={styles.modalTitleText}>Delete Account</Text>
+              <Text style={styles.modalText}>Are you sure you want to delete your account? This will permanently erase your account and all corresponding data.</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <ButtonBlue title={"Cancel"} style={{marginTop: wp("5%")}} onPress={() => setDeleteAccountModalVisible(!deleteAccountModalVisible)}/>
+                <ButtonBlue title={"Delete"} style={{marginTop: wp("5%")}} onPress={handleDeleteAccount}/>
+              </View>
+            </View>
+          </View>
+          <CustomSnackbar/>
+        </Modal>
+
         <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
@@ -455,6 +496,19 @@ function ProfileScreen({navigation}) {
             size={hp('2.59%')}>
             </Ionicons>
             <Text style={styles.text}>Report a Bug</Text>
+            <Ionicons
+            style={{marginRight: wp('4.67%')}}
+            name={"chevron-forward-outline"}
+            size={hp('2.59')}>
+            </Ionicons>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingContainer} onPress={() => {setDeleteAccountModalVisible(true); setSnackIsVisible(false);}}>
+            <Ionicons
+            style={{marginLeft: wp('4.67%')}}
+            name={"trash-outline"}
+            size={hp('2.59%')}>
+            </Ionicons>
+            <Text style={styles.text}>Delete Account</Text>
             <Ionicons
             style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
@@ -589,6 +643,11 @@ const styles = StyleSheet.create({
     fontSize: wp('6%'),
     fontWeight: "bold",
   },
+  modalText: {
+    fontSize: wp('3.5%'),
+    textAlign: 'center',
+    marginTop: hp('1%'),
+  },
   bugInput: {
     backgroundColor: 'white',
     height: wp('45%'),
@@ -652,8 +711,6 @@ const styles = StyleSheet.create({
     marginTop: hp('2%')
   },
   statsTitleText: {
-    // position: 'absolute',
-    // top: hp('10%'),
     fontWeight: "300", 
     fontSize: hp('1.25%'),
     marginTop: hp('.5%'),

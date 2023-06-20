@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     numCustomFonts: {
         type: Number,
         required: true,
-        min: 0
+        min: 0,
     },
     resetCode: "",
 }, {
