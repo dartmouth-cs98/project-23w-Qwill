@@ -412,7 +412,6 @@ export const changePassword = async (req, res) => {
         ];
         const cursor = Font.aggregate(query);
         for await (const doc of cursor) {
-            console.log(doc._id);
             deleteFontBackend(doc._id);
         }
 
