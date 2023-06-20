@@ -1,4 +1,9 @@
 import User from "../schemas/userSchema";
+import Letter from "../schemas/letterSchema";
+import Friend from "../schemas/friendSchema";
+import Font from "../schemas/fontSchema";
+import { deleteFontBackend } from "../helpers/font";
+
 import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
@@ -246,7 +251,7 @@ export const changeName = async (req, res) => {
     try {
         const { userID, newName } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -280,7 +285,7 @@ export const changeUsername = async (req, res) => {
     try {
         const { userID, newUsername } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -324,7 +329,7 @@ export const changePassword = async (req, res) => {
     try {
         const { userID, oldPassword, newPassword } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -354,6 +359,65 @@ export const changePassword = async (req, res) => {
         user.password = hashedPassword;
         user.resetCode = "";
         user.save();
+        return res.json({
+            ok: true
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+/**
+ * POST /api/deleteUserAccount
+ * Deletes the user and all associated data from the database
+ * 
+ * Request body: { userID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
+ export const deleteUserAccount = async (req, res) => {
+    var mongoose = require('mongoose');
+
+    try {
+        const { userID } = req.body;
+
+        // check if our db has a user with the ID of the user
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // delete all data associated with user
+        console.log("deleting all data for user: " + user.id);
+
+        // delete all letters user was involved in
+        await Letter.deleteMany({'sender': userID});
+        await Letter.deleteMany({'recipient': userID});
+
+        // delete all friend requests user was involved in
+        await Friend.deleteMany({'friendReqSender': userID});
+        await Friend.deleteMany({'friendReqRecipient': userID});
+        
+        // delete all custom fonts created by the user
+        const query = [
+            {
+            $match: {
+                    creator: new mongoose.Types.ObjectId(user._id), 
+                }
+            },
+        ];
+        const cursor = Font.aggregate(query);
+        for await (const doc of cursor) {
+            deleteFontBackend(doc._id);
+        }
+
+        // delete the user
+        await User.deleteOne({'_id': userID});
+       
         return res.json({
             ok: true
         });

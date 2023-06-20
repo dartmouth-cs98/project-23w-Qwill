@@ -11,6 +11,7 @@ const {
     changeName,
     changeUsername, 
     changePassword,
+    deleteUserAccount,
     reportBug
 } = require("../controllers/authControllers");
 
@@ -28,6 +29,7 @@ router.post("/resetPassword", resetPassword);
 router.post("/changeName", changeName);
 router.post("/changeUsername", changeUsername);
 router.post("/changePassword", changePassword);
+router.post("/deleteUserAccount", deleteUserAccount);
 router.post("/reportBug", reportBug);
 
 export default router; 
