@@ -9,9 +9,9 @@ const SelectRecipientButton = (props) => {
     return (
       <View>
         <TouchableOpacity style={styles.friendCircle} onPress={props.onPress} title={item.username}>
-          <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
+          <Text style={styles.friendMidText} allowFontScaling={false}>{(item.name).replace(/["]/g, '')[0]}</Text>
         </TouchableOpacity>
-          <Text style={{textAlign: 'center', fontSize: 12}}>{truncate(item.username.replace(/["]/g, ''), 10)}</Text>
+          <Text style={{textAlign: 'center', fontSize: 12}} allowFontScaling={false}>{truncate(item.username.replace(/["]/g, ''), 10)}</Text>
       </View>
     );
 };

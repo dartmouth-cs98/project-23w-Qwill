@@ -59,7 +59,7 @@ const ChangeFontScreen = ({ navigation }) => {
   
   return (
     <SafeAreaView style={styles.safeview}>
-      <Text style={styles.selectTitleText}> Change the font </Text>
+      <Text style={styles.selectTitleText} allowFontScaling={false}> Change the font </Text>
       {
         customFonts.length == 0 ? ( 
           <></>
@@ -67,7 +67,7 @@ const ChangeFontScreen = ({ navigation }) => {
           <View style={styles.customFontsContainer}>
             <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
               <View style={styles.line}></View>
-              <Text style={styles.fontSectionTitle}>Custom Fonts</Text>
+              <Text style={styles.fontSectionTitle} allowFontScaling={false}>Custom Fonts</Text>
               <View style={styles.line}></View>
             </View>
             <FlatList
@@ -93,7 +93,7 @@ const ChangeFontScreen = ({ navigation }) => {
       <View style={styles.defaultFontsContainer}>
         <View style={{flexDirection: "row", justifyContent: "center", marginVertical: 10}}>
               <View style={styles.line}></View>
-              <Text style={styles.fontSectionTitle}>Default Fonts</Text>
+              <Text style={styles.fontSectionTitle} allowFontScaling={false}>Default Fonts</Text>
               <View style={styles.line}></View>
         </View>
           <FlatList

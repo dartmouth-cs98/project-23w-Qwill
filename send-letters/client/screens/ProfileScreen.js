@@ -270,7 +270,7 @@ function ProfileScreen({navigation}) {
           },
         }}
       >
-        <Text style={styles.snackBarText}>{snackMessage}</Text>
+        <Text style={styles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
     );
   }
@@ -283,7 +283,7 @@ function ProfileScreen({navigation}) {
               <TouchableOpacity style={styles.closeButton} onPress={() => setNameModalVisible(!nameModalVisible)}>
                 <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
               </TouchableOpacity>
-              <Text style={styles.modalTitleText}>Change Name</Text>
+              <Text style={styles.modalTitleText} allowFontScaling={false}>Change Name</Text>
               <TextInput
                 style={styles.infoInput}
                 placeholder="Type new name here..."
@@ -294,6 +294,7 @@ function ProfileScreen({navigation}) {
                 value={newName}
                 onChangeText={setNewName}
                 autoCapitalize='none'
+                allowFontScaling={false}
               />
               <ButtonBlue title={"Change name"} style={{marginTop: wp("5%")}} onPress={handleChangeName}/>
             </View>
@@ -307,7 +308,7 @@ function ProfileScreen({navigation}) {
               <TouchableOpacity style={styles.closeButton} onPress={() => setUsernameModalVisible(!usernameModalVisible)}>
                 <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
               </TouchableOpacity>
-              <Text style={styles.modalTitleText}>Change Username</Text>
+              <Text style={styles.modalTitleText} allowFontScaling={false}>Change Username</Text>
               <TextInput
                 style={styles.infoInput}
                 placeholder="Type new username here..."
@@ -318,6 +319,7 @@ function ProfileScreen({navigation}) {
                 value={newUsername}
                 onChangeText={setNewUsername}
                 autoCapitalize='none'
+                allowFontScaling={false}
               />
               <ButtonBlue title={"Change Username"} style={{marginTop: wp("5%")}} onPress={handleChangeUsername}/>
             </View>
@@ -331,7 +333,7 @@ function ProfileScreen({navigation}) {
               <TouchableOpacity style={styles.closeButton} onPress={() => setPasswordModalVisible(!passwordModalVisible)}>
                 <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
               </TouchableOpacity>
-              <Text style={styles.modalTitleText}>Change Password</Text>
+              <Text style={styles.modalTitleText} allowFontScaling={false}>Change Password</Text>
               <TextInput
                 style={styles.infoInput}
                 placeholder="Type current password..."
@@ -342,6 +344,7 @@ function ProfileScreen({navigation}) {
                 value={oldPassword}
                 onChangeText={setOldPassword}
                 autoCapitalize='none'
+                allowFontScaling={false}
               />
               <TextInput
                 style={styles.infoInput}
@@ -353,6 +356,7 @@ function ProfileScreen({navigation}) {
                 value={newPassword}
                 onChangeText={setNewPassword}
                 autoCapitalize='none'
+                allowFontScaling={false}
               />
               <TextInput
                 style={styles.infoInput}
@@ -364,6 +368,7 @@ function ProfileScreen({navigation}) {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 autoCapitalize='none'
+                allowFontScaling={false}
               />
               <ButtonBlue title={"Change Password"} style={{marginTop: wp("5%")}} onPress={handleChangePassword}/>
             </View>
@@ -377,7 +382,7 @@ function ProfileScreen({navigation}) {
               <TouchableOpacity style={styles.closeButton} onPress={() => setBugModalVisible(!bugModalVisible)}>
                 <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
               </TouchableOpacity>
-              <Text style={styles.modalTitleText}>Report a Bug</Text>
+              <Text style={styles.modalTitleText} allowFontScaling={false}>Report a Bug</Text>
               <TextInput
                 style={styles.bugInput}
                 placeholder="Type bug here..."
@@ -388,6 +393,7 @@ function ProfileScreen({navigation}) {
                 value={bug}
                 onChangeText={setBug}
                 autoCapitalize='none'
+                allowFontScaling={false}
               />
               <ButtonBlue title={"Report Bug"} style={{marginTop: wp("5%")}} onPress={handleBugSubmit}/>
             </View>
@@ -401,8 +407,8 @@ function ProfileScreen({navigation}) {
               <TouchableOpacity style={styles.closeButton} onPress={() => setDeleteAccountModalVisible(!deleteAccountModalVisible)}>
                 <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
               </TouchableOpacity>
-              <Text style={styles.modalTitleText}>Delete Account</Text>
-              <Text style={styles.modalText}>Are you sure you want to delete your account? This will permanently erase your account and all corresponding data.</Text>
+              <Text style={styles.modalTitleText} allowFontScaling={false}>Delete Account</Text>
+              <Text style={styles.modalText} allowFontScaling={false}>Are you sure you want to delete your account? This will permanently erase your account and all corresponding data.</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <ButtonBlue title={"Cancel"} style={{marginTop: wp("5%")}} onPress={() => setDeleteAccountModalVisible(!deleteAccountModalVisible)}/>
                 <ButtonBlue title={"Delete"} style={{marginTop: wp("5%")}} onPress={handleDeleteAccount}/>
@@ -414,37 +420,37 @@ function ProfileScreen({navigation}) {
 
         <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text>Log Out</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text allowFontScaling={false}>Log Out</Text></TouchableOpacity>
         </View>
         <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
-          <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}}>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}} allowFontScaling={false}>
             {userInfo.user.name}
           </Text>
-          <Text style={{marginTop: hp('.75%'), fontWeight: "500", fontSize: hp('1.94%')}}>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "500", fontSize: hp('1.94%')}} allowFontScaling={false}>
             @{userInfo.user.username}
           </Text>
-          <Text style={{marginTop: hp('.75%'), fontWeight: "300", fontSize: hp('1.7%')}}>
+          <Text style={{marginTop: hp('.75%'), fontWeight: "300", fontSize: hp('1.7%')}} allowFontScaling={false}>
             Joined Qwill in {userInfo.user.createdAt.substring(0,4)}
           </Text>
         </View>
         <View style={[styles.statsContainer, styles.shadowLight]}>
           <View style={{flexDirection: 'column'}}>
-            <Text style={styles.statText}>{numLettersSent}</Text>
-            <Text style={styles.statsTitleText}>Letters Sent</Text>
+            <Text style={styles.statText} allowFontScaling={false}>{numLettersSent}</Text>
+            <Text style={styles.statsTitleText} allowFontScaling={false}>Letters Sent</Text>
           </View>
           <View style={styles.vertLine}></View>
           <View style={{flexDirection: 'column'}}>
-            <Text style={styles.statText}>{numLettersReceived}</Text>
-            <Text style={styles.statsTitleText}>Letters Recieved</Text>
+            <Text style={styles.statText} allowFontScaling={false}>{numLettersReceived}</Text>
+            <Text style={styles.statsTitleText} allowFontScaling={false}>Letters Recieved</Text>
           </View>
           <View style={styles.vertLine}></View>
           <View style={{flexDirection: 'column'}}>
-            <Text style={styles.statText}>{numFontsCreated}</Text>
-            <Text style={styles.statsTitleText}>Fonts Generated</Text>
+            <Text style={styles.statText} allowFontScaling={false}>{numFontsCreated}</Text>
+            <Text style={styles.statsTitleText} allowFontScaling={false}>Fonts Generated</Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', marginBottom: hp("3%")}}>
-          <Text style={styles.settingsText}>Settings</Text>
+          <Text style={styles.settingsText} allowFontScaling={false}>Settings</Text>
         </View>
         <View style={{flex: 1, marginBottom: hp('27.03%')}}>
           <TouchableOpacity style={styles.settingContainer} onPress={() => {setNameModalVisible(true); setSnackIsVisible(false);}}>
@@ -453,7 +459,7 @@ function ProfileScreen({navigation}) {
               name={"person-outline"}
               size={hp('2.59%')}>
               </Ionicons>
-              <Text style={styles.text}>Change Name</Text>
+              <Text style={styles.text} allowFontScaling={false}>Change Name</Text>
               <Ionicons
               style={{marginRight: wp('4.67%')}}
               name={"chevron-forward-outline"}
@@ -466,7 +472,7 @@ function ProfileScreen({navigation}) {
             name={"person-circle-outline"}
             size={hp('2.59%')}>
             </Ionicons>
-            <Text style={styles.text}>Change Username</Text>
+            <Text style={styles.text} allowFontScaling={false}>Change Username</Text>
             <Ionicons
             style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
@@ -479,7 +485,7 @@ function ProfileScreen({navigation}) {
             name={"lock-closed-outline"}
             size={hp('2.59%')}>
             </Ionicons>
-            <Text style={styles.text}>Change Password</Text>
+            <Text style={styles.text} allowFontScaling={false}>Change Password</Text>
             <Ionicons
             style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
@@ -492,7 +498,7 @@ function ProfileScreen({navigation}) {
             name={"bug-outline"}
             size={hp('2.59%')}>
             </Ionicons>
-            <Text style={styles.text}>Report a Bug</Text>
+            <Text style={styles.text} allowFontScaling={false}>Report a Bug</Text>
             <Ionicons
             style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
@@ -505,7 +511,7 @@ function ProfileScreen({navigation}) {
             name={"trash-outline"}
             size={hp('2.59%')}>
             </Ionicons>
-            <Text style={styles.text}>Delete Account</Text>
+            <Text style={styles.text} allowFontScaling={false}>Delete Account</Text>
             <Ionicons
             style={{marginRight: wp('4.67%')}}
             name={"chevron-forward-outline"}
@@ -520,7 +526,7 @@ function ProfileScreen({navigation}) {
           onDismiss={() => setMainSnackIsVisible(false)}
           duration={2000}
         >
-          <Text style={styles.snackBarText}>{mainSnackMessage}</Text>
+          <Text style={styles.snackBarText} allowFontScaling={false}>{mainSnackMessage}</Text>
         </Snackbar>      
       </SafeAreaView>
     );

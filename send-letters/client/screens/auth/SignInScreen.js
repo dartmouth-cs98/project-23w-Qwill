@@ -77,7 +77,7 @@ const SignInScreen = ({ navigation }) => {
           }}
           source={require('../../assets/logo.png')}
         />
-        <Text style={styles.text}> Send Letters.</Text>
+        <Text style={styles.text} allowFontScaling={false}> Send Letters.</Text>
       </View>
       <View style={styles.inputContainer}>
         {/* autofocus automatically focuses the app on this input */}
@@ -88,6 +88,7 @@ const SignInScreen = ({ navigation }) => {
           // autoCompleteType="email"
           autoCapitalize="none"
           onChangeText={text => setEmailUsername(text.toLowerCase())}
+          allowFontScaling={false}
         />
         <TextInput
           style={styles.inputField}
@@ -97,6 +98,7 @@ const SignInScreen = ({ navigation }) => {
           autoCompleteType="password"
           onChangeText={text => setPassword(text)}
           onSubmitEditing={handleSignInPressed}
+          allowFontScaling={false}
         />
       </View>
 

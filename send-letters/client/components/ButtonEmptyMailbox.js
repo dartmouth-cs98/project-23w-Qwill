@@ -10,7 +10,7 @@ const ButtonEmptyMailbox = props => {
         <TouchableOpacity
             style={[styles.btn, styles.unselectedBtn]}
             onPress={props.onPress}>
-            <Text style={[styles.text, styles.unselectedText]}>{props.title}</Text>
+            <Text style={[styles.text, styles.unselectedText]} allowFontScaling={false}>{props.title}</Text>
         </TouchableOpacity>
     );
 };

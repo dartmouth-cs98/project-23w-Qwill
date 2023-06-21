@@ -9,39 +9,43 @@ const Tab = createMaterialTopTabNavigator();
 
 const HomeTopTabs = () => {
     return (
-      <View style={{
-        flex: 1,
-        backgroundColor: '#bdccf2',
-        flexDirection: 'column',
-        paddingTop: hp('5%'), 
-      }}>
-      <Image 
-            style={{
-              height: undefined, 
-              width: '60%',
-              aspectRatio: 4,
-              alignSelf: 'center',
-              resizeMode: "contain",
-            }}
-            source={require('../assets/logo.png')}
-          />
-      <Tab.Navigator
-      initialRouteName={'Mailbox'}
-      screenOptions={{
-        tabBarLabelStyle: {
-          fontSize: hp('2.65%'),
-          textTransform: 'none',
-          fontWeight: 'bold',
-          fontFamily: 'JosefinSansBold'
-        },
-        tabBarStyle: styles.shadowLight,
-        tabBarActiveTintColor: '#46589C', // set the color of the active tab
-        tabBarInactiveTintColor: '#7184B4', // set the color of the inactive tabs
-        tabBarIndicatorStyle: { backgroundColor: '#46589C' },
-      }}>
-        <Tab.Screen name='Mailbox' component={HomeScreen} />
-        <Tab.Screen name='Drafts' component={DraftsScreen} />
-      </Tab.Navigator>
+      <View 
+        style={{
+          flex: 1,
+          backgroundColor: '#bdccf2',
+          flexDirection: 'column',
+          paddingTop: hp('5%'), 
+        }}
+      >
+        <Image 
+          style={{
+            height: undefined, 
+            width: '60%',
+            aspectRatio: 4,
+            alignSelf: 'center',
+            resizeMode: "contain",
+          }}
+          source={require('../assets/logo.png')}
+        />
+        <Tab.Navigator
+          initialRouteName={'Mailbox'}
+          screenOptions={{
+            tabBarLabelStyle: {
+              fontSize: hp('2.65%'),
+              textTransform: 'none',
+              fontWeight: 'bold',
+              fontFamily: 'JosefinSansBold',
+            },
+            tabBarStyle: styles.shadowLight,
+            tabBarActiveTintColor: '#46589C', // set the color of the active tab
+            tabBarInactiveTintColor: '#7184B4', // set the color of the inactive tabs
+            tabBarIndicatorStyle: { backgroundColor: '#46589C' },
+            tabBarAllowFontScaling: false
+          }}
+        >
+          <Tab.Screen name='Mailbox' component={HomeScreen}/>
+          <Tab.Screen name='Drafts' component={DraftsScreen}/>
+        </Tab.Navigator>
       </View>
     )
   };

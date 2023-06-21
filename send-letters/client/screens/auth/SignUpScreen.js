@@ -143,7 +143,7 @@ const SignUpScreen = ({navigation}) => {
       <ScrollView style={{flexGrow:1}}>
         <StatusBar style="light"/>
         <View style={{alignContent: 'center'}}>
-          <Text style={styles.signUpHeader}>
+          <Text style={styles.signUpHeader} allowFontScaling={false}>
             Sign Up
           </Text>
         </View>
@@ -155,6 +155,7 @@ const SignUpScreen = ({navigation}) => {
             placeholder="Name"
             onChangeText={text => setName(text)}
             autoCorrect={false}
+            allowFontScaling={false}
           />
           <TextInput
             style={styles.inputField}
@@ -165,13 +166,16 @@ const SignUpScreen = ({navigation}) => {
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={text => setEmail(text.toLowerCase())}
+            allowFontScaling={false}
           />
           <TextInput
             style={styles.inputField}
             placeholder="Username"
             autoCapitalize="none"
             onChangeText={text => setUsername(text)}
-            autoCorrect={false} />
+            autoCorrect={false}
+            allowFontScaling={false}
+          />
           <TextInput
             style={styles.inputField}
             placeholder="Password"
@@ -180,12 +184,13 @@ const SignUpScreen = ({navigation}) => {
             autoCompleteType="password"
             onChangeText={text => setPassword(text)}
             onSubmitEditing={() => Keyboard.dismiss()}
+            allowFontScaling={false}
           />
         </View>
 
         <View>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
-            <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+            <Text style={[styles.buttonText, styles.selectedText]} allowFontScaling={false}>Start writing letters</Text>
             <Ionicons
               style={{color: "#FFFFFF"}}
               name={"arrow-forward-outline"}
@@ -194,13 +199,13 @@ const SignUpScreen = ({navigation}) => {
           </TouchableOpacity>
 
           <View style={styles.orContainer}>
-            <View style={styles.lineShort}></View>
-            <Text style={styles.text}>or</Text>
-            <View style={styles.lineShort}></View>
+            <View style={styles.lineShort}/>
+            <Text style={styles.text} allowFontScaling={false}>or</Text>
+            <View style={styles.lineShort}/>
           </View>
 
           <TouchableOpacity onPress={() => handleSignInPressed()}>
-            <Text style={styles.underLineText}>I already have an account</Text>
+            <Text style={styles.underLineText} allowFontScaling={false}>I already have an account</Text>
           </TouchableOpacity>
         </View>
           {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
@@ -219,7 +224,7 @@ const SignUpScreen = ({navigation}) => {
           },
         }}
       >
-        <Text style={styles.snackBarText}>{snackMessage}</Text>
+        <Text style={styles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
 
     </KeyboardAvoidingView>

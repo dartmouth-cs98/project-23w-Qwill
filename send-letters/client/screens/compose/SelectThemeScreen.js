@@ -71,7 +71,7 @@ const SelectThemeScreen = ({ navigation, route }) => {
         <TouchableOpacity style={styles.backIcon} onPress={() => composeStackGoBack(navigation, selectThemeGoBack)}>
           <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
-        <Text style={styles.selectTitleText}>Select a theme</Text>
+        <Text style={styles.selectTitleText} allowFontScaling={false}>Select a theme</Text>
       </View>
       <FlatList
         initialNumToRender={6}

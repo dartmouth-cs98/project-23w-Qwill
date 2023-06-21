@@ -81,14 +81,15 @@ const FontPreview = props => {
                   ref={(input) => { this.textInputRef = input; }} 
                   onSubmitEditing={() => handleEnterPressed()}
                   onBlur={handleEnterPressed}
+                  allowFontScaling={false}
                 />
               ) : (
-                <Text style={[styles.modalTitle, props.style]}>{props.title}</Text>
+                <Text style={[styles.modalTitle, props.style]} allowFontScaling={false}>{props.title}</Text>
               )
             }
 
             <ScrollView>
-              <Text style={[styles.modalBody, props.style]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+              <Text style={[styles.modalBody, props.style]} allowFontScaling={false}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
             </ScrollView>
           </View>
         </View>
@@ -97,23 +98,13 @@ const FontPreview = props => {
         style={styles.container}
         onPress={props.onPress ? props.onPress : () => setModalVisible(true)}
       >
-        <Text style={[styles.font, props.style]}>AaBbCc</Text>
+        <Text style={[styles.font, props.style]} allowFontScaling={false}>AaBbCc</Text>
       </TouchableOpacity>
       <View style={styles.titleContainer} >
-        <Text style={[styles.title, props.style]} numberOfLines={1}>
+        <Text style={[styles.title, props.style]} numberOfLines={1} allowFontScaling={false}>
           {displayName}
         </Text>
       </View>
-      {/* <Snackbar
-          style={styles.snackbar}
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={() => {setSnackIsVisible(false)}}
-          // short dismiss duration
-          duration={2000}
-          >
-            <Text style={styles.snackBarText}>{snackMessage}</Text>
-        </Snackbar> */}
     </View>
   );
 };

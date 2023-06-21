@@ -6,8 +6,8 @@ const PreviewEditRow = props => {
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <View style={styles.textContainer}>
-        <Text style={styles.categoryText}>{props.category}</Text>
-        <Text style={styles.descriptionText}>{props.text}</Text>
+        <Text style={styles.categoryText} allowFontScaling={false}>{props.category}</Text>
+        <Text style={styles.descriptionText} allowFontScaling={false}>{props.text}</Text>
       </View>
       {/* <Feather size={25} name='edit'></Feather> */}
   </View>
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     flexGrow: 1, 
     justifyContent: 'space-between', 
-    // marginRight: 15
   },
   categoryText: {
     fontFamily: 'JosefinSansBold',
