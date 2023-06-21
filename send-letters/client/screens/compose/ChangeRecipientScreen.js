@@ -60,7 +60,7 @@ export default function ChangeRecipientScreen({ navigation }) {
     // this function renders the users that match the text in the input component
     function renderMatches() {
         if (matchingUsers.length == 0) {
-            return <Text style={{ textAlign: 'center' }}>No friend found</Text>
+            return <Text style={{ textAlign: 'center' }} allowFontScaling={false}>No friend found</Text>
         }
         return (
             <View>
@@ -78,7 +78,7 @@ export default function ChangeRecipientScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.safeview}>
-            <Text style={styles.selectTitleText}>Change the recipient</Text>
+            <Text style={styles.selectTitleText} allowFontScaling={false}>Change the recipient</Text>
             <View style={[styles.recipientsContainer]}>
                 <View style={styles.inputContainer}>
                     <Input
@@ -89,6 +89,7 @@ export default function ChangeRecipientScreen({ navigation }) {
                         inputStyle={{ fontSize: wp("4%") }}
                         inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('80%'), borderRadius: 5}}
                         leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('3%') }}
+                        allowFontScaling={false}
                     />
                 </View>
                 <View>

@@ -92,7 +92,7 @@ function PreviewScreen({ navigation }) {
         </View>
       </View>
       <View style={{flex: .7, justifyContent: 'space-between'}}>
-        <Text style={{fontFamily: "JosefinSansBold", fontSize: wp('5%')}}>Does this look good?</Text>
+        <Text style={{fontFamily: "JosefinSansBold", fontSize: wp('5%')}} allowFontScaling={false}>Does this look good?</Text>
       </View>
       <View style={{flexDirection: 'row', marginBottom: wp('5%')}}>
         <ButtonPrimary

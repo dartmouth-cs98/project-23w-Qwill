@@ -7,7 +7,7 @@ const FriendPreview = props => {
     return (
         <View style={[styles.container, styles.shadow]}>
             <View style={styles.profilePicture}></View>
-            <Text style={styles.username}>{props.username}</Text>
+            <Text style={styles.username} allowFontScaling={false}>{props.username}</Text>
             <View style={styles.letterContainer}>
                 <UnopenedLetterSmall sender="Tommy Rogers" senderAddress="Some Address" recipient="Tate Toussaint" recipientAddress="Some Other Address"></UnopenedLetterSmall>
             </View> 

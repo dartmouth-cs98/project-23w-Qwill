@@ -118,7 +118,7 @@ function DraftsScreen({ navigation }) {
     if (drafts && drafts.length == 0) {
       return (
         <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.emptyDraftText}>
+          <Text style={styles.emptyDraftText} allowFontScaling={false}>
             You don't currently have any drafts.
           </Text>
         </View> 

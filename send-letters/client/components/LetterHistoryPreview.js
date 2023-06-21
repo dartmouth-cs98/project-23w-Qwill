@@ -46,13 +46,17 @@ const LetterForHistory = props => {
                 height: ITEM_WIDTH * .7}}>
               <Image style={styles.dateStamp} source={require('../assets/date_stamp.png')}/>
               <View style={styles.stampTextView}>
-                <Text style={styles.monthYear}>{date[0].toUpperCase()}</Text>
-                <Text style={styles.date}>{date[1]}</Text>
-               <Text style={styles.monthYear}>{date[2]}</Text>
+                <Text style={styles.monthYear} allowFontScaling={false}>{date[0].toUpperCase()}</Text>
+                <Text style={styles.date} allowFontScaling={false}>{date[1]}</Text>
+               <Text style={styles.monthYear} allowFontScaling={false}>{date[2]}</Text>
               </View>
             </View>
-            <Text style={[styles.letterTextHeader, textStyle]}>{props.sender}{"\n"}{props.senderAddress}</Text>
-            <Text style={[styles.letterTextCenter, textStyle]}>{props.recipient}{"\n"}{props.recipientAddress}</Text>
+            <Text style={[styles.letterTextHeader, textStyle]} allowFontScaling={false}>
+              {props.sender}{"\n"}{props.senderAddress}
+            </Text>
+            <Text style={[styles.letterTextCenter, textStyle]} allowFontScaling={false}>
+              {props.recipient}{"\n"}{props.recipientAddress}
+            </Text>
           </TouchableOpacity>
       </ImageBackground>
     </View>

@@ -11,8 +11,8 @@ const UnopenedLetterSmall = props => {
     <TouchableOpacity 
       style={[styles.item, styles.shadow]}
       onPress={props.onPress}>
-      <Text style={styles.letterTextHeader}>{props.sender}{"\n"}{props.senderAddress}</Text>
-      <Text style={styles.letterTextCenter}>{props.recipient}{"\n"}{props.recipientAddress}</Text>
+      <Text style={styles.letterTextHeader} allowFontScaling={false}>{props.sender}{"\n"}{props.senderAddress}</Text>
+      <Text style={styles.letterTextCenter} allowFontScaling={false}>{props.recipient}{"\n"}{props.recipientAddress}</Text>
     </TouchableOpacity>
   )
 };

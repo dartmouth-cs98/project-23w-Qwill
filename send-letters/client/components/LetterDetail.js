@@ -34,7 +34,7 @@ const LetterDetail = props => {
         <View style={{ width: '100%', height: '100%' }}>
           {/* This could be part of the issue */}
           <View style={{ marginLeft: hp("1.17%")*marginWidthMult, marginRight: hp('1.17%')*(widthRatio*1.5), marginTop: hp('2.16%')*marginHeightMult}}>
-            <Text style={[textStyle, {fontSize: wp("5%")*widthRatio}]}>{text}</Text>
+            <Text style={[textStyle, {fontSize: wp("5%")*widthRatio}]} allowFontScaling={false}>{text}</Text>
           </View>
         </View>
         {stickers.map((data, index) => (

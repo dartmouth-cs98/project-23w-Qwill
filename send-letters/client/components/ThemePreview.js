@@ -14,7 +14,7 @@ const ThemePreview = props => {
           style={styles.theme}
           source={props.imageSource}
         />
-        <Text style={styles.themeNameText}>{props.themeName}</Text>
+        <Text style={styles.themeNameText} allowFontScaling={false}>{props.themeName}</Text>
         
     </TouchableOpacity>
   );

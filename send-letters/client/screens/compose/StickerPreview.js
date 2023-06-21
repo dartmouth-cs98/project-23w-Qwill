@@ -16,7 +16,7 @@ const StickerPreview = props => {
           source={props.imageSource}
         />
         <View style={styles.titleContainer}>
-          <Text style={styles.themeNameText}>{props.stickerName}</Text>
+          <Text style={styles.themeNameText} allowFontScaling={false}>{props.stickerName}</Text>
         </View>
         
       </View>

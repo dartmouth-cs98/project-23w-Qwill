@@ -12,7 +12,7 @@ const ButtonBlue = props => {
       style={[styles.btn, styles.unselectedBtn, { marginTop: marginTop }, props.style]}
       onPress={props.onPress}
     >
-      <Text style={[styles.unselectedText]}>{props.title}</Text>
+      <Text style={[styles.unselectedText]} allowFontScaling={false}>{props.title}</Text>
     </TouchableOpacity>
   );
 

@@ -21,22 +21,26 @@ const AddFriendButton = (props) => {
     return (
         <View style={styles.outerView}>
             <View style={styles.friendCircle} title={item.username}>
-                <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
+                <Text style={styles.friendMidText} allowFontScaling={false}>{(item.name).replace(/["]/g, '')[0]}</Text>
             </View>
             <View style={{marginLeft: wp("4%"), justifyContent: "center"}}>
-                <Text style={{textAlign: 'left', fontSize: wp("3.5%"), fontWeight: '600'}}>{truncate(item.username.replace(/["]/g, ''), 15)}</Text>
-                <Text style={{textAlign: 'left', fontSize: wp("3.25%"), color: "#7184B4"}}>{item.name}</Text>
+                <Text style={{textAlign: 'left', fontSize: wp("3.5%"), fontWeight: '600'}} allowFontScaling={false}>
+                    {truncate(item.username.replace(/["]/g, ''), 15)}
+                </Text>
+                <Text style={{textAlign: 'left', fontSize: wp("3.25%"), color: "#7184B4"}} allowFontScaling={false}>
+                    {item.name}
+                </Text>
             </View>
             <View style={{ flex: 1 }}/>
             <View style={styles.inviteBtn}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onPress}>
                     {item.friendStatus == "non-friends" ?
                         <View style={{flexDirection: "row", alignSelf: "center"}}>
-                            <Text style={styles.sendInviteText}>Send Invite</Text>
+                            <Text style={styles.sendInviteText} allowFontScaling={false}>Send Invite</Text>
                             {/* <Ionicons style={styles.icon} name={'add-outline'} size={16}></Ionicons> */}
                         </View>
                         :
-                        <Text style={styles.sendInviteText}>Unsend Request</Text>
+                        <Text style={styles.sendInviteText} allowFontScaling={false}>Unsend Request</Text>
                     }
                 </TouchableOpacity>
             </View>
