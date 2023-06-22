@@ -122,8 +122,8 @@ function NavBar() {
     fontIcon: {
       height: hp('2.6%'), 
       width: hp('2.6%'),
-      borderRadius: wp('1.2%'),
-      borderWidth: wp('0.3%'),
+      borderRadius: hp('.7%'),
+      borderWidth: hp('0.12%'),
       alignItems: 'center',
       justifyContent: 'center'
     },
@@ -137,12 +137,14 @@ function NavBar() {
     fontIconTextSelected: {
       fontWeight: "700",
       color: "#E2E8F6",
-      marginTop: hp('0.1%')
+      marginTop: hp('0.1%'),
+      fontSize: hp('1.4%')
     },
     fontIconTextUnselected: {
       fontWeight: "400",
       color: 'grey',
-      marginTop: hp('0.1%')
+      marginTop: hp('0.1%'),
+      fontSize: hp('1.4%')
     }
   });
 
