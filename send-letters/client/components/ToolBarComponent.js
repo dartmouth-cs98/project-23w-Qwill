@@ -8,7 +8,7 @@ const ToolBarComponent = props => {
     if (props.text == "Font") {
         return (
             <View style={styles.container}>
-                <View style={{height: 8}}></View>
+                <View style={{height: 8}}/>
                 <View style={[styles.fontIcon, styles.fontIconUnselected]}>
                     <Text style={styles.fontIconTextUnselected} allowFontScaling={false}>Aa</Text>
                 </View>
@@ -17,13 +17,12 @@ const ToolBarComponent = props => {
     } else {
         return (
             <View style={styles.container}>
-                <View style={{height: 8}}></View>
+                <View style={{height: 8}}/>
                 <Ionicons
-                style={styles.icon}
-                name={props.icon}
-                size={20}
-                >
-                </Ionicons>
+                  style={styles.icon}
+                  name={props.icon}
+                  size={20}
+                />
             </View>
         );
     }
@@ -38,16 +37,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  text: {
-    fontSize: wp('2.34%'),
-    color: "#888989"
-  }, 
   fontIcon: {
     height: hp('2.16%'), 
     width: wp('4.67%'),
     borderRadius: wp('1.17%'),
-    borderWidth: wp('0.28%'),
-    alignItems: 'center'
+    borderWidth: hp('0.15%'),
+    alignItems: 'center',
+    justifyContent: 'center', // Added this line
   },
   fontIconUnselected: {
     borderColor: "#888989"
@@ -56,7 +52,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#888989",
     marginTop: hp('0.11%'),
-    fontSize: wp('2.8%')
+    fontSize: hp('1.3%')
   }
 });
 
