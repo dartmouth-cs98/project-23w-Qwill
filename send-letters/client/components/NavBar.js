@@ -124,12 +124,12 @@ function NavBar() {
       width: hp('2.6%'),
       borderRadius: wp('1.2%'),
       borderWidth: wp('0.3%'),
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     fontIconSelected: {
       borderColor: 'black',
       backgroundColor: 'black',
-      // justifyContent: 'center'
     },
     fontIconUnselected: {
       borderColor: 'grey'

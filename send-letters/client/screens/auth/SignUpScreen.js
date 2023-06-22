@@ -315,9 +315,9 @@ const styles = StyleSheet.create({
       color: COLORS.white,
     },
     lineShort: {
-      width: wp('10.67%'),
+      width: wp('37.5%'),
       height: 0,
-      borderWidth: wp('0.03%'),
+      borderWidth: hp('0.04%'),
       borderColor: "#737B7D",
     },
     text: {

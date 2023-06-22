@@ -1,4 +1,3 @@
-import User from "../schemas/userSchema";
 import Font from "../schemas/fontSchema";
 require("dotenv").config();
 

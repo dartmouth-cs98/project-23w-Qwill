@@ -100,7 +100,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
       return (
         <View style={{flex: 1}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.topText} allowFontScaling={false}>Recieved</Text>
+            <Text style={styles.topText} allowFontScaling={false}>Received</Text>
             <Text style={styles.topText} allowFontScaling={false}>Sent</Text>
           </View>
           <View style={styles.verticalLine}></View>
@@ -118,7 +118,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, marginTop: 20 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity style={{marginLeft: "5%"}}onPress={() => { navigation.goBack() }}>
-          <Ionicons name="arrow-back" size={40} />
+          <Ionicons name="arrow-back" size={wp('10.6')} />
         </TouchableOpacity>
         <View style={{ flex: 1, alignItems: 'center' }}>
           <View style={styles.friendCircle} title={item.username}>
@@ -140,7 +140,8 @@ const styles = StyleSheet.create({
     borderRadius: wp('100%'),
     backgroundColor: "rgba(30,70,147,0.2)",
     alignContent: "center", 
-    marginLeft: wp('-16%')
+    marginLeft: wp('-16%'),
+    justifyContent: 'center',
   },
   friendMidText: {
     textAlign: "center",
@@ -149,6 +150,8 @@ const styles = StyleSheet.create({
     opacity: 1,
     marginTop: hp('2.5%'),
     fontWeight: "600",
+    fontSize: wp('5.6%'),
+    bottom: wp('2.5%')
   },
   line: {
     marginTop: hp('1.5%'),
@@ -162,7 +165,8 @@ const styles = StyleSheet.create({
     marginVertical: hp('1.5%'),
     fontFamily: 'JosefinSansBold',
     fontStyle: "normal",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: hp('1.75%')
   },
   verticalLine: {
     position: "absolute",
