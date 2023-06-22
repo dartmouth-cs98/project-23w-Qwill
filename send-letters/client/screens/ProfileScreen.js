@@ -420,7 +420,9 @@ function ProfileScreen({navigation}) {
 
         <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text allowFontScaling={false}>Log Out</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out">
+            <Text style={{fontSize: wp('3.8%')}} allowFontScaling={false}>Log Out</Text>
+          </TouchableOpacity>
         </View>
         <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
           <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}} allowFontScaling={false}>
