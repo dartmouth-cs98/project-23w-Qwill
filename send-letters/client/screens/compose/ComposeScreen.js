@@ -405,14 +405,12 @@ function ComposeScreen({ navigation, route }) {
         <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
       </KeyboardAvoidingView>
       <Snackbar
-          style={internalStyles.snackbar}
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={() => {setSnackIsVisible(false)}}
-          // short dismiss duration
-          duration={2000}
-        >
-          <Text style={internalStyles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
+        style={internalStyles.snackbar}
+        visible={snackIsVisible}
+        onDismiss={() => {setSnackIsVisible(false)}}
+        duration={2000}
+      >
+        <Text style={internalStyles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );
