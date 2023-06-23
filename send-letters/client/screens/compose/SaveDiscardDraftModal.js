@@ -9,7 +9,7 @@ import ButtonBlue from '../../components/ButtonBlue.components';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const ThreeButtonAlert = ({ navigation }) => {
+const SaveDiscardDraftModal = ({ navigation }) => {
     const [letterInfo, setLetterInfo] = useContext(ComposeContext);
     const [saveModalVisible, setSaveModalVisible] = useState(false);
 
@@ -96,7 +96,7 @@ const ThreeButtonAlert = ({ navigation }) => {
     );
 }
 
-export default ThreeButtonAlert;
+export default SaveDiscardDraftModal;
 
 
 const styles = StyleSheet.create({
