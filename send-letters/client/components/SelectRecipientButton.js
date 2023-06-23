@@ -11,7 +11,9 @@ const SelectRecipientButton = (props) => {
         <TouchableOpacity style={styles.friendCircle} onPress={props.onPress} title={item.username}>
           <Text style={styles.friendMidText} allowFontScaling={false}>{(item.name).replace(/["]/g, '')[0]}</Text>
         </TouchableOpacity>
-          <Text style={{textAlign: 'center', fontSize: 12}} allowFontScaling={false}>{truncate(item.username.replace(/["]/g, ''), 10)}</Text>
+        <Text style={{textAlign: 'center', fontSize: hp('1.4%'), marginBottom: hp("1%")}} allowFontScaling={false}>
+          {truncate(item.username.replace(/["]/g, ''), 10)}
+        </Text>
       </View>
     );
 };
@@ -20,14 +22,15 @@ export default SelectRecipientButton;
 
 const styles = StyleSheet.create({
   friendCircle: {
-    height: wp('18%'),
     width: wp('18%'),
+    aspectRatio: 1,
     borderRadius: wp('18%'), 
     backgroundColor: "rgba(30,70,147,0.2)",
     marginTop: hp('0.5%'),
     marginLeft: wp('2.5%'),
     marginRight: wp('2.5%'), 
     marginBottom: hp('0.5%'),
+    justifyContent: 'center'
   },
   friendMidText: {
     textAlign: "center",
@@ -35,6 +38,8 @@ const styles = StyleSheet.create({
     color: "#1E4693",
     opacity: 1,
     marginTop: hp('2.8%'), 
-    fontWeight: "600"
+    fontWeight: "600",
+    fontSize: wp('5.6%'),
+    bottom: wp('2.5%')
   }
 });
