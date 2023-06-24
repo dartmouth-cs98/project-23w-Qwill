@@ -420,7 +420,9 @@ function ProfileScreen({navigation}) {
 
         <View style={[styles.header, styles.shadowLight]}></View>
         <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out"><Text allowFontScaling={false}>Log Out</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => handleSignOutPressed()} title="Sign Out">
+            <Text style={{fontSize: wp('3.8%')}} allowFontScaling={false}>Log Out</Text>
+          </TouchableOpacity>
         </View>
         <View style={{alignItems: 'center', marginBottom: hp("2%")}}>
           <Text style={{marginTop: hp('.75%'), fontWeight: "bold", fontSize: hp('2.5')}} allowFontScaling={false}>
@@ -434,17 +436,17 @@ function ProfileScreen({navigation}) {
           </Text>
         </View>
         <View style={[styles.statsContainer, styles.shadowLight]}>
-          <View style={{flexDirection: 'column'}}>
+        <View style={{flexDirection: 'column', justifyContent: 'center', marginBottom: hp('2%')}}>
             <Text style={styles.statText} allowFontScaling={false}>{numLettersSent}</Text>
             <Text style={styles.statsTitleText} allowFontScaling={false}>Letters Sent</Text>
           </View>
           <View style={styles.vertLine}></View>
-          <View style={{flexDirection: 'column'}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', marginBottom: hp('2%')}}>
             <Text style={styles.statText} allowFontScaling={false}>{numLettersReceived}</Text>
             <Text style={styles.statsTitleText} allowFontScaling={false}>Letters Recieved</Text>
           </View>
           <View style={styles.vertLine}></View>
-          <View style={{flexDirection: 'column'}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', marginBottom: hp('2%')}}>
             <Text style={styles.statText} allowFontScaling={false}>{numFontsCreated}</Text>
             <Text style={styles.statsTitleText} allowFontScaling={false}>Fonts Generated</Text>
           </View>
@@ -566,7 +568,6 @@ const styles = StyleSheet.create({
   },
   btnText: {},
   profilePhotoBack: {
-    // height: hp('12.96%'),
     width: wp('28.04%'),
     aspectRatio: 1,
     borderRadius: wp('14.02%'),
@@ -693,7 +694,6 @@ const styles = StyleSheet.create({
     borderColor: "#B9BCC3",
     borderWidth: wp('0.23%'),
     borderRadius: wp('2.3%'),
-    // heigth: hp('4%'),
     width: wp('80%'),
     flex: .6,
     alignSelf: 'center',
@@ -701,7 +701,6 @@ const styles = StyleSheet.create({
   },
   vertLine: { 
     width: StyleSheet.hairlineWidth*2,
-    // flex: 1,
     height: hp('5%'),
     alignSelf: "center",
     backgroundColor: "#B9BCC3",
@@ -709,7 +708,7 @@ const styles = StyleSheet.create({
   },
   statText: {
     fontWeight: "600",
-    fontSize: hp('2.5%'),
+    fontSize: wp('5.5%'),
     textAlign: 'center',
     marginTop: hp('2%')
   },
