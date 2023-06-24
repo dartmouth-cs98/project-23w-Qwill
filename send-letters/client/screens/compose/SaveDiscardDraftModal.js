@@ -79,10 +79,12 @@ const SaveDiscardDraftModal = ({ navigation }) => {
                         <TouchableOpacity style={styles.closeButton} onPress={() => setSaveModalVisible(false)}>
                             <Ionicons style={styles.icon} name={'close-outline'} size={wp("10%")}></Ionicons>
                         </TouchableOpacity>
-                        <Text style={styles.modalTitleText} allowFontScaling={false}>Discard or Save</Text>
-                        <Text style={styles.modalText} allowFontScaling={false}>Discard or save your draft?</Text>
-                        <ButtonBlue title={"Discard"} style={{marginTop: wp("5%")}} onPress={() => handleDiscard("discard")}/>
-                        <ButtonBlue title={"Save"} style={{marginTop: wp("5%")}} onPress={() => handleSave("save")}/>
+                        <Text style={styles.modalTitleText} allowFontScaling={false}>Save or Discard?</Text>
+                        <Text style={styles.modalText} allowFontScaling={false}>Would you like to save or discard your draft?</Text>
+                        <View style={{flexDirection: "row", marginTop: hp("1%")}}>
+                            <ButtonBlue title={"Save"} style={{marginTop: wp("5%"), width: wp("30%")}} onPress={() => handleSave("save")}/>
+                            <ButtonBlue title={"Discard"} style={{marginTop: wp("5%"), width: wp("30%"), backgroundColor: 'lightgrey'}} onPress={() => handleDiscard("discard")}/>
+                        </View>
                     </View>
                 </View>
             </Modal>
