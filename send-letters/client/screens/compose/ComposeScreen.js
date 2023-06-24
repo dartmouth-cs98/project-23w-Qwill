@@ -22,7 +22,7 @@ import images from '../../assets/imageIndex';
 import React, { useState, useContext, useEffect, useCallback, useRef } from 'react';
 import styles from '../../styles/Profile.component.style';
 import Toolbar from './Toolbar';
-import ThreeButtonAlert from './ThreeButtonAlert';
+import SaveDiscardDraftModal from './SaveDiscardDraftModal';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useFocusEffect } from '@react-navigation/native';
 import { throttle } from 'lodash';
@@ -225,7 +225,7 @@ function ComposeScreen({ navigation, route }) {
       return (
         <View style={{ flexDirection: "row", alignSelf: "center" }}>
           <View style={{ alignContent: "flex-start" }}>
-            <ThreeButtonAlert navigation={navigation}/>
+            <SaveDiscardDraftModal navigation={navigation}/>
           </View>
           <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
         </View>
@@ -405,14 +405,12 @@ function ComposeScreen({ navigation, route }) {
         <ButtonPrimary title={"Next!"} selected={true} disabled={nextButtonDisabled} onPress={handleNextPressed} />
       </KeyboardAvoidingView>
       <Snackbar
-          style={internalStyles.snackbar}
-          //SnackBar visibility control
-          visible={snackIsVisible}
-          onDismiss={() => {setSnackIsVisible(false)}}
-          // short dismiss duration
-          duration={2000}
-        >
-          <Text style={internalStyles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
+        style={internalStyles.snackbar}
+        visible={snackIsVisible}
+        onDismiss={() => {setSnackIsVisible(false)}}
+        duration={2000}
+      >
+        <Text style={internalStyles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );

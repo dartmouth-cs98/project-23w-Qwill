@@ -66,18 +66,17 @@ const LetterForHistory = props => {
 const styles = StyleSheet.create({
   dateStamp: {
     width: ITEM_WIDTH * .5,
+    height: ITEM_WIDTH * .7 * .47,
     resizeMode: 'contain',
     position: 'absolute',
-    bottom: IS_BIG_PHONE ? '41%' : '37%',  // 37
+    // bottom: IS_BIG_PHONE ? '41%' : '37%',  // 37
     left: '34%',
-    bottom: '0%',
+    // bottom: '0%',
   },
   stampTextView: {
     position: 'absolute',
     bottom: '64%',
     left: '65.5%',
-    flex: 1, 
-    flexDirection: 'column', 
     alignItems: 'center'
   },
   monthYear: {
