@@ -220,7 +220,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 2 }}>
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: windowHeight * .02 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
