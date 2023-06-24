@@ -35,7 +35,7 @@ function ComposeScreen({ navigation, route }) {
   // Don't need defaultText parameter if no text is routed in params; text only routed when a draft is loaded
   const defaultText = (route.params && route.params.text && route.params.text != "") ? route.params.text : "";
   const [inputText, setInputText] = useState(defaultText);
-  const [lastValidText, setLastValidText] = useState(''); 
+  const [lastValidText, setLastValidText] = useState(defaultText);
   const [count, setCount] = useState(10);
   
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
@@ -57,7 +57,6 @@ function ComposeScreen({ navigation, route }) {
   // Dismiss snack message
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
-
 
   const [offScreenText, setOffScreenText] = useState("");
   const [offScreenTextHeight, setOffScreenTextHeight] = useState(0);
@@ -117,7 +116,7 @@ function ComposeScreen({ navigation, route }) {
     }
   };
 
-  // We can ignore the non-serializable warnings as our child component ChangeStickerScreen
+  // We can ignore the non-serializable warnings as our child component AddStickerScreen
   // has no deep links nor state persistence, which must be handled.
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -217,7 +216,7 @@ function ComposeScreen({ navigation, route }) {
           <Toolbar navigation={navigation} passedStickerSelected={stickerSelected}/>
           <View style={{ alignContent: "flex-end" }}>
             <TouchableOpacity style={internalStyles.doneOutline} onPress={() => Keyboard.dismiss()}>
-              <Text style={internalStyles.doneBtn}>Done</Text>
+              <Text style={internalStyles.doneBtn} allowFontScaling={false}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -238,7 +237,7 @@ function ComposeScreen({ navigation, route }) {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {renderTopBar()}
-      <Text style={styles.normalText}>{imageData.length >= 10 ? 'No more stickers!' : ``}</Text>
+      <Text style={styles.normalText} allowFontScaling={false}>{imageData.length >= 10 ? 'No more stickers!' : ``}</Text>
       <ScrollView style={{width: wp('100%')}} scrollEnabled={keyboard} >
         <ImageBackground
             onLayout={(event) => {
@@ -283,6 +282,7 @@ function ComposeScreen({ navigation, route }) {
                 }
               }}
               value={inputText}
+              allowFontScaling={false}
             /> */}
             <Input
             // MUST CHANGE STYLE IN TEXT COMPONENT BELOW AS WELL
@@ -308,9 +308,11 @@ function ComposeScreen({ navigation, route }) {
               multiline={true}
               defaultValue={defaultText}
               autoCapitalize="none"
+              autoCorrect={false}
               onFocus={() => setKeyboard(true)}
               onBlur={() => setKeyboard(false)}
               value={inputText}
+              allowFontScaling={false}
             />
             <Text
               style={{
@@ -334,6 +336,7 @@ function ComposeScreen({ navigation, route }) {
                 }
                 setOffScreenTextHeight(newHeight);
               }}
+              allowFontScaling={false}
             >
               {offScreenText}
             </Text>
@@ -409,7 +412,7 @@ function ComposeScreen({ navigation, route }) {
           // short dismiss duration
           duration={2000}
         >
-          <Text style={internalStyles.snackBarText}>{snackMessage}</Text>
+          <Text style={internalStyles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );

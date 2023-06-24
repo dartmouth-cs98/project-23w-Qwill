@@ -1,8 +1,26 @@
 const images = {
     themes: {
+        Parchment: require('./themes/parchment-theme-min.png'),
+        // LinedPaper: require('./themes/lined-paper-theme-min.png'),
+        Stars: require('./themes/Stars-min.png'),
+        Fruit: require('./themes/fruits-min.png'),
+        Meat: require('./themes/meat-min.png'),
+        Sunset: require('./themes/sunset-min.png'),
+        Mountains: require('./themes/mountains-min.png'),
+        Melt: require('./themes/Melt-min.png'),
+        Cake: require('./themes/birthday-min.png'),
+        Smiles: require('./themes/smileys-min.png'),
+        Balloons: require('./themes/balloon-theme-min.png'),
+        Hearts: require('./themes/hearts-theme-min.png'),
+        Snowflakes: require('./themes/snowflake-theme-min.png'),
+        Flowers: require('./themes/spring-theme-min.png'),
+        // Cat: require('./themes/cat-theme-min.png'),
+        // Dog: require('./themes/dog-theme-min.png'),
+        CatDog: require('./themes/dog-cat-theme-min.png'),
+    },
+    themes_min: {
         Parchment: require('./themes-min/parchment-theme-min.png'),
-        LinedPaper: require('./themes-min/lined-paper-theme-min.png'),
-
+        // LinedPaper: require('./themes-min/lined-paper-theme-min.png'),
         Stars: require('./themes-min/Stars-min.png'),
         Fruit: require('./themes-min/fruits-min.png'),
         Meat: require('./themes-min/meat-min.png'),
@@ -15,9 +33,8 @@ const images = {
         Hearts: require('./themes-min/hearts-theme-min.png'),
         Snowflakes: require('./themes-min/snowflake-theme-min.png'),
         Flowers: require('./themes-min/spring-theme-min.png'),
-
-        Cat: require('./themes-min/cat-theme-min.png'),
-        Dog: require('./themes-min/dog-theme-min.png'),
+        // Cat: require('./themes-min/cat-theme-min.png'),
+        // Dog: require('./themes-min/dog-theme-min.png'),
         CatDog: require('./themes-min/dog-cat-theme-min.png'),
     },
     stickers_big: {

@@ -73,7 +73,7 @@ const SelectFontScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => composeStackGoBack(navigation, selectFontGoBack)}>
           <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
-        <Text style={styles.selectTitleText}>Select a font</Text>
+        <Text style={styles.selectTitleText} allowFontScaling={false}>Select a font</Text>
       </View>
       
       {
@@ -83,7 +83,7 @@ const SelectFontScreen = ({ navigation }) => {
           <View style={styles.customFontsContainer}>
             <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
               <View style={styles.line}></View>
-              <Text style={styles.fontSectionTitle}>Custom Fonts</Text>
+              <Text style={styles.fontSectionTitle} allowFontScaling={false}>Custom Fonts</Text>
               <View style={styles.line}></View>
             </View>
             <FlatList
@@ -109,7 +109,7 @@ const SelectFontScreen = ({ navigation }) => {
       <View style={styles.defaultFontsContainer}>
         <View style={{flexDirection: "row", justifyContent: "center", marginVertical: 10}}>
               <View style={styles.line}></View>
-              <Text style={styles.fontSectionTitle}>Default Fonts</Text>
+              <Text style={styles.fontSectionTitle} allowFontScaling={false}>Default Fonts</Text>
               <View style={styles.line}></View>
         </View>
         {/* <View style={{ flexDirection: "row" }}> */}

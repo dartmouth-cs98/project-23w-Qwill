@@ -22,7 +22,7 @@ const ButtonPrimary = (props) => {
           onPress={props.onPress}
           disabled={disabled}
         >
-          <Text style={[styles.text, styles.selectedText, {width: textWidth}]}>{props.title}</Text>
+          <Text style={[styles.text, styles.selectedText, {width: textWidth}]} allowFontScaling={false}>{props.title}</Text>
         </TouchableOpacity>
     );
   } else {
@@ -32,7 +32,7 @@ const ButtonPrimary = (props) => {
           onPress={props.onPress}
           disabled={disabled}
         >
-          <Text style={[styles.text, styles.unselectedText, {width: textWidth}]}>{props.title}</Text>
+          <Text style={[styles.text, styles.unselectedText, {width: textWidth}]} allowFontScaling={false}>{props.title}</Text>
         </TouchableOpacity>
     );
   }

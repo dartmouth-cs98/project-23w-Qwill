@@ -105,9 +105,9 @@ export default function HomeFriendsScreen({ navigation }) {
           renderItem={({ item, index }) =>
             <View>
               <TouchableOpacity style={styles.friendCircle} onPress={() => handleFriendPressed(item, index)} title={item.username}>
-                <Text style={styles.friendMidText}>{item.name.replace(/["]/g, '')[0]}</Text>
+                <Text style={styles.friendMidText} allowFontScaling={false}>{item.name.replace(/["]/g, '')[0]}</Text>
               </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: wp("3%") }}>
+              <Text style={{ textAlign: 'center', fontSize: wp("3%") }} allowFontScaling={false}>
                 {truncate(item.username.replace(/["]/g, ''), 10)}
               </Text>
             </View>
@@ -122,7 +122,7 @@ export default function HomeFriendsScreen({ navigation }) {
     if (pendingFriends.length != 0) {
       return (
         <View style={styles.pendingIcon}>
-          <Text style={styles.pendingText}>{pendingFriends.length}</Text>
+          <Text style={styles.pendingText} allowFontScaling={false}>{pendingFriends.length}</Text>
         </View>
       );
     }
@@ -132,7 +132,7 @@ export default function HomeFriendsScreen({ navigation }) {
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: hp('100%') *.02 }}>
-        <Text style={styles.titleText}>Friends</Text>
+        <Text style={styles.titleText} allowFontScaling={false}>Friends</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("AddFriendsScreen") }}>
           {renderPendingIcon()}
           <Ionicons name="person-add-outline" size={wp("10%")} ></Ionicons>
@@ -148,6 +148,7 @@ export default function HomeFriendsScreen({ navigation }) {
               inputStyle={{ fontSize: wp("4%") }}
               inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5}}
               leftIcon={{ type: 'font-awesome', name: 'search', size: hp('2.5%'), marginLeft: hp('1.7%')}}
+              allowFontScaling={false}
             />
           </View>
         <View>

@@ -1,6 +1,5 @@
 import { ComposeContext } from '../../context/ComposeStackContext';
 import { hasRestrictedChar, truncate } from '../../helpers/stringValidation';
-import { TextInput } from 'react-native';
 import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +10,8 @@ import findIP from '../../helpers/findIP';
 import React, { useState, useContext, useEffect } from 'react'
 import SelectRecipientButton from '../../components/SelectRecipientButton';
 import styles from '../../styles/Profile.component.style';
+import { useIsFocused } from '@react-navigation/native';
+
 
 function SelectRecipientScreen({ navigation }) {
   const [matchingUsers, setMatchingUsers] = useState("");
@@ -21,6 +22,8 @@ function SelectRecipientScreen({ navigation }) {
   const [snackMessage, setSnackMessage] = useState("");
   const [snackIsVisible, setSnackIsVisible] = useState(false);
   const onDismissSnack = () => setSnackIsVisible(false);
+
+  const isFocused = useIsFocused();
 
   // This is callback for the composeStackGoBack default helper
   const handleGoBack = () => {
@@ -75,7 +78,7 @@ function SelectRecipientScreen({ navigation }) {
   // update the matching users when the page is first (will correspond to all friends)
   useEffect(() => {
     handleChangeText("");
-  }, []);
+  }, [isFocused]);
 
   const handleNextPressed = (item) => {
     setLetterInfo({ ...letterInfo, recipientID: item._id, recipientUsername: item.username });
@@ -85,7 +88,7 @@ function SelectRecipientScreen({ navigation }) {
   // this function renders the users that match the text in the input component
   function renderMatches() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center' }}>No friend found</Text>
+      return <Text style={{ textAlign: 'center' }} allowFontScaling={false}>No friend found</Text>
     }
     return (
       <FlatList
@@ -106,7 +109,7 @@ function SelectRecipientScreen({ navigation }) {
         <TouchableOpacity style={styles.backIcon} onPress={() => handleGoBack()}>
           <Ionicons name={"arrow-back"} size={40} />
         </TouchableOpacity>
-        <Text style={styles.selectTitleText}>Select a recipient</Text>
+        <Text style={styles.selectTitleText} allowFontScaling={false}>Select a recipient</Text>
       </View>
       <View style={[styles.recipientsContainer]}>
         <View style={styles.inputContainer}>
@@ -119,6 +122,7 @@ function SelectRecipientScreen({ navigation }) {
             inputStyle={{ fontSize: wp("4%") }}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: wp('8%'), width: wp('85%'), borderRadius: 5 }}
             leftIcon={{ type: 'font-awesome', name: 'search', size: wp('4%'), marginLeft: wp('2%') }}
+            allowFontScaling={false}
           />
         </View>
         <View>

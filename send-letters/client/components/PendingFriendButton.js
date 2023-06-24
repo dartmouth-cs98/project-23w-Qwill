@@ -10,18 +10,20 @@ const PendingFriendButton = (props) => {
         <View style={styles.outerView}>
             <View style={{ flexDirection: "row" }}>
                 <View style={styles.friendCircle} title={item.username}>
-                    <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
+                    <Text style={styles.friendMidText} allowFontScaling={false}>{(item.name).replace(/["]/g, '')[0]}</Text>
                 </View>
                 <View>
-                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('1%'),marginTop: hp('1.5%'), fontWeight: '600' }}>{truncate(item.username.replace(/["]/g, ''), 10)} wants to be friends</Text>
+                    <Text style={{ textAlign: 'left', fontSize: wp('3.5%'), marginLeft: wp('1%'),marginTop: hp('1.5%'), fontWeight: '600' }} allowFontScaling={false}>
+                        {truncate(item.username.replace(/["]/g, ''), 10)} wants to be friends
+                    </Text>
                 </View>
             </View>
             <View style={{ flexDirection: "row", position: "relative", top: -hp('3.5%'), left: wp('18%') }}>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onAcceptPressed}>
-                    <Text style={styles.adText}>Accept</Text>
+                    <Text style={styles.adText} allowFontScaling={false}>Accept</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sendInviteButton} onPress={props.onDeclinePressed}>
-                    <Text style={styles.adText}>Decline</Text>
+                    <Text style={styles.adText} allowFontScaling={false}>Decline</Text>
                 </TouchableOpacity>
             </View>
         </View>

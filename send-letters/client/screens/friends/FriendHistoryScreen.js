@@ -83,7 +83,7 @@ export default function FriendHistoryScreen({ route, navigation }) {
             // senderAddress={index}
             recipient={item.recipientInfo.name}
             // recipientAddress={index}
-            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.senderInfo._id, item.senderInfo.username, item.theme, item.font, item.stickers)}}
+            onPress={() => {handleLetterOpen(item.text, item._id, item.status, item.sender, item.senderInfo.username, item.theme, item.font, item.stickers)}}
         ></LetterHistoryPreview>
       </View>
     );
@@ -93,15 +93,15 @@ export default function FriendHistoryScreen({ route, navigation }) {
     if (letterHistory.length == 0) {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.emptyHistoryText}>You have no letter history with this friend</Text>
+          <Text style={styles.emptyHistoryText} allowFontScaling={false}>You have no letter history with this friend</Text>
         </View>
       )
     } else {
       return (
         <View style={{flex: 1}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.topText}>Recieved</Text>
-            <Text style={styles.topText}>Sent</Text>
+            <Text style={styles.topText} allowFontScaling={false}>Recieved</Text>
+            <Text style={styles.topText} allowFontScaling={false}>Sent</Text>
           </View>
           <View style={styles.verticalLine}></View>
             <FlatList
@@ -122,11 +122,11 @@ export default function FriendHistoryScreen({ route, navigation }) {
         </TouchableOpacity>
         <View style={{ flex: 1, alignItems: 'center' }}>
           <View style={styles.friendCircle} title={item.username}>
-            <Text style={styles.friendMidText}>{(item.name).replace(/["]/g, '')[0]}</Text>
+            <Text style={styles.friendMidText} allowFontScaling={false}>{(item.name).replace(/["]/g, '')[0]}</Text>
           </View>
         </View>
       </View>
-      <Text style={styles.username}>{item.username}</Text>
+      <Text style={styles.username} allowFontScaling={false}>{item.username}</Text>
       <View style={styles.line}></View>
       {renderHistory()}
     </SafeAreaView>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: hp('2.5%'),
     color: "#1E4693",
     opacity: 1,
-    marginTop: hp('10%'),
+    marginTop: hp('2.5%'),
     fontWeight: "600",
   },
   line: {

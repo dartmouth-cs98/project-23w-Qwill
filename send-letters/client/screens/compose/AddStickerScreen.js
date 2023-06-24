@@ -8,7 +8,7 @@ import React from 'react';
 import ThemePreview from '../../components/ThemePreview';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 
-const ChangeStickerScreen = ({ navigation, props, route }) => {
+const AddStickerScreen = ({ navigation, props, route }) => {
   const [letterInfo, setLetterInfo] = useContext(ComposeContext);
   const { passedFunction } = route.params;
 
@@ -24,7 +24,7 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
   return (
     <SafeAreaView style={styles.safeview}>
       <View style={styles.themeContainer}>
-        <Text style={styles.selectTitleText}>Add a sticker</Text>
+        <Text style={styles.selectTitleText} allowFontScaling={false}>Add a sticker</Text>
         <FlatList
           data={stickers}
           numColumns={2}
@@ -46,4 +46,4 @@ const ChangeStickerScreen = ({ navigation, props, route }) => {
   )
 };
 
-export default ChangeStickerScreen;
+export default AddStickerScreen;

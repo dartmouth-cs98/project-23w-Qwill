@@ -92,24 +92,31 @@ const FontsScreen = ({navigation}) => {
     <SafeAreaView style={{ alignItems: 'center', flex: 1, backgroundColor: "#F0F4FF" }}>
       <View style={[styles.header, styles.shadowLight]}></View>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: wp("4%") }}>
-        <Text style={styles.titleText}>Fonts</Text>
+        <Text style={styles.titleText} allowFontScaling={false}>Fonts</Text>
         <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("InstructionsScreen") }}>
-          <Ionicons name="pencil-outline" size={wp('12%')} ></Ionicons>
-          <Ionicons name="add-outline" size={wp("7%")} style={styles.plus}></Ionicons>
-          {/* <Text style={styles.newCustomFont}>New Custom</Text> */}
+          <Ionicons name="pencil-outline" size={wp('12%')}/>
+          <Ionicons name="add-outline" size={wp("7%")} style={styles.plus}/>
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: "row", marginTop: windowHeight *.04 }}>
-        <View style={styles.line}></View>
-        <Text style={styles.fontSectionTitle}>Custom Fonts</Text>
-        <View style={styles.line}></View>
+        <View style={styles.line}/>
+        <Text style={styles.fontSectionTitle} allowFontScaling={false}>Custom Fonts</Text>
+        <View style={styles.line}/>
       </View>
       
       {
         customFonts.length == 0 ? ( 
           <View style={styles.noCustom}>
-            <Text style={{ textAlign: 'center', marginTop: hp("2%"), fontSize: normalize(12) }}>You don't have any custom fonts yet.</Text>
-            <Text style={{ textAlign: 'center', marginTop: hp("2%"), marginBottom: hp("2%"),textDecorationLine: 'underline', fontSize: normalize(12) }} onPress={() => navigation.navigate("InstructionsScreen")}>Add Custom Font</Text>
+            <Text style={{ textAlign: 'center', marginTop: hp("2%"), fontSize: normalize(12) }} allowFontScaling={false}>
+              You don't have any custom fonts yet.
+            </Text>
+            <Text 
+              style={{ textAlign: 'center', marginTop: hp("2%"), marginBottom: hp("2%"), textDecorationLine: 'underline', fontSize: normalize(12) }}
+              onPress={() => navigation.navigate("InstructionsScreen")}
+              allowFontScaling={false}
+            >
+              Add Custom Font
+            </Text>
           </View>
         ) : (
           <View style={styles.custom}>
@@ -137,9 +144,9 @@ const FontsScreen = ({navigation}) => {
         )
       }
       <View style={{ flexDirection: "row", marginTop: hp("2%") }}>
-        <View style={styles.line}></View>
-        <Text style={styles.fontSectionTitle}>Default Fonts</Text>
-        <View style={styles.line}></View>
+        <View style={styles.line}/>
+        <Text style={styles.fontSectionTitle} allowFontScaling={false}>Default Fonts</Text>
+        <View style={styles.line}/>
       </View>
       <View style={{ marginTop: hp("2%"), marginLeft: wp("6%"), marginRight: wp("6%"), flex: 3 }}>
         <FlatList
@@ -160,13 +167,11 @@ const FontsScreen = ({navigation}) => {
       </View>
       <Snackbar
           style={styles.snackbar}
-          //SnackBar visibility control
           visible={snackIsVisible}
           onDismiss={() => {setSnackIsVisible(false)}}
-          // short dismiss duration
           duration={3000}
       >
-        <Text style={styles.snackBarText}>{snackMessage}</Text>
+        <Text style={styles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );

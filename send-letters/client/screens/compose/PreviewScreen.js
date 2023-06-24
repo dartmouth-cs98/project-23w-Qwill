@@ -22,19 +22,14 @@ function PreviewScreen({ navigation }) {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSendPressed = () => {
-    setLetterInfo({ ...letterInfo, status: "sent"});
+    sendLetterBackend();
   };
-
-  useEffect(() => {
-    if (letterInfo.status == "sent") {
-      sendLetterBackend();
-    }
-  }, [letterInfo]);
-
 
   const sendLetterBackend = async () => {
     try {
-      resp = await axios.post(findIP() + "/api/updateLetterInfo", letterInfo);
+      let backendData = letterInfo;
+      backendData['status'] = "sent";
+      resp = await axios.post(findIP() + "/api/updateLetterInfo", backendData);
 
       if (!resp) {  // could not connect to backend
         console.log("ERROR: Could not establish server connection with axios");
@@ -56,7 +51,8 @@ function PreviewScreen({ navigation }) {
           fontID: "",
           fontName: "",
           customFont: false,
-          stickers: []
+          stickers: [],
+          status: ""
         });
         navigation.replace('NavBar', 
           { screen: 'Home',
@@ -96,7 +92,7 @@ function PreviewScreen({ navigation }) {
         </View>
       </View>
       <View style={{flex: .7, justifyContent: 'space-between'}}>
-        <Text style={{fontFamily: "JosefinSansBold", fontSize: wp('5%')}}>Does this look good?</Text>
+        <Text style={{fontFamily: "JosefinSansBold", fontSize: wp('5%')}} allowFontScaling={false}>Does this look good?</Text>
       </View>
       <View style={{flexDirection: 'row', marginBottom: wp('5%')}}>
         <ButtonPrimary

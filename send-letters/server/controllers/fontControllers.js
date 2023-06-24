@@ -3,6 +3,20 @@ import Font from "../schemas/fontSchema";
 require("dotenv").config();
 
 
+/**
+ * POST /api/createCustomFont
+ * Creates a custom font from a handwriting image and stores it in Firebase and MongoDB
+ *
+ * Request body: { userID: String, handwritingImage: String (Base64 format) }
+ * Response: { message: String, font: Font object } || { message: String } || { error: String }
+ * 
+ * This controller generates a custom font based on the user's handwriting from the provided image
+ * It spawns a new Python process that takes in the handwriting image, and outputs a TrueType font (TTF) file
+ * The TTF file is then uploaded to Firebase Storage, and a new Font record is created in MongoDB
+ * The controller returns a success response with the created font if everything is successful
+ * If any error occurs during the process, it sends a response with the error message
+ * Specific error codes from the Python process (described in the README) are handled with predefined messages
+ */
 export const createCustomFont = async (req, res) => {
     // Initialize an error dictionary that maps potential python exit codes with their corresponding error messages to sent to user
     const ERROR_DICT = {
@@ -146,6 +160,13 @@ export const createCustomFont = async (req, res) => {
 };
 
 
+/**
+ * POST /api/fetchCustomFonts
+ * Fetches all custom fonts created by a specific user
+ *
+ * Request body: { userID: String }
+ * Response: { createdFonts: Array of Fonts } || { error: String }
+ */
 export const fetchCustomFonts = async (req, res) => {
     var mongoose = require('mongoose');
 
@@ -191,8 +212,14 @@ export const fetchCustomFonts = async (req, res) => {
 };
 
 
-// this "deletes" a font by making it hidden to all users when fetching fonts
-// font is not fully deleted from db and firebase because it could still be in use in old letters
+/**
+ * POST /api/deleteFont
+ * Marks a font as deleted in the database based on the request body
+ * Note: this hides the font from the user who created it, but it still exists for old letters
+ *
+ * Request body: { fontID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const deleteFont = async (req, res) => {  
     try {
         const { fontID } = req.body;
@@ -228,66 +255,13 @@ export const deleteFont = async (req, res) => {
 };
 
 
-
-export const deleteFontBackend = async (req, res) => {  
-    try {
-        const { fontID } = req.body;
-
-        // check if our db has a font with the ID of the fontID
-        const font = await Font.findOne({
-            "_id": fontID
-        });
-        if (!font) {
-            return res.json({
-                error: "No font found with fontID",
-            });
-        }
-
-        // delete the font from the backend
-        try {
-
-            var admin = require("firebase-admin");
-            const firebaseConfig = require('../qwill-f4d12-firebase-adminsdk-ui2xj-586a2fbd91.json');
-
-            if (!admin.apps.length) {
-                admin.initializeApp({
-                    credential: admin.credential.cert(firebaseConfig, "Qwill backend"),
-                    storageBucket: "qwill-f4d12.appspot.com"
-                });
-            } 
-
-            // Get a reference to the file in the Firebase Storage service
-            var storage = admin.storage();
-            var fileRef = storage.bucket().file(font.firebaseFilePath);
-
-            // Delete the file from Firebase Storage
-            fileRef.delete().then(async function() {
-                // delete from MongoDB
-                const resp = await Font.deleteOne(
-                    {'_id': fontID}
-                );
-
-                return res.json({
-                    ok: true
-                });
-
-            }).catch(function(error) {
-                console.log("Error deleting file:", error);
-            });
-
-        } catch (err) {
-            console.log(err);
-            return res.status(300).send("Error deleting font from db. Try again.");
-        }
-
-    } catch (err) {
-        console.log(err);
-        return res.status(400).send("Error. Try again.");
-    }
-};
-
-
-
+/**
+ * POST /api/updateFontName
+ * Updates the name of a font in the database based on the request body
+ *
+ * Request body: { fontID: String, newName: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const updateFontName = async (req, res) => {  
     try {
         const { fontID, newName } = req.body;

@@ -1,4 +1,9 @@
 import User from "../schemas/userSchema";
+import Letter from "../schemas/letterSchema";
+import Friend from "../schemas/friendSchema";
+import Font from "../schemas/fontSchema";
+import { deleteFontBackend } from "../helpers/font";
+
 import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
@@ -10,6 +15,13 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 
+/**
+ * POST /api/signUp
+ * Handles user sign up and input validation
+ * 
+ * Request body: { name: String, email: String, username: String, phone: String (optional), password: String }
+ * Response: { token: String, user: Object } || { error: String }
+ */
 export const signUp = async (req, res) => {
     try {
         // validation
@@ -90,6 +102,14 @@ export const signUp = async (req, res) => {
     }
 };
 
+
+/**
+ * POST /api/signIn
+ * Handles user sign in by checking user email/username and password
+ * 
+ * Request body: { emailUsername: String, password: String }
+ * Response: { token: String, user: Object } || { error: String }
+ */
 export const signIn = async (req, res) => {
     try {
         const { emailUsername, password } = req.body;
@@ -130,6 +150,14 @@ export const signIn = async (req, res) => {
     }
 };
 
+
+/**
+ * POST /api/forgotPassword
+ * Generates a reset code for a user who forgot their password
+ * 
+ * Request body: { email: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
     // find user by email
@@ -169,6 +197,14 @@ export const forgotPassword = async (req, res) => {
     }
 };
 
+
+/**
+ * POST /api/resetPassword
+ * Resets the password of a user given a reset code
+ * 
+ * Request body: { email: String, password: String, resetCode: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const resetPassword = async (req, res) => {
     try {
         const { email, password, resetCode } = req.body;
@@ -204,11 +240,18 @@ export const resetPassword = async (req, res) => {
 };
 
 
+/**
+ * POST /api/changeName
+ * Changes the name of a user
+ * 
+ * Request body: { userID: String, newName: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const changeName = async (req, res) => {
     try {
         const { userID, newName } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -231,11 +274,18 @@ export const changeName = async (req, res) => {
 };
 
 
+/**
+ * POST /api/changeUsername
+ * Changes the username of a user
+ * 
+ * Request body: { userID: String, newUsername: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const changeUsername = async (req, res) => {
     try {
         const { userID, newUsername } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -268,11 +318,18 @@ export const changeUsername = async (req, res) => {
 };
 
 
+/**
+ * POST /api/changePassword
+ * Changes the password of a user
+ * 
+ * Request body: { userID: String, oldPassword: String, newPassword: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
 export const changePassword = async (req, res) => {
     try {
         const { userID, oldPassword, newPassword } = req.body;
 
-        // check if our db has a user with the ID of the recipient
+        // check if our db has a user with the ID of the user
         const user = await User.findOne({
             '_id': userID
         });
@@ -311,10 +368,79 @@ export const changePassword = async (req, res) => {
 };
 
 
+/**
+ * POST /api/deleteUserAccount
+ * Deletes the user and all associated data from the database
+ * 
+ * Request body: { userID: String }
+ * Response: { ok: Boolean } || { error: String }
+ */
+ export const deleteUserAccount = async (req, res) => {
+    var mongoose = require('mongoose');
+
+    try {
+        const { userID } = req.body;
+
+        // check if our db has a user with the ID of the user
+        const user = await User.findOne({
+            '_id': userID
+        });
+        if (!user) {
+            return res.json({
+                error: "No user found with userID",
+            });
+        }
+
+        // delete all data associated with user
+        console.log("deleting all data for user: " + user.id);
+
+        // delete all letters user was involved in
+        await Letter.deleteMany({'sender': userID});
+        await Letter.deleteMany({'recipient': userID});
+
+        // delete all friend requests user was involved in
+        await Friend.deleteMany({'friendReqSender': userID});
+        await Friend.deleteMany({'friendReqRecipient': userID});
+        
+        // delete all custom fonts created by the user
+        const query = [
+            {
+            $match: {
+                    creator: new mongoose.Types.ObjectId(user._id), 
+                }
+            },
+        ];
+        const cursor = Font.aggregate(query);
+        for await (const doc of cursor) {
+            deleteFontBackend(doc._id);
+        }
+
+        // delete the user
+        await User.deleteOne({'_id': userID});
+       
+        return res.json({
+            ok: true
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+/**
+ * POST /api/bug
+ * Reports a detected bug in the frontend application
+ * 
+ * Request body: { bug: String }
+ * Response: { ok: Boolean } || Error
+ */
 export const reportBug = async (req, res) => {
     try {
         const { bug } = req.body;
         console.log("BUG FOUND: " + bug);
+        return res.json({
+            ok: true
+        });
     } catch (err) {
         console.log(err);
     }

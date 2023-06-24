@@ -127,7 +127,7 @@ const FontsScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons style={{ paddingLeft: windowWidth * .015 }} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
-        <Text style={styles.titleText}>Create Custom Font</Text>
+        <Text style={styles.titleText} allowFontScaling={false}>Create Custom Font</Text>
       </View>
 
       {/* conditional rendering of either a loading spinner, if a request has been made to the backend, or a choice between the instructions (if fontIsSuccess
@@ -135,27 +135,27 @@ const FontsScreen = ({ navigation }) => {
       { spinnerIsVisible ? (
         <View style={styles.loadingView}>
           <ActivityIndicator style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }]}} size="large" color="#7184b4"/>
-          <Text style={styles.loadingText}>{loadingTexts[loadingTextIndex]}</Text>
+          <Text style={styles.loadingText} allowFontScaling={false}>{loadingTexts[loadingTextIndex]}</Text>
         </View>
      ) : ( !fontIsSuccess ? (
       <>
         <View style={styles.line}></View>
-        <Text style={styles.centeredText}>To produce your custom font, we need a sample of your handwriting!</Text>
-        <Text style={styles.centeredText}>Follow the instructions below and we will handle the rest!</Text>
+        <Text style={styles.centeredText} allowFontScaling={false}>To produce your custom font, we need a sample of your handwriting!</Text>
+        <Text style={styles.centeredText} allowFontScaling={false}>Follow the instructions below and we will handle the rest!</Text>
         <View style={styles.line}></View>
         <View style={styles.listContainer}>
-          <Text ordered={true} style={styles.listItem}>
+          <Text ordered={true} style={styles.listItem} allowFontScaling={false}>
             1. On a plain white sheet of paper and a black pen, write out the alphabet in uppercase letters. Make sure there's enough space between the characters and that they are large enough.
           </Text>
-          <Text ordered={true} style={styles.listItem}>
+          <Text ordered={true} style={styles.listItem} allowFontScaling={false}>
             2. On another line, write the alphabet in lowercase.
           </Text>
-          <Text ordered={true} style={styles.listItem}>
+          <Text ordered={true} style={styles.listItem} allowFontScaling={false}>
             3. Either take a photo of your writing or scan the document and select from camera roll.
           </Text>
         </View>
         <View style={styles.line}></View>
-        <Text style={styles.centeredText}>Your sample should look something like this:</Text>
+        <Text style={styles.centeredText} allowFontScaling={false}>Your sample should look something like this:</Text>
         <Image
           style={{
             height: undefined,
@@ -170,9 +170,9 @@ const FontsScreen = ({ navigation }) => {
         (
         <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}> 
           <Ionicons name="checkmark-circle" size= {hp(20)} color="#BDCCF2"/>
-          <Text style={styles.fontCongratsText}>Congratulations, your font has been created!</Text>
+          <Text style={styles.fontCongratsText} allowFontScaling={false}>Congratulations, your font has been created!</Text>
           <TouchableOpacity style={styles.showFontButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.showFontText}>
+            <Text style={styles.showFontText} allowFontScaling={false}>
               Show me!
             </Text>
           </TouchableOpacity>
@@ -188,7 +188,7 @@ const FontsScreen = ({ navigation }) => {
         // short dismiss duration
         duration={4000}
       >
-        <Text style={styles.snackBarText}>{snackMessage}</Text>
+        <Text style={styles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );

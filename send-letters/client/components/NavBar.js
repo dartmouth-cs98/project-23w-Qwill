@@ -74,13 +74,13 @@ function NavBar() {
                 if (focused) {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconSelected]}>
-                      <Text style={styles.fontIconTextSelected}>Aa</Text>
+                      <Text style={styles.fontIconTextSelected} allowFontScaling={false}>Aa</Text>
                     </View>
                   )
                 } else {
                   return (
                     <View style={[styles.fontIcon, styles.fontIconUnselected]}>
-                      <Text style={styles.fontIconTextUnselected}>Aa</Text>
+                      <Text style={styles.fontIconTextUnselected} allowFontScaling={false}>Aa</Text>
                     </View>
                   )
                 }

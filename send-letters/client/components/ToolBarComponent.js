@@ -10,7 +10,7 @@ const ToolBarComponent = props => {
             <View style={styles.container}>
                 <View style={{height: 8}}></View>
                 <View style={[styles.fontIcon, styles.fontIconUnselected]}>
-                    <Text style={styles.fontIconTextUnselected}>Aa</Text>
+                    <Text style={styles.fontIconTextUnselected} allowFontScaling={false}>Aa</Text>
                 </View>
             </View>
         );

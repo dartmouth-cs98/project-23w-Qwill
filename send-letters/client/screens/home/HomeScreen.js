@@ -143,7 +143,7 @@ function HomeScreen({ navigation, route}) {
              >
                 <View>
                   <View style={{flex: 2, padding: hp('12%'), justifyContent: 'center', alignItems: 'center', marginBottom: -hp('10%')}}>
-                    <Text style={styles.emptyMailboxText}>
+                    <Text style={styles.emptyMailboxText} allowFontScaling={false}>
                       You don't have any letters in your mailbox.
                     </Text>
                   </View> 
@@ -193,7 +193,7 @@ function HomeScreen({ navigation, route}) {
           // short dismiss duration
           duration={2000}
           >
-            <Text style={styles.snackBarText}>Letter sent!</Text>
+            <Text style={styles.snackBarText} allowFontScaling={false}>Letter sent!</Text>
         </Snackbar>
       </SafeAreaView>
     );

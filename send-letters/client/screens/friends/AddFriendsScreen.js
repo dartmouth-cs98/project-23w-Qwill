@@ -145,7 +145,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderPendingFriends() {
     if (pendingFriends.length == 0) {
-      return <Text style={{ textAlign: 'center' }}>No pending requests found</Text>
+      return <Text style={{ textAlign: 'center' }} allowFontScaling={false}>No pending requests found</Text>
     }
     return (
       <FlatList
@@ -198,7 +198,7 @@ const AddFriendsScreen = ({ navigation }) => {
 
   function renderAddFriends() {
     if (matchingUsers.length == 0) {
-      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSansBold", marginTop: hp("2%")}}>No users found</Text>
+      return <Text style={{ textAlign: 'center', fontSize: wp('3.6%'), fontFamily: "JosefinSansBold", marginTop: hp("2%")}} allowFontScaling={false}>No users found</Text>
     }
     return (
         <FlatList
@@ -226,7 +226,7 @@ const AddFriendsScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons style={{ paddingLeft: wp('3%') }} name={"arrow-back"} size={normalize(40)} />
         </TouchableOpacity>
-        <Text style={styles.titleText}>Add Friends</Text>
+        <Text style={styles.titleText} allowFontScaling={false}>Add Friends</Text>
       </View>
       <View style={{ alignItems: 'center', marginBottom: windowHeight * .07 }}>
         <View style={styles.inputContainer}>
@@ -237,36 +237,33 @@ const AddFriendsScreen = ({ navigation }) => {
             inputStyle={{ fontSize: wp("4%") }}
             inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: 'white', height: hp('4%'), borderRadius: 5 }}
             leftIcon={{ type: 'font-awesome', name: 'search', size: hp('2.5%'), marginLeft: hp('1.7%') }}
+            allowFontScaling={false}
           />
         </View>
       </View>
       <View style={{ flex: 2, marginTop: hp("2%")}}>
-        {/* <View style={{ flex: 2 }}> */}
-        <Text style={styles.searchText}>Search Profiles</Text>
-        {/* <View styles={{ flex: 2 }}> */}
-        {/* <View> */}
-          {renderAddFriends()}
-        {/* </View> */}
+        <Text style={styles.searchText} allowFontScaling={false}>Search Profiles</Text>
+        {renderAddFriends()}
       </View>
       <View style={styles.line}></View>
       <View style={{flex: 1}}>
         {
           pendingFriends.length === 0 ? (
             <View style={{ alignItems: 'center', flex: 1 }}>
-              <Text style={styles.subtitleText}> No Pending Friend Requests </Text>
-              <Text style={{textAlign: 'center', fontSize: wp('3%')}}> Search and add some friends! </Text>
+              <Text style={styles.subtitleText} allowFontScaling={false}> No Pending Friend Requests </Text>
+              <Text style={{textAlign: 'center', fontSize: wp('3%')}} allowFontScaling={false}> Search and add some friends! </Text>
             </View>
           ) : pendingFriends.length === 1 ? (
             // render when only one pending friend
             <View style={{ alignItems: 'center', flex: 1 }}>
-              <Text style={styles.subtitleText}>1 Pending Friend Request </Text>
+              <Text style={styles.subtitleText} allowFontScaling={false}>1 Pending Friend Request </Text>
               {renderPendingFriends()}
             </View>
 
           ) : (
             // render when more than one pending friend
             <View style={{ alignItems: 'center', flex: 1 }}>
-              <Text style={styles.subtitleText}>{pendingFriends.length} Pending Friend Requests </Text>
+              <Text style={styles.subtitleText} allowFontScaling={false}>{pendingFriends.length} Pending Friend Requests </Text>
               {renderPendingFriends()}
             </View>
           )

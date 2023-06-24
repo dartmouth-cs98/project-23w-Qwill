@@ -46,13 +46,13 @@ const LetterForCarousel = props => {
                           }}>
               <Image style={styles.dateStamp} source={require('../assets/date_stamp.png')}/>
               <View style={styles.stampTextView}>
-                <Text style={[styles.monthYear, styles.shadow]}>{date[0].toUpperCase()}</Text>
-                <Text style={[styles.date, styles.shadow]}>{date[1]}</Text>
-                <Text style={[styles.monthYear, styles.shadow]}>{date[2]}</Text>
+                <Text style={[styles.monthYear, styles.shadow]} allowFontScaling={false}>{date[0].toUpperCase()}</Text>
+                <Text style={[styles.date, styles.shadow]} allowFontScaling={false}>{date[1]}</Text>
+                <Text style={[styles.monthYear, styles.shadow]} allowFontScaling={false}>{date[2]}</Text>
               </View>
             </View>
-            <Text style={[styles.letterTextHeader, textStyle]}>{props.sender}</Text>
-            <Text style={[styles.letterTextCenter, textStyle]}>{props.recipient}</Text>
+            <Text style={[styles.letterTextHeader, textStyle]} allowFontScaling={false}>{props.sender}</Text>
+            <Text style={[styles.letterTextCenter, textStyle]} allowFontScaling={false}>{props.recipient}</Text>
           </TouchableOpacity>
       </ImageBackground>
     </View>

@@ -10,7 +10,7 @@ import SelectThemeScreen from './SelectThemeScreen';
 import { ComposeContextProvider } from '../../context/ComposeStackContext';
 import ChangeRecipientScreen from './ChangeRecipientScreen';
 import ChangeFontScreen from './ChangeFontScreen';
-import ChangeStickerScreen from './ChangeStickerScreen';
+import AddStickerScreen from './AddStickerScreen';
 import ChangeThemeScreen from './ChangeThemeScreen';
 
 const Stack = createNativeStackNavigator();
@@ -62,7 +62,7 @@ const ComposeStack = ({ navigation }) => {
           <Stack.Screen name='ChangeRecipientScreen' component={ChangeRecipientScreen} /> 
           <Stack.Screen name='ChangeFontScreen' component={ChangeFontScreen} />
           <Stack.Screen name='ChangeThemeScreen' component={ChangeThemeScreen} />
-          <Stack.Screen name='ChangeStickerScreen' component={ChangeStickerScreen} /> 
+          <Stack.Screen name='AddStickerScreen' component={AddStickerScreen} /> 
         </Stack.Group>
 
       </Stack.Navigator>

@@ -2,7 +2,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { COLORS } from '../../styles/colors';
 import { Snackbar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView, Keyboard } from 'react-native';
 import { TextInput } from 'react-native';
 import { validateEmail, hasWhiteSpace, hasRestrictedChar } from '../../helpers/stringValidation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -23,6 +23,8 @@ const SignUpScreen = ({navigation}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useContext(AuthContext);
+  const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(false);
+
 
   // For snackbar:
   // https://callstack.github.io/react-native-paper/snackbar.html
@@ -31,9 +33,26 @@ const SignUpScreen = ({navigation}) => {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSignUpPressed = async () => {
+    if(!signUpButtonDisabled){
+      sendSignUpBackend();
+      setSignUpButtonDisabled(true);
+      setTimeout(() => {
+        setSignUpButtonDisabled(false);
+      }, 2500); // Disable for 2.5 seconds
+    }
+  }
+
+  const sendSignUpBackend = async () => {
     // check for empty fields
     if (name === "" || email === "" || password === "" || username === "") {
       setSnackMessage("All fields are required");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check name length
+    if (name.length > 30) {
+      setSnackMessage("Name must be less than 30 characters long");
       setSnackIsVisible(true);
       return;
     }
@@ -60,6 +79,13 @@ const SignUpScreen = ({navigation}) => {
     // check username length
     if (username.length > 30) {
       setSnackMessage("Username must be less than 30 characters long");
+      setSnackIsVisible(true);
+      return;
+    }
+
+    // check username length
+    if (username.length < 6) {
+      setSnackMessage("Username must be more than 6 characters long");
       setSnackIsVisible(true);
       return;
     }
@@ -117,7 +143,7 @@ const SignUpScreen = ({navigation}) => {
       <ScrollView style={{flexGrow:1}}>
         <StatusBar style="light"/>
         <View style={{alignContent: 'center'}}>
-          <Text style={styles.signUpHeader}>
+          <Text style={styles.signUpHeader} allowFontScaling={false}>
             Sign Up
           </Text>
         </View>
@@ -129,6 +155,7 @@ const SignUpScreen = ({navigation}) => {
             placeholder="Name"
             onChangeText={text => setName(text)}
             autoCorrect={false}
+            allowFontScaling={false}
           />
           <TextInput
             style={styles.inputField}
@@ -139,13 +166,16 @@ const SignUpScreen = ({navigation}) => {
             autoCompleteType="email"
             autoCapitalize="none"
             onChangeText={text => setEmail(text.toLowerCase())}
+            allowFontScaling={false}
           />
           <TextInput
             style={styles.inputField}
             placeholder="Username"
             autoCapitalize="none"
             onChangeText={text => setUsername(text)}
-            autoCorrect={false} />
+            autoCorrect={false}
+            allowFontScaling={false}
+          />
           <TextInput
             style={styles.inputField}
             placeholder="Password"
@@ -153,13 +183,14 @@ const SignUpScreen = ({navigation}) => {
             type="password"
             autoCompleteType="password"
             onChangeText={text => setPassword(text)}
-            onSubmitEditing={handleSignUpPressed}
+            onSubmitEditing={() => Keyboard.dismiss()}
+            allowFontScaling={false}
           />
         </View>
 
         <View>
           <TouchableOpacity style={styles.btn} onPress={() => handleSignUpPressed()}>
-            <Text style={[styles.buttonText, styles.selectedText]}>Start writing letters</Text>
+            <Text style={[styles.buttonText, styles.selectedText]} allowFontScaling={false}>Start writing letters</Text>
             <Ionicons
               style={{color: "#FFFFFF"}}
               name={"arrow-forward-outline"}
@@ -168,13 +199,13 @@ const SignUpScreen = ({navigation}) => {
           </TouchableOpacity>
 
           <View style={styles.orContainer}>
-            <View style={styles.lineShort}></View>
-            <Text style={styles.text}>or</Text>
-            <View style={styles.lineShort}></View>
+            <View style={styles.lineShort}/>
+            <Text style={styles.text} allowFontScaling={false}>or</Text>
+            <View style={styles.lineShort}/>
           </View>
 
           <TouchableOpacity onPress={() => handleSignInPressed()}>
-            <Text style={styles.underLineText}>I already have an account</Text>
+            <Text style={styles.underLineText} allowFontScaling={false}>I already have an account</Text>
           </TouchableOpacity>
         </View>
           {/* this empty view is included to keep the keyboard from covering up the very bottom of the view */}
@@ -193,7 +224,7 @@ const SignUpScreen = ({navigation}) => {
           },
         }}
       >
-        <Text style={styles.snackBarText}>{snackMessage}</Text>
+        <Text style={styles.snackBarText} allowFontScaling={false}>{snackMessage}</Text>
       </Snackbar>
 
     </KeyboardAvoidingView>
