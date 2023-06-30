@@ -154,8 +154,8 @@ export default function HomeFriendsScreen({ navigation }) {
         <View>
           {renderMatches()}
         </View>
-        {/* <View style={styles.line}/> */}
-        {/* <ButtonBlue marginTop={20} title="Don’t see your bud? Add friend here!" onPress={() => navigation.navigate("AddFriendsScreen")}></ButtonBlue> */}
+        <View style={styles.line}/>
+        <ButtonBlue marginTop={20} fontSize={wp('3.5%')} title="Don’t see your friend? Add new friends here!" onPress={() => navigation.navigate("AddFriendsScreen")}/>
       </View>
     </SafeAreaView>
   );
@@ -178,7 +178,11 @@ const styles = StyleSheet.create({
   searchIcon: {
     padding: wp('2%'),
   },
-  input: { borderBottomWidth: 0, backgroundColor: 'white', height: hp('2.5%'), borderRadius: 5 },
+  input: { 
+    borderBottomWidth: 0,
+    backgroundColor: 'white',
+    height: hp('2.5%'), borderRadius: 5 
+  },
   titleText: {
     fontFamily: 'JosefinSansBold',
     fontSize: normalize(50),

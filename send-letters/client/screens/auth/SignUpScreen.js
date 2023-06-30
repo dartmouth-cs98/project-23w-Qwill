@@ -22,8 +22,8 @@ const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [state, setState] = useContext(AuthContext);
-  const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(false);
+  const [userInfo, setUserInfo] = useContext(AuthContext);
+  const [isSigningUp, setIsSigningUp] = useState(false); 
 
 
   // For snackbar:
@@ -33,12 +33,17 @@ const SignUpScreen = ({navigation}) => {
   const onDismissSnack = () => setSnackIsVisible(false);
 
   const handleSignUpPressed = async () => {
-    if(!signUpButtonDisabled){
-      sendSignUpBackend();
-      setSignUpButtonDisabled(true);
-      setTimeout(() => {
-        setSignUpButtonDisabled(false);
-      }, 2500); // Disable for 2.5 seconds
+    console.log("pressed");
+    if (!isSigningUp) {
+      console.log("made it inside");
+      setIsSigningUp(true); 
+      try {
+        await sendSignUpBackend();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsSigningUp(false);
+      }
     }
   }
 
@@ -117,7 +122,7 @@ const SignUpScreen = ({navigation}) => {
         setSnackIsVisible(true);
         return;
       } else {
-        setState(resp.data);
+        setUserInfo(resp.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
         // successful sign up
         alert("Sign Up Successful. Welcome to Qwill");
@@ -132,9 +137,7 @@ const SignUpScreen = ({navigation}) => {
     navigation.replace('SignIn');
   };
   
-  // KeyboardAvoidingView:
-  // This component will automatically adjust its height, position, or bottom padding based on the 
-  // keyboard height to remain visible while the virtual keyboard is displayed.
+
   return (
     <KeyboardAvoidingView
          behavior="padding"
