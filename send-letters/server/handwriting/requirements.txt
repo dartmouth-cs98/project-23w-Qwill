@@ -1,0 +1,6 @@
+Pillow
+image
+google-cloud
+google-cloud-vision
+numpy
+opencv-python
